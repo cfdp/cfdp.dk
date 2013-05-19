@@ -83,14 +83,21 @@ h4{
 }
 
 
-.entry img.alignleft{
+.entry .alignleft{
 	float:left;
 	padding: 10px 10px 10px 0;
 	max-width: 100%;
 }
-.entry img.alignright{
+.entry .alignright{
 	float:right;
 	padding: 10px 0 10px 10px;
+}
+
+.entry .wp-caption-text {
+	font-size: 12px;
+	line-height: 18px;
+	font-style: italic;
+	color: #666;
 }
 
 span.line{
