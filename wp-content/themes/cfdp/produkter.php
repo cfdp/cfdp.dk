@@ -32,7 +32,7 @@ Template Name: Produkter
 		{
 			echo '<div class="category-wrap '.($category->slug).' grid_12 alpha"><div class="grid_12 alpha clearfix">
 						<a class="anchor" name="'.($category->slug).'" href=""></a>
-						<h2 class="description">Produkter til '.($category->name).'</h2>
+						<h2 class="description">'.($category->name).'</h2>
 					</div>
 						<p class="intro grid_8 alpha clearfix">' .($category->category_description). '</p>';
 			echo '<div class="childCatPosts grid_12 alpha clearfix">';

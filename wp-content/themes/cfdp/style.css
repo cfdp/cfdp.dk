@@ -300,24 +300,19 @@ ul#accordion li .tab .navContent .lineShadow{
 
 ul#accordion li .tab .navContent ul li{
 	height:30px;
-	width:150px;
+	width:300px;
 	border:none;
 	float:none;
 	margin-left:20px;
 }
 
-ul#accordion li .tab .navContent ul.c2{
-	position:relative;
-	left:160px;
-	top:-120px;
-}
 
 ul#accordion li .tab .navContent ul li a{
 	font: 300 18px Segoe UI, Arial, Helveltica, Sans-Serif;
 	font-weight: 300;
 	color:#222;
 	display:block;
-	padding: 3px 0px 0px 10px;
+	padding: 6px 0px 0px 10px;
 	background:url(img/navigation-sprite.png) 0 -541px  no-repeat;
 }
 	ul#accordion li#nav2 .tab .navContent ul li a{ background-position:0 -571px }
