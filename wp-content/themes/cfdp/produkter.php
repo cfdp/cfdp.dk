@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Produkter
+Template Name: Oplaeg
 */
 ?>
 <?php get_header(); ?>
@@ -16,7 +16,7 @@ Template Name: Produkter
 		<?php
 
 		// Produkter category = ID 6
-		$categories=get_categories('child_of=6&orderby=slug');
+		$categories=get_categories('child_of=162&orderby=slug');
 
 		// post template
 		function postContent()
