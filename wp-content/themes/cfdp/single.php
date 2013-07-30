@@ -51,7 +51,7 @@
 			<div class="sidebar grid_4 omega zi1 clearfix">
 				<?php // Show sidebar based on which cate the post is in.
 
-				if ( post_is_in_descendant_category(6) ) {
+				if ( post_is_in_descendant_category(162) ) {
 					include(TEMPLATEPATH . '/inc/sidebar/produkt.php');
 				} elseif ( post_is_in_descendant_category(8) ) {
 					include(TEMPLATEPATH . '/inc/sidebar/erfarning.php');
