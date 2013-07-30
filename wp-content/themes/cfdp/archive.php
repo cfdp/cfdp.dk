@@ -32,13 +32,14 @@
 
 			<?php /* If this is a paged archive */ } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
 				<h2 class="thumbHeading grid_12 alpha clearfix">Arkiv</h2>
-			
+
 			<?php } ?>
 				<div class="results grid_8 alpha zi1">
 
 			<?php while (have_posts()) : the_post(); ?>
-			
-				<h2 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
+
+			<h2 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
+			<h1>Harra</h1>
 			<div class="meta">
 				Skrevet den <?php the_time('j. F Y') ?> af <?php the_author_posts_link(); ?>
 			</div>
@@ -50,7 +51,7 @@
 
 			<div class="paging"><?php wp_pagenavi(); ?></div>
 	</div>
-			
+
 	<?php else : ?>
 
 		<h2>Intet fundet</h2>
@@ -65,7 +66,7 @@
 				<ul>
 					<?php wp_get_archives('type=monthly&show_post_count=1'); ?>
 				</ul>
-				
+
 			</div>
 
 			<div class="searchByAuthor block">

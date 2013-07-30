@@ -21,9 +21,12 @@
 <?php while (have_posts()) : the_post(); ?>
 
 			<h2 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
-			<div class="meta">
-				Skrevet den <?php the_time('j. F Y') ?> af <?php the_author_posts_link(); ?>
-			</div>
+			<?php if ( post_is_in_descendant_category(162) ) {} else { ?>
+				<div class="meta">
+					Skrevet den <?php the_time('j. F Y') ?> af <?php the_author_posts_link(); ?>
+				</div>
+			<?php } ?>
+
 			<div class="entry" style="padding-bottom:30px; margin-bottom:30px; border-bottom:1px solid #ddd;">
  				<?php truncate(get_the_excerpt(), 380) ?>
 				<a href="<?php the_permalink() ?>" class="more">Læs mere</a>
