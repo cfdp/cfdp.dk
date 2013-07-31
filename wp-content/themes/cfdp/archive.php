@@ -39,7 +39,6 @@
 			<?php while (have_posts()) : the_post(); ?>
 
 			<h2 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
-			<h1>Harra</h1>
 			<div class="meta">
 				Skrevet den <?php the_time('j. F Y') ?> af <?php the_author_posts_link(); ?>
 			</div>
