@@ -62,6 +62,7 @@
 <div class="topNav grid_5">
 	<ul>
 		<li><a href="<?php bloginfo('url'); ?>/bliv-medlem">Bliv medlem</a></li>
+		<li><a href="<?php bloginfo('url'); ?>/om-center-for-digital-paedagogik">Om os</a></li>
 		<li><a href="<?php bloginfo('url'); ?>/presse">Presse</a></li>
 		<li><a onclick="return SnapABug.startLink();" href="#">Kontakt</a></li>
 		<li><a href="<?php bloginfo('url'); ?>/in-english">English</a></li>
