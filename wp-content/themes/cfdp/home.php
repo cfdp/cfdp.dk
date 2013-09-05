@@ -32,7 +32,6 @@
             <span class="postInfo">
               af <a href="#" class="author"><?php the_author_posts_link(); ?></a> for
               <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
-              <?php the_tags(' | Tags: ',', '); ?>
               <?php $comment_count = get_comment_count($post->ID); ?><?php if ($comment_count['approved'] > 0) : ?> | <?php endif; ?>
               <?php comments_popup_link('', '1 Kommentar', '% Kommentarer'); ?>
             </span>
@@ -66,7 +65,6 @@
             <span class="postInfo">
               af <a href="#" class="author"><?php the_author_posts_link(); ?></a> for
               <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
-              <?php the_tags(' | Tags: ',', '); ?>
               <?php $comment_count = get_comment_count($post->ID); ?><?php if ($comment_count['approved'] > 0) : ?> | <?php endif; ?>
               <?php comments_popup_link('', '1 Kommentar', '% Kommentarer'); ?>
             </span>
