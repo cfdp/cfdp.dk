@@ -19,35 +19,27 @@
 	<div class="rightFoot foot grid_6 omega">
 	  <h2>Vi sætter spor</h2>
 	  <span class="line"></span>
-	  <div class="cyberhusLink grid_2 alpha">
-		  <a target = "_blank" href="http://cyberhus.dk"><span></span>Mød os i Cyberhus</a>
-	  </div>
-  	<div class="twitterLink grid_2">
-  		<a target = "_blank" href="http://twitter.com/CFDPs"><span></span>Følg os på Twitter</a>
-  	</div>
-  	<div class="youtubeLink grid_2 omega clearfix">
-  		<a target = "_blank" href="http://www.youtube.com/user/cfdpdk"><span></span>Se videoer på Youtube</a>
-  	</div>
-
   	<div class="facebookLink grid_2 alpha">
   		<a target = "_blank" href="http://www.facebook.com/pages/Center-for-Digital-Paedagogik/178824668820790"><span></span>Følg os på Facebook</a>
   	</div>
-  	<div class="flickrLink grid_2">
-  		<a target = "_blank" href="http://www.flickr.com/photos/35165120@N08/"><span></span>Se billeder på Flickr</a>
-  	</div>
+    <div class="twitterLink grid_2">
+      <a target = "_blank" href="http://twitter.com/CFDPs"><span></span>Følg os på Twitter</a>
+    </div>
   	<div class="linkedinLink grid_2 omega clearfix">
   		<a target = "_blank" href="http://www.linkedin.com/company/859648"><span></span>Besøg os på Linkedin</a>
   	</div>
 
-    <div class="googleplusLink grid_2 alpha">
-      <a target = "_blank" href="https://plus.google.com/101866308520142329920/"><span></span>Tilføj os på Google+</a>
-  	</div>
+    <div class="rssLink grid_2 alpha">
+      <a target = "_blank" href="/feed/"><span></span>Abonner på RSS-feed</a>
+    </div>
+
     <div class="newsletterLink grid_2">
       <a target = "_blank" href="/nyhedsbrev/"><span></span>Få tilsendt <sub>Nyhedsbreve</sub></a>
   	</div>
-  	<div class="rssLink grid_2 omega clearfix">
-      <a target = "_blank" href="/feed/"><span></span>Abonner på RSS-feed</a>
-  	</div>
+
+    <div class="grid_2 omega clearfix">
+    </div>
+
 
 	<a class="topLink" href="#">
 		<p>Til top</p>
