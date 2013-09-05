@@ -604,16 +604,14 @@ a#contactTab:hover{
 }
 
 a.readMore{
-	font-size:13px;
-	text-transform: uppercase;
-	display:block;
-	padding:5px 0;
+	font-size: 13px;
+	display: block;
+	padding: 5px 0;
 	margin: -20px 0 30px;
 }
 
 a.more{
  	font-size: 13px;
-    	text-transform: uppercase;
 }
 
 /*Produkter, Erfaringer og Projekter*/

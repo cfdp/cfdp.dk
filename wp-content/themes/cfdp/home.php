@@ -14,7 +14,7 @@
   </div><!-- .slider -->
 
   <div class="posts">
-    <div class="left grid_6">
+    <div class="left grid_8">
       <div class="latest">
         <h2>Seneste indlæg</h2>
         <span class="line"></span>
@@ -22,7 +22,7 @@
 <?php //2 seneste indlæg med kategorien forsiden
         $query = array(
           'category__in' => array(9),
-          'posts_per_page'  => 2,
+          'posts_per_page'  => 3,
         );
         query_posts($query);
           if ( have_posts() ) : while ( have_posts() ) : the_post();
@@ -50,7 +50,7 @@
       </div>
     </div> <!-- .left -->
 
-    <div class="right grid_6">
+    <div class="right grid_4">
 
       <div class="news">
         <h2>Nyheder fra centeret</h2>
