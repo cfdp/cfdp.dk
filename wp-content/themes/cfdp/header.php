@@ -105,8 +105,8 @@
 					<div class="lineShadow"></div>
 					<ul>
 						<li><a href="<?php bloginfo('url'); ?>/erfarninger/#1-produkter">Produkter</a></li>
-						<li><a href="<?php bloginfo('url'); ?>/<?php echo get_permalink(1204); ?>">Vidensarkiv</a></li>
-						<li><a href="<?php bloginfo('url'); ?>/<?php echo get_permalink(1638); ?>">Publikationer</a></li>
+						<li><a href="<?php echo get_permalink(1204); ?>">Vidensarkiv</a></li>
+						<li><a href="<?php echo get_permalink(1638); ?>">Publikationer</a></li>
 						<li><a href="<?php echo get_permalink(7204); ?>">Digital Trivsel</a></li>
 					</ul>
 					<ul class="c2">
