@@ -38,8 +38,9 @@ h2,h1{
 
 /*subheadings for blogposts*/
 .category-indlg .entry h2 {
-	font: 16px Segoe UI,Arial,Helveltica,Sans-Serif;
+	font: 22px Segoe UI,Arial,Helveltica,Sans-Serif;
 	font-weight: bold;
+	padding: .3em 0;
 }
 
 h4{
