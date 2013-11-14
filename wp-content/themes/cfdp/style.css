@@ -312,7 +312,7 @@ ul#accordion li .tab .navContent ul li a{
 	font-weight: 300;
 	color:#222;
 	display:block;
-	padding: 6px 0px 0px 10px;
+	padding: 3px 0px 0px 10px;
 	background:url(img/navigation-sprite.png) 0 -541px  no-repeat;
 }
 	ul#accordion li#nav2 .tab .navContent ul li a{ background-position:0 -571px }
