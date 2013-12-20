@@ -15,3 +15,9 @@ wp-config.php
 # Include these files in previously blocked directories
 !wp-content/uploads/.htaccess
 !wp-content/Cimy_USer_Extra_fields/.htaccess
+
+# Grunt.js
+node_modules
+
+# Sublime-text
+_.sublime-workspace

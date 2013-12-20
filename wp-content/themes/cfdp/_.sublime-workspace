@@ -1,0 +1,691 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"end",
+				"end	end (ERB)"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 374.0,
+		"selected_items":
+		[
+			[
+				"das",
+				"DashDoc: invoke Dash with selected word"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"tid",
+				"Tidy CSS"
+			],
+			[
+				"css",
+				"Tidy CSS"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"gis",
+				"Gist: Insert Gist"
+			],
+			[
+				"gost",
+				"Gist: Open Gist"
+			],
+			[
+				"ti",
+				"TidyHTML"
+			],
+			[
+				"gist",
+				"Gist: Insert Gist"
+			],
+			[
+				"brea",
+				"Snippet: Zurb Breadcrumbs"
+			],
+			[
+				"zurb",
+				"Snippet: Zurb Nav Bar"
+			],
+			[
+				"Snippet: def",
+				"Snippet: def … end"
+			],
+			[
+				"Snippet: de",
+				"Snippet: def … end"
+			],
+			[
+				"Snippet: ",
+				"Snippet: it"
+			],
+			[
+				"Snippet: befo",
+				"Snippet: before"
+			],
+			[
+				"Snippet: subject",
+				"Snippet: expect(subject) be"
+			],
+			[
+				"pa",
+				"Package Control: Remove Package"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"Snippet: rails",
+				"Snippet: Wrap Selection in Open/Close Tag"
+			],
+			[
+				"php",
+				"Set Syntax: PHP"
+			],
+			[
+				"Snippet: theme",
+				"Snippet: hook_theme"
+			],
+			[
+				"drua",
+				"Goto Drupal API"
+			],
+			[
+				"drupa",
+				"Goto Drupal API"
+			],
+			[
+				"drupal",
+				"Goto Drupal API"
+			]
+		],
+		"width": 498.0
+	},
+	"console":
+	{
+		"height": 175.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/lajlev/web/tuba/sites/all/themes/tuba/sass/styles.scss",
+		"/Users/lajlev/web/cfdp.dk/wordpress/wp-config",
+		"/Users/lajlev/web/cfdp.dk/wordpress/wp-config.php",
+		"/Users/lajlev/web/tuba/sites/all/themes/tuba/tuba.info",
+		"/Users/lajlev/web/tuba/sites/all/themes/tuba/_.sublime-project",
+		"/Users/lajlev/web/tuba/sites/all/themes/tuba/css/styles.css",
+		"/Users/lajlev/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/lajlev/web/uddannelsesuge/sites/default/settings.php",
+		"/Users/lajlev/web/tuba/.gitignore",
+		"/Users/lajlev/web/TUBA/sites/all/themes/tuba/tuba.info",
+		"/Users/lajlev/web/TUBA/sites/all/themes/tuba/sass/styles.scss",
+		"/Users/lajlev/web/TUBA/sites/all/themes/tuba/README.txt",
+		"/Users/lajlev/web/TUBA/sites/all/themes/tuba/Gruntfile.js",
+		"/Users/lajlev/web/TUBA/sites/all/themes/tuba/package.json",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/sass/global.base.scss",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/_.sublime-project",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/theme-settings.php",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/sass/responsive.smartphone.portrait.scss",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/sass/responsive.smartphone.landscape.scss",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/sass/print.scss",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/sass/global.styles.scss",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/sass/responsive.custom.scss",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/sass/responsive.tablet.portrait.scss",
+		"/Users/lajlev/web/netstof.dk/sites/default/files/.htaccess",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/css/blocks.css",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/config.rb",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/css/responsive.custom.css",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/sass/_base.scss",
+		"/Users/lajlev/.bash_profile",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/css/global.styles.css",
+		"/Users/lajlev/web/netstof.dk/.gitignore",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/css/retina.css",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/css/global.base.css",
+		"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/css/print.css",
+		"/Users/lajlev/web/_cfdp_projects/netstofchat/chatwidget/js/chatstatus.js",
+		"/Users/lajlev/web/_cfdp_projects/netstofchat/chat_content_widget/index.html",
+		"/Users/lajlev/web/_cfdp_projects/netstofchat/chatwidget/chat_status.html",
+		"/Users/lajlev/web/_cfdp_projects/netstofchat/.gitignore",
+		"/Users/lajlev/web/_cfdp_projects/netstofchat/page.tpl.php",
+		"/Users/lajlev/web/cyberhus/sites/all/themes/cyberhus/sass/_views.scss",
+		"/Users/lajlev/web/cyberhus/sites/all/themes/cyberhus/cyberhus.info",
+		"/Users/lajlev/web/cyberhus/sites/all/themes/cyberhus/sass/cyberhus-alpha-default-normal.scss",
+		"/Users/lajlev/web/cyberhus/sites/all/themes/cyberhus/sass/_node.scss",
+		"/Users/lajlev/web/cyberhus/sites/all/themes/cyberhus/css/README.txt",
+		"/Users/lajlev/web/cyberhus/sites/all/themes/cyberhus/css/global.css",
+		"/Users/lajlev/web/cyberhus/sites/all/themes/cyberhus/sass/global.scss",
+		"/Users/lajlev/web/cyberhus/sites/all/themes/cyberhus/templates/region--content.tpl.php",
+		"/Users/lajlev/web/cyberhus/sites/all/themes/cyberhus/css/cyberhus-alpha-default-normal.css",
+		"/Users/lajlev/web/TUBA/sites/all/themes/tuba/styles/styles.css",
+		"/Users/lajlev/web/woopal/app/assets/stylesheets/application.css.scss",
+		"/Users/lajlev/web/woopal/app/views/proposals/new.html.haml",
+		"/Users/lajlev/web/woopal/app/assets/javascripts/proposals.js",
+		"/Users/lajlev/web/woopal/app/views/layouts/application.html.haml",
+		"/Users/lajlev/web/woopal/app/services/message.rb",
+		"/Users/lajlev/web/woopal/app/views/match_requests/_match_request.html.haml",
+		"/Users/lajlev/web/woopal/app/assets/stylesheets/_mixins.css.scss",
+		"/Users/lajlev/web/woopal/app/views/matches/_match.html.haml",
+		"/Users/lajlev/web/woopal/app/controllers/matches_controller.rb",
+		"/Users/lajlev/web/ch3/sites/all/themes/cyberhus/templates/region--menu.tpl.php",
+		"/Users/lajlev/web/ch3/sites/all/themes/cyberhus/templates/html.tpl.php",
+		"/Users/lajlev/web/ch3/sites/all/themes/cyberhus/sass/global.scss",
+		"/Users/lajlev/web/ch3/sites/all/themes/cyberhus/sass/_views.scss",
+		"/Users/lajlev/web/ch3/sites/all/themes/cyberhus/css/global.css",
+		"/Users/lajlev/web/ch3/sites/all/themes/cyberhus/sass/_node.scss",
+		"/Users/lajlev/web/woopal/test/test_helper.rb",
+		"/Users/lajlev/web/woopal/app/views/pages/about.html.haml",
+		"/Users/lajlev/web/woopal/app/assets/javascripts/application.js",
+		"/Users/lajlev/web/woopal/public/500.html",
+		"/Users/lajlev/web/woopal/app/views/match_requests/index.html.haml",
+		"/Users/lajlev/web/woopal/app/assets/javascripts/application_bottom.js",
+		"/Users/lajlev/web/woopal/app/views/matches/index.html.haml",
+		"/Users/lajlev/web/woopal/app/controllers/proposals_controller.rb",
+		"/Users/lajlev/web/woopal/app/controllers/sessions_controller.rb",
+		"/Users/lajlev/web/woopal/app/controllers/match_requests_controller.rb",
+		"/Users/lajlev/web/woopal/app/views/layouts/_flash.html.haml",
+		"/Users/lajlev/web/TUBA/sites/default/files/.htaccess",
+		"/Users/lajlev/web/TUBA/sites/default/settings.php",
+		"/Users/lajlev/bin/fix-drupal-permissions.sh",
+		"/Users/lajlev/web/_scripts/fix-drupal-permissions.sh",
+		"/Users/lajlev/bin/subl",
+		"/Users/lajlev/web/_test/foundation5-grunt-libsass/project/index.html",
+		"/Users/lajlev/web/_test/foundation5-grunt-libsass/project/scss/app.scss",
+		"/Users/lajlev/web/_test/foundation5-grunt-libsass/project/Gruntfile.js",
+		"/Users/lajlev/web/_test/foundation5-grunt-libsass/project/.gitignore",
+		"/Users/lajlev/web/_test/gruntfile/npm-debug.log",
+		"/Users/lajlev/web/_test/gruntfile/packkage.json",
+		"/Users/lajlev/web/woopal/app/views/partials/_menu-proposals.html.haml",
+		"/Users/lajlev/web/woopal/app/views/layouts/_matches_menu.html.haml",
+		"/Users/lajlev/web/codeclubdk.org/source/layouts/layout.html.slim",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/views-view-field--events--block-1--field-date.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/sass/app.scss",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/node--activity.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/page--front.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/page.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/views-view--events--block-3.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/index.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/partials/menu.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/html.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/partials/sharing-btns.tpl.php",
+		"/Users/lajlev/web/_test/sfo_checkin/sites/all/themes/stark/layout.css",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/views-view-field--field-registration.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/_.sublime-project",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/Guardfile",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/.gitignore",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/views-view.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/views-view--activities--block_front.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/views-view--activities--block-1.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/sass/foundation/_variables.scss",
+		"/Users/lajlev/Desktop/tuba.html",
+		"/Users/lajlev/Library/Application Support/Sublime Text 2/Packages/TidyHTML5/TidyHTML.sublime-settings",
+		"/Users/lajlev/Library/Application Support/Sublime Text 2/Packages/User/TidyHTML.sublime-settings",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/views-view-unformatted.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/node.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/default/files/.htaccess",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/uddannelsesuge.info",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/node--front.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/partials/footer.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/partials/front/program.tpl.php",
+		"/Users/lajlev/web/uddannelsesuge/sites/all/themes/uddannelsesuge/templates/partials/ad-quiz.tpl.php",
+		"/Users/lajlev/web/_archive/victor/config.rb",
+		"/Users/lajlev/web/xamarin/source/javascripts/jquery-1.10.2.min.js",
+		"/Users/lajlev/web/xamarin/source/javascripts/jquery-v1.10.2.js",
+		"/Users/lajlev/web/woopal/app/assets/javascripts/matches.js",
+		"/Users/lajlev/web/xamarin/source/stylesheets/styles.scss",
+		"/Users/lajlev/web/xamarin/source/stylesheets/css3-mixins.scss",
+		"/Users/lajlev/web/xamarin/source/stylesheets/exported_styles.css",
+		"/Users/lajlev/web/xamarin/config.rb",
+		"/Users/lajlev/web/xamarin/Gemfile"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"",
+			"/Users/lajlev/web/uddannelsesuge_html/pages",
+			"",
+			"<open files>",
+			"",
+			"/Users/lajlev/web/netstof.dk/sites/all/themes/netstof/sass",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"view-slideshows",
+			"front",
+			"block-views-content-teaser-front-block",
+			"button",
+			".view-content-teaser-front",
+			"views",
+			"view",
+			"#block-block-14",
+			"h5",
+			"margin-top: 0 !important",
+			".block",
+			".blocks",
+			".block",
+			"read",
+			".blog_oversigt_left",
+			".field-name-field-cyberlike",
+			"#zone-content ",
+			"zone-content",
+			"edit-combine-wrapper",
+			".ui-accordion-header",
+			"url(\"../img/repeat_main.png\")",
+			"#eeebea",
+			".region-sidebar-first-inner",
+			"18px 12px",
+			"padding: 18px 12px",
+			"padding: 18px 12px;",
+			"padding: 18px 12px",
+			"padding: 18px 12px;",
+			".region-sidebar-first-inner",
+			"img/next_black.png",
+			"repeat_sidebar.png",
+			"url(/sites/all/themes/cyberhus/img/repeat_sidebar.png)",
+			".region-sidebar-first-inner",
+			".region-inner.region-content-inner",
+			"#block-system-main",
+			"content_bottom",
+			"sideba",
+			"sidebar_first",
+			"sidebar",
+			".region-sidebar-first-inner",
+			"#edit-combine-wrapper",
+			"#zone-content",
+			"#edit-combine-wrapper",
+			"#block-views-exp-forside-page #views-exposed-form-Forside-page .views-exposed-form #edit-combine-wrapper",
+			".tertiary-section",
+			"tertiary",
+			"tert",
+			"hover",
+			"leaf",
+			"#block-views-brugervisninger-block-4",
+			"friends",
+			"I have found someone, that I think you should hook up with",
+			"name",
+			"prefix-2",
+			"region_menu_columns",
+			"region_logo",
+			"logo",
+			"menu",
+			"region-logo",
+			"leaf",
+			"#region-menu ",
+			"#region-menu",
+			"ung",
+			"mys",
+			"setup",
+			"plus",
+			"selected-friends",
+			"friend-wrapper",
+			"place",
+			"plus",
+			"friend-one-wrapper",
+			"()",
+			".placeholder",
+			".card.placeholder",
+			"border",
+			"subhea",
+			"006555",
+			"00aa8f",
+			"#block-block-10 h2",
+			"#block-menu-block-5 h2",
+			"li",
+			"sub-bar",
+			"tertiary-section",
+			"menu",
+			"subl",
+			"sub-bar",
+			"subl",
+			".sh",
+			"webform",
+			"submission",
+			"$token_objects['webform'] = $webform['submission'];",
+			"menu",
+			"media",
+			"arr",
+			"view-content",
+			"border-bottom",
+			"#program",
+			"nav",
+			"top",
+			"top-bar",
+			"top-ba",
+			"foot",
+			"</i>",
+			"<i>",
+			"lite",
+			"compass",
+			"None",
+			"style",
+			"\"/assets",
+			"logo",
+			"left",
+			"main-menu",
+			"main-nav",
+			"menu",
+			"top",
+			"color",
+			"link",
+			"menu",
+			"navContent",
+			"foot",
+			"after",
+			"name",
+			"wei",
+			"top",
+			"src=\"../img/",
+			"javascripts/foundation/",
+			"uu",
+			"rm"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"#fff",
+			".press-section",
+			"</h5>",
+			"<h5>",
+			"\"https://testcloud.xamarin.com/assets",
+			"src=\"http://foundation.zurb.com/docs/img/",
+			"foundation/js/foundation/",
+			"time"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 40.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 134.0
+	},
+	"replace":
+	{
+		"height": 72.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"hom",
+				"home.html"
+			],
+			[
+				"mic",
+				"app/controllers/microposts_controller.rb"
+			],
+			[
+				"_fee",
+				"app/views/shared/_feed_item.html.erb"
+			],
+			[
+				"_mi",
+				"app/views/microposts/_micropost.html.erb"
+			],
+			[
+				"sta",
+				"app/controllers/static_pages_controller.rb"
+			],
+			[
+				"home",
+				"app/views/static_pages/home.html.erb"
+			],
+			[
+				"user",
+				"app/controllers/users_controller.rb"
+			],
+			[
+				"sess",
+				"app/helpers/sessions_helper.rb"
+			],
+			[
+				"rou",
+				"config/routes.rb"
+			],
+			[
+				"sho",
+				"app/views/users/show.html.erb"
+			],
+			[
+				"users",
+				"app/controllers/users_controller.rb"
+			],
+			[
+				"_us",
+				"app/views/users/_user.html.erb"
+			],
+			[
+				"admin",
+				"db/migrate/20130727074935_add_admin_to_users.rb"
+			],
+			[
+				"in",
+				"app/views/users/index.html.erb"
+			],
+			[
+				"gem",
+				"Gemfile"
+			],
+			[
+				"loc",
+				"Gemfile.lock"
+			],
+			[
+				"inde",
+				"app/views/users/index.html.erb"
+			],
+			[
+				"cus",
+				"app/assets/stylesheets/custom.css.scss"
+			],
+			[
+				"sessi",
+				"app/controllers/sessions_controller.rb"
+			],
+			[
+				"sessio",
+				"app/helpers/sessions_helper.rb"
+			],
+			[
+				"_hea",
+				"app/views/layouts/_header.html.erb"
+			],
+			[
+				"edit",
+				"app/views/users/edit.html.erb"
+			],
+			[
+				"user_",
+				"spec/requests/user_pages_spec.rb"
+			],
+			[
+				"app",
+				"app/controllers/application_controller.rb"
+			],
+			[
+				"ses",
+				"app/controllers/sessions_controller.rb"
+			],
+			[
+				"au",
+				"spec/requests/authentication_pages_spec.rb"
+			],
+			[
+				"head",
+				"app/views/layouts/_header.html.erb"
+			],
+			[
+				"reme",
+				"db/migrate/20130726073923_add_remember_token_to_users.rb"
+			],
+			[
+				"appli",
+				"app/controllers/application_controller.rb"
+			],
+			[
+				"rout",
+				"config/routes.rb"
+			],
+			[
+				"aut",
+				"spec/requests/authentication_pages_spec.rb"
+			],
+			[
+				"user_pa",
+				"spec/requests/user_pages_spec.rb"
+			],
+			[
+				"pro",
+				"config/environments/production.rb"
+			],
+			[
+				"appl",
+				"app/views/layouts/application.html.erb"
+			],
+			[
+				"a",
+				"config/application.rb"
+			],
+			[
+				"new",
+				"app/views/users/new.html.erb"
+			],
+			[
+				"spec_he",
+				"spec/spec_helper.rb"
+			],
+			[
+				"spec_hel",
+				"spec/spec_helper.rb"
+			],
+			[
+				"guar",
+				"Guardfile"
+			],
+			[
+				"gemf",
+				"Gemfile"
+			],
+			[
+				"test.rb",
+				"config/environments/test.rb"
+			],
+			[
+				"custom_set",
+				"sites/all/themes/cyberhus/js/custom_settings.js"
+			],
+			[
+				"lay",
+				"app/views/layouts/application.html.erb"
+			],
+			[
+				"ap",
+				"config/application.rb"
+			],
+			[
+				"de",
+				"config/environments/development.rb"
+			],
+			[
+				"page",
+				"modules/system/page.tpl.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 402.0,
+	"status_bar_visible": true
+}
