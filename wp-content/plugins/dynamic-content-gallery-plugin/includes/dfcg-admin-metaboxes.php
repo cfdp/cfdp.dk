@@ -2,9 +2,9 @@
 /**
 * Functions for adding metaboxes to Post and Pages Write screen for display of custom fields
 *
-* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @copyright Copyright 2008-2013  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.5
+* @version 3.3.6
 *
 * Uses ugly inline styles, unfortunately...
 *
@@ -119,7 +119,7 @@ function dfcg_meta_box($post) {
 		<?php endif; ?>
 		
 		<label class="screen-reader-text" for="_dfcg-image"><?php _e('Image URL', DFCG_DOMAIN); ?></label>
-		<textarea id="_dfcg-image" name="_dfcg-image" style="font-size:11px;width:253px;" cols="2" rows="2"><?php echo get_post_meta($post->ID, '_dfcg-image', true); ?></textarea>
+		<textarea id="_dfcg-image" name="_dfcg-image" style="width:253px;" cols="2" rows="2"><?php echo get_post_meta($post->ID, '_dfcg-image', true); ?></textarea>
 			
 		<?php if( $url !== 'not used' ) { ?>
 			<p style="margin:6px 0px 8px;"><em>Images folder is: <?php echo $url; ?></em></p>
@@ -135,7 +135,7 @@ function dfcg_meta_box($post) {
 		<h4 style="margin-top:0px;"><?php _e('Slide Pane Description', DFCG_DOMAIN); ?>:</h4>
 		<p style="margin:6px 0px 8px;"><em><?php _e('You are currently using', DFCG_DOMAIN); ?> <a href="<?php echo 'admin.php?page=' . DFCG_FILE_HOOK; ?>"><?php _e('Manual', DFCG_DOMAIN); ?></a> <?php _e('Slide Pane descriptions', DFCG_DOMAIN); ?>. <?php _e('Enter your Slide Pane text for this image below.', DFCG_DOMAIN); ?></em></p>
 		<label class="screen-reader-text" for="_dfcg-desc"><?php _e('Slide Pane Description', DFCG_DOMAIN); ?></label>
-		<textarea id="_dfcg-desc" name="_dfcg-desc" style="font-size:11px;width:253px;" cols="2" rows="4"><?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?></textarea>
+		<textarea id="_dfcg-desc" name="_dfcg-desc" style="width:253px;" cols="2" rows="4"><?php echo get_post_meta($post->ID, '_dfcg-desc', true); ?></textarea>
 	</div>
 	
 	<?php elseif( $dfcg_options['desc-method'] == 'auto' )  : // Slide Pane Description is Auto ?>
@@ -162,7 +162,7 @@ function dfcg_meta_box($post) {
 		<h4 style="margin-top:0px;"><?php _e('External link for image', DFCG_DOMAIN ); ?>:</h4>
 		<p style="margin:6px 0px 8px;"><em><?php _e('Enter a link here (including http://) if you want this image to link to somewhere other than the Post/Page permalink. Leave blank to link to the Post/Page.', DFCG_DOMAIN); ?></em></p>
 		<label class="screen-reader-text" for="_dfcg-link"><?php _e('External link for image', DFCG_DOMAIN ); ?></label>
-		<input id="_dfcg-link" name="_dfcg-link" style="font-size:11px;width:253px;" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-link', true); ?>" />		
+		<input id="_dfcg-link" name="_dfcg-link" style="width:253px;" type="text" value="<?php echo get_post_meta($post->ID, '_dfcg-link', true); ?>" />		
 	</div>
 	
 		
@@ -210,13 +210,15 @@ function dfcg_meta_box($post) {
 * @param mixed $post_id Post ID
 * @param object $post object
 * @since 3.2.1
-* @updated 3.3
+* @updated 3.3.6
 */
 function dfcg_save_metabox_data($post_id, $post) {
 	
 	// Check referrer is from DCG metabox
-	if ( !wp_verify_nonce( isset($_POST['dfcg_metabox_noncename']), DFCG_FILE_HOOK )) {
-	return $post->ID;
+	//if ( !wp_verify_nonce( isset($_POST['dfcg_metabox_noncename']), DFCG_FILE_HOOK )) {
+	// Patch from Eamon Daly
+	if ( !isset( $_POST['dfcg_metabox_noncename'] ) || !wp_verify_nonce( $_POST['dfcg_metabox_noncename'], DFCG_FILE_HOOK ) ) {
+		return $post->ID;
 	}
 
 	// Is the user allowed to edit the post or page?

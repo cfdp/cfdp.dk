@@ -19,13 +19,15 @@ return array(
 	'auto_link_max_by_post' => 10,
 	'auto_link_max_by_tag'  => 1,
 	'auto_link_priority'  	=> 12,
+	'auto_link_views'		=> 'singular',
+	'auto_link_dom'			=> 0,
 	
 	// Administration
 	'order_click_tags' 	=> 'name-asc',
 	'opencalais_key' 	=> '',
 	'alchemy_api' 		=> '',
 	'zemanta_key' 		=> '',
-	'autocomplete_type' => '',
+	'autocomplete_type' => 'input',
 	'autocomplete_min'  => 0,
 	'autocomplete_mode' => '',
 	
@@ -70,4 +72,3 @@ return array(
 	'cloud_unit' 		=> 'pt',
 	'cloud_adv_usage' 	=> ''
 );
-?>

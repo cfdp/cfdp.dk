@@ -8,45 +8,13 @@ function shrsb_analytics_settings_page() {
 	global $shrsb_analytics;
     // Add all the global varaible declarations for the $shrsb_tb_plugopts
 	echo '<div class="wrap""><div class="icon32" id="icon-options-general"><br></div><h2>'.__('Social Analytics Settings', 'shrsb').'</h2></div>';
-    //Defaults - set if not present
-    if (!isset($_POST['reset_all_options_analytics'])){$_POST['reset_all_options_analytics'] = '1';}
-    if (!isset($_POST['shrsbresetallwarn-choice'])){$_POST['shrsbresetallwarn-choice'] = 'no';}
-    
-	if($_POST['reset_all_options_analytics'] == '0') {
-		echo '
-		<div id="shrsbresetallwarn" class="dialog-box-warning" style="float:none;width:97%;margin-top:20px;">
-			<div class="dialog-left fugue f-warn">
-				'.__("WARNING: You are about to reset all plugin settings to their default state! Do you wish to continue?", "shrsb").'
-			</div>
-			<div class="dialog-right">
-				<form action="" method="post" id="resetalloptionsaccept">
-					<label><input name="shrsbresetallwarn-choice" id="shrsbresetallwarn-yes" type="radio" value="yes" />'.__('Yes', 'shrsb').'</label> &nbsp; <label><input name="shrsbresetallwarn-choice" id="shrsbresetallwarn-cancel" type="radio" value="cancel" />'.__('Cancel', 'shrsb').'</label>
-				</form>
-			</div>
-		</div>';
-	}
-
-	//Reset all options to default settings if user clicks the reset button
-	if($_POST['shrsbresetallwarn-choice'] == "yes") { //check for reset button click
-
-		$shrsb_analytics = shrsb_analytics_set_options('reset');
-        
-		//delete_option('SHRSB_CustomSprite');
-		echo '
-		<div id="statmessage" class="shrsb-success">
-			<div class="dialog-left fugue f-success">
-				'.__('All settings have been reset to their default values.', 'shrsb').'
-			</div>
-			<div class="dialog-right">
-				<img src="'.SHRSB_PLUGPATH.'images/success-delete.jpg" class="del-x" alt=""/>
-			</div>
-		</div>';
-	}
 
 	// processing form submission
 	$status_message = "";
 	$error_message = "";
-	if(isset($_POST['save_changes_sa'])) {
+	$setting_changed = false;
+		
+	if(isset($_POST['save_changes_sa']) && check_admin_referer('save-settings','shareaholic_nonce') ) {
 
     // Set success message
     $status_message = __('Your changes have been saved successfully!', 'shrsb');
@@ -57,7 +25,7 @@ function shrsb_analytics_settings_page() {
         if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
 			$fieldval = $_POST[$field];
 			if($field == 'pubGaSocial' && $fieldval != $shrsb_analytics[$field]) {
-				shrsb_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_analytics', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+			  $setting_changed = true;
 			}
             $shrsb_analytics[$field] = $fieldval;
         } else {
@@ -66,7 +34,10 @@ function shrsb_analytics_settings_page() {
     }
 
     update_option('ShareaholicAnalytics',$shrsb_analytics);
-          
+    
+    if ($setting_changed == true){
+      shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_analytics', 'enabled' => ($shrsb_analytics['pubGaSocial'] == '1' ? 'true' : 'false')));
+    }      
       
   }//Closed Save
 
@@ -94,7 +65,7 @@ function shrsb_analytics_settings_page() {
 	}
 ?>
 
-<form name="sexy-bookmarks" id="sexy-bookmarks" action="" method="post">
+<form name="shareaholic-analytics" id="shareaholic-analytics" action="" method="post">
     <div id="shrsb-col-left" style="width:100%">
 		<ul id="shrsb-sortables">
 
@@ -104,61 +75,8 @@ function shrsb_analytics_settings_page() {
                 </div>
 				<div class="box-mid-body">
                         <div style="padding:8px;background:#FDF6E5;"><img src="<?php echo SHRSB_PLUGPATH; ?>images/chart.png" align="right" alt="New!" />
-                                <?php
+                                <?php $parse = parse_url(get_bloginfo('url')); ?>
 
-									$parse = parse_url(get_bloginfo('url'));
-                                    $share_url = "https://www.shareaholic.com/api/data/".$parse['host']."/sharecount/30";
-                                    $top_users_url =  "https://www.shareaholic.com/api/data/".$parse['host']."/topusers/16/";
-
-                                    echo sprintf(__('<b style="font-size:14px;line-height:22px;">Did you know that content from this website has been shared <span style="color:#CC1100;"><span id="bonusShareCount"></span> time(s)</span> in the past <span id="bonusShareTimeFrame"></span> day(s)?</b>', 'shrsb'));
-                                ?>
-
-                                <script type ="text/javascript">
-                                    (function($){
-                                        $(document).ready( function () {
-                                            var url = <?php echo "'".$share_url."'";?>;
-                                            var top_users_url  = <?php echo "'".$top_users_url."'";?>;
-                                            $.getJSON(url+'?callback=?', function (obj) {
-                                                $('#bonusShareCount').text(obj.sharecount);
-                                                $('#bonusShareTimeFrame').text(obj.timeframe);
-                                            });
-
-                                            $.getJSON(top_users_url+'?callback=?', function (obj) {
-                                                add_faces(obj);
-                                            });
-                                        });
-
-                                        var add_faces = function(obj) {
-                                            if(obj && obj.length) {
-                                                var shuffle = function(v){
-                                                    //+ Jonas Raoni Soares Silva
-                                                    //@ http://jsfromhell.com/array/shuffle [rev. #1]
-                                                    for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
-                                                    return v;
-                                                };
-                                                obj = shuffle(obj);
-
-                                                $('#bonusShareTopUser').show();
-                                                var face_ul = $('<ul id="bonusShareFacesUL"/>');
-                                                for(var i=0; i<obj.length; ++i) {
-                                                    var shr_profile_url = "https://shareaholic.com/" + obj[i].username;
-                                                    face_ul.append(
-                                                        $("<li class='bonusShareLi'>").append("<a target='_blank' href="+shr_profile_url+"><img class='bonusShareFaces' title=" + obj[i].username + " src=" + obj[i].picture_url + "></img></a>")
-                                                    );
-                                                }
-
-                                                $('#bonusShareTopUser').append(face_ul);
-
-                                            }
-                                        };
-                                    })(jQuery);
-                                </script>
-                                <br/><br/>
-                                <div id="bonusShareTopUser" style="display:none"><b><?php _e('Meet who spreads your content the most:', 'shrsb'); ?></b></div>
-
-                                <br />
-                                <div style="background: url(https://shareaholic.com/media/images/border_hr.png) repeat-x scroll left top; height: 2px;"></div>
-                                <br />
                                   <?php  echo sprintf(__('<span style="font-size: 12px;">Shareaholic reports all of your important social media metrics including popular pages on your website, referral channels, and who are making referrals and spreading your webpages on the internet on your behalf bringing you back more traffic and new visitors for free.</span> <br><br> <b><span style="color:#CC1100;">What are you waiting for?</span> You can access detailed %ssocial engagement analytics%s about your website right now.</b>', 'shrsb'), '<a href="https://shareaholic.com/publishers/analytics/'.$parse['host'].'/">', '</a>');
                                 ?>
 
@@ -167,7 +85,7 @@ function shrsb_analytics_settings_page() {
             </li>
 
 
-       <?php if (shrsb_get_current_user_role()=="Administrator"){ ?>
+       <?php if (current_user_can('manage_options')){ ?>
 	
           <li>
             <div class="box-mid-head">
@@ -200,15 +118,12 @@ function shrsb_analytics_settings_page() {
 				
 		</ul>
 		
-		<?php if (shrsb_get_current_user_role()=="Administrator"){ ?>
+		<?php if (current_user_can('manage_options')){ ?>
 			
 			<div style="clear:both;"></div>
 			<input type="hidden" name="save_changes_sa" value="1" />
-        	<div class="shrsbsubmit"><input type="submit" id="save_changes_sa" value="<?php _e('Save Changes', 'shrsb'); ?>" /></div>
-		</form>
-		<form action="" method="post">
-			<input type="hidden" name="reset_all_options_analytics" id="reset_all_options_analytics" value="0" />
-			<!-- <div class="shrsbreset"><input type="submit" value="<?php _e('Reset Settings', 'shrsb'); ?>" /></div> -->
+      <?php wp_nonce_field('save-settings','shareaholic_nonce'); ?>
+      <div class="shrsbsubmit"><input type="submit" id="save_changes_sa" value="<?php _e('Save Changes', 'shrsb'); ?>" /></div>
 		</form>
 		
 	<?php } ?>	

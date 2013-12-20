@@ -2,9 +2,9 @@
 /**
 * Functions and filters for adding custom columns to Edit Posts & Edit Pages screens
 *
-* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @copyright Copyright 2008-2013  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.5
+* @version 3.3.6
 *
 * @since 3.2
 */

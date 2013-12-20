@@ -2,9 +2,9 @@
 /**
 * Settings API Callback Function - to sanitise Settings page input
 *
-* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @copyright Copyright 2008-2013  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.5
+* @version 3.3.6
 *
 * @info Sanitise Settings screen Options input.
 * @info register_settings() callback function.

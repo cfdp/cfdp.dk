@@ -1,20 +1,20 @@
 <?php
-class SimpleTags_Admin_ClickTags extends SimpleTags_Admin {
+class SimpleTags_Admin_ClickTags {
 	/**
 	 * Constructor
 	 *
 	 * @return void
 	 * @author Amaury Balmer
 	 */
-	function SimpleTags_Admin_ClickTags() {
+	public function __construct() {
 		// Ajax action, JS Helper and admin action
-		add_action('wp_ajax_'.'simpletags', array(&$this, 'ajaxCheck'));
+		add_action('wp_ajax_'.'simpletags', array(__CLASS__, 'ajax_check'));
 		
 		// Box for post/page
-		add_action('admin_menu', array(&$this, 'helperClickTags'), 1);
+		add_action('admin_menu', array(__CLASS__, 'admin_menu'), 1);
 
 		// Javascript
-		add_action('admin_enqueue_scripts', array(&$this, 'initJavaScript'), 11);
+		add_action('admin_enqueue_scripts', array(__CLASS__, 'admin_enqueue_scripts'), 11);
 	}
 
 	/**
@@ -23,10 +23,10 @@ class SimpleTags_Admin_ClickTags extends SimpleTags_Admin {
 	 * @return void
 	 * @author Amaury Balmer
 	 */
-	function initJavaScript() {
+	public static function admin_enqueue_scripts() {
 		global $pagenow;
 		
-		wp_register_script('st-helper-click-tags', STAGS_URL.'/inc/js/helper-click-tags.min.js', array('jquery', 'st-helper-add-tags'), STAGS_VERSION);
+		wp_register_script('st-helper-click-tags', STAGS_URL.'/assets/js/helper-click-tags.js', array('jquery', 'st-helper-add-tags'), STAGS_VERSION);
 		wp_localize_script('st-helper-click-tags', 'stHelperClickTagsL10n', array( 'show_txt' => __('Display click tags', 'simpletags'), 'hide_txt' => __('Hide click tags', 'simpletags') ) );
 		
 		// Register location
@@ -45,10 +45,10 @@ class SimpleTags_Admin_ClickTags extends SimpleTags_Admin {
 	 * @return void
 	 * @author Amaury Balmer
 	 */
-	function helperClickTags() {
-		add_meta_box('st-clicks-tags', __('Click tags', 'simpletags'), array(&$this, 'boxClickTags'), 'post', 'advanced', 'core');
+	public static function admin_menu() {
+		add_meta_box('st-clicks-tags', __('Click tags', 'simpletags'), array(__CLASS__, 'metabox'), 'post', 'advanced', 'core');
 		if ( is_page_have_tags() )
-			add_meta_box('st-clicks-tags', __('Click tags', 'simpletags'), array(&$this, 'boxClickTags'), 'page', 'advanced', 'core');
+			add_meta_box('st-clicks-tags', __('Click tags', 'simpletags'), array(__CLASS__, 'metabox'), 'page', 'advanced', 'core');
 	}
 	
 	/**
@@ -57,8 +57,8 @@ class SimpleTags_Admin_ClickTags extends SimpleTags_Admin {
 	 * @return void
 	 * @author Amaury Balmer
 	 */
-	function boxClickTags() {
-		echo $this->getDefaultContentBox();
+	public static function metabox() {
+		echo SimpleTags_Admin::getDefaultContentBox();
 	}
 	
 	/**
@@ -67,9 +67,9 @@ class SimpleTags_Admin_ClickTags extends SimpleTags_Admin {
 	 * @return void
 	 * @author Amaury Balmer
 	 */
-	function ajaxCheck() {
+	public static function ajax_check() {
 		if ( isset($_GET['st_action']) && $_GET['st_action'] == 'click_tags' )  {
-			$this->ajaxClickTags();
+			self::ajax_click_tags();
 		}
 	}
 	
@@ -79,7 +79,7 @@ class SimpleTags_Admin_ClickTags extends SimpleTags_Admin {
 	 * @return void
 	 * @author Amaury Balmer
 	 */
-	function ajaxClickTags() {
+	public static function ajax_click_tags() {
 		status_header( 200 ); // Send good header HTTP
 		header("Content-Type: text/html; charset=" . get_bloginfo('charset'));
 		
@@ -91,13 +91,10 @@ class SimpleTags_Admin_ClickTags extends SimpleTags_Admin {
 		// Prepare search
 		$search = ( isset($_GET['q']) ) ? trim(stripslashes($_GET['q'])) : '';
 		
-		// Get options
-		$options = get_option( STAGS_OPTIONS_NAME );
-		
 		// Order tags before selection (count-asc/count-desc/name-asc/name-desc/random)
-		$options['order_click_tags'] = strtolower($options['order_click_tags']);
+		$order_click_tags = strtolower(SimpleTags_Plugin::get_option_value('order_click_tags'));
 		$order_by = $order = '';
-		switch ( $options['order_click_tags'] ) {
+		switch ( $order_click_tags ) {
 			case 'count-asc':
 				$order_by = 'tt.count';
 				$order = 'ASC';
@@ -121,7 +118,7 @@ class SimpleTags_Admin_ClickTags extends SimpleTags_Admin {
 		}
 		
 		// Get all terms, or filter with search
-		$terms = $this->getTermsForAjax( 'post_tag', $search, $order_by, $order );
+		$terms = SimpleTags_Admin::getTermsForAjax( 'post_tag', $search, $order_by, $order );
 		if ( empty($terms) || $terms == false ) {
 			echo '<p>'.__('No results from your WordPress database.', 'simpletags').'</p>';
 			exit();
@@ -135,4 +132,3 @@ class SimpleTags_Admin_ClickTags extends SimpleTags_Admin {
 		exit();
 	}
 }
-?>

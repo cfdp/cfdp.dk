@@ -2,9 +2,9 @@
 Contributors: momo360modena
 Donate link: http://beapi.fr/donate/
 Tags: tag, posts, tags, admin, administration, tagging, navigation, terms, taxonomy
-Requires at least: 3.0
-Tested up to: 3.3
-Stable tag: 2.2
+Requires at least: 3.3
+Tested up to: 3.5.1
+Stable tag: 2.3.2
 
 Add some tools for taxonomies : Terms suggestion, Mass Edit Terms, Auto link Terms, Ajax Autocompletion, Click Terms, Auto terms, Advanced manage terms, Advanced Post Terms, Related Posts by Terms, etc.
 
@@ -49,6 +49,7 @@ The Simple Tags can be installed in 3 easy steps:
 
 = Simple Tags is compatible with which WordPress versions ? =
 
+* 2.3 and upper are compatible only with WordPress 3.5 !
 * 2.0 and upper are compatible only with WordPress 3.0 & 3.1 & 3.2 & 3.3 !
 * 1.7 and upper are compatible only with WordPress 2.8, 2.9 !
 * 1.6.7 and before are compatible with WordPress 2.3, 2.5, 2.6, 2.7
@@ -65,6 +66,23 @@ The Simple Tags can be installed in 3 easy steps:
 
 == Changelog ==
 
+* Version 2.3.2
+	* Move all get_option request into plugin class, use static
+	* Add option for limit autolinks to singular view (default setting, you need change this setting in DB for enable autolinks into all views)
+	* Replace old library autocomplete by new jQuery UI autocomplete
+	* Add an alternative ENGINE text replacement for autolinks feature, use DOMdocument php extension
+	* Fix tags autosuggestion from alchemy API
+* Version 2.3.1
+	* Rename jQuery autocomplete library, add prefix for fix JS conflict (event manager)
+	* Fix OpenCalais suggest tags
+	* Replace clean_page_cache by clean_post_tag
+* Version 2.3
+	* Convert all class to STATIC methods
+	* Use error message API (self::displayMessage();)
+	* Refresh admin UI (settings)
+	* Upgrade JS librairies
+	* Try to improve performance, use more WP functions instead custom SQL queries
+	* Add UNINSTALL method for delete options created by plugins
 * Version 2.2 :
 	* Add compatibility with WP3.3
 	* Move JavaScript register/enqueue to dedicated hook

@@ -45,7 +45,7 @@ function set_cimyFieldValue($user_id, $field_name, $field_value) {
 	if (empty($field_name))
 		return $results;
 
-	$field_name = $wpdb->escape(strtoupper($field_name));
+	$field_name = esc_sql(strtoupper($field_name));
 
 	$sql = "SELECT ID, TYPE, LABEL FROM $wpdb_fields_table WHERE NAME='$field_name'";
 	$efields = $wpdb->get_results($sql, ARRAY_A);
@@ -94,7 +94,7 @@ function set_cimyFieldValue($user_id, $field_name, $field_value) {
 	if (empty($users))
 		$users[]["ID"] = $user_id;
 
-	$field_value = $wpdb->escape($field_value);
+	$field_value = esc_sql($field_value);
 
 	foreach ($users as $user) {
 		if (!current_user_can('edit_user', $user["ID"]))
@@ -137,13 +137,13 @@ function get_cimyFieldValue($user_id, $field_name, $field_value=false) {
 	
 	if ($field_name) {
 		$field_name = strtoupper($field_name);
-		$field_name = $wpdb->escape($field_name);
+		$field_name = esc_sql($field_name);
 	}
 	
 	if ($field_value) {
 		if (is_array($field_value)) {
 			if (isset($field_value['value'])) {
-				$sql_field_value = $wpdb->escape($field_value['value']);
+				$sql_field_value = esc_sql($field_value['value']);
 				
 				if ($field_value['like'])
 					$sql_field_value = " AND data.VALUE LIKE '%".$sql_field_value."%'";
@@ -152,7 +152,7 @@ function get_cimyFieldValue($user_id, $field_name, $field_value=false) {
 			}
 		} else {
 		
-			$field_value = $wpdb->escape($field_value);
+			$field_value = esc_sql($field_value);
 			$sql_field_value = " AND data.VALUE='".$field_value."'";
 		}
 	}
@@ -406,9 +406,7 @@ function cimy_uef_sanitize_content($content, $override_allowed_tags=null) {
 }
 
 function cimy_check_admin($permission) {
-	global $cimy_uef_plugins_dir;
-
-	if ((is_multisite()) && ($cimy_uef_plugins_dir == "mu-plugins"))
+	if (cimy_uef_is_multisite_unique_installation())
 		return is_super_admin();
 	else
 		return current_user_can($permission);
@@ -519,7 +517,7 @@ function cimy_get_registration_date($user_id, $value) {
 }
 
 function cimy_uef_is_field_disabled($type, $edit_rule, $old_value) {
-	global $rule_cannot_be_empty;
+	global $rule_canbeempty;
 
 	switch($edit_rule)
 	{
@@ -528,7 +526,7 @@ function cimy_uef_is_field_disabled($type, $edit_rule, $old_value) {
 			break;
 
 		case 'edit_only_if_empty':
-			if ((in_array($type, $rule_cannot_be_empty)) && (!empty($old_value)))
+			if ((in_array($type, $rule_canbeempty)) && (!empty($old_value)))
 				return true;
 			break;
 
@@ -538,7 +536,7 @@ function cimy_uef_is_field_disabled($type, $edit_rule, $old_value) {
 			break;
 
 		case 'edit_only_by_admin_or_if_empty':
-			if ((!current_user_can('edit_users')) && (!((in_array($type, $rule_cannot_be_empty)) && (empty($old_value)))))
+			if ((!current_user_can('edit_users')) && (!((in_array($type, $rule_canbeempty)) && (empty($old_value)))))
 				return true;
 			break;
 	}
@@ -645,6 +643,10 @@ function cimy_uef_set_javascript_dependencies($javascripts_dep, $type, $rule_nam
 			if ($rule)
 				$javascripts_dep['tinymce_fields'][$rule_name] += 1;
 			break;
+		case "date":
+			if ($rule)
+				$javascripts_dep['date_fields'][$rule_name] += 1;
+			break;
 		default:
 			break;
 	}
@@ -702,7 +704,7 @@ function cimy_uef_avatar_filter($avatar, $id_or_email, $size, $default, $alt="")
 		// ...or we may have the email
 		$email = $id_or_email;
 
-		$sql = sprintf("SELECT ID, user_login FROM %s WHERE user_email='%s' LIMIT 1", $wpdb->users, $wpdb->escape($email));
+		$sql = sprintf("SELECT ID, user_login FROM %s WHERE user_email='%s' LIMIT 1", $wpdb->users, esc_sql($email));
 		$res = $wpdb->get_results($sql);
 
 		// something went wrong, aborting and returning normal avatar
@@ -715,7 +717,6 @@ function cimy_uef_avatar_filter($avatar, $id_or_email, $size, $default, $alt="")
 
 	if (isset($id)) {
 		$sql = "SELECT data.VALUE FROM $wpdb_data_table as data JOIN $wpdb_fields_table as efields ON efields.id=data.field_id WHERE (efields.TYPE='avatar' AND data.USER_ID=$id) LIMIT 1";
-
 		$value = $wpdb->get_var($sql);
 
 		if ( false === $alt)
@@ -725,9 +726,9 @@ function cimy_uef_avatar_filter($avatar, $id_or_email, $size, $default, $alt="")
 
 		// max $size allowed is 512
 		if (isset($value)) {
-			if ($value == "") {
+			if (empty($value)) {
 				// apply default only here or below, as we are sure to have an user that did not set anything
-				if ($overwrite_default != "")
+				if (!empty($overwrite_default))
 					return $overwrite_default;
 				else
 					return $avatar;
@@ -742,7 +743,7 @@ function cimy_uef_avatar_filter($avatar, $id_or_email, $size, $default, $alt="")
 			$avatar = "<img alt='{$safe_alt}' src='{$value}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
 		}
 		// apply default only here, as we are sure to have an user that did not set anything
-		else if ($overwrite_default != "")
+		else if (!empty($overwrite_default))
 			return $overwrite_default;
 	}
 
@@ -770,8 +771,7 @@ function cimy_manage_upload($input_name, $user_login, $rules, $old_file=false, $
 				chmod($blog_path, FS_CHMOD_DIR);
 			}
 			else {
-				mkdir($blog_path, 0777);
-				chmod($blog_path, 0777);
+				wp_mkdir_p($blog_path);
 			}
 		}
 	}
@@ -810,8 +810,7 @@ function cimy_manage_upload($input_name, $user_login, $rules, $old_file=false, $
 			chmod($user_path, FS_CHMOD_DIR);
 		}
 		else {
-			mkdir($user_path, 0777);
-			chmod($user_path, 0777);
+			wp_mkdir_p($user_path);
 		}
 	}
 
@@ -822,8 +821,7 @@ function cimy_manage_upload($input_name, $user_login, $rules, $old_file=false, $
 			chmod($file_path, FS_CHMOD_DIR);
 		}
 		else {
-			mkdir($file_path, 0777);
-			chmod($file_path, 0777);
+			wp_mkdir_p($file_path);
 		}
 	}
 
@@ -952,4 +950,171 @@ function cimy_wpml_unregister_string($name) {
 	global $cimy_uef_name;
 	if (function_exists('icl_unregister_string'))
 		icl_unregister_string($cimy_uef_name, $name);
+}
+
+/**
+ * @since 2.5.2
+ * @return true on WordPress registration page
+ */
+function cimy_uef_is_register_page() {
+	if (cimy_uef_is_theme_my_login_register_page())
+		return true;
+	$script_file = basename($_SERVER['SCRIPT_NAME']);
+	if (!is_multisite() && stripos($script_file, "wp-login.php") !== false && !empty($_GET['action']) && $_GET['action'] == 'register')
+		return true;
+	else if (is_multisite() && stripos($script_file, "wp-signup.php") !== false)
+		return true;
+	return false;
+}
+
+/**
+ * @since 2.5.2
+ * @return true on Themed My Login - Themed Registration page
+ */
+function cimy_uef_is_theme_my_login_register_page() {
+	// Theme My Login <= v6.2.x
+	if (!empty($GLOBALS['theme_my_login']) && $GLOBALS['theme_my_login']->is_login_page())
+		return true;
+	// Theme My Login >= v6.3.0
+	if (function_exists('Theme_My_Login') && Theme_My_Login::is_tml_page('register'))
+		return true;
+	return false;
+}
+
+/**
+ * @since 2.5.2
+ * @return true on Themed My Login - Themed Profiles pages
+ */
+function cimy_uef_is_theme_my_login_profile_page() {
+	if (!empty($GLOBALS['theme_my_login']) || function_exists('Theme_My_Login'))
+		return defined('IS_PROFILE_PAGE') && constant('IS_PROFILE_PAGE');
+	return false;
+}
+
+function cimy_uef_is_multisite_unique_installation() {
+	global $cimy_uef_plugins_dir;
+	return is_multisite() && $cimy_uef_plugins_dir == "mu-plugins";
+}
+
+function cimy_uef_is_multisite_per_blog_installation() {
+	global $cimy_uef_plugins_dir;
+	return is_multisite() && $cimy_uef_plugins_dir != "mu-plugins";
+}
+
+function cimy_strlen($str) {
+	if (function_exists("mb_strlen"))
+		return mb_strlen($str);
+	return strlen($str);
+}
+
+/**
+ * @since 2.6.0
+ * @return an array with all the localized strings needed by JQueryUI Datepicker widget
+ * @author Matthew Fries - http://www.renegadetechconsulting.com/tutorials/jquery-datepicker-and-wordpress-i18n (hacked by Marco Cimmino)
+ */
+function cimy_uef_date_picker_l10n() {
+	global $wp_locale, $cimy_uef_domain;
+	return array(
+		'closeText'         => __('Done'),
+		'prevText'          => __('&laquo; Previous'),
+		'nextText'          => __('Next &raquo;'),
+		'currentText'       => __('Today', $cimy_uef_domain),
+		'monthNames'        => array_values($wp_locale->month),
+		'monthNamesShort'   => array_values($wp_locale->month_abbrev),
+		'monthStatus'       => __('Select Month'),
+		'dayNames'          => array_values($wp_locale->weekday),
+		'dayNamesShort'     => array_values($wp_locale->weekday_abbrev),
+		'dayNamesMin'       => array_values($wp_locale->weekday_initial),
+		// set the date format to match the WP general date settings
+		'dateFormat'        => cimy_uef_dateformat_PHP_to_jQueryUI(get_option('date_format')),
+		// get the start of week from WP general setting
+		'firstDay'          => get_option('start_of_week'),
+		// is Right to left language? default is false
+		'isRTL'             => is_rtl(),
+	);
+}
+
+/**
+ * Matches each symbol of PHP date format standard
+ * with jQuery equivalent codeword
+ * @since 2.6.0
+ * @author Tristan Jahier
+ */
+function cimy_uef_dateformat_PHP_to_jQueryUI($php_format)
+{
+    $SYMBOLS_MATCHING = array(
+        // Day
+        'd' => 'dd',
+        'D' => 'D',
+        'j' => 'd',
+        'l' => 'DD',
+        'N' => '',
+        'S' => '',
+        'w' => '',
+        'z' => 'o',
+        // Week
+        'W' => '',
+        // Month
+        'F' => 'MM',
+        'm' => 'mm',
+        'M' => 'M',
+        'n' => 'm',
+        't' => '',
+        // Year
+        'L' => '',
+        'o' => '',
+        'Y' => 'yy',
+        'y' => 'y',
+        // Time
+        'a' => '',
+        'A' => '',
+        'B' => '',
+        'g' => '',
+        'G' => '',
+        'h' => '',
+        'H' => '',
+        'i' => '',
+        's' => '',
+        'u' => ''
+    );
+    $jqueryui_format = "";
+    $escaping = false;
+    for($i = 0; $i < strlen($php_format); $i++)
+    {
+        $char = $php_format[$i];
+        if($char === '\\') // PHP date format escaping character
+        {
+            $i++;
+            if($escaping) $jqueryui_format .= $php_format[$i];
+            else $jqueryui_format .= '\'' . $php_format[$i];
+            $escaping = true;
+        }
+        else
+        {
+            if($escaping) { $jqueryui_format .= "'"; $escaping = false; }
+            if(isset($SYMBOLS_MATCHING[$char]))
+                $jqueryui_format .= $SYMBOLS_MATCHING[$char];
+            else
+                $jqueryui_format .= $char;
+        }
+    }
+    return $jqueryui_format;
+}
+
+/**
+ * @return JavaScript string containing date picker options based on given id and rules
+ * @since 2.6.1
+ */
+function cimy_uef_date_picker_options($unique_id, $rules) {
+	$js_date = "";
+	if (isset($rules["min_length"])) {
+		$js_date .= "jQuery('#".esc_js($unique_id)."').datepicker(\"option\", \"minDate\", \"".esc_js($rules["min_length"])."\");";
+	}
+	if (isset($rules["max_length"])) {
+		$js_date .= "jQuery('#".esc_js($unique_id)."').datepicker(\"option\", \"maxDate\", \"".esc_js($rules["max_length"])."\");";
+	}
+	if (!empty($js_date)) {
+		$js_date = "\n\t\t<script type='text/javascript'>jQuery(document).ready(function() {".$js_date."});</script>";
+	}
+	return $js_date;
 }

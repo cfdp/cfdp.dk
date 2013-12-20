@@ -5,21 +5,21 @@ function shrsb_sb_settings_page() {
 	global $shrsb_plugopts, $shrsb_bookmarks_data, $wpdb, $shrsb_custom_sprite,$shrsb_analytics;
     // Add all the global varaible declarations for the $shrsb_plugopts default options e.g.,
 
-	echo '<div class="wrap""><div class="icon32" id="icon-options-general"><br></div><h2>SexyBookmarks Settings</h2></div>';
+	echo '<div class="wrap""><div class="icon32" id="icon-options-general"><br></div><h2>Share Buttons: SexyBookmarks Settings</h2></div>';
 
     //Defaults - set if not present
     if (!isset($_POST['reset_all_options_sb'])){$_POST['reset_all_options_sb'] = '1';}
     if (!isset($_POST['shrsbresetallwarn-choice'])){$_POST['shrsbresetallwarn-choice'] = 'no';}
     if (!isset($_POST['custom-mods'])  || $shrsb_plugopts['custom-mods'] == ""){$_POST['custom-mods'] = 'no';}
 
-	if($_POST['reset_all_options_sb'] == '0') {
+	if(($_POST['reset_all_options_sb'] == '0') && check_admin_referer('reset-settings','shareaholic_nonce')) {
 		echo '
 		<div id="shrsbresetallwarn" class="dialog-box-warning" style="float:none;width:97%;">
 			<div class="dialog-left fugue f-warn">
 				'.__("WARNING: You are about to reset all settings to their default state! Do you wish to continue?", "shrsb").'
 			</div>
 			<div class="dialog-right">
-				<form action="" method="post" id="resetalloptionsaccept">
+				<form action="" method="post" id="resetalloptionsaccept">'. wp_nonce_field('reset-settings','shareaholic_nonce') .'
 					<label><input name="shrsbresetallwarn-choice" id="shrsbresetallwarn-yes" type="radio" value="yes" />'.__('Yes', 'shrsb').'</label> &nbsp; <label><input name="shrsbresetallwarn-choice" id="shrsbresetallwarn-cancel" type="radio" value="cancel" />'.__('Cancel', 'shrsb').'</label>
 				</form>
 			</div>
@@ -93,7 +93,9 @@ function shrsb_sb_settings_page() {
 	// processing form submission
 	$status_message = "";
 	$error_message = "";
-	if(isset($_POST['save_changes_sb'])) {
+	$setting_changed = false;
+	
+	if(isset($_POST['save_changes_sb']) && check_admin_referer('save-settings','shareaholic_nonce')) {
 
     if(isset($_POST['bookmark']['shr-fleck'])) {
       unset($_POST['bookmark']['shr-fleck']);
@@ -131,7 +133,6 @@ function shrsb_sb_settings_page() {
             shrsb_refresh_cache();
             _shrsb_copy_file(SHRSB_UPLOADDIR.'index.html', SHRSB_PLUGDIR.'spritegen_default/index.html');
             _shrsb_copy_file(SHRSB_UPLOADDIR.'spritegen/index.html', SHRSB_PLUGDIR.'spritegen_default/index.html');
-
           }
 
 		if (!$error_message) {
@@ -191,7 +192,7 @@ function shrsb_sb_settings_page() {
         foreach (array(
             
                 'sexybookmark',
-            
+         
                 'position', 'reloption', 'targetopt', 'bookmark',
                 'shorty', 'pageorpost', 'tweetconfig', 'bgimg-yes', 'mobile-hide', 'bgimg',
                 'feed', 'expand', 'doNotIncludeJQuery', 'autocenter', 'custom-mods',
@@ -205,9 +206,11 @@ function shrsb_sb_settings_page() {
                 'tip_text_color' , 'preventminify', 'shrlink', 'perfoption','spritegen_path', 'apikey','ogtags' , 'promo'
             )as $field) {
                 if(isset($_POST[$field])) { // this is to prevent warning if $_POST[$field] is not defined
+					
 					$fieldval = $_POST[$field];
-					if($field == 'sexybookmark' && $fieldval != $shrsb_plugopts[$field]) {
-						shrsb_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_sexy', 'enabled' => ($fieldval == '0' ? 'true' : 'false')));
+					
+					if ($field == 'sexybookmark' && $fieldval != $shrsb_plugopts[$field]) {
+					  $setting_changed = true;
 					}
 		            $shrsb_plugopts[$field] = $fieldval;
                 } else {
@@ -237,8 +240,14 @@ function shrsb_sb_settings_page() {
           if($shrsb_plugopts['preventminify'] == '1') {
                 exclude_from_minify_list();
           }
+          
           $shrsb_plugopts['firstrun'] = '0';
           update_option('SexyBookmarks', $shrsb_plugopts);
+          
+          if ($setting_changed == true){
+            shr_sendTrackingEvent('FeatureToggle', array('f_updated' => 'f_sexy', 'enabled' => ($shrsb_plugopts['sexybookmark'] == '1' ? 'true' : 'false')));
+          }
+          
           $shrsb_plugopts['tweetconfig'] = urldecode($shrsb_plugopts['tweetconfig']);
 
           update_option('SHRSB_CustomSprite', $shrsb_custom_sprite);
@@ -322,7 +331,7 @@ function shrsb_sb_settings_page() {
                                     ></td>
                                     <td><span class=""><?php _e('Load Time Optimized', 'shrsb'); ?></span></td>
                                     <td><?php
-                                        echo $resave_required ? "To Fix: Simply re-save your SB settings." : "";
+                                        echo $resave_required ? "To Do: click the \"Save Changes\" button at the bottom of this page." : "";
                                         ?>
                                     </td>
                                 </tr>
@@ -386,7 +395,7 @@ function shrsb_sb_settings_page() {
                                         <td><span class="tab" style="display:block; font-size: 11px; color: #666666;"><?php _e('Shareaholic Social Analytics', 'shrsb'); ?></span></td>
                                         <td><div class="icon-ok"></div></td>
                                         <td><div class="icon-remove"></div></td>
-                                        <td><a target="_blank" href="https://shareaholic.com/publishers/analytics/<?= $parse['host']?>/">Preview</a></td>
+                                        <td><a target="_blank" href="https://shareaholic.com/publishers/analytics/<?php echo $parse['host']?>/">Preview</a></td>
                                     </tr>
                                     
                                     <tr>
@@ -597,7 +606,7 @@ function shrsb_sb_settings_page() {
                             </tbody></table>
 							<br />
 							<span style="display:block;"><span style="color:orange;">* <?php _e('switch on "new" mode above to enable these exclusive features', 'shrsb'); ?></span></span>
-                            <span style="display:block;"><span style="color:#08C;"># <?= sprintf( __('Click %shere%s to enable 3rd party services to use this feature', 'shrsb'), '<a href="#3rdpartyservices">', '</a>'); ?></span></span>	
+                            <span style="display:block;"><span style="color:#08C;"># <?php echo sprintf( __('Click %shere%s to enable 3rd party services to use this feature', 'shrsb'), '<a href="#3rdpartyservices">', '</a>'); ?></span></span>	
                         </div>
 					</div>
 				</div>
@@ -824,12 +833,13 @@ function shrsb_sb_settings_page() {
 		</ul>
 		<div style="clear:both;"></div>
 		<input type="hidden" name="save_changes_sb" value="1" />
+		<?php wp_nonce_field('save-settings','shareaholic_nonce'); ?>
         <div class="shrsbsubmit"><input type="submit" id="save_changes_sb" value="<?php _e('Save Changes', 'shrsb'); ?>" /></div>
 	</form>
 	<form action="" method="post">
 		<input type="hidden" name="reset_all_options_sb" id="reset_all_options_sb" value="0" />
+		<?php wp_nonce_field('reset-settings','shareaholic_nonce'); ?>
 		<div class="shrsbreset"><input type="submit" value="<?php _e('Reset Settings', 'shrsb'); ?>" /></div>
-        
 	</form>
 
 <div id="third-party-submit-modal" class="reveal-modal" style="width: 520px;">
@@ -887,7 +897,7 @@ function isRadioEnabled(name){
 
 function is3rdPartyDependent() {
     
-     var shrsb_analytics = <?= json_encode($shrsb_analytics) ?> ;
+     var shrsb_analytics = <?php echo json_encode($shrsb_analytics) ?> ;
     
     return (shrsb_analytics.pubGaSocial == '1') ||  isRadioEnabled('showShareCount') ;
 }

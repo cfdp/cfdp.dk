@@ -21,6 +21,7 @@ As for now the plug-in supports:
  * registration-date
  * avatar
  * file
+ * date
 
 future versions can have more.
 
@@ -59,43 +60,46 @@ Wordpress MultiSite unique registration:
 
 Rules are:
 
-    * min/exact/max length admitted
-	[only for text, textarea, textarea-rich, password, picture, picture-url, avatar, file]
+    * min/max length admitted
+        [only for text, textarea, textarea-rich, password, picture, picture-url, avatar, file, date]
+
+    * exact length admitted
+        [only for text, textarea, textarea-rich, password, picture, picture-url, avatar, file]
 
     * field can be empty
-	[only for text, textarea, textarea-rich, password, picture, picture-url, dropdown, dropdown-multi, avatar, file]
+        [only for text, textarea, textarea-rich, password, picture, picture-url, dropdown, dropdown-multi, avatar, file, date]
 
     * check for e-mail address syntax
-	[only for text, textarea, textarea-rich, password]
+        [only for text, textarea, textarea-rich, password]
 
     * field can be modified after the registration
-	[only for text, textarea, textarea-rich, password, picture, picture-url, checkbox, radio, dropdown, dropdown-multi, avatar, file]
-	[for radio and checkbox 'edit_only_if_empty' has no effects and 'edit_only_by_admin_or_if_empty' has the same effect as edit_only_by_admin]
+        [only for text, textarea, textarea-rich, password, picture, picture-url, checkbox, radio, dropdown, dropdown-multi, avatar, file, date]
+        [for radio and checkbox 'edit_only_if_empty' has no effects and 'edit_only_by_admin_or_if_empty' has the same effect as edit_only_by_admin]
 
     * field equal to some value (for example accept terms and conditions)
-	[all except avatar by default set to 512]
+        [all except avatar by default set to 512]
 
       * equal to can be or not case sensitive
-	[only for text, textarea, textarea-rich, password, dropdown, dropdown-multi]
+        [only for text, textarea, textarea-rich, password, dropdown, dropdown-multi]
 
 Visualization rules
     * field can be hidden during registration
-	[all except the email address]
+        [all except the email address]
 
     * field can be hidden in user's profile
-	[all except the WordPress fields]
+        [all except the WordPress fields]
 
     * field can be hidden in Users Extended page
-	[all]
+        [all]
 
     * field can be hidden in Search Engine (only if you installed the template)
-	[all]
+        [all]
 
     * field can be hidden in Blog's public page (only if you installed the template)
-	[all]
+        [all]
 
     * all visualization rules can be overridden if an user has certain rights (default=no override)
-	[all]
+        [all]
 
 New fields will be visible everywhere by default, a part some WordPress fields.
 
@@ -627,6 +631,48 @@ A lot of times I cannot reproduce the problem and I need more details, so if you
 
 
 CHANGELOG:
+v2.6.1 - 30/09/2013
+- Added dropdowns for the year and the month selectors to the date picker
+- Added Min and Max date support for the new 'date' extra field (no backend support yet)
+- Updated Securimage Captcha to v3.5.1
+- Fixed date picker popup was appearing in the registration for all the extra fields below the date itself (thanks to Claudio)
+- Fixed PHP error when user creation fails with email confirmation enabled (thanks to Francesco)
+- Added Persian translation (Negin Nickparsa)
+- Added Czech translation (Tomas Hegr)
+
+v2.6.0 - 03/09/2013
+- Added date picker support, extra field's type is called: 'date'
+- Fixed PHP warning 'Only variables should be passed by reference on line 959' (regressed on v2.5.2) (thanks to badarong for the patch)
+- Fixed clicking on options' labels were not triggering the option change
+
+v2.5.5 - 29/07/2013
+- Fixed mb_strlen is not available by default on PHP, better to use it only if available (regressed on v2.5.2) (thanks to jrmihalick)
+- Fixed wpdb::escape warnings when using WordPress 3.6
+
+v2.5.4 - 11/07/2013
+- Fixed extra fields were not shown on certain themes, like: 'Modular' theme and 'Emporium' theme for WooCommerce (thanks to eArtboard, detoner and Rinaldo Pavanello)
+- Fixed default directory's permissions on Unix servers was set to 0777, now is handled by WordPress if FS_CHMOD_DIR is not set (thanks to KZeni)
+- Fixed 'no username registration' were causing some unrelated html paragraph to be hidden (thanks to flymike for the patch)
+
+v2.5.3 - 24/06/2013
+- Fixed updating extra fields from a different blog doesn't work (MS per-blog only) (thanks to GilesFarrow)
+- Fixed Securimage captcha sometimes does not validate correctly codes (thanks to websitesareus)
+- Fixed two PHP warnings produced in the plug-in's admin panel (thanks to Ov3rfly)
+- Fixed tabindex is no longer needed for WordPress 3.5 and Theme My Login users with Securimage captcha too
+
+v2.5.2 - 03/06/2013
+- Added support for Theme My Login v6.3.x
+- Fixed Users Extended page is blank when the WordPress installation hosts a lot (10.000+) of users (thanks to mightypixel, eArtboard and more)
+- Fixed cimy_uef_register.css file inclusion does not happen (MS only) (introduced in v2.5.0)
+- Fixed strlen doesn't count correctly special accented characters, changed to mb_strlen (thanks to Batischev Oleg for the patch)
+- Fixed user activation email's subject doesn't get translated (non-MS only) (thanks to Torstein Knutsen for the patch)
+- Updated Italian translation
+
+v2.5.1 - 06/05/2013
+- Updated Securimage Captcha to v3.5.0
+- Fixed captcha check was performed on /wp-admin/user-new.php page even without a captcha showed (MS only) (thanks to KZeni)
+- Fixed strength password hint description is showed inline with the password strength when reCAPTCHA is also showed (thanks to coopersita)
+
 v2.5.0 - 18/03/2013
 - Added support for hiding the username under standard WP registration, email will substitute it (non-MS only) (thanks to Matt Hoffman)
 - Added support for WordPress hidden fields rules under profile update

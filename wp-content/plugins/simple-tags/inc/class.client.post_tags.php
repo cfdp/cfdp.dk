@@ -1,12 +1,9 @@
 <?php
-class SimpleTags_Client_PostTags extends SimpleTags_Client {
-	function SimpleTags_Client_PostTags() {
-		// Get options
-		$options = get_option( STAGS_OPTIONS_NAME );
-		
+class SimpleTags_Client_PostTags {
+	public function __construct() {
 		// Add adv post tags in post ( all / feedonly / blogonly / homeonly / singularonly / singleonly / pageonly /no )
-		if ( $options['tt_embedded'] != 'no' || $options['tt_feed'] == 1 ) {
-			add_filter('the_content', array(&$this, 'inlinePostTags'), 999992);
+		if ( SimpleTags_Plugin::get_option_value('tt_embedded') != 'no' || SimpleTags_Plugin::get_option_value('tt_feed') == 1 ) {
+			add_filter('the_content', array(__CLASS__, 'the_content'), 999992);
 		}
 	}
 	
@@ -16,17 +13,17 @@ class SimpleTags_Client_PostTags extends SimpleTags_Client {
 	 * @param string $content
 	 * @return string
 	 */
-	function inlinePostTags( $content = '' ) {
-		// Get options
-		$options = get_option( STAGS_OPTIONS_NAME );
+	public static function the_content( $content = '' ) {
+		// Get option
+		$tt_embedded = SimpleTags_Plugin::get_option_value('tt_embedded');
 		
 		$marker = false;
 		if ( is_feed() ) {
-			if ( $options['tt_feed'] == '1' ) {
+			if ( (int) SimpleTags_Plugin::get_option_value('tt_feed') == 1 ) {
 				$marker = true;
 			}
-		} elseif ( isset($options['tt_embedded']) ) {
-			switch ( $options['tt_embedded'] ) {
+		} elseif ( !empty($tt_embedded) ) {
+			switch ( $tt_embedded ) {
 				case 'blogonly' :
 					$marker = ( is_feed() ) ? false : true;
 					break;
@@ -53,7 +50,7 @@ class SimpleTags_Client_PostTags extends SimpleTags_Client {
 		}
 		
 		if ( $marker === true ) {
-			return ( $content . $this->extendedPostTags( '', false ) );
+			return ( $content . self::extendedPostTags( '', false ) );
 		}
 		return $content;
 	}
@@ -64,9 +61,9 @@ class SimpleTags_Client_PostTags extends SimpleTags_Client {
 	 * @param string $args
 	 * @return string
 	 */
-	function extendedPostTags( $args = '', $copyright = true ) {
+	public static function extendedPostTags( $args = '', $copyright = true ) {
 		// Get options
-		$options = get_option( STAGS_OPTIONS_NAME );
+		$options = SimpleTags_Plugin::get_option();
 		
 		// Default values
 		$defaults = array(
@@ -120,7 +117,13 @@ class SimpleTags_Client_PostTags extends SimpleTags_Client {
 		$taxonomy = ( (int) $inc_cats == 0 ) ? 'post_tag' : array('post_tag', 'category');
 		
 		// Get terms
-		$terms = apply_filters( 'get_the_tags', wp_get_object_terms($object_id, $taxonomy) );
+		$terms = get_object_term_cache($object_id, $taxonomy);
+		if ( false === $terms ) {
+			$terms = wp_get_object_terms($object_id, $taxonomy);
+		}
+		
+		// Hook
+		$terms = apply_filters( 'get_the_tags', $terms );
 		
 		// Limit to max quantity if set
 		$number = (int) $number;
@@ -140,7 +143,7 @@ class SimpleTags_Client_PostTags extends SimpleTags_Client {
 		}
 		
 		// HTML Rel
-		$rel = $this->buildRel();
+		$rel = SimpleTags_Client::get_rel_attribut();
 		
 		// Prepare output
 		foreach ( (array) $terms as $term ) {
@@ -148,7 +151,7 @@ class SimpleTags_Client_PostTags extends SimpleTags_Client {
 				continue;
 			}
 			
-			$output[] = $this->formatInternalTag( $xformat, $term, $rel, null );
+			$output[] = SimpleTags_Client::format_internal_tag( $xformat, $term, $rel, null );
 		}
 		
 		// Clean memory
@@ -166,7 +169,6 @@ class SimpleTags_Client_PostTags extends SimpleTags_Client {
 		// Add container
 		$output = $before . $output . $after;
 		
-		return $this->outputContent( '', 'string', '', $output, $copyright );
+		return SimpleTags_Client::output_content( '', 'string', '', $output, $copyright );
 	}
 }
-?>

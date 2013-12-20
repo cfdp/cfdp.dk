@@ -66,7 +66,7 @@
 					<a class="website" href='<?php the_author_meta('user_url', $curauth->ID); ?>'><span></span>mit website</a>
 				<?php endif; ?>
 
-					<a class="rssfeed" href='<?php bloginfo('url') ?>/author/<?php authorPermalink(get_the_author());?>/feed/'><span></span>Abonner på RSS-feed</a>
+					<a class="rssfeed" href='<?php bloginfo('url') ?>/author/<?php authorPermalink(get_the_author());?>/feed/'><span></span>abonner på RSS-feed</a>
 
 			</div>
 

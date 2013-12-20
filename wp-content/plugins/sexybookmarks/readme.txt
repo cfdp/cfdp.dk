@@ -1,18 +1,20 @@
-=== Shareaholic | email, bookmark, share buttons ===
+=== Shareaholic | share buttons & related posts ===
 Contributors: shareaholic
-Tags: SexyBookmarks, SexyBookmark, Facebook, Twitter, LinkedIn, URL Shortener, Bitly, TinyURL, Supr, Goo.gl, Google +1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Google Gmail, Google Notebook, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, Bebo, Mister Wong, Evernote, Twine, Diigo, add this, addtoany, share this, share and follow, share and enjoy, sharing is sexy, sharing is caring, Mail, Yahoo, Reddit, Techmeme, Hacker News, Tweet Button, Twitter Button, Fark, Buffer, MySpace, Orkut, Plurk, Identi.ca, Hyves, Netlog, HubSpot,  WeHeartIt, Yandex, PrintFriendly, Print, ReadItLater, Yammer, Pinterest, Google Translate, Pinboard, Shareaholic, Shareholic, Bookmarks, Social, Email Button, Social Share, Bookmark Button, Share Button, Social Bookmarking, Bookmarks Menu, Bookmarking, Share, Share Count, Sharebar, Social Media, SEO, Analytics, Stats, Sharing, Saving, Posting, Facebook Like, Facebook Recommend, Facebook Send, WPMU, nrelate, outbrain, linkwithin, Related Content, Related Posts, Thumbnails, Recommendations
+Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
 Requires at least: 2.7
-Tested up to: 3.5.1
-Stable tag: 6.1.3.1
+Tested up to: 3.6
+Stable tag: 6.1.5.1
 
 Adds an attractive social bookmarking menu and related content widget to your posts, pages, index, or any combination of the three.
 
 == Description ==
+
 Shareaholic has proven time and time again to be an extremely useful and successful tool in getting your readers to actually **discover** and **submit your articles** to numerous social bookmarking sites.
 
 Our sole aim was to stray away from the "in the box" thinking behind most social bookmarking plugins, and add a little flair that would entice your readers, rather than deterring them with microscopic icons that get lost in pages heavy laden with content.
 
 = Recent Updates =
+
 * Recommendations & Related Content - Increase reader engagement and pageviews by highlighting related content from across your site
 * Social Analytics - Actionable and easy to understand
 * Classic Bookmarks - Classic Bookmarks offer a clean-cut and professional look for your blog
@@ -22,20 +24,19 @@ Our sole aim was to stray away from the "in the box" thinking behind most social
 * Utilizes the [Share API](https://shareaholic.com/api/)
 * Localized in 15+ languages
 
-= Recently Added Services =
-* Pinterest
-* Google Plus
-* Shareaholic Email This
+= Recommendations / Related Content =
+
+Increase pageviews and engagement by highlighting relevant content from across your site to your readers who would not otherwise encounter them. Shareaholic is not just yet another related posts content plugin. It involves a simple installation that's easy to update and tweak. You'll be using well-engineered and optimized code that won't slow or block your pages from loading. You can choose between several themes to match your site's design and customize every pixel if you'd like. Optimized for mobile devices like the iPhone, iPod touch, iPad, Android mobile phones, and more!
 
 = Social Analytics =
 
 Shareaholic reports all of your important actionable social media metrics including popular pages on your website, referral channels, and who are making referrals and spreading your webpages on the internet on your behalf bringing you back more traffic and new visitors.
 
-= Performance =
+= Fast & Secure =
 
 We use industry best practices to make our code as fast and unobtrusive as possible, meaning - for example - that the performance impact is comparable to adding Google Analytics to your site. Because all of the processing and collection runs on our servers and not yours, it doesn't cause any additional load on your hosting account. In addition, our JavaScript is hosted on Amazon's CDN to make fetching it as blazing fast and reliable as possible. In fact, it's one of the fastest proven analytics system, hosted or not hosted, that you can use.
 
-Shareaholic is used and trusted by hundreds of thousands of publishers and touches almost 300 million people each month.  Designed and built with all the love in the world in Cambridge, Massachusetts.
+Shareaholic is used and trusted by hundreds of thousands of websites like yours and touches almost 300 million people each month. Designed and built with all the love in the world in Boston, Massachusetts.
 
 Note: The analytics portion of Shareaholic may use trusted 3rd party services like Google Analytics and AppNexus to enhance its data. 
 
@@ -80,13 +81,14 @@ Listed here are credits and special thanks to some of you who have helped us out
 
 == Screenshots ==
 
-1. Sexy Share Buttons - A quick preview of the final outcome (excess hidden)
-2. Sexy Share Buttons - Another preview of the final outcome with excess networks displayed upon hover
-3. Classic Share Buttons - Classic Bookmarks offer a clean-cut and professional look for your blog
-4. Recommendations - Drive pageviews and increase time on site with this related content widget
-5. Top Bar - Drive more shares to your content with this additional call-to-action
-6. An 100% integrated and customizable approach - It all comes together nicely in one place!
-
+1. An 100% integrated and customizable approach - all the tools and apps you need in one place! Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, we'll help you get it done.
+2. Related Content configuration panel - Drive pageviews and increase time on site with this tool.
+3. Share Buttons configuration panel - Make it easy for your visitors to share your site's content via social networks, email, blogs, IM, and more.
+4. De-clutter your WordPress installation. All the tools you need in one robust plugin.
+5. You're in great company - Gizmo Gadget  
+6. You're in great company - Your Lighter Side
+7. You're in great company - Guilty Kitchen
+8. You're in great company - Career Girl
 
 == Installation ==
 
@@ -116,14 +118,46 @@ You can still configure the other options available when inserting manually and 
 
 
 == Frequently Asked Questions ==
+
 = Where can I find a detailed FAQ? =
 Please see here: [Frequently Asked Questions](https://shareaholic.com/tools/wordpress/faq)
 
 = Where can I get detailed Usage & Installation instructions? =
 Please see here: [Usage & Installation Instructions](https://shareaholic.com/tools/wordpress/usage-installation)
 
-
 == Changelog ==
+= 6.1.5.1 =
+* Recommendations / Related Content are now 100% responsive (aka "mobile-ready")! This means they will now adapt to the screen size or device (iPhone, iPad, Android, tablet, laptop, etc) of your visitors automagically for the best, most seamless discovery experience.
+
+= 6.1.5.0 =
+* Fix for Cross-Site Request Forgery vulnerability. Upgrade immediately. Credits for finding and reporting the vulnerability go to Charlie Eriksen via Secunia SVCRP.
+
+= 6.1.4.1 = 
+* Shareaholic is 100% compatible with WordPress 3.6! Yay!
+
+= 6.1.4.0 = 
+* Bugfix: Related Content settings page now loads for multisite install. Updated how Shareaholic reads user permissions. Now using in-built WordPress functions.
+* Bugfix: Facebook Debugger will no longer show "Parser Mismatched Metadata" warnings
+* Updated primary plugin file to "shareaholic.php"
+* Cleaned up assets directory, as a result the plugin install file is now a lot smaller
+
+= 6.1.3.8 =
+* Bugfix: fixed "Cannot use object of type WP_Error"
+
+= 6.1.3.7 =
+* [Bugfix](http://wordpress.org/support/topic/big-issue-with-css): More robust CSS
+
+= 6.1.3.6 =
+* Show Related Posts data status
+* Updated screenshots (corrected WordPress logo)
+
+= 6.1.3.5 =
+* Much faster Related Posts processing for new users!
+
+= 6.1.3.4 =
+* Upgraded PHP short tags
+* A host of bug fixes and performance improvements
+* Deprecated Yandex
 
 = 6.1.3.1 =
 * Bug fixes & event reporting
@@ -825,6 +859,16 @@ Please see here: [Usage & Installation Instructions](https://shareaholic.com/too
 * Initial release!
 
 == Upgrade Notice ==
+
+= 6.1.5.1 = 
+* Recommendations / Related Content are now 100% responsive (aka "mobile-ready")! This means they will now adapt to the screen size or device (iPhone, iPad, Android, tablet, laptop, etc) of your visitors automagically for the best, most seamless discovery experience.
+
+= 6.1.5.0 = 
+Fix for security vulnerability. Upgrade immediately.
+
+= 6.1.3.5 =
+Several bug fixes and performance improvements. This is a highly recommended upgrade!
+
 = 3.2.3.1 =
 Fixed small bug with short URL function which caused it to fail if you do not have cURL enabled
 

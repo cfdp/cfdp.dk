@@ -27,9 +27,7 @@ global $wpdb;
 
 /* Now we build the custom query to get the ID of the users. */
 
-$aUsersID = $wpdb->get_col( $wpdb->prepare(
-    "SELECT $wpdb->users.ID FROM $wpdb->users ORDER BY user_nicename ASC"));
-
+$aUsersID = $wpdb->get_col( $wpdb->prepare("SELECT $wpdb->users.ID FROM $wpdb->users ORDER BY user_nicename ASC", $id, $name ));
 /* Once we have the IDs we loop through them with a Foreach statement. */
 $count = 0;
 foreach ( $aUsersID as $iUserID ) :

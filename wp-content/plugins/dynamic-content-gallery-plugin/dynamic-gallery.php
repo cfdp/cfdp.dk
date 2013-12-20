@@ -2,9 +2,9 @@
 /**
 * Front-end - This is the main file used to display the gallery
 *
-* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @copyright Copyright 2008-2013  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.5
+* @version 3.3.6
 *
 * NOTE: This file was updated due to change from Pages Method to ID Method in v3.3
 *

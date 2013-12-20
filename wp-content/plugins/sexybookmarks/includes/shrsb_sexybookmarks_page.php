@@ -35,7 +35,7 @@ function shrsb_sb_set_options($action = NULL){
     );
     			               
     $shrsb_sb_plugopts_default = array(
-			'sexybookmark' => '0',
+			'sexybookmark' => '1',
 			'firstrun' => '1',  
 			'position' => 'below', // below, above, or manual
 			'reloption' => 'nofollow', // 'nofollow', or ''
@@ -67,7 +67,7 @@ function shrsb_sb_set_options($action = NULL){
 			'bgimg-yes' => 'yes', // 'yes' or blank
 			'mobile-hide' => '', // 'yes' or blank
 			'bgimg' => 'caring', // default bg image
-			'shorty' => 'google', // default shortener
+			'shorty' => 'shrlc', // default shortener
 			'pageorpost' => 'postpageindexcategory',
 			'bookmark' => $shrsb_most_popular ,//array_keys($shrsb_bookmarks_data),
 			'feed' => '0', // 1 or 0
@@ -81,7 +81,7 @@ function shrsb_sb_set_options($action = NULL){
       'shareaholic-javascript' => '1',
       'shrbase' => 'http://www.shareaholic.com',
       'apikey' => '8afa39428933be41f8afdb8ea21a495c',
-      'service' => '',
+      'service' => '5,7,309,88,304',
       'designer_toolTips' => '1',
       'tip_bg_color' => '#000000',  // tooltip background color
       'tip_text_color' => '#ffffff', // tooltip text color
@@ -100,11 +100,10 @@ function shrsb_sb_set_options($action = NULL){
         //Get the settings from the database
         $database_Settings =  get_option('SexyBookmarks');
         
-        
         if($database_Settings){//got the settings in the database
             
             // Check only when upgrading
-            if(SHRSB_UPGRADING) {
+            if(SHRSB_UPGRADING == TRUE) {
                 $need_to_update = false;
         
                 if(!isset($database_Settings['sexybookmark']) ){
@@ -112,8 +111,9 @@ function shrsb_sb_set_options($action = NULL){
                     $database_Settings['firstrun'] = '0';
                     $need_to_update = true;
                 }
+                
                 //For first time activation
-                update_option("SHR_activate",1);
+                update_option("SHR_activate", 1);
 
                 //Check whether all the settings are present or not
                 foreach($shrsb_sb_plugopts_default as $k => $v){
@@ -122,8 +122,10 @@ function shrsb_sb_set_options($action = NULL){
                         $need_to_update = true;
                     }
                 }
+                
                 //Check for the tweetbutton in likebutton set
                 if(!in_array("shr-tw-button", $database_Settings["likeButtonOrderTop"]) ) array_push($database_Settings["likeButtonOrderTop"],"shr-tw-button");
+                
                 if(!in_array("shr-tw-button", $database_Settings["likeButtonOrderBottom"]) ) array_push($database_Settings["likeButtonOrderBottom"],"shr-tw-button");
 
                 if($need_to_update) update_option("SexyBookmarks",$database_Settings);
@@ -149,14 +151,14 @@ add_option('SHRSB_DefaultSprite',true);
 
 // If plugin is upgrading
 if(SHRSB_UPGRADING == TRUE) {
-
+  
     //Remove the Disabled Services
     if(isset ($shrsb_plugopts) && isset($shrsb_plugopts['service'])){
        $services = explode(',', $shrsb_plugopts['service']);
 
        if(!empty($services)){
            // Removing blocked services from sb services list
-           $disable_services = array( '4', '12', '68', '77', '159', '185', '186', '195', '207', '237', '257', '264', '190', '10', '287', '188', '100', '277', '48', '210' );
+           $disable_services = array( '4', '12', '68', '77', '159', '185', '186', '195', '207', '237', '257', '264', '190', '10', '287', '188', '100', '277', '48', '210', '267' );
            $services = array_diff($services, $disable_services);
            $shrsb_plugopts['service'] = implode(',', $services );
        }
@@ -165,7 +167,7 @@ if(SHRSB_UPGRADING == TRUE) {
     if(isset ($shrsb_plugopts) && isset($shrsb_plugopts['bookmark'])){
       // Removing blocked services from bookmarks list
       
-      $shrsb_plugopts['bookmark'] = array_diff($shrsb_plugopts['bookmark'], array( 'shr-twittley', 'shr-comfeed', 'shr-ning', 'shr-strands', 'shr-sphinn', 'shr-tipd', 'shr-faqpal', 'shr-technorati', 'shr-yahoobuzz', 'shr-posterous', 'shr-squidoo' ));
+      $shrsb_plugopts['bookmark'] = array_diff($shrsb_plugopts['bookmark'], array( 'shr-twittley', 'shr-comfeed', 'shr-ning', 'shr-strands', 'shr-sphinn', 'shr-tipd', 'shr-faqpal', 'shr-technorati', 'shr-yahoobuzz', 'shr-posterous', 'shr-squidoo', 'shr-yandex' ));
     }
     
     if(isset ($shrsb_plugopts) && isset($shrsb_plugopts['reloption']) && $shrsb_plugopts['reloption'] === "" ){

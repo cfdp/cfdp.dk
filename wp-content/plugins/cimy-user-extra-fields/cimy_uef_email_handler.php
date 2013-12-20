@@ -210,7 +210,14 @@ function cimy_signup_user_notification($user, $user_email, $key, $meta = '') {
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf( apply_filters( 'wpmu_signup_user_notification_email', __( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\n", $cimy_uef_domain) ), site_url( "wp-login.php?cimy_key=$key$redirect_to" ), $key );
 	// TODO: Don't hard code activation link.
-	$subject = sprintf( __( apply_filters( 'wpmu_signup_user_notification_subject', '[%1$s] Activate %2$s' ), $cimy_uef_domain ), $from_name, $user);
+	$subject = sprintf(
+		apply_filters('wpmu_signup_user_notification_subject',
+			__('[%1$s] Activate %2$s', $cimy_uef_domain),
+			$user, $user_email, $key, $meta
+		),
+		$from_name,
+		$user
+	);
 	wp_mail($user_email, $subject, $message, $message_headers);
 	return true;
 }
@@ -253,8 +260,8 @@ function cimy_uef_activate_signup($key) {
 		return new WP_Error('already_active', __('The site is already active.', $cimy_uef_domain), $signup);
 
 	$meta = unserialize($signup->meta);
-	$user_login = $wpdb->escape($signup->user_login);
-	$user_email = $wpdb->escape($signup->user_email);
+	$user_login = esc_sql($signup->user_login);
+	$user_email = esc_sql($signup->user_email);
 
 	if (!empty($meta["cimy_uef_wp_PASSWORD"]))
 		$password = $meta["cimy_uef_wp_PASSWORD"];
@@ -269,10 +276,13 @@ function cimy_uef_activate_signup($key) {
 	else
 		$user_already_exists = true;
 
-	if ( ! $user_id )
+	if (is_wp_error($user_id))
+		return $user_id;
+
+	if (!$user_id)
 		return new WP_Error('create_user', __('Could not create user'), $signup);
-	else
-		cimy_register_user_extra_fields($user_id, $password, $meta);
+
+	cimy_register_user_extra_fields($user_id, $password, $meta);
 
 	if ((empty($meta["cimy_uef_wp_PASSWORD"])) && ($user_already_exists))
 		update_user_option( $user_id, 'default_password_nag', true, true ); //Set up the Password change nag.

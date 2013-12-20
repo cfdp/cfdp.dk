@@ -1,22 +1,7 @@
 <?php
 
 /**
- * Returns the translated role of the current user. If that user has
- * no role for the current blog, it returns false.
- *
- * @return string The name of the current role
- * @notes older versions of WP return "Administrator|User role" which we strip down to "Administrator"
- **/
-function shrsb_get_current_user_role() {
-	global $wp_roles;
-	$current_user = wp_get_current_user();
-	$roles = $current_user->roles;
-	$role = array_shift($roles);
-	return isset($wp_roles->role_names[$role]) ? preg_replace("/\|User role$/","",$wp_roles->role_names[$role]) : false;
-}
-
-/**
- * Warning : Please go through the code first before reusing the function
+ * Warning : Please go through the code first before re-using the function
  * Append the character at the end of the string.
  * For Windows Servers, replace backward slashes to forward
  * 

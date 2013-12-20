@@ -2,9 +2,9 @@
 /**
 * Functions for the version 3.2 wp_postmeta meta_key name upgrade
 *
-* @copyright Copyright 2008-2010  Ade WALKER  (email : info@studiograsshopper.ch)
+* @copyright Copyright 2008-2013  Ade WALKER  (email : info@studiograsshopper.ch)
 * @package dynamic_content_gallery
-* @version 3.3.5
+* @version 3.3.6
 *
 * @info Functions to upgrade wp_postmeta, and display upgrade admin screens
 *
