@@ -70,27 +70,6 @@
 
 			</div>
 
-			<div class="tweets">
-				<?php
-					//Twitter
-					if(get_the_author_meta('twitter', $curauth->ID)):
-						$author_twitter_id = get_the_author_meta('twitter', $curauth->ID) . " CFDPs";
-					else:
-					  $author_twitter_id = "CFDPs";
-					endif;
-
-					$usernames = "$author_twitter_id"; // Pull from accounts, separated by a space
-					$limit = "3"; // Number of tweets to pull in, total.
-			        $show = 0; // Show username? 0 = No, 1 = Yes.
-			        $prefix = '<div class="twitter block"> <h2>Seneste tweets</h2> <span class="line"></span> <ul>'; // This comes before the entire block of tweets.
-			        $prefix_sub = "<li>"; // This comes before each tweet on the feed.
-			        $wedge = "<br />"; // This comes after the username but before the tweet content.
-			        $suffix_sub = "</li>"; // This comes after each tweet on the feed.
-			        $suffix = "</ul> </div>"; // This comes after the entire block of tweets.
-					include (TEMPLATEPATH . '/inc/twitter.php' );
-				?>
-			</div>
-
 		</div>
 
 
