@@ -17,7 +17,7 @@ General comments/License Statement if any.
 
 body {
 	background: #fefbf9;
-	font: 14px/20px Segoe UI, Arial, Helveltica, Sans-Serif;
+	font: 14px/20px 'Lato', Helveltica, Arial, Sans-Serif;
 	color:#222;
 }
 
@@ -31,21 +31,21 @@ a:hover{
 }
 
 h2,h1{
-	font: 28px Segoe UI Light, Arial, Helveltica, Sans-Serif;
+	font: 28px 'Lato', Helveltica, Arial, Sans-Serif;
 	color:#222;
 	display:block;
 }
 
 /*subheadings for blogposts*/
 .category-indlg .entry h2 {
-	font: 22px Segoe UI,Arial,Helveltica,Sans-Serif;
+	font: 22px 'Lato', Helveltica, Arial, Sans-Serif;
 	font-weight: bold;
 	padding: .3em 0;
 }
 
-h4{
-	font: 15px/20px Segoe UI, Arial, Helveltica, Sans-Serif;
-	color:#222;
+h4 {
+	font: 15px/20px 'Lato', Helveltica, Arial, Sans-Serif;
+	color: #222;
 	font-style: italic;
 	margin: 3px 0;
 }
@@ -186,7 +186,7 @@ a.topLink{
 	right: 5px;
 	z-index:20;
 	border:1px solid #FEFBF9;
-	font: 11px/10px Segoe UI, Arial, Helveltica, Sans-Serif;
+	font: 11px/10px 'Lato', Arial, Helveltica, Sans-Serif;
 	text-align:center;
 	opacity:.30;
 	filter:alpha(opacity=30);
@@ -309,7 +309,7 @@ ul#accordion li .tab .navContent ul li{
 
 
 ul#accordion li .tab .navContent ul li a{
-	font: 300 18px Segoe UI, Arial, Helveltica, Sans-Serif;
+	font: 300 18px 'Lato', Arial, Helveltica, Sans-Serif;
 	font-weight: 300;
 	color:#222;
 	display:block;
@@ -754,7 +754,7 @@ div.paging{
 	width:292px;
 	color:#006cb6;
 	padding: 0px 0 15px 10px;
-	font: 20px Segoe UI, Arial, Helveltica, Sans-Serif;
+	font: 20px 'Lato', Arial, Helveltica, Sans-Serif;
 }
 
 /* Mennesker / Team page */
@@ -799,7 +799,7 @@ div.paging{
 
 }
 .authorPage p.about{
-	font:18px/24px Segoe UI, Arial, Helveltica, Sans-Serif;
+	font:18px/24px 'Lato', Arial, Helveltica, Sans-Serif;
 	color:#222;
 	margin-bottom:25px;
 
@@ -905,7 +905,7 @@ img.intro-frontpage{
 /*--------------
 	GRØN KNAP
 ---------------*/
-a.green_button{background:transparent url(img/buttons/green_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px Segoe UI, arial, sans-serif;height:35px;padding-right:20px;text-decoration:none}
+a.green_button{background:transparent url(img/buttons/green_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px 'Lato', arial, sans-serif;height:35px;padding-right:20px;text-decoration:none}
 
 a.green_button span{background:transparent url(img/buttons/green_span.png) no-repeat scroll bottom left;display:block;line-height:20px;padding:7px 0 8px 40px}
 
@@ -916,7 +916,7 @@ a.green_button:hover span{background-position:top left;}
 /*--------------
 	RØD KNAP
 ---------------*/
-a.red_button{background:transparent url(img/buttons/red_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px Segoe UI, arial, sans-serif;height:35px;padding-right:20px;text-decoration:none;}
+a.red_button{background:transparent url(img/buttons/red_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px 'Lato', arial, sans-serif;height:35px;padding-right:20px;text-decoration:none;}
 
 a.red_button span{background:transparent url(img/buttons/red_span.png) no-repeat scroll bottom left;display:block;line-height:20px;padding:7px 0 8px 40px;}
 
@@ -927,7 +927,7 @@ a.red_button:hover span{background-position:top left;}
 /*--------------
 	BLÅ KNAP
 ---------------*/
-a.blue_button{background:transparent url(img/buttons/blue_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px Segoe UI, arial, sans-serif;height:35px;padding-right:20px;text-decoration:none;}
+a.blue_button{background:transparent url(img/buttons/blue_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px 'Lato', arial, sans-serif;height:35px;padding-right:20px;text-decoration:none;}
 
 a.blue_button span{background:transparent url(img/buttons/blue_span.png) no-repeat scroll bottom left;display:block;line-height:20px;padding:7px 0 8px 40px;}
 
@@ -938,7 +938,7 @@ a.blue_button:hover span{background-position:top left;}
 /*--------------
 	GUL KNAP
 ---------------*/
-a.yellow_button{background:transparent url(img/buttons/yellow_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px Segoe UI, arial, sans-serif;height:35px;padding-right:20px;text-decoration:none;}
+a.yellow_button{background:transparent url(img/buttons/yellow_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px 'Lato', arial, sans-serif;height:35px;padding-right:20px;text-decoration:none;}
 
 a.yellow_button span{background:transparent url(img/buttons/yellow_span.png) no-repeat scroll bottom left;display:block;line-height:20px;padding:7px 0 8px 40px;}
 

@@ -35,7 +35,7 @@
 	</title>
 
 
-	<link href='http://fonts.googleapis.com/css?family=Josefin+Sans:light,regular' rel='stylesheet' type='text/css' />
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" />
 	<link rel="stylesheet" type="text/css" media="print"
