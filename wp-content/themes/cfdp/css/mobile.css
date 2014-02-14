@@ -191,6 +191,8 @@ div#respond textarea#comment {
     margin-left: 0;
     margin-right: 0;
     border: none; }
+  .slider {
+    display: none; }
   span.customSelect {
     width: 100%; }
   .mobile-menu-wrapper {
