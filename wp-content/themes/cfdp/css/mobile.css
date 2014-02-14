@@ -106,7 +106,8 @@ h2 {
   position: relative;
   top: -74px;
   z-index: 9999;
-  float: right; }
+  float: right;
+  margin-bottom: 2em; }
 
 span.customSelect {
   background: white url(../img/mobile-menu.png) right center no-repeat;
