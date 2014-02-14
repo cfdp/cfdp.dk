@@ -6,6 +6,7 @@
 <head profile="http://gmpg.org/xfn/11">
 
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<?php if (is_search()) { ?>
 	   <meta name="robots" content="noindex, nofollow" />
@@ -37,9 +38,13 @@
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 1024px)"
+	href="<?php bloginfo('stylesheet_directory'); ?>/css/fixed-grid.css" />
+
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" />
-	<link rel="stylesheet" type="text/css" media="print"
-	href="<?php bloginfo('stylesheet_directory'); ?>/css/print.css" />
+
+	<link rel="stylesheet" type="text/css" media="screen and (max-width: 1023px)"
+	href="<?php bloginfo('stylesheet_directory'); ?>/css/mobile.css" />
 
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 
@@ -55,9 +60,65 @@
 
 <div class="container wrap clearfix">
 <a name="top"></a>
-<!-- Header -->
 <div class="topSpacer grid_12 clearfix"></div>
-<div class="logo grid_7"><h1><a href="<?php bloginfo('url'); ?>">Center for Digital Pædagogik</a></h1></div>
+<!-- Header -->
+
+<div class="logo grid_7"><h1><a href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_url'); ?>/img/logo.png" alt="" /></a></h1></div>
+
+<!-- Mobile Menu -->
+<!-- Mobile Menu -->
+<div class="mobile-menu-wrapper">
+  <select id="mobile-menu">
+    <option value="" selected disabled>Menu</option>
+
+    <optgroup label="Oplæg">
+      <option value="/oplaeg/#1-faglige">Faglige oplæg</option>
+      <option value="/oplaeg/#2-elev">Elevoplæg</option>
+      <option value="/oplaeg/#3-foraelder">Forælderoplæg</option>
+      <option value="/oplaeg/#4-laeringsmaterialer">Læringsmaterialer</option>
+    </optgroup>
+
+    <optgroup label="Produkter">
+      <option value="/erfarninger/#1-produkter">Produkter</option>
+      <option value="<?php echo get_permalink(1204); ?>">Vidensarkiv</option>
+      <option value="<?php echo get_permalink(1638); ?>">Publikationer</option>
+      <option value="<?php echo get_permalink(7204); ?>">Digital Trivsel</option>
+    </optgroup>
+
+    <optgroup label="Produkter">
+      <option value="/erfarninger/#1-produkter">Produkter</option>
+      <option value="<?php echo get_permalink(1204); ?>">Vidensarkiv</option>
+      <option value="<?php echo get_permalink(1638); ?>">Publikationer</option>
+      <option value="<?php echo get_permalink(7204); ?>">Digital Trivsel</option>
+    </optgroup>
+
+    <optgroup label="Projekter">
+      <option value="/projekter/#1-igangvaerende-projekter">Igangværende</option>
+      <option value="/projekter/#2-kommende-projekter">Kommende</option>
+      <option value="/erfarninger/#2-projekter">Afsluttede</option>
+      <option value="<?php echo get_permalink(248); ?>">Bliv Partner</option>
+    </optgroup>
+
+    <optgroup label="Mennesker">
+      <option value="/mennesker/#team">Hvem er vi?</option>
+      <option value="<?php echo get_permalink(517); ?>">Bestyrelsen</option>
+      <option value="<?php echo get_permalink(590); ?>">Partnere</option>
+      <option value="<?php echo get_permalink(596); ?>">Vil du være med?</option>
+    </optgroup>
+
+    <optgroup label="Andet">
+      <option value="/search">Søg på cfdp.dk</option>
+      <option value="/bliv-medlem">Bliv medlem</option>
+      <option value="/om-center-for-digital-paedagogik">Om os</option>
+      <option value="/presse">Presse</option>
+      <option value="/in-english">English</option>
+    </optgroup>
+
+  </select>
+</div>
+
+
+
 <!-- Top Navigation -->
 <div class="topNav grid_5">
 	<ul>

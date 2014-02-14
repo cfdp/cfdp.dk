@@ -80,7 +80,7 @@
         <a href="/kategori/nyheder/" class="readMore">Læs flere nyheder fra centeret</a>
 
       </div>
-      <iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fcfdp.dk&amp;width=310&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=112787928922252" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:310px; height:258px;" allowTransparency="true"></iframe>
+      <iframe id="facebook-faces" src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fcfdp.dk&amp;width=310&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=112787928922252" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:310px; height:258px;" allowTransparency="true"></iframe>
     </div><!-- .right -->
   </div>
 </div>

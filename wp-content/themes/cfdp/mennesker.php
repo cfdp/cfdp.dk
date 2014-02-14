@@ -33,7 +33,7 @@ $count = 0;
 foreach ( $aUsersID as $iUserID ) :
 $user = get_userdata( $iUserID );
 
-$dont_show_these = array(8, 9, 14, 15, 16, 17, 19, 20);
+$dont_show_these = array(8, 9, 14, 15, 16, 17, 19, 20, 25);
 
 if( !in_array($user->ID, $dont_show_these) ) {
 
