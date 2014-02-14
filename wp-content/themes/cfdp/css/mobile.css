@@ -91,6 +91,8 @@ html body * span.clear, html body * div.clear, html body * li.clear, html body *
 .clearfix {
   display: block; }
 
+body {
+  font: 14px/20px 'Lato', Helveltica, Arial, Sans-Serif; }
 
 .topSpacer {
   height: 30px; }
