@@ -85,13 +85,6 @@
       <option value="<?php echo get_permalink(7204); ?>">Digital Trivsel</option>
     </optgroup>
 
-    <optgroup label="Produkter">
-      <option value="/erfarninger/#1-produkter">Produkter</option>
-      <option value="<?php echo get_permalink(1204); ?>">Vidensarkiv</option>
-      <option value="<?php echo get_permalink(1638); ?>">Publikationer</option>
-      <option value="<?php echo get_permalink(7204); ?>">Digital Trivsel</option>
-    </optgroup>
-
     <optgroup label="Projekter">
       <option value="/projekter/#1-igangvaerende-projekter">Igangværende</option>
       <option value="/projekter/#2-kommende-projekter">Kommende</option>
