@@ -37,7 +37,8 @@
       <a target = "_blank" href="/nyhedsbrev/"><span></span>Få tilsendt <sub>Nyhedsbreve</sub></a>
   	</div>
 
-    <div class="grid_2 omega clearfix">
+    <div class="googleplusLink grid_2 omega">
+      <a target = "_blank" href="https://plus.google.com/101866308520142329920/"><span></span>Følg os på Google+</a>
     </div>
 
 
