@@ -1,5 +1,5 @@
-# Translation of Development (trunk) in Danish
-# This file is distributed under the same license as the Development (trunk) package.
+# Translation of 3.8.x in Danish
+# This file is distributed under the same license as the 3.8.x package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2013-12-10 21:59:23+0000\n"
@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/0.1\n"
-"Project-Id-Version: Development (trunk)\n"
+"Project-Id-Version: 3.8.x\n"
 
 #: wp-includes/locale.php:184
 msgctxt "text direction"
