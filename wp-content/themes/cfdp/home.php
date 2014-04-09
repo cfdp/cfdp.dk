@@ -22,7 +22,7 @@
 <?php //2 seneste indlæg med kategorien forsiden
         $query = array(
           'category__in' => array(9),
-          'posts_per_page'  => 4,
+          'posts_per_page'  => 3,
         );
         query_posts($query);
           if ( have_posts() ) : while ( have_posts() ) : the_post();
@@ -55,10 +55,6 @@
       <span class="line"></span>
       <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/CFDPs" data-widget-id="453859743497322497" data-chrome="transparent noheader" data-tweet-limit="3">Tweets by @CFDPs</a>
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-      <h2>Facebook venner</h2>
-      <span class="line"></span>
-      <iframe id="facebook-faces" src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fcfdp.dk&amp;width=310&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=112787928922252" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:310px; height:258px;" allowTransparency="true"></iframe>
     </div><!-- .right -->
   </div>
 </div>

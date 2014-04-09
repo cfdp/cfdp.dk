@@ -86,7 +86,7 @@ h4 {
 span.line {
   z-index: -1;
   position: relative;
-  top: -6px;
+  top: -3px;
   display: block;
   border-bottom: 1px solid #d6d6d6;
   margin-bottom: 10px; }
@@ -101,7 +101,6 @@ span.line {
   background-color: white;
   border: 1px solid #ece3d6;
   border-top: none;
-  border-bottom: none;
   padding: 0 10px;
   margin-top: 0px;
   overflow: hidden; }
@@ -148,33 +147,30 @@ a.post-edit-link:hover {
   padding: 0 0 0 16px; }
 
 a.topLink {
-  background-color: #fefbf9;
   height: 40px;
-  -moz-border-radius: 20px;
-  -webkit-border-radius: 20px;
   width: 40px;
   position: fixed;
   bottom: 5px;
   right: 5px;
   z-index: 20;
-  border: 1px solid #fefbf9;
   font: 11px/10px 'Lato', Arial, Helveltica, Sans-Serif;
   text-align: center;
   opacity: 0.3; }
 
 a.topLink:hover {
-  background-color: #cfcfcf;
-  border: 1px solid #bababa;
   text-decoration: none;
   color: #0098ff;
   opacity: 1; }
 
 a.topLink p {
+  text-decoration: none;
   display: block;
   background: url(img/navigation-sprite.png) 12px -790px no-repeat;
   height: 32px;
   padding: 12px 0 0 0;
   margin: 7px 0 0 0px; }
+  a.topLink p:hover {
+    text-decoration: none; }
 
 a.topLinkleft {
   right: none;
@@ -446,17 +442,31 @@ div#respond textarea#comment {
   width: 640px; }
 
 /* Footer */
-.footer {
-  margin-bottom: 40px; }
+.footer-outer {
+  padding-bottom: 40px;
+  padding-top: 40px;
+  background: #222222; }
 
-.footer div#googleTranslate {
-  margin-top: 30px; }
+.footer {
+  background: none;
+  border: none;
+  color: #cccccc; }
+  .footer a {
+    color: #efefef;
+    text-decoration: underline; }
+  .footer h2 {
+    color: #efefef; }
+
+.leftFoot p {
+  line-height: 1.7em; }
 
 /* Right Footer | Social Links */
 .rightFoot .clearfix {
   margin-bottom: 15px; }
 
 .rightFoot div a {
+  color: #efefef;
+  text-decoration: none;
   line-height: 16px;
   position: relative;
   top: 6px; }
@@ -501,6 +511,16 @@ div#respond textarea#comment {
 
 .leftFoot p {
   margin-bottom: 10px; }
+
+.bottomFoot {
+  padding-top: 3em; }
+  .bottomFoot .inner {
+    margin-left: -5px;
+    margin-right: -5px; }
+
+.footer .copyright {
+  text-align: center;
+  color: #666666; }
 
 /*Contact Tab at left*/
 a#contactTab {
