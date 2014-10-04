@@ -16,7 +16,7 @@
     			Chat: <a onclick="return SnapABug.startLink();" href="#kontakt-os">Tag en snak med os</a> <br />
     			E-mail: <a href="mailto:info@cfdp.dk">info@cfdp.dk</a> <br />
     			Telefon: 86 370 400<br />
-    			CVR-nummer: 67870913
+    			CVR-nummer: 40248919
     		</p>
     	</div>
     	<!-- Right footer | Social Links -->
