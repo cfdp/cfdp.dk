@@ -902,13 +902,28 @@ function cimy_manage_upload($input_name, $user_login, $rules, $old_file=false, $
 			// should be stay AFTER DELETIONS
 			if ((isset($rules['equal_to'])) && ($type != "file")) {
 				if ($maxside = intval($rules['equal_to'])) {
-					if (!function_exists("image_resize"))
-						require_once(ABSPATH . 'wp-includes/media.php');
+					if (cimy_is_at_least_wordpress35()) {
+						if (!defined("WPINC")) {
+							define('WPINC', 'wp-includes');
+						}
+						if (!function_exists("image_make_intermediate_size")) {
+							require_once(ABSPATH . WPINC . '/media.php');
+							require_once(ABSPATH . WPINC . '/functions.php');
+						}
+						$resized_file = image_make_intermediate_size($file_full_path, $maxside, $maxside, false);
+						if (isset($resized_file["file"])) {
+							@rename($file_path.$resized_file["file"], $file_path.str_replace(sprintf("%sx%s", $resized_file["width"], $resized_file["height"]), "thumbnail", $resized_file["file"])); 
+						}
+					}
+					else {
+						if (!function_exists("image_resize"))
+							require_once(ABSPATH . 'wp-includes/media.php');
 
-					if (!function_exists("wp_load_image"))
-						require_once($cuef_plugin_dir.'/cimy_uef_missing_functions.php');
+						if (!function_exists("wp_load_image"))
+							require_once($cuef_plugin_dir.'/cimy_uef_missing_functions.php');
 
-					image_resize($file_full_path, $maxside, $maxside, false, "thumbnail");
+						image_resize($file_full_path, $maxside, $maxside, false, "thumbnail");
+					}
 				}
 			}
 		}
@@ -1107,12 +1122,40 @@ function cimy_uef_dateformat_PHP_to_jQueryUI($php_format)
  */
 function cimy_uef_date_picker_options($unique_id, $rules) {
 	$js_date = "";
+	// set to true so in case of rule unset then they'll not go forward in the next ifs
+	$found_year_min = true;
+	$found_year_max = true;
 	if (isset($rules["min_length"])) {
 		$js_date .= "jQuery('#".esc_js($unique_id)."').datepicker(\"option\", \"minDate\", \"".esc_js($rules["min_length"])."\");";
+		$found_year_min = preg_match("/[\+|\-]{1}(\d)+y(\.)*/i", $rules["min_length"], $year_min);
 	}
 	if (isset($rules["max_length"])) {
 		$js_date .= "jQuery('#".esc_js($unique_id)."').datepicker(\"option\", \"maxDate\", \"".esc_js($rules["max_length"])."\");";
+		$found_year_max = preg_match("/[\+|\-]{1}(\d)+y(\.)*/i", $rules["max_length"], $year_max);
 	}
+	if (!$found_year_min) {
+		$found_year_min = strtotime($rules["min_length"]);
+		if ($found_year_min !== false && $found_year_min != -1) {
+			$year_rel = getdate($found_year_min);
+			$year_now = getdate();
+			$year_min[0] = sprintf("%+d", $year_rel["year"] - $year_now["year"]);
+		}
+	}
+
+	if (!$found_year_max) {
+		$found_year_max = strtotime($rules["max_length"]);
+		if ($found_year_max !== false && $found_year_max != -1) {
+			$year_rel = getdate($found_year_max);
+			$year_now = getdate();
+			$year_max[0] = sprintf("%+d", $year_rel["year"] - $year_now["year"]);
+		}
+	}
+
+	if (!empty($year_min) || !empty($year_max)) {
+		$year_range = sprintf("c%+d:c%+d", empty($year_min) ? "-10" : intval($year_min[0]), empty($year_max) ? "+10" : intval($year_max[0]));
+		$js_date .= "jQuery('#".esc_js($unique_id)."').datepicker(\"option\", \"yearRange\", \"".esc_js($year_range)."\");";
+	}
+
 	if (!empty($js_date)) {
 		$js_date = "\n\t\t<script type='text/javascript'>jQuery(document).ready(function() {".$js_date."});</script>";
 	}

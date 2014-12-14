@@ -41,8 +41,16 @@ return array(
 			__('You can create an API key from <a href="http://www.opencalais.com/">service website</a>', 'simpletags')),
 		array('alchemy_api', __('Alchemy API Key', 'simpletags'), 'text', 'regular-text',
 			__('You can create an API key from <a href="http://www.alchemyapi.com/">service website</a>', 'simpletags')),
+        array('tag4site_key', __('Tag4Site API Key', 'simpletags'), 'text', 'regular-text',
+            __('You can create an API key from <a href="http://tag4site.ru/">service website</a>', 'simpletags')),
 		array('zemanta_key', __('Zemanta API Key', 'simpletags'), 'text', 'regular-text',
-			__('You can create an API key from <a href="http://developer.zemanta.com/">service website</a>', 'simpletags'))
+			__('You can create an API key from <a href="http://developer.zemanta.com/">service website</a>', 'simpletags')),
+		array('datatxt_id', __('dataTXT API ID', 'simpletags'), 'text', 'regular-text',
+			__('You can create an API ID from <a href="https://dandelion.eu/">service website</a>', 'simpletags')),
+		array('datatxt_key', __('dataTXT API Key', 'simpletags'), 'text', 'regular-text',
+			__('You can create an API key from <a href="https://dandelion.eu/">service website</a>', 'simpletags')),
+		array('datatxt_min_confidence', __('dataTXT API min_confidence', 'simpletags'), 'text', 'regular-text',
+			__('Default: 0.6', 'simpletags'))
 	),
 	'auto-links' => array(
 		array('auto_link_min', __('Min usage for auto link tags:', 'simpletags'), 'number', 'small-text',
@@ -66,7 +74,7 @@ return array(
 		),
 		array('auto_link_dom', __('Try new engine replacement ?', 'simpletags'), 'checkbox', '1',
 			__('An engine replacement alternative uses DOMDocument PHP class and theoretically offers better performance. If your server does not offer the functionality, the plugin will use the usual engine.', 'simpletags')),
-		
+        array('auto_link_title', __('Text to display into title attribute for links:', 'simpletags'), 'text', 'regular-text'),
 	),
 	'tagcloud' => array(
 		array('text_helper', 'text_helper', 'helper', '', __('Which difference between <strong>&#8216;Order tags selection&#8217;</strong> and <strong>&#8216;Order tags display&#8217;</strong> ?<br />', 'simpletags')

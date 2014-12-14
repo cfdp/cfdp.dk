@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 	
 		jQuery('#st_ajax_loading').show();
-		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&st_action=tags_from_opencalais', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
+		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_opencalais', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
 			registerClickTags();
 		});
 		return false;
@@ -18,7 +18,7 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 	
 		jQuery('#st_ajax_loading').show();
-		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&st_action=tags_from_alchemyapi', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
+		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_alchemyapi', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
 			registerClickTags();
 		});
 		return false;
@@ -29,18 +29,29 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 	
 		jQuery('#st_ajax_loading').show();
-		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&st_action=tags_from_zemanta', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
+		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_zemanta', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
 			registerClickTags();
 		});
 		return false;
 	});
+
+    // Tag4Site.ru API
+    jQuery("a.tag4site").click(function(event) {
+        event.preventDefault();
+
+        jQuery('#st_ajax_loading').show();
+        jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_tag4site', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
+            registerClickTags();
+        });
+        return false;
+    });
 	
 	// Yahoo API
 	jQuery("a.yahoo_api").click(function(event) {
 		event.preventDefault();
 	
 		jQuery('#st_ajax_loading').show();
-		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&st_action=tags_from_yahoo', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
+		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_yahoo', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
 			registerClickTags();
 		});
 		return false;
@@ -51,7 +62,7 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 	
 		jQuery('#st_ajax_loading').show();
-		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&st_action=tags_from_tagthenet', {content:getContentFromEditor(),title:jQuery("#title").val()}, function(){
+		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_tagthenet', {content:getContentFromEditor(),title:jQuery("#title").val()}, function(){
 			registerClickTags();
 		});
 		return false;
@@ -62,7 +73,18 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 	
 		jQuery('#st_ajax_loading').show();
-		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&st_action=tags_from_local_db', {content:getContentFromEditor(),title:jQuery("#title").val()}, function(){
+		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_local_db', {content:getContentFromEditor(),title:jQuery("#title").val()}, function(){
+			registerClickTags();
+		});
+		return false;
+	});
+
+	// dataTXT
+	jQuery("a.datatxt").click(function(event) {
+		event.preventDefault();
+	
+		jQuery('#st_ajax_loading').show();
+		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_datatxt', {content:getContentFromEditor(),title:jQuery("#title").val()}, function(){
 			registerClickTags();
 		});
 		return false;

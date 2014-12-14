@@ -16,8 +16,10 @@ class SimpleTags_Client_TagCloud {
 	 */
 	public static function shortcode( $atts ) {
 		extract(shortcode_atts(array('param' => ''), $atts));
-		
+
+        $param = html_entity_decode($param);
 		$param = trim($param);
+
 		if ( empty($param) ) {
 			$param = 'title=';
 		}
@@ -87,12 +89,36 @@ class SimpleTags_Client_TagCloud {
 		$defaults['unit'] 		 = $options['cloud_unit'];
 		$defaults['xformat'] 	 = $options['cloud_xformat'];
 		$defaults['format'] 	 = $options['cloud_format'];
-		
+
 		if ( empty($args) ) {
 			$args = $options['cloud_adv_usage'];
 		}
 		$args = wp_parse_args( $args, $defaults );
-		
+
+        // Add compatibility tips with old field syntax
+        if ( isset($args['cloud_sort']) ) {
+            $args['cloud_order'] = $args['cloud_sort'];
+            unset($args['cloud_sort']);
+        }
+
+        // Translate selection order
+        if ( isset($args['cloud_order']) ) {
+            $args['orderby'] = self::compatOldOrder($args['cloud_order'], 'orderby');
+            $args['order'] = self::compatOldOrder($args['cloud_order'], 'order');
+        }
+        
+        // Category names to ID codes
+        if ( isset($args['category']) ) {
+            $category = explode(",", $args['category']);
+            foreach ($category as $key => $name) {
+                $category[$key] = is_numeric($name) ? $name : get_cat_ID($name);
+                if ( $category[$key] == 0 ) {
+                    unset($category[$key]);
+                }
+            }
+            $args['category'] = implode(",", $category);
+        }
+
 		// Get correct taxonomy ?
 		$taxonomy = self::_get_current_taxonomy($args['taxonomy']);
 		

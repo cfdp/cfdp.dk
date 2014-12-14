@@ -3,13 +3,15 @@
 **Contributors:** momo360modena  
 **Donate link:** http://beapi.fr/donate/  
 **Tags:** tag, posts, tags, admin, administration, tagging, navigation, terms, taxonomy  
-**Requires at least:** 3.0  
-**Tested up to:** 3.5.1
-**Stable tag:** 2.3.2
+**Requires at least:** 3.3
+**Tested up to:** 4.0
+**Stable tag:** 2.4.1
 
 **Add some tools for taxonomies :** Terms suggestion, Mass Edit Terms, Auto link Terms, Ajax Autocompletion, Click Terms, Auto terms, Advanced manage terms, Advanced Post Terms, Related Posts by Terms, etc.  
 
 ## Description ##
+
+**I do not offer any support for this plugin. I do not participate in any subject on the WordPress.org support forum. If you find a bug, thank you for the report on the Github repository, and make a exhaustive request (plugin installed / error message / PHP function called). Thank you.**
 
 Simple Tags is the successor of Simple Tagging Plugin
 **This is THE perfect tool to manage perfectly your WP terms for any taxonomy**
@@ -19,7 +21,7 @@ Simple Tags is the successor of Simple Tagging Plugin
 This plugin is developped on WordPress 3.3, with the constant WP_DEBUG to TRUE.
 
 * Administration
-	* Tags suggestion from Yahoo! Term Extraction API, OpenCalais, Alchemy, Zemanta, Tag The Net, Local DB with AJAX request
+	* Tags suggestion from Yahoo! Content Analysis, OpenCalais, Alchemy, Zemanta, Tag The Net, Tag4Site, dataTXT and local terms with AJAX request 
 		* Compatible with TinyMCE, FCKeditor, WYMeditor and QuickTags
 	* tags management (rename, delete, merge, search and add tags, edit tags ID)
 	* **Edit mass tags (more than 50 posts once)**
@@ -50,6 +52,7 @@ The Simple Tags can be installed in 3 easy steps:
 
 ### Simple Tags is compatible with which WordPress versions ? ###
 
+* 2.4 and upper are compatible only with WordPress 4.0 !
 * 2.3 and upper are compatible only with WordPress 3.5 !
 * 2.0 and upper are compatible only with WordPress 3.0 & 3.1 & 3.2 & 3.3 !
 * 1.7 and upper are compatible only with WordPress 2.8, 2.9 !
@@ -69,12 +72,26 @@ The Simple Tags can be installed in 3 easy steps:
 ![Add tags easily with click tags !](http://s.wordpress.org/extend/plugins/simple-tags/screenshot-3.png)
 
 **3. To help you to add easily tags, Simple Tags has an autocompletion script. When you begin to tape a letter or more, a list a tags appears :** you have only to choose ! You can choose the down direction to see all the tags.  
-###4. You also can suggest tags from lot's of service (Yahoo! Term Extraction API, OpenCalais, Alchemy, Zemanta, Tag The Net, Local DB)###
-![You also can suggest tags from lot's of service (Yahoo! Term Extraction API, OpenCalais, Alchemy, Zemanta, Tag The Net, Local DB)](http://s.wordpress.org/extend/plugins/simple-tags/screenshot-4.png)
+###4. You also can suggest tags from lot's of service (Yahoo! Content Analysis, OpenCalais, Alchemy, Zemanta, Tag The Net, Tag4Site, dataTXT and local terms)###
+![You also can suggest tags from lot's of service (Yahoo! Content Analysis, OpenCalais, Alchemy, Zemanta, Tag The Net, Tag4Site, dataTXT and local terms)](http://s.wordpress.org/extend/plugins/simple-tags/screenshot-4.png)
 
 
 ## Changelog ##
 
+* Version 2.4.1
+	* Fix possible warning with preg_match function
+	* Specify user-agent for some provider
+* Version 2.4
+    * Test OK vs WP 4.0.x
+    * Fix Yahoo terms suggestion (use new API)
+    * Fix conflict with ShareThis plugin
+    * Add option for autolink title attribute
+    * Add current state for "click tags" feature (opacity changed if tags is already selected)
+    * Fix order by tag cloud
+    * Implement dataTXT provider for suggest terms feature (from Github contribution SpazioDati/master)
+    * Implement Tag4Site provider for suggest terms feature (from Sergey Zobin)
+    * Fix shortcode usage with &
+    * Add support of category name into tag cloud function
 * Version 2.3.2
 	* Move all get_option request into plugin class, use static
 	* Add option for limit autolinks to singular view (default setting, you need change this setting in DB for enable autolinks into all views)

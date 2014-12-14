@@ -195,7 +195,9 @@ function cimy_register_user_extra_fields($user_id, $password="", $meta=array()) 
 					$temp_user_login = $_POST["temp_user_login"];
 					$temp_dir = cimy_uef_get_dir_or_filename($temp_user_login);
 					$final_dir = cimy_uef_get_dir_or_filename($user_login_sanitized);
-					rename($temp_dir, $final_dir);
+					if (is_dir($temp_dir)) {
+						rename($temp_dir, $final_dir);
+					}
 					$data = str_replace("/".$temp_user_login."/", "/".$user_login_sanitized."/", $data);
 					$file_on_server = cimy_uef_get_dir_or_filename($user_login_sanitized, $data, false);
 
@@ -423,7 +425,7 @@ function cimy_registration_check($user_login, $user_email, $errors) {
 			}
 
 			if (isset($_POST[$input_name])) {
-				if ($type == "dropdown-multi")
+				if ($type == "dropdown-multi" && is_array($_POST[$input_name]))
 					$value = stripslashes(implode(",", $_POST[$input_name]));
 				else
 					$value = stripslashes($_POST[$input_name]);
@@ -458,8 +460,8 @@ function cimy_registration_check($user_login, $user_email, $errors) {
 					$file_size = 0;
 					$file_type1 = "";
 					$value = "";
-					$old_file = $from_profile ? $_POST[$input_name."_".$field_id."_prev_value"] : '';
-					$del_old_file = $from_profile ? $_POST[$input_name."_del"] : '';
+					$old_file = $from_profile && !empty($_POST[$input_name."_".$field_id."_prev_value"]) ? $_POST[$input_name."_".$field_id."_prev_value"] : '';
+					$del_old_file = $from_profile && !empty($_POST[$input_name."_del"]) ? $_POST[$input_name."_del"] : '';
 				}
 			}
 
@@ -607,6 +609,7 @@ function cimy_registration_check($user_login, $user_email, $errors) {
 	}
 
 	if ($options['confirm_form']) {
+		// this is executed to test registration for errors, to avoid a real registration we put a fake error
 		if ((empty($errors->errors)) && (isset($_POST["register_confirmation"])) && ($_POST["register_confirmation"] == 1)) {
 			$errors->add('register_confirmation', 'true');
 		}
@@ -641,7 +644,8 @@ function cimy_registration_captcha_check($user_login, $user_email, $errors) {
 			$errors->add("recaptcha_code", '<strong>'.__("ERROR", $cimy_uef_domain).'</strong>: '.__('Typed code is not correct.', $cimy_uef_domain));
 	}
 
-	if ($options['captcha'] == "securimage") {
+	// check that actually there is a code there
+	if ($options['captcha'] == "securimage" && !empty($_SESSION["securimage_code_disp"]["default"])) {
 		global $cuef_plugin_dir;
 		require_once($cuef_plugin_dir.'/securimage/securimage.php');
 		$securimage = new Securimage();
@@ -672,7 +676,7 @@ function cimy_uef_validate_username($valid, $username) {
 // show_type == 1 - search form, all fields are text, password fields are skipped
 // show_type == 2 - confirmation form, all fields are plain text, images can be cropped
 function cimy_registration_form($errors=null, $show_type=0) {
-	global $wpdb, $start_cimy_uef_comment, $end_cimy_uef_comment, $rule_maxlen_needed, $fields_name_prefix, $wp_fields_name_prefix, $cuef_plugin_dir, $cimy_uef_file_types, $cimy_uef_textarea_types, $user_level, $cimy_uef_domain, $cimy_uef_file_images_types;
+	global $wpdb, $start_cimy_uef_comment, $end_cimy_uef_comment, $rule_maxlen_needed, $fields_name_prefix, $wp_fields_name_prefix, $cuef_plugin_dir, $cimy_uef_file_types, $cimy_uef_textarea_types, $user_level, $cimy_uef_domain, $cimy_uef_file_images_types, $cimy_uef_text_types;
 
 	if (cimy_is_at_least_wordpress35())
 		cimy_switch_to_blog();
@@ -889,7 +893,7 @@ function cimy_registration_form($errors=null, $show_type=0) {
 					$obj_class = ' class="'.$input_class.$obj_class.'"';
 					$obj_name = ' name="'.$input_name.'"';
 
-					if ($type == "picture-url")
+					if (in_array($type, $cimy_uef_text_types))
 						$obj_type = ' type="text"';
 					else
 						$obj_type = ' type="'.$type.'"';
@@ -1036,14 +1040,18 @@ function cimy_registration_form($errors=null, $show_type=0) {
 						case 'picture':
 						case 'avatar':
 						case 'file':
-							$value = cimy_manage_upload($input_name, $temp_user_login, $rules, false, false, $type, (!empty($advanced_options["filename"])) ? $advanced_options["filename"] : "");
+							if ($old_type == "avatar") {
+								// since avatars are drawn max to 512px then we can save bandwith resizing, do it!
+								$rules['equal_to'] = 512;
+							}
+							$value = cimy_manage_upload($input_name, $temp_user_login, $rules, false, false, $old_type, (!empty($advanced_options["filename"])) ? $advanced_options["filename"] : "");
 							$file_on_server = cimy_uef_get_dir_or_filename($temp_user_login, $value, false);
 							$file_thumb = cimy_uef_get_dir_or_filename($temp_user_login, $value, true);
 							if ((!empty($advanced_options["no-thumb"])) && (is_file($file_thumb)))
 								rename($file_thumb, $file_on_server);
 
 							// yea little trick
-							$obj_value2 = "&nbsp;";
+							empty($value) ? $obj_value2 = "&nbsp;" : $obj_value2 = esc_html(basename($value));
 							break;
 					}
 					if ($old_type != "password") {
@@ -1075,7 +1083,7 @@ function cimy_registration_form($errors=null, $show_type=0) {
 	
 			$obj_id = ' id="'.$unique_id.'"';
 
-			// tabindex not used in MU, WordPress 3.5+ and Theme My Login  dropping...
+			// tabindex not used in MU, WordPress 3.5+ and Theme My Login dropping...
 			if (is_multisite() || cimy_is_at_least_wordpress35() || cimy_uef_is_theme_my_login_register_page())
 				$obj_tabindex = "";
 			else {
@@ -1218,13 +1226,13 @@ function cimy_registration_form($errors=null, $show_type=0) {
 		else
 			$width = 278;
 ?>
-		<div style="width: <?php echo $width; ?>px; float: left; height: 80px; vertical-align: text-top;">
+		<div style="width: <?php echo $width; ?>px; clear: both; height: 80px; vertical-align: text-top;">
 			<img id="captcha" align="left" style="padding-right: 5px; border: 0" src="<?php echo $cuef_securimage_webpath; ?>/securimage_show_captcha.php" alt="CAPTCHA Image" />
 			<object type="application/x-shockwave-flash" data="<?php echo $cuef_securimage_webpath; ?>/securimage_play.swf?audio_file=<?php echo $cuef_securimage_webpath; ?>/securimage_play.php&#038;bgColor1=#fff&#038;bgColor2=#fff&#038;iconColor=#777&#038;borderWidth=1&#038;borderColor=#000" height="19" width="19"><param name="movie" value="<?php echo $cuef_securimage_webpath; ?>/securimage_play.swf?audio_file=<?php echo $cuef_securimage_webpath; ?>/securimage_play.php&#038;bgColor1=#fff&#038;bgColor2=#fff&#038;iconColor=#777&#038;borderWidth=1&#038;borderColor=#000" /></object>
 			<br /><br /><br />
 			<a align="right"<?php if (!empty($obj_tabindex)) echo " tabindex=\"".$tabindex."\""; $tabindex++; ?> style="border-style: none" href="#" onclick="document.getElementById('captcha').src = '<?php echo $cuef_securimage_webpath; ?>/securimage_show_captcha.php?' + Math.random(); return false"><img src="<?php echo $cuef_securimage_webpath; ?>/images/refresh.png" alt="<?php _e("Change image", $cimy_uef_domain); ?>" border="0" onclick="this.blur()" align="bottom" height="19" width="19" /></a>
 		</div>
-		<div style="width: <?php echo $width; ?>px; float: left; height: 50px; vertical-align: bottom; padding: 5px;">
+		<div style="width: <?php echo $width; ?>px; clear: both; height: 70px; vertical-align: bottom; padding: 5px;">
 			<?php _e("Insert the code:", $cimy_uef_domain); ?>&nbsp;<input type="text" name="securimage_response_field" size="12" maxlength="16"<?php if (!empty($obj_tabindex)) echo " tabindex=\"".$tabindex."\""; $tabindex++; ?> />
 		</div>
 <?php
@@ -1277,8 +1285,8 @@ function cimy_confirmation_form() {
 			// fake registration to check if no errors then we'll proceed to confirmation phase
 			$fake_errors = register_new_user($user_login, $user_email);
 			// ok we can remove registration checks
-// 			remove_action('register_post', 'cimy_registration_check');
-// 			remove_action('register_post', 'cimy_registration_captcha_check');
+// 			remove_action('register_post', 'cimy_registration_check', 10);
+// 			remove_action('register_post', 'cimy_registration_captcha_check', 9);
 		}
 		// Might be Theme My Login, they have its own register_new_user but they don't have login_header seems so, so let's return for now!
 		else

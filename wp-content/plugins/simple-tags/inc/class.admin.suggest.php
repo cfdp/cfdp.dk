@@ -2,14 +2,14 @@
 class SimpleTags_Admin_Suggest {
 	// Application entrypoint -> https://github.com/herewithme/simple-tags/wiki/
 	const yahoo_id = 'h4c6gyLV34Fs7nHCrHUew7XDAU8YeQ_PpZVrzgAGih2mU12F0cI.ezr6e7FMvskR7Vu.AA--';
-		
+
 	public function __construct() {
 		// Ajax action, JS Helper and admin action
 		add_action('wp_ajax_'.'simpletags', array(__CLASS__, 'ajax_check'));
-		
+
 		// Box for post/page
 		add_action('admin_menu', array(__CLASS__, 'admin_menu'), 1);
-		
+
 		// Javascript
 		add_action('admin_enqueue_scripts', array(__CLASS__, 'admin_enqueue_scripts'), 11);
 	}
@@ -22,20 +22,20 @@ class SimpleTags_Admin_Suggest {
 	 */
 	public static function admin_enqueue_scripts() {
 		global $pagenow;
-		
+
 		wp_register_script('st-helper-suggested-tags', 	STAGS_URL.'/assets/js/helper-suggested-tags.js', array('jquery', 'st-helper-add-tags'), STAGS_VERSION);
 		wp_localize_script('st-helper-suggested-tags', 'stHelperSuggestedTagsL10n', array( 'title_bloc' => self::get_suggest_tags_title(), 'content_bloc' => __('Choose a provider to get suggested tags (local, yahoo or tag the net).', 'simpletags') ) );
-		
+
 		// Register location
 		$wp_post_pages = array('post.php', 'post-new.php');
 		$wp_page_pages = array('page.php', 'page-new.php');
-		
+
 		// Helper for posts/pages
 		if ( in_array($pagenow, $wp_post_pages) || (in_array($pagenow, $wp_page_pages) && is_page_have_tags() ) ) {
 			wp_enqueue_script('st-helper-suggested-tags');
 		}
 	}
-	
+
 	/**
 	 * Get Suggested tags title
 	 *
@@ -47,11 +47,13 @@ class SimpleTags_Admin_Suggest {
 		$title .= '<a class="yahoo_api" href="#suggestedtags">'.__('Yahoo', 'simpletags').'</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
 		$title .= '<a class="opencalais_api" href="#suggestedtags">'.__('OpenCalais', 'simpletags').'</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
 		$title .= '<a class="alchemyapi" href="#suggestedtags">'.__('AlchemyAPI', 'simpletags').'</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
-		$title .= '<a class="zemanta" href="#suggestedtags">'.__('Zemanta', 'simpletags').'</a>';
-		
+		$title .= '<a class="zemanta" href="#suggestedtags">'.__('Zemanta', 'simpletags').'</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
+		$title .= '<a class="datatxt" href="#suggestedtags">'.__('dataTXT', 'simpletags').'</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
+        $title .= '<a class="tag4site" href="#suggestedtags">'.__('Tag4Site.RU', 'simpletags').'</a>';
+
 		return $title;
 	}
-	
+
 	/**
 	 * Register metabox for suggest tags, for post, and optionnaly page.
 	 *
@@ -63,7 +65,7 @@ class SimpleTags_Admin_Suggest {
 		if ( is_page_have_tags() )
 			add_meta_box('suggestedtags', __('Suggested tags', 'simpletags'), array(__CLASS__, 'metabox'), 'page', 'advanced', 'core');
 	}
-	
+
 	/**
 	  * Print HTML for suggest tags box
 	  *
@@ -76,14 +78,14 @@ class SimpleTags_Admin_Suggest {
 		</span>
 	    <?php
 	}
-	
+
 	/**
 	 * Ajax Dispatcher
 	 *
 	 */
 	public static function ajax_check() {
-		if ( isset($_GET['st_action']) )  {
-			switch( $_GET['st_action'] ) {
+		if ( isset($_GET['stags_action']) )  {
+			switch( $_GET['stags_action'] ) {
 				case 'tags_from_opencalais' :
 					self::ajax_opencalais();
 				break;
@@ -93,6 +95,12 @@ class SimpleTags_Admin_Suggest {
 				case 'tags_from_zemanta' :
 					self::ajax_zemanta();
 				break;
+				case 'tags_from_datatxt' :
+					self::ajax_datatxt();
+				break;
+                case 'tags_from_tag4site' :
+                    self::ajax_tag4site();
+                    break;
 				case 'tags_from_yahoo' :
 					self::ajax_yahoo();
 				break;
@@ -102,7 +110,7 @@ class SimpleTags_Admin_Suggest {
 			}
 		}
 	}
-	
+
 	/**
 	 * Suggest tags from OpenCalais Service
 	 *
@@ -110,13 +118,13 @@ class SimpleTags_Admin_Suggest {
 	public static function ajax_opencalais() {
 		status_header( 200 );
 		header("Content-Type: text/html; charset=" . get_bloginfo('charset'));
-		
+
 		// API Key ?
 		if ( SimpleTags_Plugin::get_option_value('opencalais_key') == '' ) {
 			echo '<p>'.__('OpenCalais need an API key to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Get data
 		$content = stripslashes($_POST['content']) .' '. stripslashes($_POST['title']);
 		$content = trim($content);
@@ -124,17 +132,17 @@ class SimpleTags_Admin_Suggest {
 			echo '<p>'.__('No text was sent.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		$response = wp_remote_post('http://api.opencalais.com/enlighten/rest/', array('body' => array(
 			'licenseID' => SimpleTags_Plugin::get_option_value('opencalais_key'),
 			'content' 	=> $content,
 			'paramsXML' => self::_get_params_xml_opencalais()
 		)));
-		
+
 		if( !is_wp_error($response) && $response != null ) {
 			if ( wp_remote_retrieve_response_code($response) == 200 ) {
 				$data_raw = json_decode(wp_remote_retrieve_body($response), true);
-				
+
 				$data = array();
 				if ( isset($data_raw) && is_array($data_raw) ) {
 					foreach( $data_raw as $_data_raw ) {
@@ -145,23 +153,23 @@ class SimpleTags_Admin_Suggest {
 				}
 			}
 		}
-		
+
 		if ( empty($data) || is_wp_error($response) ) {
 			echo '<p>'.__('No results from OpenCalais service.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Remove empty terms
 		$data = array_filter($data, '_delete_empty_element');
 		$data = array_unique($data);
-		
+
 		foreach ( (array) $data as $term ) {
 			echo '<span class="local">'.esc_html(strip_tags($term)).'</span>'."\n";
 		}
 		echo '<div class="clear"></div>';
 		exit();
 	}
-	
+
 	private static function _get_params_xml_opencalais() {
 		return '
 			<c:params xmlns:c="http://s.opencalais.com/1/pred/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
@@ -171,7 +179,7 @@ class SimpleTags_Admin_Suggest {
 			</c:params>
 		';
 	}
-	
+
 	/**
 	 * Suggest tags from AlchemyAPI
 	 *
@@ -179,13 +187,13 @@ class SimpleTags_Admin_Suggest {
 	public static function ajax_alchemy_api() {
 		status_header( 200 );
 		header("Content-Type: text/html; charset=" . get_bloginfo('charset'));
-		
+
 		// API Key ?
 		if ( SimpleTags_Plugin::get_option_value('alchemy_api') == '' ) {
 			echo '<p>'.__('AlchemyAPI need an API key to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Get data
 		$content = stripslashes($_POST['content']) .' '. stripslashes($_POST['title']);
 		$content = trim($content);
@@ -193,7 +201,7 @@ class SimpleTags_Admin_Suggest {
 			echo '<p>'.__('No text was sent.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Build params
 		$response = wp_remote_post( 'http://access.alchemyapi.com/calls/html/HTMLGetRankedConcepts', array('body' => array(
 			'apikey' 	 => SimpleTags_Plugin::get_option_value('alchemy_api'),
@@ -202,13 +210,13 @@ class SimpleTags_Admin_Suggest {
 			'outputMode' => 'json',
 			'sourceText' => 'cleaned'
 		)));
-		
+
 		if( !is_wp_error($response) && $response != null ) {
 			if ( wp_remote_retrieve_response_code($response) == 200 ) {
 				$data = wp_remote_retrieve_body($response);
 			}
 		}
-		
+
 		$data = json_decode($data);
 		if ( $data == false || !isset($data->concepts) ) {
 			return false;
@@ -218,14 +226,14 @@ class SimpleTags_Admin_Suggest {
 			echo '<p>'.__('No results from Alchemy API.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		foreach ( (array) $data->concepts as $term ) {
 			echo '<span class="local">'.esc_html($term->text).'</span>'."\n";
 		}
 		echo '<div class="clear"></div>';
 		exit();
 	}
-	
+
 	/**
 	 * Suggest tags from Zemanta
 	 *
@@ -233,13 +241,13 @@ class SimpleTags_Admin_Suggest {
 	public static function ajax_zemanta() {
 		status_header( 200 );
 		header("Content-Type: text/html; charset=" . get_bloginfo('charset'));
-		
+
 		// API Key ?
 		if ( SimpleTags_Plugin::get_option_value('zemanta_key') == '' ) {
 			echo '<p>'.__('Zemanta need an API key to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Get data
 		$content = stripslashes($_POST['content']) .' '. stripslashes($_POST['title']);
 		$content = trim($content);
@@ -247,7 +255,7 @@ class SimpleTags_Admin_Suggest {
 			echo '<p>'.__('No text was sent.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Build params
 		$response = wp_remote_post( 'http://api.zemanta.com/services/rest/0.0/', array('body' => array(
 			'method'	=> 'zemanta.suggest',
@@ -262,22 +270,150 @@ class SimpleTags_Admin_Suggest {
 				$data = wp_remote_retrieve_body($response);
 			}
 		}
-		
+
 		$data = json_decode($data);
 		$data = $data->keywords;
-		
+
 		if ( empty($data) ) {
 			echo '<p>'.__('No results from Zemanta API.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		foreach ( (array) $data as $term ) {
 			echo '<span class="local">'.esc_html($term->name).'</span>'."\n";
 		}
 		echo '<div class="clear"></div>';
 		exit();
 	}
-	
+
+	/**
+	 * Suggest tags from dataTXT
+	 *
+	 */
+	public static function ajax_datatxt() {
+		status_header( 200 );
+		header("Content-Type: text/html; charset=" . get_bloginfo('charset'));
+
+		// API ID ?
+		if ( SimpleTags_Plugin::get_option_value('datatxt_id') == '' ) {
+			echo '<p>'.__('dataTXT needs an API ID to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags').'</p>';
+			exit();
+		}
+
+		// API Key ?
+		if ( SimpleTags_Plugin::get_option_value('datatxt_key') == '' ) {
+			echo '<p>'.__('dataTXT needs an API key to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags').'</p>';
+			exit();
+		}
+
+		// Get data
+		$content = stripslashes($_POST['content']) .' '. stripslashes($_POST['title']);
+		$content = trim($content);
+		if ( empty($content) ) {
+			echo '<p>'.__('No text was sent.', 'simpletags').'</p>';
+			exit();
+		}
+
+		$confidence = 0.6;
+		if(SimpleTags_Plugin::get_option_value('datatxt_min_confidence') != "")
+			$confidence = SimpleTags_Plugin::get_option_value('datatxt_min_confidence');
+
+		// Build params
+		$response = wp_remote_post( 'https://api.dandelion.eu/datatxt/nex/v1', array(
+			'user-agent' => 'WordPress simple-tags',
+			'body' => array(
+				'$app_key' 	=> SimpleTags_Plugin::get_option_value('datatxt_key'),
+				'$app_id' 	=> SimpleTags_Plugin::get_option_value('datatxt_id'),
+				'min_confidence' => $confidence,
+				'text' 		=> $content
+			)
+		));
+
+		if( !is_wp_error($response) && $response != null ) {
+			if ( wp_remote_retrieve_response_code($response) == 200 ) {
+				$data = wp_remote_retrieve_body($response);
+			} else {
+            	echo '<p>'.__('Invalid dataTXT ID or Key', 'simpletags').'</p>';
+                exit();
+            }
+		}
+
+		$data = json_decode($data);
+
+		// echo $data;
+
+		$data = $data->annotations;
+
+		if ( empty($data) ) {
+			echo '<p>'.__('No results from dataTXT API.', 'simpletags').'</p>';
+			exit();
+		}
+
+		foreach ( (array) $data as $term ) {
+			echo '<span class="local">'.esc_html($term->title).'</span>'."\n";
+		}
+		echo '<div class="clear"></div>';
+		exit();
+	}
+
+    /**
+     * Suggest tags from Tag4Site
+     *
+     */
+    public static function ajax_tag4site() {
+        status_header( 200 );
+        header("Content-Type: text/html; charset=" . get_bloginfo('charset'));
+
+        // API Key ?
+        if ( SimpleTags_Plugin::get_option_value('tag4site_key') == '' ) {
+            echo '<p>'.__('Tag4Site need an API key to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags').'</p>';
+            exit();
+        }
+
+        // Get data
+        $content = stripslashes($_POST['content']) .' '. stripslashes($_POST['title']);
+        $content = trim($content);
+        if ( empty($content) ) {
+            echo '<p>'.__('No text was sent.', 'simpletags').'</p>';
+            exit();
+        }
+
+        // Build params
+        $response = wp_remote_post( 'http://api.tag4site.ru/', array('timeout' => 30, 'body' => array(
+            'api_key' 	=> SimpleTags_Plugin::get_option_value('tag4site_key'),
+            'text' 		=> $content,
+            'format' 	=> 'json'
+        )));
+
+        if( !is_wp_error($response) && $response != null ) {
+            if ( wp_remote_retrieve_response_code($response) == 200 ) {
+                $data = wp_remote_retrieve_body($response);
+            }
+        }
+
+        $data = json_decode($data);
+
+        $code = $data->code;
+        if ( $code > 0 ) {
+            $err = $data->error;
+            echo '<p>'.__('Tag4Site API error #'.$code.': '.$err, 'simpletags').'</p>';
+            exit();
+        }
+
+        $data = $data->tags;
+
+        if ( empty($data) ) {
+            echo '<p>'.__('No data from Tag4Site API. Try again later.', 'simpletags').'</p>';
+            exit();
+        }
+
+        foreach ( (array) $data as $term ) {
+            echo '<span class="local">'.esc_html($term->name).'</span>'."\n";
+        }
+        echo '<div class="clear"></div>';
+        exit();
+    }
+
 	/**
 	 * Suggest tags from Yahoo Term Extraction
 	 *
@@ -285,50 +421,52 @@ class SimpleTags_Admin_Suggest {
 	public static function ajax_yahoo() {
 		status_header( 200 );
 		header("Content-Type: text/html; charset=" . get_bloginfo('charset'));
-		
+
 		// Get data
 		$content = stripslashes($_POST['content']) .' '. stripslashes($_POST['title']);
+        $content = strip_tags($content);
+        $content = str_replace( array('"',"'"), ' ', $content);
 		$content = trim($content);
 		if ( empty($content) ) {
 			echo '<p>'.__('No text was sent.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Build params
 		$param = 'appid='.self::yahoo_id; // Yahoo ID
-		$param .= '&context='.urlencode($content); // Post content
+		$param .= '&q=select%20*%20from%20contentanalysis.analyze%20where%20context%3D%22'.urlencode($content).'%22'; //.; // Post content
 		if ( !empty($_POST['tags']) ) {
-			$param .= '&query='.urlencode(stripslashes($_POST['tags'])); // Existing tags
+			//$param .= '&query='.urlencode(stripslashes($_POST['tags'])); // Existing tags
 		}
-		$param .= '&output=php'; // Get PHP Array !
-		
+		$param .= '&format=json'; // Get json data !
+
 		$data = array();
-		$response = wp_remote_post( 'http://search.yahooapis.com/ContentAnalysisService/V1/termExtraction', array('body' =>$param) );
-		if( !is_wp_error($response) && $response != null ) {
+		$response = wp_remote_post( 'https://query.yahooapis.com/v1/public/yql', array('body' =>$param, 'sslverify' => false) );
+        if( !is_wp_error($response) && $response != null ) {
 			if ( wp_remote_retrieve_response_code($response) == 200 ) {
-				$data = maybe_unserialize( wp_remote_retrieve_body($response) );
+				$data = json_decode( wp_remote_retrieve_body($response), true );
 			}
 		}
-		
-		if ( empty($data) || empty($data['ResultSet']) || is_wp_error($data) ) {
+
+		if ( empty($data) || empty($data['query']['results']['Result']) ) {
 			echo '<p>'.__('No results from Yahoo! service.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Get result value
-		$data = (array) $data['ResultSet']['Result'];
-		
+		$data = $data['query']['results']['Result'];
+
 		// Remove empty terms
 		$data = array_filter($data, '_delete_empty_element');
 		$data = array_unique($data);
-		
+
 		foreach ( (array) $data as $term ) {
 			echo '<span class="yahoo">'.esc_html($term).'</span>'."\n";
 		}
 		echo '<div class="clear"></div>';
 		exit();
 	}
-	
+
 	/**
 	 * Suggest tags from local database
 	 *
@@ -336,28 +474,28 @@ class SimpleTags_Admin_Suggest {
 	public static function ajax_suggest_local() {
 		status_header( 200 );
 		header("Content-Type: text/html; charset=" . get_bloginfo('charset'));
-		
+
 		if ( ((int) wp_count_terms('post_tag', 'ignore_empty=false')) == 0) { // No tags to suggest
 			echo '<p>'.__('No terms in your WordPress database.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Get data
 		$content = stripslashes($_POST['content']) .' '. stripslashes($_POST['title']);
 		$content = trim($content);
-		
+
 		if ( empty($content) ) {
 			echo '<p>'.__('No text was sent.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		// Get all terms
 		$terms = SimpleTags_Admin::getTermsForAjax( 'post_tag', '' );
 		if ( empty($terms) || $terms == false ) {
 			echo '<p>'.__('No results from your WordPress database.', 'simpletags').'</p>';
 			exit();
 		}
-		
+
 		$flag = false;
 		foreach ( (array) $terms as $term ) {
 			$term = stripslashes($term->name);
@@ -366,13 +504,13 @@ class SimpleTags_Admin_Suggest {
 				echo '<span class="local">'.esc_html($term).'</span>'."\n";
 			}
 		}
-		
+
 		if ( $flag == false ) {
 			echo '<p>'.__('No correspondance between your content and terms from the WordPress database.', 'simpletags').'</p>';
 		} else {
 			echo '<div class="clear"></div>';
 		}
-		
+
 		exit();
 	}
 }
