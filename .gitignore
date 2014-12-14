@@ -6,6 +6,7 @@ wp-content/uploads/*
 wp-content/Cimy_User_Extra_Fields/*
 sitemap.*
 wp-config.php
+.htaccess
 
 # Hidden system files
 *.DS_Store
