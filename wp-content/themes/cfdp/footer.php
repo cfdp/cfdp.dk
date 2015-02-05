@@ -8,8 +8,8 @@
     		<span class="line"></span>
     		<p class="grid_3 alpha">
     			Center for Digital Pædagogik<br>
-    			Vesterport 3, 2 th<br>
-    			8000 Aarhus C<br>
+    			Skanderborgvej 156<br>
+    			8260 Viby J.<br>
     			Danmark<br>
     		</p>
     		<p class="grid_3 omega clearfix">
