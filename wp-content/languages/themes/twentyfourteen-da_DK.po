@@ -2,15 +2,34 @@
 # This file is distributed under the same license as the Twenty Fourteen package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-04-17 23:43:41+0000\n"
+"PO-Revision-Date: 2015-03-26 18:32:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/0.1\n"
+"X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: Twenty Fourteen\n"
 
-#: inc/customizer.php:102
+#. Author URI of the plugin/theme
+msgid "https://wordpress.org/"
+msgstr "https://wordpress.org/"
+
+#. Theme URI of the plugin/theme
+msgid "https://wordpress.org/themes/twentyfourteen/"
+msgstr "https://wordpress.org/themes/twentyfourteen/"
+
+#. translators: %s: Name of current post
+#: content-aside.php:48 content-audio.php:48 content-gallery.php:48
+#: content-image.php:48 content-link.php:48 content-quote.php:48
+#: content-video.php:48 content.php:56 inc/template-tags.php:222
+msgid "Continue reading %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Læs videre %s <span class=\"meta-nav\">&rarr;</span>"
+
+#: inc/customizer.php:31 inc/customizer.php:32
+msgid "May only be visible on wide screens."
+msgstr "Er måske kun synlig på brede skærme."
+
+#: inc/customizer.php:108
 msgid "The home page features your choice of up to 6 posts prominently displayed in a grid or slider, controlled by a <a href=\"%1$s\">tag</a>; you can change the tag and layout in <a href=\"%2$s\">Appearance &rarr; Customize</a>. If no posts match the tag, <a href=\"%3$s\">sticky posts</a> will be displayed instead."
 msgstr "Forsiden indeholder et udvalg af op til seks fremtrædende indlæg vist i et gitter eller skyder, kontrolleret med et <a href=\"%1$s\">tag</a>; du kan ændre tagget og layoutet i <a href=\"%2$s\">Udseende &rarr; Tilpas</a>. Hvis ingen indlæg benytter tagget, vil <a href=\"%3$s\">fastgjorte indlæg</a> blive vist i stedet."
 
@@ -43,8 +62,8 @@ msgstr "Flere sidebemærkninger"
 msgid "%s <span class=\"meta-nav\">&rarr;</span>"
 msgstr "%s <span class=\"meta-nav\">&rarr;</span>"
 
-#: inc/customizer.php:37 inc/customizer.php:102 inc/featured-content.php:407
-#: inc/featured-content.php:416 inc/featured-content.php:476
+#: inc/customizer.php:42 inc/customizer.php:108 inc/featured-content.php:405
+#: inc/featured-content.php:414 inc/featured-content.php:474
 msgctxt "featured content default tag slug"
 msgid "featured"
 msgstr "udvalgt"
@@ -53,23 +72,19 @@ msgstr "udvalgt"
 msgid "Use this widget to list your recent Aside, Quote, Video, Audio, Image, Gallery, and Link posts."
 msgstr "Brug denne widget til at liste dine nyeste sidebemærknings-, citat-, video-, lyd-, billed-, galleri- og linkindlæg"
 
-#. Theme URI of the plugin/theme
-msgid "http://wordpress.org/themes/twentyfourteen"
-msgstr "http://wordpress.org/themes/twentyfourteen"
-
-#: inc/customizer.php:36 inc/featured-content.php:406
+#: inc/customizer.php:41 inc/featured-content.php:404
 msgid "Use a <a href=\"%1$s\">tag</a> to feature your posts. If no posts match the tag, <a href=\"%2$s\">sticky posts</a> will be displayed instead."
-msgstr "Brug et <a href=\"%1$s\">tag</a> til at fremhæve dine indlæg. Hvis ingen indlæg matcher tagget, vil <a href=\"%2$s\">klæbrige indlæg</a> blive vist i stedet."
+msgstr "Brug et <a href=\"%1$s\">tag</a> til at fremhæve dine indlæg. Hvis ingen indlæg matcher tagget, vil <a href=\"%2$s\">fastgjorte indlæg</a> blive vist i stedet."
 
 #: 404.php:17
 msgid "Not Found"
 msgstr "Ikke fundet"
 
-#: inc/customizer.php:31
+#: inc/customizer.php:27
 msgid "Display Site Title &amp; Tagline"
 msgstr "Vis sidens Titel &amp; Tagline"
 
-#: inc/customizer.php:104
+#: inc/customizer.php:110
 msgid "For an in-depth tutorial, and more tips and tricks, visit the <a href=\"%s\">Twenty Fourteen documentation</a>."
 msgstr "For en dybdegående vejledning og flere tips og tricks, så gå til  <a href=\"%s\">Twenty Fourteen dokumentationen</a>."
 
@@ -83,29 +98,32 @@ msgctxt "yearly archives date format"
 msgid "Y"
 msgstr "Y"
 
-#: inc/customizer.php:28
+#: inc/customizer.php:24
 msgid "Site Title Color"
 msgstr "Sides titelfarve"
 
-#: inc/featured-content.php:428
+#: inc/featured-content.php:426
 msgid "Tag Name"
 msgstr "Tag navn"
-
-#: inc/featured-content.php:433
-msgid "Don&rsquo;t display tag on front end."
-msgstr "Vis ikke tag på webstedet."
 
 #. Description of the plugin/theme
 msgid "In 2014, our default theme lets you create a responsive magazine website with a sleek, modern design. Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content's layout with a full-width page template and a contributor page to show off your authors. Creating a magazine website with WordPress has never been easier."
 msgstr "I 2014 lader vores standardtema dig lave et responsivt magasinwebsted med et slankt og moderne design. Udvælg dit favoritindhold til forsiden og anbring det i et gitter eller en skyder. Brug de tre widget-områder til at tilpasse dit websted, og ændre dit indholds layout med en fuld-bredde side og en bidragsyderside til at vise dit websteds bidgragsydere. At lave et magasinwebsted med WordPress har aldrig været nemmere. "
 
-#: functions.php:254
-msgid "Previous"
-msgstr "Forrige"
+#: inc/featured-content.php:431
+msgid "Don&rsquo;t display tag on front end."
+msgstr "Vis ikke tag på webstedet."
 
-#: functions.php:255
-msgid "Next"
-msgstr "Næste"
+#: content-aside.php:17 content-audio.php:17 content-featured-post.php:28
+#: content-gallery.php:17 content-image.php:17 content-link.php:17
+#: content-quote.php:17 content-video.php:17 content.php:19
+msgctxt "Used between list items, there is a space after the comma."
+msgid ", "
+msgstr ", "
+
+#: functions.php:191
+msgid "Appears in the footer section of the site."
+msgstr "Vises i footer sektionen på siden."
 
 #: 404.php:21
 msgid "It looks like nothing was found at this location. Maybe try a search?"
@@ -115,26 +133,27 @@ msgstr "Det ser ud til, at vi ikke kan finde det, du leder efter. Måske vil en 
 msgid "All posts by %s"
 msgstr "Alle indlæg af %s"
 
-#: content-aside.php:17 content-audio.php:17 content-featured-post.php:28
-#: content-gallery.php:17 content-image.php:17 content-link.php:17
-#: content-quote.php:17 content-video.php:17 content.php:19
-msgctxt "Used between list items, there is a space after the comma."
-msgid ", "
-msgstr ", "
+#: inc/template-tags.php:58
+msgid "Posts navigation"
+msgstr "Indlægsnavigation"
 
-#: functions.php:182
-msgid "Additional sidebar that appears on the right."
-msgstr "Sekundær sidebar der vises til højre."
+#. Template Name of the plugin/theme
+msgid "Contributor Page"
+msgstr "Bidragsyderside"
+
+#: functions.php:258
+msgid "Previous"
+msgstr "Forrige"
+
+#: functions.php:259
+msgid "Next"
+msgstr "Næste"
 
 #: functions.php:189
 msgid "Footer Widget Area"
 msgstr "Footer widget-område"
 
-#: functions.php:191
-msgid "Appears in the footer section of the site."
-msgstr "Vises i footer sektionen på siden."
-
-#: functions.php:372
+#: functions.php:376
 msgid "%d Article"
 msgid_plural "%d Articles"
 msgstr[0] "%d artikel"
@@ -152,33 +171,25 @@ msgstr "Næste billede"
 msgid "Twenty Fourteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again."
 msgstr "Twenty Fourteen kræver mindst WordPress version 3.6. Du bruger version %s. Opdater og prøv igen."
 
-#: inc/customizer.php:19 inc/customizer.php:20
-msgid "Background may only be visible on wide screens."
-msgstr "Baggrunden er muligvis kun synlig på brede skærme."
-
-#: inc/customizer.php:35 inc/featured-content.php:405
-msgid "Featured Content"
-msgstr "Udvalgt indhold"
-
-#: inc/customizer.php:50
+#: inc/customizer.php:56
 msgid "Layout"
 msgstr "Layout"
 
-#: inc/customizer.php:54
+#: inc/customizer.php:60
 msgid "Grid"
 msgstr "Gitter"
 
-#: inc/customizer.php:55
+#: inc/customizer.php:61
 msgid "Slider"
 msgstr "Skyder"
 
-#: inc/customizer.php:103
-msgid "Enhance your site design by using <a href=\"%s\">Featured Images</a> for posts you&rsquo;d like to stand out (also known as post thumbnails). This allows you to associate an image with your post without inserting it. Twenty Fourteen uses featured images for posts and pages&mdash;above the title&mdash;and in the Featured Content area on the home page."
-msgstr "Udvid dit dit design ved at bruge <a href=\"%s\">Udvalgte billeder</a> til indlæg, du ønsker skal fremhæves (også kendt som indlæggets thumbnail). Dette giver mulighed for at du tildeler et billede til dit indlæg, uden at indsætte det. Twenty Fourteen bruger udvalgte billeder til indlæg og sider &mdash; over titlen &mdash; og i 'Udvalgt indhold'-området på forsiden."
+#: inc/widgets.php:34
+msgid "Twenty Fourteen Ephemera"
+msgstr "Twenty Fourteen døgnflue"
 
-#: inc/template-tags.php:58
-msgid "Posts navigation"
-msgstr "Indlægsnavigation"
+#: functions.php:182
+msgid "Additional sidebar that appears on the right."
+msgstr "Sekundær sidebar der vises til højre."
 
 #: inc/template-tags.php:89
 msgid "<span class=\"meta-nav\">Published In</span>%title"
@@ -191,10 +202,6 @@ msgstr "<span class=\"meta-nav\">Forrige indlæg</span>%title"
 #: inc/template-tags.php:92
 msgid "<span class=\"meta-nav\">Next Post</span>%title"
 msgstr "<span class=\"meta-nav\">Næste indlæg</span>%title"
-
-#: inc/widgets.php:34
-msgid "Twenty Fourteen Ephemera"
-msgstr "Twenty Fourteen døgnflue"
 
 #: inc/widgets.php:62 taxonomy-post_format.php:39
 msgid "Audio"
@@ -218,17 +225,21 @@ msgstr "Antal indlæg der skal vises:"
 msgid "Post format to show:"
 msgstr "Indlægsformater der skal vises:"
 
-#. Template Name of the plugin/theme
-msgid "Contributor Page"
-msgstr "Bidragsyderside"
+#: inc/customizer.php:40 inc/featured-content.php:403
+msgid "Featured Content"
+msgstr "Udvalgt indhold"
 
-#: category.php:20
-msgid "Category Archives: %s"
-msgstr "Kategoriarkiv: %s"
+#: inc/customizer.php:34 inc/customizer.php:35
+msgid "Background may only be visible on wide screens."
+msgstr "Baggrunden er muligvis kun synlig på brede skærme."
 
-#: tag.php:22
-msgid "Tag Archives: %s"
-msgstr "Tag-arkiv: %s"
+#: inc/customizer.php:109
+msgid "Enhance your site design by using <a href=\"%s\">Featured Images</a> for posts you&rsquo;d like to stand out (also known as post thumbnails). This allows you to associate an image with your post without inserting it. Twenty Fourteen uses featured images for posts and pages&mdash;above the title&mdash;and in the Featured Content area on the home page."
+msgstr "Udvid dit dit design ved at bruge <a href=\"%s\">Udvalgte billeder</a> til indlæg, du ønsker skal fremhæves (også kendt som indlæggets thumbnail). Dette giver mulighed for at du tildeler et billede til dit indlæg, uden at indsætte det. Twenty Fourteen bruger udvalgte billeder til indlæg og sider &mdash; over titlen &mdash; og i 'Udvalgt indhold'-området på forsiden."
+
+#: footer.php:21
+msgid "Proudly powered by %s"
+msgstr "Drevet af %s"
 
 #: archive.php:31
 msgid "Daily Archives: %s"
@@ -242,9 +253,33 @@ msgstr "Månedsarkiv: %s"
 msgid "Yearly Archives: %s"
 msgstr "Årsarkiv: %s"
 
-#: archive.php:40 taxonomy-post_format.php:51
-msgid "Archives"
-msgstr "Arkiver"
+#: footer.php:21
+msgid "http://wordpress.org/"
+msgstr "http://wordpress.org/"
+
+#. Author of the plugin/theme
+msgid "the WordPress team"
+msgstr "holdet bag WordPress"
+
+#: comments.php:36 comments.php:54
+msgid "Newer Comments &rarr;"
+msgstr "Nyere kommentarer &rarr;"
+
+#: comments.php:35 comments.php:53
+msgid "&larr; Older Comments"
+msgstr "&larr; Ældre kommentarer"
+
+#: comments.php:59
+msgid "Comments are closed."
+msgstr "Der er lukket for kommentarer."
+
+#: category.php:20
+msgid "Category Archives: %s"
+msgstr "Kategoriarkiv: %s"
+
+#: comments.php:34 comments.php:52
+msgid "Comment navigation"
+msgstr "Kommentar navigation"
 
 #: comments.php:27
 msgid "One thought on &ldquo;%2$s&rdquo;"
@@ -252,25 +287,33 @@ msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
 msgstr[0] "En tanke om \"%2$s\""
 msgstr[1] "%1$s tanker om \"%2$s\""
 
-#: comments.php:34 comments.php:52
-msgid "Comment navigation"
-msgstr "Kommentar navigation"
+#: tag.php:22
+msgid "Tag Archives: %s"
+msgstr "Tag-arkiv: %s"
 
-#: comments.php:35 comments.php:53
-msgid "&larr; Older Comments"
-msgstr "&larr; Ældre kommentarer"
+#: search.php:18
+msgid "Search Results for: %s"
+msgstr "Søgeresultater for: %s"
 
-#: comments.php:36 comments.php:54
-msgid "Newer Comments &rarr;"
-msgstr "Nyere kommentarer &rarr;"
+#: content-none.php:12
+msgid "Nothing Found"
+msgstr "Intet fundet"
 
-#: comments.php:59
-msgid "Comments are closed."
-msgstr "Der er lukket for kommentarer."
+#: header.php:48
+msgid "Search"
+msgstr "Søg"
 
-#: content-aside.php:48 content-audio.php:48 content-gallery.php:48
-#: content-image.php:48 content-link.php:48 content-page.php:22
-#: content-quote.php:48 content-video.php:48 content.php:56 image.php:54
+#: archive.php:40 taxonomy-post_format.php:51
+msgid "Archives"
+msgstr "Arkiver"
+
+#: inc/widgets.php:127 inc/widgets.php:172
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Læs resten <span class=\"meta-nav\">&rarr;</span>"
+
+#: content-aside.php:53 content-audio.php:53 content-gallery.php:53
+#: content-image.php:53 content-link.php:53 content-page.php:22
+#: content-quote.php:53 content-video.php:53 content.php:61 image.php:54
 msgid "Pages:"
 msgstr "Sider:"
 
@@ -281,11 +324,47 @@ msgstr "Sider:"
 msgid "Edit"
 msgstr "Rediger"
 
+#: inc/template-tags.php:51
+msgid "Next &rarr;"
+msgstr "Næste &rarr;"
+
+#: inc/template-tags.php:50
+msgid "&larr; Previous"
+msgstr "&larr; Forrige"
+
+#: functions.php:495
+msgid "Page %s"
+msgstr "Side %s"
+
+#: header.php:52
+msgid "Primary Menu"
+msgstr "Primær menu"
+
 #: content-aside.php:37 content-audio.php:37 content-gallery.php:37
 #: content-image.php:37 content-link.php:37 content-quote.php:37
 #: content-video.php:37 content.php:38 inc/widgets.php:194
 msgid "Leave a comment"
 msgstr "Skriv en kommentar"
+
+#: content-none.php:18
+msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr "Klar til at udgive dit første indlæg? <a href=\"%1$s\">Start her</a>."
+
+#: content-none.php:27
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+msgstr "Det ser ud til, at vi ikke kan finde det, du leder efter. Måske vil en søgning hjælpe."
+
+#: inc/template-tags.php:85
+msgid "Post navigation"
+msgstr "Indlæg navigation"
+
+#: inc/template-tags.php:109
+msgid "Sticky"
+msgstr "Fremhævet"
+
+#: header.php:53
+msgid "Skip to content"
+msgstr "Videre til indhold"
 
 #: content-aside.php:37 content-audio.php:37 content-gallery.php:37
 #: content-image.php:37 content-link.php:37 content-quote.php:37
@@ -299,94 +378,24 @@ msgstr "1 kommentar"
 msgid "% Comments"
 msgstr "% kommentarer"
 
-#: content-aside.php:46 content-audio.php:46 content-gallery.php:46
-#: content-image.php:46 content-link.php:46 content-quote.php:46
-#: content-video.php:46 content.php:54 inc/widgets.php:127 inc/widgets.php:172
-msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
-msgstr "Læs resten <span class=\"meta-nav\">&rarr;</span>"
-
-#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.2)  #-#-#-#-#
-#. Author URI of the plugin/theme
-#: footer.php:21
-msgid "http://wordpress.org/"
-msgstr "http://wordpress.org/"
-
-#: footer.php:21
-msgid "Proudly powered by %s"
-msgstr "Drevet af %s"
+#: functions.php:171
+msgid "Primary Sidebar"
+msgstr "Primær sidebar"
 
 #: functions.php:83
 msgid "Top primary menu"
 msgstr "Øverste primære menu"
 
-#: functions.php:84
-msgid "Secondary menu in left sidebar"
-msgstr "Sekundær menu i den venstre sidebar"
-
-#: functions.php:171
-msgid "Primary Sidebar"
-msgstr "Primær sidebar"
-
-#: functions.php:173
-msgid "Main sidebar that appears on the left."
-msgstr "Primær sidebar der vises til venstre."
-
 #: functions.php:180
 msgid "Content Sidebar"
 msgstr "Indholds-sidebar"
 
+#. Translators: If there are characters in your language that are not supported
+#. by Lato, translate this to 'off'. Do not translate into your own language.
 #: functions.php:213
 msgctxt "Lato font: on or off"
 msgid "on"
 msgstr "on"
-
-#: functions.php:491
-msgid "Page %s"
-msgstr "Side %s"
-
-#: header.php:48
-msgid "Search"
-msgstr "Søg"
-
-#: header.php:52
-msgid "Primary Menu"
-msgstr "Primær menu"
-
-#: header.php:53
-msgid "Skip to content"
-msgstr "Videre til indhold"
-
-#: inc/template-tags.php:85
-msgid "Post navigation"
-msgstr "Indlæg navigation"
-
-#: inc/template-tags.php:50
-msgid "&larr; Previous"
-msgstr "&larr; Forrige"
-
-#: inc/template-tags.php:51
-msgid "Next &rarr;"
-msgstr "Næste &rarr;"
-
-#: inc/template-tags.php:109
-msgid "Sticky"
-msgstr "Fremhævet"
-
-#: content-none.php:12
-msgid "Nothing Found"
-msgstr "Intet fundet"
-
-#: content-none.php:18
-msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
-msgstr "Klar til at udgive dit første indlæg? <a href=\"%1$s\">Start her</a>."
-
-#: content-none.php:22
-msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
-msgstr "Beklager, men din søgning gav ingen resultater. Prøv igen med nogle andre søgeord."
-
-#: content-none.php:27
-msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
-msgstr "Det ser ud til, at vi ikke kan finde det, du leder efter. Måske vil en søgning hjælpe."
 
 #: inc/widgets.php:58 taxonomy-post_format.php:36
 msgid "Videos"
@@ -396,40 +405,44 @@ msgstr "Videoer"
 msgid "Images"
 msgstr "Billeder"
 
-#: inc/widgets.php:55
-msgid "More images"
-msgstr "Flere billeder"
-
 #: inc/widgets.php:74 taxonomy-post_format.php:48
 msgid "Galleries"
 msgstr "Gallerier"
-
-#: inc/widgets.php:79 taxonomy-post_format.php:30
-msgid "Asides"
-msgstr "Sidebemærkninger"
 
 #: inc/widgets.php:70 taxonomy-post_format.php:45
 msgid "Links"
 msgstr "Links"
 
+#: inc/widgets.php:79 taxonomy-post_format.php:30
+msgid "Asides"
+msgstr "Sidebemærkninger"
+
 #: inc/widgets.php:66 taxonomy-post_format.php:42
 msgid "Quotes"
 msgstr "Citater"
 
-#: search.php:18
-msgid "Search Results for: %s"
-msgstr "Søgeresultater for: %s"
-
-#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.2)  #-#-#-#-#
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.4)  #-#-#-#-#
 #. Theme Name of the plugin/theme
-#: inc/customizer.php:99
+#: inc/customizer.php:105
 msgid "Twenty Fourteen"
 msgstr "Twenty Fourteen"
-
-#. Author of the plugin/theme
-msgid "the WordPress team"
-msgstr "holdet bag WordPress"
 
 #. Template Name of the plugin/theme
 msgid "Full Width Page"
 msgstr "Fuldbredde side"
+
+#: functions.php:84
+msgid "Secondary menu in left sidebar"
+msgstr "Sekundær menu i den venstre sidebar"
+
+#: functions.php:173
+msgid "Main sidebar that appears on the left."
+msgstr "Primær sidebar der vises til venstre."
+
+#: content-none.php:22
+msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
+msgstr "Beklager, men din søgning gav ingen resultater. Prøv igen med nogle andre søgeord."
+
+#: inc/widgets.php:55
+msgid "More images"
+msgstr "Flere billeder"
