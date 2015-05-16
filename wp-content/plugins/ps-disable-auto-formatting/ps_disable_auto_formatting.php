@@ -3,7 +3,7 @@
 Plugin Name: PS Disable Auto Formatting
 Plugin URI: http://www.web-strategy.jp/wp_plugin/ps_disable_auto_formatting/
 Description: PS Disable Auto Formatting is able to disable function auto formatting (wpautop) and save &lt;p&gt; and &lt;br /&gt; formatted content.
-Version: 1.0.9
+Version: 1.0.10
 Author: Hitoshi Omagari, 
 Author URI: http://www.web-strategy.jp/
 License: GPLv2 or later
@@ -12,10 +12,10 @@ License: GPLv2 or later
 class ps_disable_auto_formatting {
 	
 var $setting_items = array(
-	'content formatting'			=> 'the_content',
-	'comment formatting'			=> 'comment_text',
-	'excerpt formatting'			=> 'the_excerpt',
-	'term description formatting'	=> 'term_description',
+	'content formatting'          => 'the_content',
+	'comment formatting'          => 'comment_text',
+	'excerpt formatting'          => 'the_excerpt',
+	'term description formatting' => 'term_description',
 );
 
 var $mce_version = '20080121';
@@ -24,14 +24,14 @@ function __construct() {
 	global $wp_version;
 
 	if ( version_compare( $wp_version, '2.5', '>=' ) ) {
-		add_action( 'init'					, array( &$this, 'disable_auto_formatting_init' ) );
-		add_action( 'admin_menu'			, array( &$this, 'add_disable_formatting_setting_page') );
-		add_filter( 'print_scripts_array'	, array( &$this, 'rewrite_default_script' ) );
-		add_filter( 'wp_insert_post_data'	, array( &$this, 'formatting_quickpress_post' ) );
-		add_action( 'media_buttons'			, array( &$this, 'check_edit_mode_and_add_richedit_pre' ), 9 );
-		add_action( 'media_buttons'			, array( &$this, 'delete_filtering_wp_richedit_pre' ) );
+		add_action( 'init'                , array( $this, 'disable_auto_formatting_init' ) );
+		add_action( 'admin_menu'          , array( $this, 'add_disable_formatting_setting_page') );
+		add_filter( 'print_scripts_array' , array( $this, 'rewrite_default_script' ) );
+		add_filter( 'wp_insert_post_data' , array( $this, 'formatting_quickpress_post' ) );
+		add_action( 'media_buttons'       , array( $this, 'check_edit_mode_and_add_richedit_pre' ), 9 );
+		add_action( 'media_buttons'       , array( $this, 'delete_filtering_wp_richedit_pre' ) );
 	} else {
-		add_action('admin_notices'			, array( &$this, 'version_too_old' ) );
+		add_action('admin_notices'        , array( $this, 'version_too_old' ) );
 	}
 }
 
@@ -140,23 +140,23 @@ function delete_filtering_wp_richedit_pre() {
 function check_edit_mode_and_add_richedit_pre() {
 	global $wp_filter;
 	if ( isset( $wp_filter['the_editor_content'][10]['wp_richedit_pre'] ) ) {
-		add_filter( 'the_editor_content', array( &$this, 'ps_richedit_pre' ) );
+		add_filter( 'the_editor_content', array( $this, 'ps_richedit_pre' ) );
 	}
 }
 
 
 function ps_richedit_pre( $text ) {
-	if ( empty($text) ) return apply_filters('richedit_pre', '');
+	if ( empty($text) ) return apply_filters( 'richedit_pre', '' );
 
-	$output = convert_chars($text);
-	$output = htmlspecialchars($output, ENT_NOQUOTES);
+	$output = convert_chars( $text );
+	$output = htmlspecialchars( $output, ENT_NOQUOTES );
 
-	return apply_filters('richedit_pre', $output);
+	return apply_filters( 'richedit_pre', $output );
 }
 
 
 function add_disable_formatting_setting_page() {
-	add_options_page( 'PS Disable Auto Formatting', __( 'Auto Formatting', 'ps_disable_auto_formatting' ), 'manage_options', basename( __FILE__ ), array( &$this, 'output_disable_formatting_setting_page') );
+	add_options_page( 'PS Disable Auto Formatting', __( 'Auto Formatting', 'ps_disable_auto_formatting' ), 'manage_options', basename( __FILE__ ), array( $this, 'output_disable_formatting_setting_page') );
 }
 
 
@@ -192,7 +192,7 @@ AND		`post_modified` < '$time_limit'
 						do_action( 'pre_post_update', $post->ID );
 						if ( false === $wpdb->update( $wpdb->posts, $data, array( 'ID' => $post->ID ) ) ) {
 							if ( $wp_error ) {
-								$error_mes = new WP_Error('db_update_error', __('Could not update post in the database'), $wpdb->last_error);
+								$error_mes = new WP_Error( 'db_update_error', __( 'Could not update post in the database' ), $wpdb->last_error );
 								break;
 							} else {
 								$error_mes = __( 'Database is not found.', 'ps_disable_auto_formatting' );
@@ -212,12 +212,12 @@ AND		`post_modified` < '$time_limit'
 			}
 		} else {
 			if ( isset( $_POST['ps_disable_auto_formatting'] ) ) {
-				$post_data = stripslashes_deep( $_POST['ps_disable_auto_formatting'] );
+				$post_data = wp_unslash( $_POST['ps_disable_auto_formatting'] );
 			} else {
 				$post_data = array();
 			}
 			foreach ( $post_data as $key => $func ) {
-				if ( ! in_array( $func, $this->setting_items) ) {
+				if ( ! in_array( $func, $this->setting_items ) ) {
 					unset( $_POST['ps_disable_auto_formatting'][$key] );
 				}
 			}
@@ -234,7 +234,7 @@ AND		`post_modified` < '$time_limit'
 			<h2><?php _e( 'Auto Formatting', 'ps_disable_auto_formatting' ); ?></h2>
 			<?php if ( isset( $ret ) && $ret ) { ?>
 			<div id="message" class="updated">
-				<p><?php _e('The settings has changed successfully.', 'ps_disable_auto_formatting' );?></p>
+				<p><?php _e( 'The settings has changed successfully.', 'ps_disable_auto_formatting' );?></p>
 			</div>
 			<?php } elseif ( isset( $batch_ret ) && $batch_ret ) { ?>
 			<div id="message" class="updated">
@@ -242,7 +242,7 @@ AND		`post_modified` < '$time_limit'
 			</div>
 			<?php } elseif ( isset( $error_mes ) && $error_mes ) { ?>
 			<div id="notice" class="error">
-				<p><?php echo wp_specialchars( $error_mes ); ?></p>
+				<p><?php echo esc_html( $error_mes ); ?></p>
 			</div>
 			<?php } elseif ( isset( $_POST['ps_disable_auto_formatting'] ) && $_POST['ps_disable_auto_formatting'] && isset( $ret ) && ! $ret ) { ?>
 			<div id="notice" class="error">
@@ -256,8 +256,8 @@ AND		`post_modified` < '$time_limit'
 					<tr>
 						<th><?php _e( $id, 'ps_disable_auto_formatting' ); ?></th>
 						<td>
-							<input type="checkbox" id="ps_disable_auto_formatting_<?php echo $func ?>" name="ps_disable_auto_formatting[]" value="<?php echo $func ?>"<?php if ( in_array( $func, $this->option_settings ) ) { echo ' checked="checked"'; } ?> />
-							<label for="ps_disable_auto_formatting_<?php echo $func ?>"><?php _e( 'disable', 'ps_disable_auto_formatting' ); ?></label>
+							<input type="checkbox" id="ps_disable_auto_formatting_<?php echo esc_attr( $func ); ?>" name="ps_disable_auto_formatting[]" value="<?php echo esc_attr( $func ); ?>"<?php if ( in_array( $func, $this->option_settings ) ) { echo ' checked="checked"'; } ?> />
+							<label for="ps_disable_auto_formatting_<?php echo esc_attr( $func ); ?>"><?php _e( 'disable', 'ps_disable_auto_formatting' ); ?></label>
 						</td>
 					</tr>
 <?php } ?>
@@ -309,4 +309,4 @@ function version_too_old() {
 
 } // class end
 
-$ps_disable_auto_formatting =& new ps_disable_auto_formatting();
+$ps_disable_auto_formatting = new ps_disable_auto_formatting();

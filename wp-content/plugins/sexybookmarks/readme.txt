@@ -1,9 +1,9 @@
 === Shareaholic | share buttons, related posts, social analytics & more ===
 Contributors: shareaholic
-Tags: sexybookmarks, shareaholic, shareholic, facebook, twitter, linkedin, URL Shortener, bitly, tinyurl, Goo.gl, Google+1, Google Analytics, Google Plus, Google, Instapaper, Wish List, Digg, Gmail, Google Bookmarks, Translate, Tumblr, AIM, Yahoo Messenger, Delicious, StumbleUpon, mister wong, evernote, add this, addtoany, share this, sharethis, share and follow, share and enjoy, sharing is sexy, sharing is caring, yahoo, reddit, hackernews, houzz, yummly, tweet button, twitter button, fark, buffer, myspace, orkut, netlog, hubspot, weheartit, printfriendly, yammer, wanelo, pinterest, google translate, bookmarks, social, email button, social share, socialize, sociable, sharebar, bookmark button, share button, social bookmarking, bookmarks menu, bookmarking, share, seo, analytics, stats, sharing, facebook like, facebook recommend, WPMU, mutisite, sumome, shortcode, yaarp, yarpp, nrelate, outbrain, linkwithin, related content, related posts, related, popular posts, popular, thumbnails, recommendations
+Tags: sexybookmarks, shareaholic, shareholic, recommendations, related content, cookie consent, share buttons, email button, social sharing, social bookmarking, share image, image sharing, follow buttons, floated share buttons, analytics, social media, social plugin
 Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 7.6.0.4
+Tested up to: 4.2.1
+Stable tag: 7.6.1.4
 
 The easiest, most effective way to grow your website traffic, effectively engage your audience, monetize, and gain insights for free.
 
@@ -20,15 +20,16 @@ Shareaholic is an **all-in-one content amplification and monetization platform**
 * [Shareable Images](https://blog.shareaholic.com/image-share-buttons/) (Pinterest "pin it" button for images)
 * Bonus: [EU / UK Cookie Compliance Banner App](https://blog.shareaholic.com/cookie-consent-banner-app/)
 * Localized in 15+ languages
-* Related Content support for post keywords specified in "All in One SEO Pack", "WordPress SEO by Yoast", etc plugins
+* Related Content support for post keywords specified in the "All in One SEO Pack", "WordPress SEO by Yoast", "Add Meta Tags", etc plugins
 
 = Share Buttons =
 
 Make it 1-click easy for your visitors to share your content with their friends with Shareaholic's award winning Share Buttons.
 
-* Full support for Facebook, Twitter, Pinterest, Google Plus, etc
 * Share Counters for Twitter, Facebook, LinkedIn, Pinterest, Buffer, Google Plus, etc
 * Official support for Google's URL shortener (goo.gl) and Google Analytics
+* Supported URL Shorteners: Bitly (including custom tracking), J.mp, TinyURL, Goo.gl, Shr.lc
+* Full support for: Facebook, Twitter, Pinterest, Google Plus, Reddit, LinkedIn, Gmail, Delicious, OneNote, Evernote, Stumbleupon, Digg, Tumblr, Hootsuite, Buffer, Fancy, Wanelo, Yummly, WeHeartIt, Flipboard, Printfriendly, Amazon Wishlist, Instapaper, Pocket, Odnoklassniki, Houzz, Hacker News, Inbound.org, Vk, etc
 
 [Share Buttons](https://shareaholic.com/publishers/sharing/) (demo)
 
@@ -54,7 +55,7 @@ Provides you with important actionable metrics including insights into popular p
 
 = You're in Great Company =
 
-Shareaholic is used and trusted by hundreds of thousands of websites like yours and touches over 400 million people each month. Designed and built with all the love in the world in Boston, Massachusetts.
+Shareaholic is used and trusted by hundreds of thousands of websites like yours and touches over 450 million people each month. Designed and built with all the love in the world in Boston, Massachusetts.
 
 = Support =
 
@@ -74,31 +75,25 @@ Listed here are credits and special thanks to some of you who have helped us out
 
  [Complete credits on Shareaholic.com](https://shareaholic.com/tools/wordpress/credits)
 
-= Translations =
-* Credit goes to [Maitre Mo](http://maitremo.fr) for translating to French
-* Credit goes to [Yuri Gribov](http://wp-ru.ru) for translating to Russian
-* Credit goes to [Ghenciu Ciprian](http://www.osn.ro) for translating to Romanian
-* Credit goes to [Carlo Veltri](http://chepelle.altervista.org/wordpress) for translating to Italian
-* Credit goes to [Damjan Gerli](http://www.damjan.net) for updating the Italian translation
-* Credit goes to [Joojen](http://www.keege.com) for translating to Chinese
-* Credit goes to [Javier Pimienta](http://cpcdisseny.net) for translating to Spanish
-* Credit goes to [Giovanni Zuccaro](http://www.giovannizuccaro.it) for updating the Italian translation
-* Credit goes to [Omer Taylan Tugut](http://www.tuguts.com) for translating to Turkish
-* Credit goes to [Gunther Wegner](http://gwegner.de) for translating to German
-* Credit goes to [Mads Floe](http://hardwareblog.dk) for translating to Danish
-* Credit goes to [Svend Olaf Olsen](http://www.mediaprod.no) for translating to Norwegian
-* Credit goes to [Martin van der Grond](www.gouwefoto.nl) for translating to Dutch
-* Credit goes to [Modar Soos](http://www.sada-sy.com) for translation to Arabic
-* Credit goes to [Magnus Th&ouml;rnblad](http://www.th&ouml;rnblad.se) for translating to Swedish
-* Credit goes to [Kerem Erkan](http://keremerkan.net) for updating the Turkish translation
-* Credit goes to [Nick Mouratidis](http://www.kepik.gr) for translating to Greek
-* Credit goes to [Manuel In&aacute;cio](http://minacio.com/blog) for translating to Portuguese
-* Credit goes to [Barukar](http://www.classinoiva.com.br) for translating to Portuguese (Brazil)
-* Credit goes to [Alexander Ovsov](http://www.webhostinggeeks.com) for translating to Belarusian
-* Credit goes to Bartosz Chojnacki for translating to Polish
-* Credit goes to Joan Jordi Berdullas Segura for translating to Catalan
-* Credit goes to [Nikolay Nikolov](http://en.chat4o.com/) for translating to Bulgarian
-* Credit goes to [Nata Strazda](http://www.webhostinghub.com/) for translating to Lithuanian
+= Shareaholic in Your Language =
+
+Shareaholic is used all over the world. Our goal is to support Shareaholic in the native language of all our users and people who want to use our products. Shareaholic for WordPress is currently localized in the following languages:
+
+* English (en)
+* Simplified Chinese (zh_CN) by [Larry Zhang](http://zhxl.me)
+* Greek (el_EL) by [Takis Bouyouris](http://www.nevma.gr)
+* Greek (el_GR) by [Takis Bouyouris](http://www.nevma.gr)
+* German (de_DE) by Oliver Heinrich
+* French (fr_FR) by Rozenn Dagorn
+* Dutch (nl_NL) by Patrick Ruers
+* Português (pt_PT)
+* Afrikaans (af_AF)
+* Italian (it_IT)
+* Turkish (tr_TR) by [Plantekno Bitki](http://plantekno.com)
+* Spanish - Mexico (es_MX) by [Luis Jared Pardo ](http://www.clickseguro.net)
+* Spanish - Spain (es_ES) by [Luis Jared Pardo ](http://www.clickseguro.net)
+* Romanian (ro_RO)
+* Contribute a translation! -- we would appreciate your help in translating Shareaholic into even more languages! It doesn’t take much to get started. Instructions: https://shareaholic.com/tools/wordpress/translate
 
 == Screenshots ==
 
@@ -174,6 +169,41 @@ Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+
+= 7.6.1.4 =
+* Minor enhancements
+
+= 7.6.1.3 =
+* Bugfix: Redefined what is considered a shareable page
+
+= 7.6.1.2 =
+* [Bugfix](https://wordpress.org/support/topic/shareaholic-plugin-integration-issue): Added a check to see if data object exists before trying to access it
+
+= 7.6.1.1 =
+* Enhancement: Added Shareaholic navigation bar to the Shareaholic settings pages
+
+= 7.6.1.0 =
+* Bugfix: fix for security vulnerability. Upgrade immediately.
+
+= 7.6.0.9 =
+* Bugfix: Added isset checks for undefined indexes being thrown
+* Bugfix: Parse out BOM character from HTTP responses
+
+= 7.6.0.8 =
+* Enhancement: Added Google API key to authenticate API calls for Google Plus share counts for improved the reliability
+
+= 7.6.0.7 =
+* Enhancement: Improved welcome email copy
+* Localization
+  * Spanish (es_ES)
+  * Turkish (tr_TR) by [Plantekno Bitki](http://plantekno.com)
+
+= 7.6.0.6 =
+* Enhancement: Improved reliability of Related Content App for cases where the WordPress install is located in a subdirectory or subpath
+
+= 7.6.0.5 =
+* Enhancement: Modified curl multi to conserve on cpu usage for server side share counts
+* Enhancement: Added garbage collection cron job to clean up expired server side share count transient cache
 
 = 7.6.0.4 =
 * Bugfix: fixed Share Buttons not generating links for posts in index and category pages
@@ -1173,6 +1203,38 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Initial release!
 
 == Upgrade Notice ==
+
+= 7.6.1.4 =
+Minor enhancements.
+
+= 7.6.1.3 =
+Bug fixes.
+
+= 7.6.1.2 =
+Bug fixes.
+
+= 7.6.1.1 =
+Added Shareaholic navigation bar to the Shareaholic settings pages.
+
+= 7.6.1.0 =
+Fix for security vulnerability. Upgrade immediately.
+
+= 7.6.0.9 =
+Many improvements and bug fixes.
+
+= 7.6.0.8 =
+Added Google API key to authenticate API calls for Google Plus share counts for improved the reliability
+
+= 7.6.0.7 =
+
+Many improvements and bug fixes.
+
+= 7.6.0.6 =
+Improved reliability of Related Content App for cases where the WordPress install is located in a subdirectory or subpath
+
+= 7.6.0.5 =
+
+Modified curl multi to conserve on cpu usage for server side share counts and added garbage collection cron job to clean up expired server side share count transient cache. This is an important update for larger WordPress installations.
 
 = 7.6.0.4 =
 

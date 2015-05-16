@@ -1,9 +1,9 @@
 === PS Disable Auto Formatting ===
 Contributors: jim912, kuck1u
 Tags: auto formatting, formatting, format, paragraph, linebreak, wpautop
-Requires at least: 2.5
-Tested up to: 3.9
-Stable tag: 1.0.9
+Requires at least: 3.6
+Tested up to: 4.2
+Stable tag: 1.0.10
 
 Stops the automatic forming and the HTML tag removal in the html mode of WordPress, and generates a natural paragraph and changing line.
 
@@ -65,6 +65,9 @@ To prevent the operational error, the batch processing is not done if there is n
 Please check "Permit batch formatting" check box.
 
 == Changelog ==
+* **1.0.10**
+ * Compatible with WordPress 4.2
+ * Fix : Duplicated Error.
 * **1.0.9**
  * Compatible with WordPress 3.9
 * **1.0.8**

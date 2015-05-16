@@ -3,8 +3,8 @@ Contributors: GamerZ, scribu
 Donate link: http://lesterchan.net/site/donation/  
 Tags: navigation, pagination, paging, pages  
 Requires at least: 3.2  
-Tested up to: 4.0  
-Stable tag: 2.86  
+Tested up to: 4.2  
+Stable tag: 2.87  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -25,6 +25,9 @@ Help to translate at <https://translate.foe-services.de/projects/wp-pagenavi>.
 
 = Credits =
 * Plugin icon by [SimpleIcon](http://www.simpleicon.com) from [Flaticon](http://www.flaticon.com)
+
+= Donations =
+I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appreciate it. If not feel free to use it without any obligations.
 
 == Installation ==
 
@@ -66,8 +69,8 @@ Alternatively, you can uncheck the "Use pagenavi.css?" option from the settings 
 
 == Screenshots ==
 
-1. Default appearance
-2. Options page
+1. With Custom Styling
+2. Admin - Options Page
 
 == Frequently Asked Questions ==
 
@@ -95,6 +98,9 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 == Changelog ==
+= 2.87 =
+* NEW: Uses WordPress native uninstall.php
+
 = 2.86 =
 * NEW: Bump to 4.0
 * NEW: Added rel=next and rel=previous

@@ -134,7 +134,7 @@ class ShareaholicUtilities {
    	$wp_admin_bar->add_menu(array(
    		'parent' => 'wp_shareaholic_adminbar_menu',
    		'id' => 'wp_shareaholic_adminbar_submenu-general',
-   		'title' => __('General Settings', 'shareaholic'),
+   		'title' => __('Website Settings', 'shareaholic'),
    		'href' => 'https://shareaholic.com/publisher_tools/'.self::get_option('api_key').'/verify?verification_key='.self::get_option('verification_key').'&redirect_to='.'https://shareaholic.com/publisher_tools/'.self::get_option('api_key').'/websites/edit?verification_key='.self::get_option('verification_key'),
    		'meta' => Array( 'target' => '_blank' )
    	));
@@ -1204,7 +1204,7 @@ class ShareaholicUtilities {
    *
    */
    public static function share_counts_api_connectivity_check() {
-      
+
     // if we already checked and it is successful, then do not call the API again
     $share_counts_connect_check = self::get_option('share_counts_connect_check');
     if (isset($share_counts_connect_check) && $share_counts_connect_check == 'SUCCESS') {
@@ -1248,8 +1248,8 @@ class ShareaholicUtilities {
     // Did it return at least 8 services?
     $has_majority_services = count(array_keys($response['body']['data'])) >= 8 ? true : false;
     $has_important_services = true;
-    // Does it have counts for twtr, fb, linkedin, pinterest, and delicious?
-    foreach (array('twitter', 'facebook', 'linkedin', 'pinterest', 'delicious') as $service) {
+    // Does it have counts for twtr, linkedin, pinterest, and delicious?
+    foreach (array('twitter', 'linkedin', 'pinterest', 'delicious') as $service) {
       if (!isset($response['body']['data'][$service]) || !is_numeric($response['body']['data'][$service])) {
         $has_important_services = false;
       }
@@ -1291,4 +1291,33 @@ class ShareaholicUtilities {
       }
     }
    }
+
+  public static function user_info() {
+    $current_user = wp_get_current_user();
+
+    if ( !($current_user instanceof WP_User) || !is_user_logged_in()) {
+      return array();
+    }
+
+    $user_caps = $current_user->get_role_caps();
+
+    $caps = array('switch_themes', 'edit_themes', 'activate_plugins',
+      'edit_plugins', 'manage_options', 'unfiltered_html', 'edit_dashboard',
+      'update_plugins', 'delete_plugins', 'install_plugins', 'update_themes',
+      'install_themes', 'update_core', 'edit_theme_options', 'delete_themes',
+      'administrator'
+    );
+
+    $user_info = array(
+      'roles' => $current_user->roles,
+      'capabilities' => array(),
+      'is_super_admin' => is_super_admin()
+    );
+
+    foreach($caps as $cap) {
+      $user_info['capabilities'][$cap] = isset($user_caps[$cap]) ? $user_caps[$cap] : '';
+    }
+
+    return $user_info;
+  }
 }

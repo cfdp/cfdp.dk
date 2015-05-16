@@ -40,19 +40,19 @@ abstract class ShareaholicShareCount {
         'callback' => 'facebook_count_callback',
       ),
       'twitter' => array(
-        'url' => 'http://cdn.api.twitter.com/1/urls/count.json?url=%s',
+        'url' => 'https://cdn.api.twitter.com/1/urls/count.json?url=%s',
         'method' => 'GET',
         'timeout' => 3,
         'callback' => 'twitter_count_callback',
       ),
       'linkedin' => array(
-        'url' => 'http://www.linkedin.com/countserv/count/share?format=json&url=%s',
+        'url' => 'https://www.linkedin.com/countserv/count/share?format=json&url=%s',
         'method' => 'GET',
         'timeout' => 3,
         'callback' => 'linkedin_count_callback',
       ),
       'google_plus' => array(
-        'url' => 'https://clients6.google.com/rpc',
+        'url' => 'https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ',
         'method' => 'POST',
         'timeout' => 2,
         'headers' => array('Content-Type' => 'application/json'),
@@ -67,7 +67,7 @@ abstract class ShareaholicShareCount {
         'callback' => 'delicious_count_callback',
       ),
       'pinterest' => array(
-        'url' => 'http://api.pinterest.com/v1/urls/count.json?url=%s&callback=f',
+        'url' => 'https://api.pinterest.com/v1/urls/count.json?url=%s&callback=f',
         'method' => 'GET',
         'timeout' => 3,
         'callback' => 'pinterest_count_callback',
@@ -79,13 +79,13 @@ abstract class ShareaholicShareCount {
         'callback' => 'buffer_count_callback',
       ),
       'stumbleupon' => array(
-        'url' => 'http://www.stumbleupon.com/services/1.01/badge.getinfo?url=%s',
+        'url' => 'https://www.stumbleupon.com/services/1.01/badge.getinfo?url=%s',
         'method' => 'GET',
         'timeout' => 1,
         'callback' => 'stumbleupon_count_callback',
       ),
       'reddit' => array(
-        'url' => 'http://buttons.reddit.com/button_info.json?url=%s',
+        'url' => 'https://buttons.reddit.com/button_info.json?url=%s',
         'method' => 'GET',
         'timeout' => 1,
         'callback' => 'reddit_count_callback',
@@ -97,7 +97,7 @@ abstract class ShareaholicShareCount {
         'callback' => 'vk_count_callback',
       ),
       'odnoklassniki' => array(
-        'url' => 'http://www.odnoklassniki.ru/dk?st.cmd=extLike&uid=odklcnt0&ref=%s',
+        'url' => 'http://ok.ru/dk?st.cmd=extLike&uid=odklcnt0&ref=%s',
         'method' => 'GET',
         'timeout' => 1,
         'callback' => 'odnoklassniki_count_callback',
@@ -133,6 +133,34 @@ abstract class ShareaholicShareCount {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Get the client's ip address
+   *
+   * NOTE: this function does not care if the IP is spoofed. This is used
+   * only by the google plus count API to separate server side calls in order
+   * to prevent usage limits. Under normal conditions, a request from a user's
+   * browser to this API should not involve any spoofing.
+   *
+   * @return {Mixed} An IP address as string or false otherwise
+   */
+  public function get_client_ip() {
+    $ip = NULL;
+
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+     //check for ip from share internet
+     $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+     // Check for the Proxy User
+     $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    else {
+     $ip = $_SERVER['REMOTE_ADDR'];
+    }
+
+    return $ip;
   }
 
 
@@ -216,6 +244,11 @@ abstract class ShareaholicShareCount {
         'apiVersion' => 'v1',
       )
     );
+
+    $ip = $this->get_client_ip();
+    if ($ip && !empty($ip)) {
+      $post_fields[0]['params']['userIp'] = $ip;
+    }
 
     $config['google_plus']['body'] = $post_fields;
   }

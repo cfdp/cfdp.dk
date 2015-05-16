@@ -64,6 +64,7 @@ class ShareaholicPublic {
         'shareaholic_url' => Shareaholic::URL,
         'api_key' => ShareaholicUtilities::get_option('api_key'),
         'page_config' => ShareaholicPublicJS::get_page_config(),
+        'base_settings' => ShareaholicPublicJS::get_base_settings()
       ));
     }
   }
@@ -197,7 +198,11 @@ class ShareaholicPublic {
       if ($article_visibility == 'draft' || $article_visibility == 'auto-draft' || $article_visibility == 'future' || $article_visibility == 'pending'){
         echo "<meta name='shareaholic:shareable_page' content='false' />\n";
         $article_visibility = 'draft';
-      } else if ($article_visibility == 'private' || $post->post_password != '' || is_attachment()) {
+      } else if ($article_visibility == 'private' || $post->post_password != '') {
+        echo "<meta name='shareaholic:shareable_page' content='false' />\n";
+        $article_visibility = 'private';
+      } else if (is_attachment()) {
+        // attachments are shareable but not recommendable
         echo "<meta name='shareaholic:shareable_page' content='true' />\n";
         $article_visibility = 'private';
       } else {
@@ -217,7 +222,9 @@ class ShareaholicPublic {
       // Article Author Name      
       if ($post->post_author) {
         $article_author_data = get_userdata($post->post_author);
-        $article_author_name = $article_author_data->display_name;
+        if ($article_author_data) {
+          $article_author_name = $article_author_data->display_name;
+        }
       }
       if (!empty($article_author_name)) {
         echo "<meta name='shareaholic:article_author_name' content='" . $article_author_name . "' />\n";
@@ -367,7 +374,9 @@ class ShareaholicPublic {
     global $post, $wp_query;
     $page_type = ShareaholicUtilities::page_type();
     $is_list_page = $page_type == 'index' || $page_type == 'category';
-    $in_loop = in_the_loop();
+    $loop_start = did_action('loop_start');
+    $loop_end = did_action('loop_end');
+    $in_loop = $loop_start > $loop_end ? TRUE : FALSE;
 
     $link = trim($link);
 
@@ -402,13 +411,24 @@ class ShareaholicPublic {
    */
   public static function share_counts_api() {
     $debug_mode = isset($_GET['debug']) && $_GET['debug'] === '1';
-    $cache_key = 'shr_api_res-' . md5( $_SERVER['QUERY_STRING'] );
-    $result = get_transient($cache_key);
+    $url = isset($_GET['url']) ? $_GET['url'] : '';
+    $services = isset($_GET['services']) ? $_GET['services'] : array();
+    $services = self::parse_services($services);
+    $cache_key = 'shr_api_res-' . md5( $url );
+
+    if (empty($url) || empty($services)) {
+      $result = array();
+    } else {
+      $result = get_transient($cache_key);
+    }
+
     $has_curl_multi = self::has_curl();
 
-    if (!$result || $debug_mode) {
-      $url = isset($_GET['url']) ? $_GET['url'] : NULL;
-      $services = isset($_GET['services']) ? $_GET['services'] : NULL;
+    if (!$result || $debug_mode || !self::has_services_in_result($result, $services)) {
+      if (isset($result['services']) && !$debug_mode) {
+        $services = array_keys(array_flip(array_merge($result['services'], $services)));
+      }
+
       $result = array();
       $options = array();
 
@@ -437,6 +457,7 @@ class ShareaholicPublic {
         }
 
         if (isset($result['data']) && !$debug_mode) {
+          $result['services'] = $services;
           set_transient( $cache_key, $result, SHARE_COUNTS_CHECK_CACHE_LENGTH );
         }
       }
@@ -446,6 +467,49 @@ class ShareaholicPublic {
     header('Cache-Control: max-age=180'); // 3 minutes
     echo json_encode($result);
     exit;
+  }
+
+  /**
+   * Helper method to parse the list of social services to get share counts
+   */
+  public static function parse_services($services) {
+    $result = array();
+
+    if (empty($services) || !is_array($services)) {
+      return $result;
+    }
+
+    // make the set of services unique
+    $services = array_unique($services);
+
+    // only get the services we can get share counts for
+    $social_services = array_keys(ShareaholicSeqShareCount::get_services_config());
+
+    foreach($services as $service) {
+      if (in_array($service, $social_services)) {
+        array_push($result, $service);
+      }
+    }
+
+    return $result;
+  }
+
+  /**
+   * Helper method to check if the result has the requested services
+   */
+  public static function has_services_in_result($result, $services) {
+    if (!isset($result['services'])) {
+      return false;
+    }
+
+    $requested_services = $result['services'];
+    foreach($services as $service) {
+      if (!in_array($service, $requested_services)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   /**
@@ -535,7 +599,7 @@ class ShareaholicPublic {
     
     // Input Params
     $post_type = isset($_GET['post_type']) ? $_GET['post_type'] : "any";
-    $n = isset($_GET['n']) ? $_GET['n'] : -1;
+    $n = isset($_GET['n']) ? intval($_GET['n']) : -1;
     $format = isset($_GET['format']) ? $_GET['format'] : "json";
     
     $permalink_list = array();
@@ -564,12 +628,12 @@ class ShareaholicPublic {
         }
       }
       
-      if ($format == "text"){
+      if ($format === "text"){
         header('Content-Type: text/plain; charset=utf-8');
         foreach($permalink_list as $link) {
           echo $link. "\r\n";
         }
-      } elseif ($format == "json"){
+      } elseif ($format === "json"){
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($permalink_list);
       }
@@ -711,7 +775,7 @@ class ShareaholicPublic {
     // Input Params
     $permalink = isset($_GET['permalink']) ? $_GET['permalink'] : NULL;
     $match = isset($_GET['match']) ? $_GET['match'] : "random"; // match method
-    $n = isset($_GET['n']) ? $_GET['n'] : 10; // number of related permalinks to return
+    $n = isset($_GET['n']) ? intval($_GET['n']) : 10; // number of related permalinks to return
     
     $related_permalink_list = array();
     
