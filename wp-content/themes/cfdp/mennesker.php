@@ -56,9 +56,14 @@ echo '<h2>' . ucwords( strtolower( $user->first_name . ' ' . $user->last_name ) 
 echo '<a href="mailto:' . strtolower( $user->user_email ) . '">' .  strtolower( $user->user_email )  . '</a>';
 echo '<p>' .  $user->description  . '</p>';?>
 
-<a href="<?php bloginfo('url');?>/author/<?php authorPermalink($user->display_name);?>/">Se Profil</a>
 
 
+<?php /* authorPermalink() does not render the link to praktikant user correctly, manually overriding */
+if ( $user->ID == 26 ): ?> 
+	<a href="<?php bloginfo('url');?>/author/praktikanter-projektsansatte-og-frivillige/">Se Profil</a> 
+<?php else : ?>
+	<a href="<?php bloginfo('url');?>/author/<?php authorPermalink($user->display_name);?>/">Se Profil</a> 
+<?php endif; ?>
 
 </div>
 
