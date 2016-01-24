@@ -16,7 +16,7 @@
     			Chat: <a onclick="return SnapABug.startLink();" href="#kontakt-os">Tag en snak med os</a> <br />
     			E-mail: <a href="mailto:info@cfdp.dk">info@cfdp.dk</a> <br />
     			Telefon: 86 370 400<br />
-    			CVR-nummer: 33269692
+    			CVR-nummer: 37251771
     		</p>
     	</div>
     	<!-- Right footer | Social Links -->
@@ -67,20 +67,7 @@
     </div> <!-- .footer -->
   </div> <!-- .footer-outer -->
 </div>
-
-
 	<?php wp_footer(); ?>
-
-	<!-- Don't forget analytics -->
-	<script type="text/javascript">
-		document.write(unescape("%3Cscript src='" + ((document.location.protocol=="https:")?"https:":"http:") + "//snapabug.appspot.com/snapabug.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script type="text/javascript">
-		SnapABug.setLocale("da");
-		SnapABug.setButton("http://www.cfdp.dk/img/contact_us.png")
-		SnapABug.addButton('2247c5ad-1918-4e71-92ab-5adcf7b6dc10',"0","55%");
-	</script>
-
 </body>
 
 </html>
