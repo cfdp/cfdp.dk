@@ -2,13 +2,18 @@
 # This file is distributed under the same license as the Twenty Fifteen package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-03-26 18:32:08+0000\n"
+"PO-Revision-Date: 2015-07-17 19:30:39+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
 "Project-Id-Version: Twenty Fifteen\n"
+
+#. translators: %s: post title
+#: inc/template-tags.php:123
+msgid "Leave a comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr "Skriv kommentar <span class=\"screen-reader-text\"> til %s</span>"
 
 #. Theme URI of the plugin/theme
 msgid "https://wordpress.org/themes/twentyfifteen/"
@@ -50,18 +55,6 @@ msgstr "Næste billede"
 #: inc/template-tags.php:23
 msgid "Comment navigation"
 msgstr "Kommentar navigation"
-
-#: inc/template-tags.php:122
-msgid "Leave a comment"
-msgstr "Skriv en kommentar"
-
-#: inc/template-tags.php:122
-msgid "1 Comment"
-msgstr "1 kommentar"
-
-#: inc/template-tags.php:122
-msgid "% Comments"
-msgstr "% kommentarer"
 
 #: search.php:18
 msgid "Search Results for: %s"
@@ -117,27 +110,27 @@ msgstr "Nyere kommentarer"
 msgid "Featured"
 msgstr "Udvalgt"
 
-#: inc/customizer.php:147
+#: inc/customizer.php:168
 msgid "Blue"
 msgstr "Blå"
 
-#: inc/customizer.php:136
+#: inc/customizer.php:157
 msgid "Purple"
 msgstr "Lilla"
 
-#: inc/customizer.php:125
+#: inc/customizer.php:146
 msgid "Pink"
 msgstr "Lyserød"
 
-#: inc/customizer.php:103
+#: inc/customizer.php:124
 msgid "Dark"
 msgstr "Mørk"
 
-#: inc/customizer.php:114
+#: inc/customizer.php:135
 msgid "Yellow"
 msgstr "Gul"
 
-#: inc/customizer.php:92
+#: inc/customizer.php:113
 msgid "Default"
 msgstr "Standard"
 
@@ -215,14 +208,14 @@ msgstr "Det ser ud til, at vi ikke kan finde det, du leder efter. Måske vil en 
 msgid "Widget Area"
 msgstr "Widget-område"
 
-#. #-#-#-#-#  twentyfifteen.pot (Twenty Fifteen 1.2)  #-#-#-#-#
+#. #-#-#-#-#  twentyfifteen.pot (Twenty Fifteen 1.4)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:25
 msgid "https://wordpress.org/"
 msgstr "https://wordpress.org/"
 
 #. translators: %s: Name of current post
-#: content-link.php:31 content.php:33 inc/template-tags.php:237
+#: content-link.php:31 content.php:33 inc/template-tags.php:238
 msgid "Continue reading %s"
 msgstr "Læs mere %s"
 

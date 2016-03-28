@@ -39,12 +39,6 @@ abstract class ShareaholicShareCount {
         'timeout' => 3,  // in number of seconds
         'callback' => 'facebook_count_callback',
       ),
-      'twitter' => array(
-        'url' => 'https://cdn.api.twitter.com/1/urls/count.json?url=%s',
-        'method' => 'GET',
-        'timeout' => 3,
-        'callback' => 'twitter_count_callback',
-      ),
       'linkedin' => array(
         'url' => 'https://www.linkedin.com/countserv/count/share?format=json&url=%s',
         'method' => 'GET',
@@ -59,12 +53,6 @@ abstract class ShareaholicShareCount {
         'body' => NULL,
         'prepare' => 'google_plus_prepare_request',
         'callback' => 'google_plus_count_callback',
-      ),
-      'delicious' => array(
-        'url' => 'http://feeds.delicious.com/v2/json/urlinfo/data?url=%s',
-        'method' => 'GET',
-        'timeout' => 3,
-        'callback' => 'delicious_count_callback',
       ),
       'pinterest' => array(
         'url' => 'https://api.pinterest.com/v1/urls/count.json?url=%s&callback=f',
@@ -101,6 +89,18 @@ abstract class ShareaholicShareCount {
         'method' => 'GET',
         'timeout' => 1,
         'callback' => 'odnoklassniki_count_callback',
+      ),
+      'fancy' => array(
+        'url' => 'http://fancy.com/fancyit/count?ItemURL=%s',
+        'method' => 'GET',
+        'timeout' => 1,
+        'callback' => 'fancy_count_callback',
+      ),
+      'yummly' => array(
+        'url' => 'http://www.yummly.com/services/yum-count?url=%s',
+        'method' => 'GET',
+        'timeout' => 1,
+        'callback' => 'yummly_count_callback',
       ),
     );
   }
@@ -181,22 +181,6 @@ abstract class ShareaholicShareCount {
 
 
   /**
-   * Callback function for twitter count API
-   * Gets the twitter counts from response
-   *
-   * @param Array $response The response from calling the API
-   * @return mixed The counts from the API or false if error
-   */
-  public function twitter_count_callback($response) {
-    if($this->has_http_error($response)) {
-      return false;
-    }
-    $body = json_decode($response['body'], true);
-    return isset($body['count']) ? intval($body['count']) : false;
-  }
-
-
-  /**
    * Callback function for linkedin count API
    * Gets the linkedin counts from response
    *
@@ -268,23 +252,6 @@ abstract class ShareaholicShareCount {
     $body = json_decode($response['body'], true);
     // special case: do not return false if the count is not set because the api can return without counts
     return isset($body[0]['result']['metadata']['globalCounts']['count']) ? intval($body[0]['result']['metadata']['globalCounts']['count']) : 0;
-  }
-
-
-  /**
-   * Callback function for delicious count API
-   * Gets the delicious counts from response
-   *
-   * @param Array $response The response from calling the API
-   * @return mixed The counts from the API or false if error
-   */
-  public function delicious_count_callback($response) {
-    if($this->has_http_error($response)) {
-      return false;
-    }
-    $body = json_decode($response['body'], true);
-    // special case: do not return false if the count is set because the api can return without total posts
-    return isset($body[0]['total_posts']) ? intval($body[0]['total_posts']) : 0;
   }
 
 
@@ -395,7 +362,43 @@ abstract class ShareaholicShareCount {
     return isset($matches[1]) ? intval($matches[1]) : false;
   }
 
+  /**
+   * Callback function for Fancy count API
+   * Gets the Fancy counts from response
+   *
+   * @param Array $response The response from calling the API
+   * @return mixed The counts from the API or false if error
+   */
+  public function fancy_count_callback($response) {
+    if($this->has_http_error($response)) {
+      return false;
+    }
 
+    // Fancy always provides a JS callback like this in the response:
+    // '__FIB.collectCount({"url": "http://www.google.com", "count": 26, "thing_url": "http://fancy.com/things/263001623/Google%27s-Jim-Henson-75th-Anniversary-logo", "showcount": 1});'
+    // strip out the callback and parse the JSON from there
+    $response['body'] = str_replace('__FIB.collectCount(', '', $response['body']);
+    $response['body'] = substr($response['body'], 0, strlen($response['body']) - 2);
+
+    $body = json_decode($response['body'], true);
+    return isset($body['count']) ? intval($body['count']) : false;
+  }
+
+  /**
+   * Callback function for Yummly count API
+   * Gets the Yummly counts from response
+   *
+   * @param Array $response The response from calling the API
+   * @return mixed The counts from the API or false if error
+   */
+  public function yummly_count_callback($response) {
+    if($this->has_http_error($response)) {
+      return false;
+    }
+    $body = json_decode($response['body'], true);
+    return isset($body['count']) ? intval($body['count']) : false;
+  }
+  
   /**
    * The abstract function to be implemented by its children
    * This function should get all the counts for the

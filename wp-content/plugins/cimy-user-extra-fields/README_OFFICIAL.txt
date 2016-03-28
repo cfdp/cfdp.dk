@@ -108,10 +108,10 @@ BEFORE writing to me read carefully ALL the documentation AND the FAQ. Missing t
 Bugs or suggestions can be mailed at: cimmino.marco@gmail.com
 
 REQUIREMENTS:
- * PHP >= 5.0.0
- * WORDPRESS >= 3.1.x
- * WORDPRESS MultiSite >= 3.1.x
- * MYSQL >= 4.1.2
+ * PHP >= 5.2.4
+ * WORDPRESS >= 4.3.1
+ * WORDPRESS MultiSite >= 4.3.1
+ * MYSQL >= 5.0
 
 INSTALLATION:
 - WordPress: just copy whole cimy-user-extra-fields subdir into your plug-in directory and activate it
@@ -631,6 +631,21 @@ A lot of times I cannot reproduce the problem and I need more details, so if you
 
 
 CHANGELOG:
+v2.7.1 - 08/02/2016
+- Added support for reCAPTCHA v2
+- Fixed filter by radio Extra Fields under Users Extended
+- Fixed a warning when creating users via code and a file, picture or avatar is present in the form
+- Updated Securimage Captcha to use more secure style and support code audio reader in HTML5 too
+
+v2.7.0 - 19/01/2016
+- Fixed welcome email for new users, broken since WordPress 4.3 (thanks to Paul Yuen, Chris Norton and more)
+- Fixed password change email is no longer sent if user chose its own password during registration
+- Fixed 'Strict Standards' warnings on Users Extended and plug-in's options
+- Dropped support for WordPress 4.2 or below
+- Updated Danish (Michael Ugilt)
+- Updated French (Damien Cottet)
+- Updated Securimage Captcha to v3.6.2
+
 v2.6.5 - 11/05/2015
 - Fixed PHP error on Extended Users on WordPress 4.2 (thanks to Ryan Marshall and Josie Stauffer)
 - Fixed PHP notice on cimy_uef_functions.php at line 673 when using avatar Extra Field (thanks to rossini7777)

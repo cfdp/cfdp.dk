@@ -8,7 +8,7 @@ function cimy_admin_define_extra_fields() {
 // if (!empty($_POST))
 // 	print_r($_POST);
 
-	$role = & get_role('administrator');
+	$role = get_role('administrator');
 	$role->add_cap('view_cimy_extra_fields');
 
 	$errors = Array();
@@ -1273,7 +1273,7 @@ function cimy_admin_users_list_page() {
 					'per_page' => $users_per_page,
 				));
 			}
-			function bulk_actions() {}
+			function bulk_actions( $which = '' ) {}
 			function extra_tablenav($which) {
 				if ('top' != $which)
 					return;
@@ -1322,6 +1322,14 @@ function cimy_admin_users_list_page() {
 					'fields' => 'all_with_meta'
 				);
 
+				global $wp_version;
+				if (version_compare($wp_version, "4.4") >= 0) {
+					if ($role === 'none') {
+						$args['include'] = wp_get_users_with_no_role();
+						unset($users['role']);
+					}
+				}
+
 				if ('' !== $args['search'])
 					$args['search'] = '*' . $args['search'] . '*';
 
@@ -1366,7 +1374,7 @@ function cimy_admin_users_list_page() {
 					'per_page' => $users_per_page,
 				));
 			}
-			function bulk_actions() {}
+			function bulk_actions( $which = '' ) {}
 			function extra_tablenav($which) {
 				if ('top' != $which)
 					return;
@@ -1420,7 +1428,15 @@ function cimy_admin_users_list_page() {
 						$remove = true;
 					}
 				} else if ($ef_type == "radio") {
-					if (($ef_search == $ef_id) && ($ef_value != "selected")) {
+					$tmp_data = array();
+					$tmp_data[0]["TYPE"] = $ef_type;
+					$tmp_data[0]["VALUE"] = $ef_search;
+					$tmp_data[0]["LABEL"] = $ef["LABEL"];
+					$tmp_search_val = cimy_change_radio_labels($tmp_data, $user_object->ID);
+					if (is_array($tmp_search_val)) {
+						$tmp_search_val = $tmp_search_val[0]["VALUE"];
+					}
+					if (($ef_search == $ef_id) && ($ef_value != $tmp_search_val)) {
 						$remove = true;
 					}
 				} else if ($ef_type == "dropdown") {

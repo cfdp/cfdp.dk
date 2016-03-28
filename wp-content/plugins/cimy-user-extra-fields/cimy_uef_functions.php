@@ -1161,3 +1161,41 @@ function cimy_uef_date_picker_options($unique_id, $rules) {
 	}
 	return $js_date;
 }
+
+/**
+ * Check reCAPTCHA v2 response.
+ *
+ * @param string $secret the server side key of the reCAPTCHA v2
+ * @param string $response the response code from the recaptcha server
+ * @param string $remote_ip the remote ip of the user
+ * @return boolean true for response correct; false for response incorrect;
+		   WP_Error if api query failed
+ */
+function cimy_uef_check_recaptcha2_response($secret, $response, $remote_ip = '') {
+	// Collect the args
+	$params = array(
+		'secret' => $secret,
+		'response' => sanitize_text_field($response),
+		'remoteip' => sanitize_text_field($remote_ip)
+	);
+
+	// Generate the URL
+	$url = 'https://www.google.com/recaptcha/api/siteverify';
+	$url = add_query_arg($params, esc_url_raw($url));
+
+	// Make API request
+	$response = wp_remote_post(esc_url_raw($url));
+
+	// Check the response code
+	$response_code    = wp_remote_retrieve_response_code($response);
+	$response_message = wp_remote_retrieve_response_message($response);
+
+	if ( 200 != $response_code && ! empty( $response_message ) ) {
+		return new WP_Error( $response_code, $response_message );
+	} elseif ( 200 != $response_code ) {
+		return new WP_Error( $response_code, 'Unknown error occurred' );
+	} else {
+		$body = json_decode(wp_remote_retrieve_body($response));
+		return is_object($body) && $body->success;
+	}
+}

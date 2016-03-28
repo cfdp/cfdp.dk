@@ -7,24 +7,36 @@ if ( !function_exists('wp_new_user_notification') ) :
  * @param int $user_id User ID
  * @param string $plaintext_pass Optional. The user's plaintext password
  */
-function wp_new_user_notification($user_id, $plaintext_pass = '') {
-	if (isset($_POST["cimy_uef_wp_PASSWORD"]))
+function wp_new_user_notification($user_id, $plaintext_pass = null, $notify = '') {
+	if (isset($_POST["cimy_uef_wp_PASSWORD"])) {
 		delete_user_meta($user_id, 'default_password_nag');
+		if (!isset($plaintext_pass)) {
+			$plaintext_pass = $_POST["cimy_uef_wp_PASSWORD"];
+		}
+	}
 
 	$options = cimy_get_options();
 	if (!is_multisite()) {
 		if (!$options["confirm_email"])
-			wp_new_user_notification_original($user_id, $plaintext_pass, $options["mail_include_fields"], false, cimy_wpml_translate_string("a_opt_welcome_email", $options["welcome_email"]));
+			wp_new_user_notification_original($user_id, $plaintext_pass, $options["mail_include_fields"], false, cimy_wpml_translate_string("a_opt_welcome_email", $options["welcome_email"]), $notify);
 		// if confirmation email is enabled delete the default_password_nag but checks first if has not been done on top of this function!
 		else if (!isset($_POST["cimy_uef_wp_PASSWORD"]))
 			delete_user_meta($user_id, 'default_password_nag');
 	}
-	else
-		wp_new_user_notification_original($user_id, $plaintext_pass, $options["mail_include_fields"]);
+	else {
+		wp_new_user_notification_original($user_id, $plaintext_pass, $options["mail_include_fields"], $notify);
+	}
 }
 endif;
 
-function wp_new_user_notification_original($user_id, $plaintext_pass = '', $include_fields = false, $activation_data = false, $welcome_email = '') {
+add_filter('send_password_change_email', 'cimy_uef_send_password_change_email', 10, 3);
+
+function cimy_uef_send_password_change_email($send, $user, $userdata) {
+	return empty($_POST["cimy_uef_wp_PASSWORD"]) ? true : false;
+}
+
+function wp_new_user_notification_original($user_id, $plaintext_pass = null, $include_fields = false, $activation_data = false, $welcome_email = '', $notify = '') {
+	global $wpdb, $wp_hasher;
 	$user = new WP_User($user_id);
 
 	$user_login = stripslashes($user->user_login);
@@ -51,17 +63,39 @@ function wp_new_user_notification_original($user_id, $plaintext_pass = '', $incl
 
 	@wp_mail($admin_email, sprintf(__('[%s] New User Registration'), $blogname), $message, $headers);
 
-	if ( empty($plaintext_pass) )
+	if ( 'admin' === $notify || empty( $notify ) ) {
 		return;
+	}
 
-	$welcome_email = str_replace("USERNAME", $user_login, $welcome_email);
-	$welcome_email = str_replace("PASSWORD", $plaintext_pass, $welcome_email);
+	$message = str_replace("USERNAME", $user_login, $welcome_email);
+	if ( empty($plaintext_pass) ) {
+		// Generate something random for a password reset key.
+		$key = wp_generate_password( 20, false );
 
-	if ($include_fields)
-		$welcome_email .= cimy_uef_mail_fields($user, $activation_data);
-	$welcome_email = str_replace("LOGINLINK", wp_login_url(), $welcome_email);
+		/** This action is documented in wp-login.php */
+		do_action( 'retrieve_password_key', $user->user_login, $key );
 
-	wp_mail($user_email, sprintf(__('[%s] Your username and password'), $blogname), $welcome_email, $headers);
+		// Now insert the key, hashed, into the DB.
+		if ( empty( $wp_hasher ) ) {
+			require_once ABSPATH . WPINC . '/class-phpass.php';
+			$wp_hasher = new PasswordHash( 8, true );
+		}
+		$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
+		$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user->user_login ) );
+
+		$pass_link = __('To set your password, visit the following address:') . "\r\n\r\n";
+		$pass_link .= '<' . network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user->user_login), 'login') . ">\r\n\r\n";
+		$message = str_replace("PASSWORD", $pass_link, $message);
+	} else {
+		$message = str_replace("PASSWORD", $plaintext_pass, $message);
+	}
+
+	if ($include_fields) {
+		$message .= cimy_uef_mail_fields($user, $activation_data);
+	}
+	$message = str_replace("LOGINLINK", wp_login_url(), $message);
+
+	wp_mail($user->user_email, sprintf(__('[%s] Your username and password info'), $blogname), $message);
 }
 
 function cimy_uef_mail_fields($user = false, $activation_data = false) {
@@ -295,7 +329,7 @@ function cimy_uef_activate_signup($key) {
 		return new WP_Error( 'user_already_exists', __( 'That username is already activated.', $cimy_uef_domain), $signup);
 
 	$options = cimy_get_options();
-	wp_new_user_notification_original($user_id, $password, $options["mail_include_fields"], $meta, cimy_wpml_translate_string("a_opt_welcome_email", $options["welcome_email"]));
+	wp_new_user_notification_original($user_id, $password, $options["mail_include_fields"], $meta, cimy_wpml_translate_string("a_opt_welcome_email", $options["welcome_email"]), 'both');
 	return array('user_id' => $user_id, 'password' => $password, 'meta' => $meta);
 }
 

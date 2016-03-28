@@ -106,23 +106,24 @@ function cimy_register_user_extra_fields($user_id, $password="", $meta=array()) 
 	if ((!is_multisite()) && ($options["confirm_email"]) && (empty($meta)))
 		$user_signups = true;
 
+	$user = new WP_User((int) $user_id);
+	$user_login = $user->user_login;
+
 	// ok ok this is yet another call from wp_create_user function under cimy_uef_activate_signup, we are not yet ready for this, aboooort!
 	if ($user_signups) {
-		$user = new WP_User((int) $user_id);
-		$signup = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."signups WHERE user_login = %s AND active = 0", $user->user_login));
+		$signup = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."signups WHERE user_login = %s AND active = 0", $user_login));
 		if (!empty($signup))
 			return;
 	}
 	if (!empty($meta)) {
-		$user = new WP_User((int) $user_id);
-		$meta_db = $wpdb->get_var($wpdb->prepare("SELECT meta FROM ".$wpdb->prefix."signups WHERE user_login = %s", $user->user_login));
+		$meta_db = $wpdb->get_var($wpdb->prepare("SELECT meta FROM ".$wpdb->prefix."signups WHERE user_login = %s", $user_login));
 		$meta_db = unserialize($meta_db);
 		// password detected, kill it!
 		if (!empty($meta_db['cimy_uef_wp_PASSWORD'])) {
 			unset($meta_db['cimy_uef_wp_PASSWORD']);
 			if (!empty($meta_db['cimy_uef_wp_PASSWORD2']))
 				unset($meta_db['cimy_uef_wp_PASSWORD2']);
-			$wpdb->update($wpdb->prefix."signups", array('meta' => serialize($meta_db)), array('user_login' => $user->user_login));
+			$wpdb->update($wpdb->prefix."signups", array('meta' => serialize($meta_db)), array('user_login' => $user_login));
 		}
 	}
 
@@ -190,22 +191,21 @@ function cimy_register_user_extra_fields($user_id, $password="", $meta=array()) 
 			}
 
 			if (in_array($type, $cimy_uef_file_types)) {
-				$user_login_sanitized = sanitize_user($_POST['user_login']);
 				if ((isset($_POST["register_confirmation"])) && ($_POST["register_confirmation"] == 2)) {
 					$temp_user_login = $_POST["temp_user_login"];
 					$temp_dir = cimy_uef_get_dir_or_filename($temp_user_login);
-					$final_dir = cimy_uef_get_dir_or_filename($user_login_sanitized);
+					$final_dir = cimy_uef_get_dir_or_filename($user_login);
 					if (is_dir($temp_dir)) {
 						rename($temp_dir, $final_dir);
 					}
-					$data = str_replace("/".$temp_user_login."/", "/".$user_login_sanitized."/", $data);
-					$file_on_server = cimy_uef_get_dir_or_filename($user_login_sanitized, $data, false);
+					$data = str_replace("/".$temp_user_login."/", "/".$user_login."/", $data);
+					$file_on_server = cimy_uef_get_dir_or_filename($user_login, $data, false);
 
 					if (in_array($type, $cimy_uef_file_images_types))
 						cimy_uef_crop_image($file_on_server, $field_id_data);
 				}
 				else
-					$data = cimy_manage_upload($input_name, $user_login_sanitized, $rules, false, false, $type, (!empty($advanced_options["filename"])) ? $advanced_options["filename"] : "");
+					$data = cimy_manage_upload($input_name, $user_login, $rules, false, false, $type, (!empty($advanced_options["filename"])) ? $advanced_options["filename"] : "");
 			}
 			else if (!in_array($type, $rule_maxlen_is_str)) {
 				if ($type == "picture-url")
@@ -625,15 +625,27 @@ function cimy_registration_captcha_check($user_login, $user_email, $errors) {
 	if (!empty($_POST['register_confirmation']) && ($_POST['register_confirmation'] == 2) && (wp_verify_nonce($_REQUEST['confirm_form_nonce'], 'confirm_form')))
 		return $errors;
 	$options = cimy_get_options();
-	if (($options['captcha'] == "recaptcha") && (!empty($options['recaptcha_private_key']))) {
+	if (($options['captcha'] == "recaptcha" && !empty($options['recaptcha_private_key'])) ||
+		($options['captcha'] == "recaptcha2" && !empty($options['recaptcha2_secret_key']))
+	) {
+
 		$recaptcha_code_ok = false;
+		if (!empty($_POST["g-recaptcha-response"])) {
+			$recaptcha_code_ok = cimy_uef_check_recaptcha2_response($options['recaptcha2_secret_key'], 
+																	$_POST["g-recaptcha-response"], 
+																	!empty($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : ""
+																	);
+			if (is_wp_error($recaptcha_code_ok)) {
+				$recaptcha_code_ok = false;
+			}
+		}
 
 		if (!empty($_POST["recaptcha_response_field"])) {
 			global $cuef_plugin_dir;
 			require_once($cuef_plugin_dir.'/recaptcha/recaptchalib.php');
 
 			$recaptcha_resp = recaptcha_check_answer($options["recaptcha_private_key"],
-							$_SERVER["REMOTE_ADDR"],
+							!empty($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : "",
 							$_POST["recaptcha_challenge_field"],
 							$_POST["recaptcha_response_field"]);
 
@@ -687,8 +699,6 @@ function cimy_registration_form($errors=null, $show_type=0) {
 	if (!is_user_logged_in())
 		$my_user_level = -1;
 
-	// needed by cimy_uef_init_mce.php
-	$cimy_uef_register_page = true;
 	$extra_fields = get_cimyFields(false, true);
 	$wp_fields = get_cimyFields(true);
 
@@ -1190,7 +1200,7 @@ function cimy_registration_form($errors=null, $show_type=0) {
 					$pass1_id = $unique_id;
 
 				if ($input_name == ($prefix."PASSWORD2")) {
-					echo "\n\t\t<div id=\"pass-strength-result\">".__('Strength indicator')."</div>";
+					echo "\n\t\t<div id=\"pass-strength-result\" class=\"hide-if-no-js\" aria-live=\"polite\">".__('Strength indicator')."</div>";
 					echo "\n\t\t<p class=\"description indicator-hint\">".__('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).')."</p><br />";
 					$pass2_id = $unique_id;
 				}
@@ -1209,59 +1219,61 @@ function cimy_registration_form($errors=null, $show_type=0) {
 	}
 	echo "\t<br />";
 
-	if ($show_type == 0) {
-		// WP 3.2 or lower (N)
-		if (!empty($tiny_mce_objects) && !function_exists("wp_editor")) {
-			require_once($cuef_plugin_dir.'/cimy_uef_init_mce.php');
-		}
-	}
-
 	if (($show_type != 2) && ($options['captcha'] == "securimage")) {
 		global $cuef_securimage_webpath;
 		if (is_multisite()) {
-			$width = 500;
 			if (is_wp_error($errors) && $errmsg = $errors->get_error_message("securimage_code"))
 				echo '<p class="error">'.$errmsg.'</p>';
 		}
-		else
-			$width = 278;
-?>
-		<div style="width: <?php echo $width; ?>px; clear: both; height: 80px; vertical-align: text-top;">
-			<img id="captcha" align="left" style="padding-right: 5px; border: 0" src="<?php echo $cuef_securimage_webpath; ?>/securimage_show_captcha.php" alt="CAPTCHA Image" />
-			<object type="application/x-shockwave-flash" data="<?php echo $cuef_securimage_webpath; ?>/securimage_play.swf?audio_file=<?php echo $cuef_securimage_webpath; ?>/securimage_play.php&#038;bgColor1=#fff&#038;bgColor2=#fff&#038;iconColor=#777&#038;borderWidth=1&#038;borderColor=#000" height="19" width="19"><param name="movie" value="<?php echo $cuef_securimage_webpath; ?>/securimage_play.swf?audio_file=<?php echo $cuef_securimage_webpath; ?>/securimage_play.php&#038;bgColor1=#fff&#038;bgColor2=#fff&#038;iconColor=#777&#038;borderWidth=1&#038;borderColor=#000" /></object>
-			<br /><br /><br />
-			<a align="right"<?php if (!empty($obj_tabindex)) echo " tabindex=\"".$tabindex."\""; $tabindex++; ?> style="border-style: none" href="#" onclick="document.getElementById('captcha').src = '<?php echo $cuef_securimage_webpath; ?>/securimage_show_captcha.php?' + Math.random(); return false"><img src="<?php echo $cuef_securimage_webpath; ?>/images/refresh.png" alt="<?php _e("Change image", $cimy_uef_domain); ?>" border="0" onclick="this.blur()" align="bottom" height="19" width="19" /></a>
-		</div>
-		<div style="width: <?php echo $width; ?>px; clear: both; height: 70px; vertical-align: bottom; padding: 5px;">
-			<?php _e("Insert the code:", $cimy_uef_domain); ?>&nbsp;<input type="text" name="securimage_response_field" size="12" maxlength="16"<?php if (!empty($obj_tabindex)) echo " tabindex=\"".$tabindex."\""; $tabindex++; ?> />
-		</div>
-<?php
+		require_once($cuef_plugin_dir.'/securimage/securimage.php');
+		$captcha_options = array();
+		$captcha_options['image_id'] = 'captcha';
+		$captcha_options['input_name'] = 'securimage_response_field';
+		$captcha_options['input_text'] = __("Insert the code:", $cimy_uef_domain);
+		$captcha_options['refresh_alt_text'] = __("Change image", $cimy_uef_domain);
+		$captcha_options['refresh_title_text'] = __("Change image", $cimy_uef_domain);
+		$captcha_options['show_audio_button'] = true;
+		$captcha_options['show_refresh_button'] = true;
+		echo Securimage::getCaptchaHtml($captcha_options);
 	}
 
-	if (($show_type != 2) && ($options['captcha'] == "recaptcha") && (!empty($options['recaptcha_public_key'])) && (!empty($options['recaptcha_private_key']))) {
-		require_once($cuef_plugin_dir.'/recaptcha/recaptchalib.php');
+	if ($show_type != 2) {
 		if (is_multisite() && is_wp_error($errors) && $errmsg = $errors->get_error_message("recaptcha_code")) {
 			echo '<p class="error">'.$errmsg.'</p>';
 		}
+		if ($options['captcha'] == "recaptcha2" && !empty($options['recaptcha2_site_key']) && !empty($options['recaptcha2_secret_key'])) {
 ?>
-		<script type='text/javascript'>
-			var RecaptchaOptions = {
-				lang: '<?php echo substr(get_locale(), 0, 2); ?>'
-				<?php if (!empty($obj_tabindex)) echo ", tabindex: ".$tabindex; $tabindex++; ?>
-			};
-		</script>
+			<div class="g-recaptcha" 
+				data-sitekey="<?php echo esc_attr($options['recaptcha2_site_key']); ?>" 
+				<?php if (!empty($obj_tabindex)) echo "data-tabindex=".$tabindex; $tabindex++; ?>
+				data-size="compact"
+				>
+			</div>
+<?php
+		}
+
+		if ($options['captcha'] == "recaptcha" && !empty($options['recaptcha_public_key']) && !empty($options['recaptcha_private_key'])) {
+			require_once($cuef_plugin_dir.'/recaptcha/recaptchalib.php');
+?>
+			<script type='text/javascript'>
+				var RecaptchaOptions = {
+					lang: '<?php echo substr(get_locale(), 0, 2); ?>'
+					<?php if (!empty($obj_tabindex)) echo ", tabindex: ".$tabindex; $tabindex++; ?>
+				};
+			</script>
 <?php
 
-		// no need if Tiny MCE is present already
-		if (empty($tiny_mce_objects)) {
+			// no need if Tiny MCE is present already
+			if (empty($tiny_mce_objects)) {
 ?>
 			<script type='text/javascript'>
 				var login_div = document.getElementById("login");
 				login_div.style.width = "375px";
 			</script>
 <?php
+			}
+			echo recaptcha_get_html($options['recaptcha_public_key'], null, is_ssl());
 		}
-		echo recaptcha_get_html($options['recaptcha_public_key'], null, is_ssl());
 	}
 
 	cimy_switch_current_blog(true);
@@ -1333,7 +1345,7 @@ function cimy_uef_registration_redirect($redirect_to) {
 	if (empty($redirect_to)) {
 		$options = cimy_get_options();
 
-		if ($options["redirect_to"] == "source")
+		if ($options["redirect_to"] == "source" && isset($_SERVER["HTTP_REFERER"]))
 			$redirect_to = esc_attr($_SERVER["HTTP_REFERER"]);
 	}
 

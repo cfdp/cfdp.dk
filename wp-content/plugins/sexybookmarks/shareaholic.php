@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 7.6.1.4
+ * @version 7.8.0.2
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
-Description: Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, Shareaholic will help you get it done. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 7.6.1.4
+Description: The world's leading all-in-one Content Amplification Platform that helps grow your website traffic, engagement, conversions & monetization. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
+Version: 7.8.0.2
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -38,7 +38,6 @@ if(!defined('SHAREAHOLIC_ASSET_DIR')) define('SHAREAHOLIC_ASSET_DIR', plugins_ur
 
 // Caching
 if(!defined('SHARE_COUNTS_CHECK_CACHE_LENGTH')) define( 'SHARE_COUNTS_CHECK_CACHE_LENGTH', 300 ); // 300 seconds
-if(!defined('RECOMMENDATIONS_STATUS_CHECK_CACHE_LENGTH')) define( 'RECOMMENDATIONS_STATUS_CHECK_CACHE_LENGTH', 60 ); // 60 seconds
 
 // because define can use function returns and const can't
 if(!defined('SHAREAHOLIC_DEBUG')) define('SHAREAHOLIC_DEBUG', getenv('SHAREAHOLIC_DEBUG'));
@@ -64,7 +63,7 @@ if (!class_exists('Shareaholic')) {
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-    const VERSION = '7.6.1.4';
+    const VERSION = '7.8.0.2';
 
     /**
      * Starts off as false so that ::get_instance() returns
@@ -132,6 +131,28 @@ if (!class_exists('Shareaholic')) {
 
       // Add custom action to run Shareaholic cron job
       add_action('shareaholic_remove_transients_hourly', array('ShareaholicCron', 'remove_transients'));
+
+      // do something before a post is updated
+      add_action('pre_post_update', array('ShareaholicUtilities', 'before_post_is_updated'));
+
+      // do something before a site's permalink structure changes
+      add_action('update_option_permalink_structure', array('ShareaholicUtilities', 'notify_content_manager_sitemap'));
+
+      // use the admin notice API
+      add_action('admin_notices', array('ShareaholicAdmin', 'admin_notices'));
+
+      // ShortCode UI specific hooks to prevent duplicate app rendering
+      // https://wordpress.org/support/topic/custom-post-type-exclude-issue?replies=10#post-3370550
+      add_action('scui_external_hooks_remove', array($this, 'remove_apps'));
+      add_action('scui_external_hooks_return', array($this, 'return_apps'));
+    }
+
+    public static function remove_apps() {
+      remove_filter('the_content', array('ShareaholicPublic', 'draw_canvases'));
+    }
+
+    public static function return_apps() {
+      add_filter('the_content', array('ShareaholicPublic', 'draw_canvases'));
     }
 
     /**
