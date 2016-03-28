@@ -7,10 +7,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
 "Project-Id-Version: Twenty Fourteen\n"
 
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.6)  #-#-#-#-#
 #. Author URI of the plugin/theme
+#: footer.php:21
 msgid "https://wordpress.org/"
 msgstr "https://wordpress.org/"
 
@@ -253,10 +255,6 @@ msgstr "Månedsarkiv: %s"
 msgid "Yearly Archives: %s"
 msgstr "Årsarkiv: %s"
 
-#: footer.php:21
-msgid "http://wordpress.org/"
-msgstr "http://wordpress.org/"
-
 #. Author of the plugin/theme
 msgid "the WordPress team"
 msgstr "holdet bag WordPress"
@@ -421,7 +419,7 @@ msgstr "Sidebemærkninger"
 msgid "Quotes"
 msgstr "Citater"
 
-#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.4)  #-#-#-#-#
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.6)  #-#-#-#-#
 #. Theme Name of the plugin/theme
 #: inc/customizer.php:105
 msgid "Twenty Fourteen"

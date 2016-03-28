@@ -58,15 +58,20 @@ class ShareaholicUtilities {
     return get_option('shareaholic_settings', self::defaults());
   }
 
-  /**
-   * Destroys all settings except the acceptance
-   * of the terms of service.
-   *
-   * @return bool
-   */
-  public static function destroy_settings() {
-    delete_option('shareaholic_get_or_create_api_key');
-    return delete_option('shareaholic_settings');
+  public static function reset_settings() {
+    $settings = self::get_settings();
+    $api_key = self::get_option('api_key');
+
+    $response = ShareaholicCurl::post(
+      Shareaholic::API_URL . '/publisher_tools/'  . $api_key .  '/reset/',
+      $settings,
+      'json'
+    );
+
+    // set the location on/off back to their defaults
+    if (isset($settings['location_name_ids']) && is_array($settings['location_name_ids'])) {
+      self::set_default_location_settings($settings['location_name_ids']);
+    }
   }
 
   /**
@@ -77,7 +82,6 @@ class ShareaholicUtilities {
    */
   private static function defaults() {
     return array(
-      'disable_tracking' => 'off',
       'disable_admin_bar_menu' => 'off',
       'disable_debug_info' => 'off',
       'disable_internal_share_counts_api' => 'off',
@@ -327,7 +331,6 @@ class ShareaholicUtilities {
       global $wpdb;
       $results = $wpdb->query( "UPDATE $wpdb->postmeta SET `meta_key` = 'shareaholic_disable_open_graph_tags' WHERE `meta_key` = 'Hide OgTags'" );
       $results = $wpdb->query( "UPDATE $wpdb->postmeta SET `meta_key` = 'shareaholic_disable_share_buttons' WHERE `meta_key` = 'Hide SexyBookmarks'" );
-      self::update_options(array('disable_tracking' => 'off'));
       self::update_options(array('metakey_6to7_upgraded' => 'true'));
     }
     
@@ -363,12 +366,23 @@ class ShareaholicUtilities {
    * @return string
    */
   public static function asset_url($asset) {
-    if (preg_match('/spreadaholic/', Shareaholic::URL)) {
+    $env = self::get_env();
+    if ($env === 'development') {
       return "http://spreadaholic.com:8080/" . $asset;
-    } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
+    } elseif ($env === 'staging') {
       return '//d2062rwknz205x.cloudfront.net/' . $asset;
     } else {
       return '//dsms0mj1bbhn4.cloudfront.net/' . $asset;
+    }
+  }
+
+  public static function get_env() {
+    if (preg_match('/spreadaholic/', Shareaholic::URL)) {
+      return 'development';
+    } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
+      return 'staging';
+    } else {
+      return 'production';
     }
   }
   
@@ -604,27 +618,11 @@ class ShareaholicUtilities {
 
       $verification_key = md5(mt_rand());
 
-      $turned_on_share_buttons_locations = array(
-        array('name' => 'post_below_content', 'counter' => 'badge-counter'),
-        array('name' => 'page_below_content', 'counter' => 'badge-counter'),
-        array('name' => 'index_below_content', 'counter' => 'badge-counter'),
-        array('name' => 'category_below_content', 'counter' => 'badge-counter')
-      );
-      $turned_off_share_buttons_locations = array(
-        array('name' => 'post_above_content', 'counter' => 'badge-counter'),
-        array('name' => 'page_above_content', 'counter' => 'badge-counter'),
-        array('name' => 'index_above_content', 'counter' => 'badge-counter'),
-        array('name' => 'category_above_content', 'counter' => 'badge-counter')
-      );
+      $turned_on_share_buttons_locations = self::get_default_sb_on_locations();
+      $turned_off_share_buttons_locations = self::get_default_sb_off_locations();
 
-      $turned_on_recommendations_locations = array(
-        array('name' => 'post_below_content'),
-        array('name' => 'page_below_content'),
-      );
-      $turned_off_recommendations_locations = array(
-        array('name' => 'index_below_content'),
-        array('name' => 'category_below_content'),
-      );
+      $turned_on_recommendations_locations = self::get_default_rec_on_locations();
+      $turned_off_recommendations_locations = self::get_default_rec_off_locations();
 
       $share_buttons_attributes = array_merge($turned_on_share_buttons_locations, $turned_off_share_buttons_locations);
       $recommendations_attributes = array_merge($turned_on_recommendations_locations, $turned_off_recommendations_locations);
@@ -659,38 +657,7 @@ class ShareaholicUtilities {
         ));
 
         if (isset($response['body']['location_name_ids']) && is_array($response['body']['location_name_ids'])) {
-
-          $turned_on_share_buttons_keys = array();
-          foreach($turned_on_share_buttons_locations as $loc) {
-            $turned_on_share_buttons_keys[] = $loc['name'];
-          }
-
-          $turned_on_recommendations_keys = array();
-          foreach($turned_on_recommendations_locations as $loc) {
-            $turned_on_recommendations_keys[] = $loc['name'];
-          }
-
-          $turned_off_share_buttons_keys = array();
-          foreach($turned_off_share_buttons_locations as $loc) {
-            $turned_off_share_buttons_keys[] = $loc['name'];
-          }
-
-          $turned_off_recommendations_keys = array();
-          foreach($turned_off_recommendations_locations as $loc) {
-            $turned_off_recommendations_keys[] = $loc['name'];
-          }
-
-          $turn_on = array(
-            'share_buttons' => self::associative_array_slice($response['body']['location_name_ids']['share_buttons'], $turned_on_share_buttons_keys),
-            'recommendations' => self::associative_array_slice($response['body']['location_name_ids']['recommendations'], $turned_on_recommendations_keys)
-          );
-
-          $turn_off = array(
-            'share_buttons' => self::associative_array_slice($response['body']['location_name_ids']['share_buttons'], $turned_off_share_buttons_keys),
-            'recommendations' => self::associative_array_slice($response['body']['location_name_ids']['recommendations'], $turned_off_recommendations_keys)
-          );
-
-          ShareaholicUtilities::turn_on_locations($turn_on, $turn_off);
+          self::set_default_location_settings($response['body']['location_name_ids']);
           ShareaholicUtilities::clear_cache();
         } else {
           ShareaholicUtilities::log_bad_response('FailedToCreateApiKey', $response);
@@ -705,6 +672,105 @@ class ShareaholicUtilities {
       usleep(100000);
       self::get_or_create_api_key();
     }
+  }
+
+
+  /**
+   * Get share buttons locations that should be turned on by default
+   *
+   * @return {Array}
+   */
+  public static function get_default_sb_on_locations() {
+    return array(
+      array('name' => 'post_below_content', 'counter' => 'badge-counter'),
+      array('name' => 'page_below_content', 'counter' => 'badge-counter'),
+      array('name' => 'index_below_content', 'counter' => 'badge-counter'),
+      array('name' => 'category_below_content', 'counter' => 'badge-counter')
+    );
+  }
+
+  /**
+   * Get share buttons locations that should be turned off by default
+   *
+   * @return {Array}
+   */
+  public static function get_default_sb_off_locations() {
+    return array(
+      array('name' => 'post_above_content', 'counter' => 'badge-counter'),
+      array('name' => 'page_above_content', 'counter' => 'badge-counter'),
+      array('name' => 'index_above_content', 'counter' => 'badge-counter'),
+      array('name' => 'category_above_content', 'counter' => 'badge-counter')
+    );
+  }
+
+  /**
+   * Get recommendations locations that should be turned on by default
+   *
+   * @return {Array}
+   */
+  public static function get_default_rec_on_locations() {
+    return array(
+      array('name' => 'post_below_content'),
+      array('name' => 'page_below_content'),
+    );
+  }
+
+
+  /**
+   * Get recommendations locations that should be turned off by default
+   *
+   * @return {Array}
+   */
+  public static function get_default_rec_off_locations() {
+    return array(
+      array('name' => 'index_below_content'),
+      array('name' => 'category_below_content'),
+    );
+  }
+
+  /**
+   * Given an object, set the default on/off locations
+   * for share buttons and recommendations
+   *
+   */
+  public static function set_default_location_settings($location_name_ids) {
+    $turned_on_share_buttons_locations = self::get_default_sb_on_locations();
+    $turned_off_share_buttons_locations = self::get_default_sb_off_locations();
+
+    $turned_on_recommendations_locations = self::get_default_rec_on_locations();
+    $turned_off_recommendations_locations = self::get_default_rec_off_locations();
+
+    $turned_on_share_buttons_keys = array();
+    foreach($turned_on_share_buttons_locations as $loc) {
+      $turned_on_share_buttons_keys[] = $loc['name'];
+    }
+
+    $turned_on_recommendations_keys = array();
+    foreach($turned_on_recommendations_locations as $loc) {
+      $turned_on_recommendations_keys[] = $loc['name'];
+    }
+
+    $turned_off_share_buttons_keys = array();
+    foreach($turned_off_share_buttons_locations as $loc) {
+      $turned_off_share_buttons_keys[] = $loc['name'];
+    }
+
+    $turned_off_recommendations_keys = array();
+    foreach($turned_off_recommendations_locations as $loc) {
+      $turned_off_recommendations_keys[] = $loc['name'];
+    }
+
+    $turn_on = array(
+      'share_buttons' => self::associative_array_slice($location_name_ids['share_buttons'], $turned_on_share_buttons_keys),
+      'recommendations' => self::associative_array_slice($location_name_ids['recommendations'], $turned_on_recommendations_keys)
+    );
+
+    $turn_off = array(
+      'share_buttons' => self::associative_array_slice($location_name_ids['share_buttons'], $turned_off_share_buttons_keys),
+      'recommendations' => self::associative_array_slice($location_name_ids['recommendations'], $turned_off_recommendations_keys)
+    );
+
+    ShareaholicUtilities::turn_on_locations($turn_on, $turn_off);
   }
 
   /**
@@ -885,7 +951,7 @@ class ShareaholicUtilities {
      if ($post == NULL) {
        return false;
      }
-     
+
      if (in_array($post->post_status, array('draft', 'pending', 'auto-draft'))) {
        // Get the correct permalink for a draft
        $my_post = clone $post;
@@ -913,8 +979,8 @@ class ShareaholicUtilities {
     *
     * @param string $domain
     */
-    public static function notify_content_manager_sitemap() {      
-      $text_sitemap_url = admin_url('admin-ajax.php') . '?action=shareaholic_permalink_list&n=500&format=text';
+    public static function notify_content_manager_sitemap() {
+      $text_sitemap_url = admin_url('admin-ajax.php') . '?action=shareaholic_permalink_list&n=1000&format=text';
       
       $cm_sitemap_job_url = Shareaholic::CM_API_URL . '/jobs/sitemap';
       $payload = array (
@@ -1007,7 +1073,7 @@ class ShareaholicUtilities {
    */
   public static function add_header_xua($headers) {
       if(!isset($headers['X-UA-Compatible'])) {
-        $headers['X-UA-Compatible'] = 'IE=edge,chrome=1';
+        $headers['X-UA-Compatible'] = 'IE=edge';
       }
       return $headers;
   }
@@ -1017,7 +1083,7 @@ class ShareaholicUtilities {
    *
    */
   public static function draw_meta_xua() {
-    echo '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">';
+    echo '<meta http-equiv="X-UA-Compatible" content="IE=edge">';
   }
   
   /**
@@ -1246,10 +1312,10 @@ class ShareaholicUtilities {
     }
 
     // Did it return at least 8 services?
-    $has_majority_services = count(array_keys($response['body']['data'])) >= 8 ? true : false;
+    $has_majority_services = count(array_keys($response['body']['data'])) >= 6 ? true : false;
     $has_important_services = true;
-    // Does it have counts for twtr, linkedin, pinterest, and delicious?
-    foreach (array('twitter', 'linkedin', 'pinterest', 'delicious') as $service) {
+    // Does it have counts for fb, linkedin, pinterest?
+    foreach (array('facebook', 'linkedin', 'pinterest') as $service) {
       if (!isset($response['body']['data'][$service]) || !is_numeric($response['body']['data'][$service])) {
         $has_important_services = false;
       }
@@ -1262,35 +1328,18 @@ class ShareaholicUtilities {
     return 'SUCCESS';
   }
 
+
   /**
-   * This is a wrapper for the Recommendations API
+   * Call the content manager for a post before it is updated
+   *
+   * We do this because a user may change their permalink
+   * and so we tell CM that the old permalink is not longer valid
    *
    */
-   public static function recommendations_status_check() {
-    if (self::get_option('api_key') != NULL){
-    	$recommendations_url = Shareaholic::REC_API_URL . "/v4/recommend?url=" . urlencode(get_bloginfo('url')) . "&internal=6&sponsored=0&api_key=" . self::get_option('api_key');
-      $cache_key = 'recommendations_status_check-' . md5( $recommendations_url );
-      
-      $response = get_transient($cache_key);
-      if (!$response){
-        $response = ShareaholicCurl::get($recommendations_url);
-        if( !is_wp_error( $response ) ) {
-            set_transient( $cache_key, $response, RECOMMENDATIONS_STATUS_CHECK_CACHE_LENGTH );
-        }
-      }
-      
-      if(is_array($response) && array_key_exists('response', $response)) {
-        $body = $response['body'];
-        if (is_array($body) && array_key_exists('internal', $body) && !empty($body['internal'])) {
-          return "ready";
-        } else {
-          return "processing";
-        }
-      } else {
-        return "unknown";
-      }
-    }
-   }
+  public static function before_post_is_updated($post_id) {
+    ShareaholicUtilities::notify_content_manager_singlepage(get_post($post_id));
+  }
+
 
   public static function user_info() {
     $current_user = wp_get_current_user();
@@ -1319,5 +1368,28 @@ class ShareaholicUtilities {
     }
 
     return $user_info;
+  }
+
+  /**
+   * Shorten a string to a certain character limit
+   * If the limit is reached, then return the truncated text
+   *
+   * @param {String} $text the text to truncate
+   * @param {Number} $char_count the max number of characters
+   * @return {String} the truncated text
+   */
+  public static function truncate_text($text, $char_count) {
+    $words = preg_split('/\s+/', $text);
+    $truncated_text = '';
+
+    foreach($words as $word) {
+      if (strlen($word) + strlen($truncated_text) >= $char_count) {
+        break;
+      }
+
+      $truncated_text .= ' ' . $word;
+    }
+
+    return trim($truncated_text);
   }
 }

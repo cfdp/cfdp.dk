@@ -146,6 +146,14 @@ function cimy_save_options() {
 		$options['recaptcha_private_key'] = trim($_POST['recaptcha_private_key']);
 	}
 
+	if (isset($_POST['recaptcha2_site_key'])) {
+		$options['recaptcha2_site_key'] = trim($_POST['recaptcha2_site_key']);
+	}
+
+	if (isset($_POST['recaptcha2_secret_key'])) {
+		$options['recaptcha2_secret_key'] = trim($_POST['recaptcha2_secret_key']);
+	}
+
 	if (!isset($results['empty_wp_fields'])) {
 		if (isset($_POST['show_wp_password'])) {
 			array_push($options['wp_hidden_fields'], 'password');
@@ -312,6 +320,8 @@ function cimy_show_options($results, $embedded) {
 		$welcome_email = $options['welcome_email'];
 		isset($options['recaptcha_public_key']) ? $recaptcha_public_key = $options['recaptcha_public_key'] : $recaptcha_public_key = '';
 		isset($options['recaptcha_private_key']) ? $recaptcha_private_key = $options['recaptcha_private_key'] : $recaptcha_private_key = '';
+		isset($options['recaptcha2_site_key']) ? $recaptcha2_site_key = $options['recaptcha2_site_key'] : $recaptcha2_site_key = '';
+		isset($options['recaptcha2_secret_key']) ? $recaptcha2_secret_key = $options['recaptcha2_secret_key'] : $recaptcha2_secret_key = '';
 
 		$db_options = true;
 	}
@@ -321,6 +331,8 @@ function cimy_show_options($results, $embedded) {
 		$welcome_email = '';
 		$recaptcha_public_key = '';
 		$recaptcha_private_key = '';
+		$recaptcha2_site_key = '';
+		$recaptcha2_secret_key = '';
 	}
 	
 	if ($wpdb->get_var("SHOW TABLES LIKE '$wpdb_wp_fields_table'") == $wpdb_wp_fields_table) {
@@ -518,6 +530,22 @@ function cimy_show_options($results, $embedded) {
 				_e("Private KEY", $cimy_uef_domain);
 			?>
 				<input type="text" name="recaptcha_private_key" value="<?php echo esc_attr($recaptcha_private_key); ?>" size="40" />
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">
+				<label><input type="radio" name="captcha" value="recaptcha2"<?php checked("recaptcha2", $options['captcha'], true); ?> />
+				<?php _e('Enable <a href="http://www.google.com/recaptcha" target="_blank">reCAPTCHA v2</a>', $cimy_uef_domain); ?></a></label>
+			</th>
+			<td>
+			<?php
+				_e("Site KEY", $cimy_uef_domain);
+			?>
+				<input type="text" name="recaptcha2_site_key" value="<?php echo esc_attr($recaptcha2_site_key); ?>" size="45" /><br />
+			<?php
+				_e("Secret KEY", $cimy_uef_domain);
+			?>
+				<input type="text" name="recaptcha2_secret_key" value="<?php echo esc_attr($recaptcha2_secret_key); ?>" size="45" />
 			</td>
 		</tr>
 		<tr>

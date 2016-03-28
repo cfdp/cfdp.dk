@@ -11,6 +11,10 @@
  * @package shareaholic
  */
 class ShareaholicAdmin {
+
+  const ACTIVATE_TIMESTAMP_OPTION = 'shareaholic_activate_timestamp';
+  const REVIEW_PERIOD = 1296000; // 15 days in seconds
+  const REVIEW_DISMISS_OPTION = 'shareaholic_review_dismiss';
   
   /**
    * Loads before all else
@@ -25,6 +29,63 @@ class ShareaholicAdmin {
          ShareaholicUtilities::share_counts_api_connectivity_check();
        }
     }
+    self::check_review_dismissal();
+    self::check_plugin_review();
+  }
+
+  /**
+   * Check if the user has dismissed the review message
+   *
+   */
+  public static function check_review_dismissal() {
+    if (!is_admin() ||
+        !current_user_can('manage_options') ||
+        !isset($_GET['_wpnonce']) ||
+        !wp_verify_nonce($_GET['_wpnonce'], 'review-nonce') ||
+        !isset($_GET[self::REVIEW_DISMISS_OPTION])) {
+      return;
+    }
+
+    add_site_option(self::REVIEW_DISMISS_OPTION, true);
+  }
+
+  /**
+   * Check if we should display the review message days after the
+   * plugin has been activated
+   *
+   */
+  public static function check_plugin_review() {
+    $activation_timestamp = get_site_option(self::ACTIVATE_TIMESTAMP_OPTION);
+    $review_dismissal = get_site_option(self::REVIEW_DISMISS_OPTION);
+
+    if ($review_dismissal == true) {
+      return;
+    }
+
+    if (!$activation_timestamp) {
+      $activation_timestamp = time();
+      add_site_option(self::ACTIVATE_TIMESTAMP_OPTION, $activation_timestamp);
+    }
+
+    // display review message after a certain period of time after activation
+    if (time() - $activation_timestamp > self::REVIEW_PERIOD) {
+      add_action('admin_notices', array('ShareaholicAdmin', 'display_review_notice'));
+    }
+  }
+
+  public static function display_review_notice() {
+    $dismiss_url = wp_nonce_url('?'. self::REVIEW_DISMISS_OPTION .'=true', 'review-nonce');
+
+    echo '
+    <div class="updated">
+      <p>' . __('You have been using the ', 'shareaholic') . '<a href="' . admin_url('admin.php?page=shareaholic-settings') . '">Shareaholic plugin</a>' . __(' for some time now, do you like it? If so, please consider leaving us a review on WordPress.org! It would help us out a lot and we would really appreciate it.', 'shareaholic') . '
+        <br />
+        <br />
+        <a onclick="location.href=\'' . esc_url($dismiss_url) . '\';" class="button button-primary" href="' . esc_url('https://wordpress.org/support/view/plugin-reviews/shareaholic?rate=5#postform') . '" target="_blank">' . __('Leave a Review', 'shareaholic') . '</a>
+        <a href="' . esc_url($dismiss_url) . '">' . __('No thanks', 'shareaholic') . '</a>
+      </p>
+    </div>';
+
   }
   
   /**
@@ -313,7 +374,7 @@ class ShareaholicAdmin {
     if(isset($_POST['reset_settings'])
       && $_POST['reset_settings'] == 'Y'
       && check_admin_referer($action, 'nonce_field')) {
-      ShareaholicUtilities::destroy_settings();
+      ShareaholicUtilities::reset_settings();
       echo "<div class='updated settings_updated'><p><strong>"
         . sprintf(__('Settings successfully reset. Refresh this page to complete the reset.', 'shareaholic'))
         . "</strong></p></div>";
@@ -322,7 +383,7 @@ class ShareaholicAdmin {
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y' &&
         check_admin_referer($action, 'nonce_field')) {
       echo "<div class='updated settings_updated'><p><strong>". sprintf(__('Settings successfully saved', 'shareaholic')) . "</strong></p></div>";
-      foreach (array('disable_tracking', 'disable_og_tags', 'disable_admin_bar_menu', 'disable_debug_info', 'disable_internal_share_counts_api') as $setting) {
+      foreach (array('disable_og_tags', 'disable_admin_bar_menu', 'disable_debug_info', 'disable_internal_share_counts_api') as $setting) {
         if (isset($settings[$setting]) &&
             !isset($_POST['shareaholic'][$setting]) &&
             $settings[$setting] == 'on') {
@@ -338,10 +399,6 @@ class ShareaholicAdmin {
 
       if (isset($_POST['shareaholic']['api_key'])) {
         ShareaholicUtilities::update_options(array('api_key' => $_POST['shareaholic']['api_key']));
-      }
-
-      if (isset($_POST['shareaholic']['disable_tracking'])) {
-        ShareaholicUtilities::update_options(array('disable_tracking' => $_POST['shareaholic']['disable_tracking']));
       }
 
       if (isset($_POST['shareaholic']['disable_og_tags'])) {
@@ -484,6 +541,17 @@ class ShareaholicAdmin {
     
     if (function_exists('wp_mail')){
       wp_mail($to, $subject, $message, $headers);
+    }
+  }
+
+  public static function admin_notices() {
+    global $pagenow;
+    if ($pagenow == 'options-permalink.php') {
+      $css_class = 'error';
+      $message = 'WARNING: changing the permalink structure will reset the share counts for your pages.';
+      echo "<div class='$css_class'><p style='font-weight: bold;'>";
+      _e($message, 'Shareaholic');
+      echo '</p></div>';
     }
   }
 }

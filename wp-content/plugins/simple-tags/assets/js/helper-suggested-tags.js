@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-	jQuery("#suggestedtags h3.hndle span").html( html_entity_decode(stHelperSuggestedTagsL10n.title_bloc) );
+	jQuery("#suggestedtags .hndle span").html( html_entity_decode(stHelperSuggestedTagsL10n.title_bloc) );
 	jQuery("#suggestedtags .inside .container_clicktags").html( stHelperSuggestedTagsL10n.content_bloc );
 	
 	// OpenCalais API
@@ -85,6 +85,17 @@ jQuery(document).ready(function() {
 	
 		jQuery('#st_ajax_loading').show();
 		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_datatxt', {content:getContentFromEditor(),title:jQuery("#title").val()}, function(){
+			registerClickTags();
+		});
+		return false;
+	});
+	
+	// Proxem API
+	jQuery("a.proxem").click(function(event) {
+		event.preventDefault();
+	
+		jQuery('#st_ajax_loading').show();
+		jQuery("#suggestedtags .container_clicktags").load( ajaxurl + '?action=simpletags&stags_action=tags_from_proxem', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
 			registerClickTags();
 		});
 		return false;

@@ -1,11 +1,12 @@
 <?php
 /*
 Plugin Name: HTML in Category Descriptions
-Version: 1.2.1
-Plugin URI: http://wordpress.org/extend/plugins/allow-html-in-category-descriptions/developers/
+Version: 1.2.1.1
+Plugin URI: http://wordpress.org/extend/plugins/allow-html-in-category-descriptions/
 Description: Allows you to add HTML code in category descriptions
 Author: Arno Esterhuizen
 Author URI: arno.esterhuizen@gmail.com
+Text Domain: allow-html-in-category-descriptions
 */
 
 // Disables Kses only for textarea saves
@@ -17,3 +18,14 @@ foreach (array('pre_term_description', 'pre_link_description', 'pre_link_notes',
 foreach (array('term_description', 'link_description', 'link_notes', 'user_description') as $filter) {
 	remove_filter($filter, 'wp_kses_data');
 }
+
+//Additional links on the plugin page
+add_filter('plugin_row_meta', 'RegisterPluginLinks', 10, 2);
+
+function RegisterPluginLinks ($links, $file) {
+	if ($file == plugin_basename(__FILE__)) {
+		$links[] = '<a href="http://wordpress.org/support/plugin/allow-html-in-category-descriptions">Support</a>';
+		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SGS5KSM9N4D3Y">Donate</a>';
+	}
+	return $links;
+}	

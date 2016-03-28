@@ -1,9 +1,9 @@
 === Allow HTML in Category Descriptions ===
-Contributors: arno.esterhuizen, arno_esterhuizen
+Contributors: arno.esterhuizen
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SGS5KSM9N4D3Y
 Tags: categories, category descriptions, html, filter
 Requires at least: 2.5
-Tested up to: 3.5
+Tested up to: 4.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -36,7 +36,17 @@ and formatting. Switch to the 'code' tab and copy the HTML code into the categor
 1. **Subject Line:** Question: WordPress Plugin: Allow HTML in Category Descriptions
 1. **Donations:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SGS5KSM9N4D3Y
 
+== Screenshots ==
+
+1. Adding HTML code to the category description
+1. A preview of the category description in the category list admin screen
+1. What the category looks like on the front-end if your theme supports it
+(here shown with the Twenty Fourteen theme)
+
 == Changelog ==
+
+= 1.2.1.1 =
+* Add a text domain for translation purposes
 
 = 1.2.1 =
 * Minor formatting of the plugin code, syntax, etc.

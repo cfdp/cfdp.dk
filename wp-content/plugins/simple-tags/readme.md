@@ -1,17 +1,17 @@
 # Simple Tags #
 
-**Contributors:** momo360modena  
-**Donate link:** http://beapi.fr/donate/  
-**Tags:** tag, posts, tags, admin, administration, tagging, navigation, terms, taxonomy  
-**Requires at least:** 3.3
-**Tested up to:** 4.0
-**Stable tag:** 2.4.1
+* **Contributors:** momo360modena, rahe, beapi, nicolaskulka
+* **Donate link:** http://beapi.fr/donate/  
+* **Tags:** tag, posts, tags, admin, administration, tagging, navigation, terms, taxonomy  
+* **Requires at least:** 3.3
+* **Tested up to:** 4.4
+* **Stable tag:** 2.4.5
+* **License:** GPLv2 or later
+* **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 **Add some tools for taxonomies :** Terms suggestion, Mass Edit Terms, Auto link Terms, Ajax Autocompletion, Click Terms, Auto terms, Advanced manage terms, Advanced Post Terms, Related Posts by Terms, etc.  
 
 ## Description ##
-
-**I do not offer any support for this plugin. I do not participate in any subject on the WordPress.org support forum. If you find a bug, thank you for the report on the Github repository, and make a exhaustive request (plugin installed / error message / PHP function called). Thank you.**
 
 Simple Tags is the successor of Simple Tagging Plugin
 **This is THE perfect tool to manage perfectly your WP terms for any taxonomy**
@@ -78,6 +78,16 @@ The Simple Tags can be installed in 3 easy steps:
 
 ## Changelog ##
 
+* Version 2.4.5
+    * Add shortcode [st-the-tags] and [st_the_tags]
+    * Fix array_flip wp_get_object_terms
+* Version 2.4.4
+    * Fix error upload WordPress.org
+* Version 2.4.3
+    * Fix metabox title WP 4.4
+* Version 2.4.2
+    * Make tags all same count mid-sized (pull request #29) (from Github contribution Sophist-UK)
+    * Fix options Advanced Usage on widgets (pull request #28) (from Github contribution Sophist-UK)
 * Version 2.4.1
 	* Fix possible warning with preg_match function
 	* Specify user-agent for some provider

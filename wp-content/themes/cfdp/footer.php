@@ -57,7 +57,10 @@
 
       <div class="bottomFoot grid_12 alpha">
         <div class="inner">
-          <iframe id="facebook-faces" src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fcfdp.dk&amp;width=980&amp;height=258&amp;colorscheme=dark&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=112787928922252" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100%; height:258px;" allowTransparency="true"></iframe>
+         <div style="height:190px;" class="fb-page" data-href="https://www.facebook.com/cfdp.dk?fref=ts" data-width="500" data-small-header="true" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/cfdp.dk?fref=ts"><a href="https://www.facebook.com/cfdp.dk?fref=ts">Center for Digital Pædagogik</a></blockquote>
+</div>
+</div>
+
         </div>
       </div>
 

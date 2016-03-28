@@ -117,6 +117,11 @@ function cimy_uef_init_javascripts($rule_name) {
 	global $cuef_plugin_dir, $cuef_css_webpath, $cuef_js_webpath;
 
 	$options = cimy_get_options();
+	if ($options['captcha'] == 'recaptcha2') {
+		wp_register_script('recaptcha2', 'https://www.google.com/recaptcha/api.js', array());
+		wp_enqueue_script('recaptcha2');
+	}
+
 	if ($options['image_fields'][$rule_name] > 0) {
 		wp_enqueue_style('imgareaselect');
 		wp_register_script('cimy_uef_img_selection', $cuef_js_webpath."/img_selection.js", array("imgareaselect", "jquery"), false);
