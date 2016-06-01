@@ -62,7 +62,6 @@
 </div>
 </div>
 
-        </div>
       </div>
 
       <div class="copyright grid_12 alpha">
