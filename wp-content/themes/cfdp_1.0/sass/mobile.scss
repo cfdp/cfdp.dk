@@ -1,0 +1,340 @@
+
+@import "reset";
+
+@mixin clearfix {
+  zoom:1;
+  &:before, &:after {
+      content: "\0020";
+      display: block;
+      height: 0;
+      overflow: hidden;
+  }
+  &:after {
+      clear: both;
+  }
+}
+
+* {
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+
+/* =Containers
+--------------------------------------------------------------------------------*/
+
+.wrap
+{
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+/* =Grid >> Global
+--------------------------------------------------------------------------------*/
+
+[class^="grid_"] {
+display: block;
+}
+
+.wrap > [class^="grid_"] {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+
+/* =Clear Floated Elements
+--------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+html body * span.clear,
+html body * div.clear,
+html body * li.clear,
+html body * dd.clear
+{
+  background: none;
+  border: 0;
+  clear: both;
+  display: block;
+  float: none;
+  font-size: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+/* http://www.positioniseverything.net/easyclearing.html */
+
+.clearfix:after
+{
+  clear: both;
+  content: '.';
+  display: block;
+  visibility: hidden;
+  height: 0;
+}
+
+.clearfix
+{
+  display: inline-block;
+}
+
+* html .clearfix
+{
+  height: 1%;
+}
+
+.clearfix
+{
+  display: block;
+}
+
+
+// ------ TWEAKS ------- //
+
+body {
+  //overflow-x: hidden;
+  font: 14px/20px 'Lato', Helveltica, Arial, Sans-Serif;
+}
+
+.topSpacer {
+  height: 30px;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+// Hide desktop only elements
+.nav,
+.searchbar,
+.topNav,
+body .SnapABug_Button,
+.topLink {
+  display: none !important;
+}
+
+// Show menu
+.mobile-menu-wrapper {
+  display: block;
+  position: relative;
+  top: -74px;
+  z-index: 9999;
+  float: right;
+  margin-bottom: 2em;
+}
+
+// Style custom select menu
+span.customSelect {
+  background:#fff url(../img/mobile-menu.png) right center no-repeat;
+  border:1px solid #ddd;
+  color:#555;
+  padding:7px 9px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px 2px;
+  width:175px;
+}
+
+// Header
+.logo h1 a,
+.logo h1 a img {
+  width: 80%;
+  max-width: 548px;
+  min-width: 200px;
+  height: auto;
+  margin-bottom: 1em;
+}
+
+// FRONTPAGE
+// slider
+#dfcg-fullsize {
+  width: 100% !important;
+}
+
+// Facebook faces
+iframe#facebook-faces {
+  margin-bottom: 2em;
+}
+
+// Content pages
+.content {
+  margin-bottom: 0;
+}
+
+.content h2.heading {
+  width: 100%;
+}
+
+//Comments
+div#respond textarea#comment {
+  width: 100%;
+  max-width: 640px;
+}
+
+// Sidebar
+.sidebar {
+  margin-top: 2em;
+}
+
+
+// Bestyrelsen
+
+.team.content,
+.partnere.content {
+  .grid_4 {
+    @include clearfix;
+    margin-bottom: 2em;
+  }
+
+  .presse {
+    margin-top: 0;
+  }
+}
+
+
+// blockgrid pages (products and others)
+.childCatPosts {
+  .post.grid_4 {
+    width: 30%;
+    float: left;
+    margin-bottom: 2em;
+    margin-right: 5%;
+    font: 14px/20px 'Lato', Helveltica, Arial, Sans-Serif;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+
+// Footer
+.leftFoot p {
+  line-height: 1.25em;
+}
+
+.rightFoot .grid_2 {
+  display: block;
+  width: 60px;
+  height: 60px;
+  float: left;
+}
+
+.rightFoot .clearfix {
+  margin-bottom: 0;
+}
+
+.rightFoot div a {
+  display: block;
+  text-indent: -9999px;
+}
+
+
+
+@media screen and (max-width: 640px) {
+  body {
+    background: none;
+  }
+
+  .wrap {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border: none;
+  }
+
+  // Hide elements
+  .slider {
+    display: none;
+  }
+
+  span.customSelect {
+    width: 100%;
+  }
+
+  .mobile-menu-wrapper {
+    display: block;
+    position: relative;
+    top: auto;
+    z-index: 9999;
+    float: none;
+    width: 100%;
+  }
+
+  .content h2.heading {
+    font: 28px 'Lato', Helveltica, Arial, Sans-Serif;
+  }
+
+  // blockgrid pages (products and others)
+  .childCatPosts {
+    .post.grid_4 {
+      width: 100%;
+      float: none;
+      margin-bottom: 2em;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

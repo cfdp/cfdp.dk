@@ -1,0 +1,1100 @@
+/*
+Theme Name: Center for Digital Pædagogik
+Theme URI: http://cfdp.dk
+Description:
+Author: Michael Lajlev
+Author URI: http://osweb.dk
+Version: 1.00
+Tags: Social, Clean
+.
+General comments/License Statement if any.
+.
+*/
+
+body {
+	background: #fefbf9;
+	font: 14px/20px 'Lato', Helveltica, Arial, Sans-Serif;
+	color:#222;
+}
+
+a, a:visited{
+	color:#006cb6;
+	text-decoration:none;
+}
+a:hover{
+	color:#005691;
+	text-decoration:underline;
+}
+
+h2,h1{
+	font: 28px 'Lato', Helveltica, Arial, Sans-Serif;
+	color:#222;
+	display:block;
+}
+
+/*subheadings for blogposts*/
+.category-indlg .entry h2 {
+	font: 22px 'Lato', Helveltica, Arial, Sans-Serif;
+	font-weight: bold;
+	padding: .3em 0;
+}
+
+h4 {
+	font: 15px/20px 'Lato', Helveltica, Arial, Sans-Serif;
+	color: #222;
+	font-style: italic;
+	margin: 3px 0;
+}
+
+.entry span.date{
+	font-size:14px;
+	line-height:24px;
+	color:#888;
+	padding-bottom: 20px;
+	display:block;
+}
+
+.entry p{
+	font-size:16px;
+	line-height:22px;
+	color:#333;
+	padding-bottom: 5px;
+	margin-bottom:10px;
+}
+
+.entry p, .entry li{
+	font-size:16px;
+	line-height:22px;
+	color:#333;
+	padding-bottom: 5px;
+}
+
+.entry ul li{
+	list-style-type:square;
+	margin-left: 20px;
+}
+
+.entry ol li{
+	list-style-type: decimal;
+	margin-left: 20px;
+}
+
+
+.entry .alignleft{
+	float:left;
+	padding: 10px 10px 10px 0;
+	max-width: 100%;
+}
+.entry .alignright{
+	float:right;
+	padding: 10px 0 10px 10px;
+}
+
+.entry .wp-caption-text {
+	font-size: 12px;
+	line-height: 18px;
+	font-style: italic;
+	color: #666;
+}
+
+span.line{
+	z-index:-1;
+	position:relative;
+	top: -3px;
+	display:block;
+	border-bottom:1px solid #d6d6d6;
+	margin-bottom:10px;
+}
+.zi1{
+	position:relative;
+	z-index:1;
+}
+
+.wrap {
+	height:100%;
+	display:block;
+	background-color: #fff;
+	border:1px solid #ece3d6;
+	border-top:none;
+	padding:0 10px;
+ 	margin-top: 0px;
+	overflow:hidden;
+}
+
+a.post-edit-link{
+	font-size:10px;
+	color:#999;
+	padding:5px 0;
+	display:block;
+}
+
+	a.post-edit-link:hover{
+		color:#000;
+	}
+
+/* Header */
+.topSpacer{
+	height: 20px;
+}
+
+.logo h1 a,
+.logo h1 a img {
+	display:block;
+	width:548px;
+	height:92px;
+}
+
+.topNav{
+	text-align:right;
+	height:30px;
+}
+	.topNav li {
+		display:inline-block;
+	}
+		.topNav li a{
+			padding:2px 5px;
+			font-size:12px;
+		}
+
+.searchbar{
+	text-align:right;
+}
+	.searchbar input{
+		border:1px solid #dfd4c4;
+		width:225px;
+		height:28px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+		color:#92846f;
+		padding: 0 0 0 16px;
+	}
+
+a.topLink{
+	height: 40px;
+	width: 40px;
+	position: fixed;
+	bottom: 5px;
+	right: 5px;
+	z-index:20;
+	font: 11px/10px 'Lato', Arial, Helveltica, Sans-Serif;
+	text-align:center;
+	opacity: .3;
+}
+
+	a.topLink:hover{
+		text-decoration:none;
+		color:#0098ff;
+		opacity: 1;
+	}
+
+	a.topLink p {
+		text-decoration: none;
+		display:block;
+		background: url(img/navigation-sprite.png) 12px -790px no-repeat;
+		height:32px;
+		padding:12px 0 0 0;
+		margin:7px 0 0 0px;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+	a.topLinkleft{
+		right: none;
+		left:5px;
+	}
+
+/*Navigation*/
+h2.noscript {
+	padding-top:20px;
+	text-align:center;
+	margin-top:20px;
+	padding-bottom:20px;
+	background:#ffdda3;
+	border:1px solid #ffb32d;
+}
+
+.wrap .nav{
+	margin-top: 30px ;
+	margin-bottom:	30px;
+	margin-right:0;
+	overflow: hidden;
+	width:1005px;
+}
+
+ul#accordion{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul#accordion li{
+  float: left;
+  display: block;
+  margin-right: 30px;
+  border:1px solid #000;
+}
+	ul#accordion li#nav1{ background:#0098ff; border-color:#005691 }
+	ul#accordion li#nav2{ background:#ff1f33; border-color:#91121d }
+	ul#accordion li#nav3{ background:#fdb22f; border-color:#c07a00 }
+	ul#accordion li#nav4{ background:#43b205; border-color:#1a4402; margin-right: 0 }
+
+ul#accordion li .navContent{
+	overflow:hidden;
+}
+
+ul#accordion li .tab{
+  display: block;
+  overflow: hidden;
+  height: 138px;
+  width: 138px;
+}
+/*Class added to open tab*/
+ul#accordion li .tabOpen{
+  width: 478px;
+}
+
+ul#accordion li .tab span{
+  position: absolute;
+  display:block;
+  background:url(img/navigation-sprite.png) 0 0 no-repeat;
+  width:138px;
+  height:138px;
+}
+	ul#accordion li#nav2 .tab span{ background-position:0 -138px }
+	ul#accordion li#nav3 .tab span{ background-position:0 -276px }
+	ul#accordion li#nav4 .tab span{ background-position:0 -414px }
+
+ul#accordion li .tab .navContent{
+  padding: 0;
+  margin:9px 0;
+  width: 339px;
+  height:120px;
+  display: block;
+  margin-left: 139px;
+  border-left:1px solid #005691;
+}
+	ul#accordion li#nav2 .tab .navContent{ border-color: #91121d }
+	ul#accordion li#nav3 .tab .navContent{ border-color: #c07a00 }
+	ul#accordion li#nav4 .tab .navContent{ border-color: #1a4402 }
+
+ul#accordion li .tab .navContent .lineShadow{
+	display:inline-block;
+	float:left;
+	height:120px;
+	border-left:1px solid #3aafff;
+	margin-right:18px;
+}
+	ul#accordion li#nav2 .tab .navContent .lineShadow{ border-color: #d16b73 }
+	ul#accordion li#nav3 .tab .navContent .lineShadow{ border-color: #f8d598 }
+	ul#accordion li#nav4 .tab .navContent .lineShadow{ border-color: #8ad362 }
+
+
+
+ul#accordion li .tab .navContent ul li{
+	height:30px;
+	width:300px;
+	border:none;
+	float:none;
+	margin-left:20px;
+}
+
+
+ul#accordion li .tab .navContent ul li a{
+	font: 300 18px 'Lato', Arial, Helveltica, Sans-Serif;
+	font-weight: 300;
+	color:#222;
+	display:block;
+	padding: 3px 0px 0px 10px;
+	background:url(img/navigation-sprite.png) 0 -541px  no-repeat;
+}
+	ul#accordion li#nav2 .tab .navContent ul li a{ background-position:0 -571px }
+	ul#accordion li#nav3 .tab .navContent ul li a{ background-position:0 -601px }
+	ul#accordion li#nav4 .tab .navContent ul li a{ background-position:0 -631px }
+
+/* slider */
+div.slider{
+	margin-top:0px;
+	margin-bottom:45px;
+}
+
+/* Content */
+/*Meta*/
+div.meta {
+	font-size: 14px;
+	color:#666;
+}
+
+/*Post*/
+.content{
+	margin-bottom: 60px;
+}
+
+.meta {
+	margin: 0 0 10px;
+}
+.meta a span{
+	background:url(img/navigation-sprite.png) 0 -810px  no-repeat;
+	height:14px;
+	display:inline-block;
+	padding:0 0 0 20px;
+}
+
+
+img.attachment-post-thumbnail{
+	position:relative;
+}
+
+.content h2.thumbHeading{
+	font:bold 36px 'Lato', Helveltica, Arial, Sans-Serif;
+	color:#fffdfa;
+	display:block;
+  padding:0 0 3px 10px;
+  margin-bottom:15px;
+  width:980px;
+  position:relative;
+  margin-top:-50px;
+
+	background-color:#000;
+	background-color:rgba(0,0,0,0.7);
+}
+
+	.content .products h2.thumbHeading{
+		background-color:#006cb6;
+		background-color:rgba(0,108,182,0.8);
+	}
+
+
+.content h2.heading {
+	font:bold 36px/38px 'Lato', Helveltica, Arial, Sans-Serif;
+	color:#444;
+  padding:0 0 3px 0px;
+  margin-bottom:0px;
+  width:980px;
+}
+
+div.container h2.heading.grid_12  {
+  padding-left: 15px;
+}
+/*Sidebar*/
+
+.sidebar {
+
+}
+
+/*Sidebar products*/
+.sidebar .block{
+	margin-bottom:20px;
+}
+
+.otherProducts .post h3 a{
+	color:#444;
+}
+
+.otherProducts .post{
+	margin-bottom:15px;
+}
+
+/*Author*/
+.aboutAuthor{
+	margin:0 0 30px;
+}
+
+.imgLink {
+	float:left;
+	padding-right:10px;
+	margin:4px 0 20px;
+}
+.aboutAuthor a.rssfeed span {
+		background:#fefbf9 url(img/navigation-sprite.png) 0 0 no-repeat;
+		display:inline-block;
+		position:relative;
+		top:1px;
+		height:14px;
+		margin-right:5px;
+		margin-top: 5px;
+		width:17px;
+		background-position:0 -970px
+	}
+.aboutAuthor a.newsletter span{
+	background:#fefbf9 url(img/navigation-sprite.png) 0 0 no-repeat;
+	display:inline-block;
+	position:relative;
+	top:3px;
+	height:14px;
+	margin-right:5px;
+	width:17px;
+	background-position:0 -890px
+}
+
+/*Related Posts*/
+.relatedPosts{
+	margin-bottom:30px;
+}
+.relatedPosts h2{
+	margin-bottom:10px;
+}
+
+.relatedPosts p{
+	margin-bottom:5px;
+}
+
+ul.menu{
+	margin-bottom: 25px;
+}
+
+	ul.menu li a {
+		display: block;
+		background: #ededed;
+		width: 295px;
+		padding: 10px 5px 10px 7px;
+		margin: 0 0 4px;
+		text-decoration: none;
+		border-left: 5px solid #000;
+		color: #000;
+	}
+		ul.menu li a:hover {
+			background: #FDB22F;
+			border-color: #895700;
+			color: #000;
+		}
+
+/*Twitter*/
+.twitter ul li{
+	margin-bottom:15px;
+
+}
+
+/*Comments*/
+
+
+div#respond h2, h2#comments{
+	margin:30px 0 0;
+}
+
+div#respond textarea#comment{
+	width:640px;
+}
+
+#commentform input#submit {
+	display: inline-block;
+	border: 1px solid #999;
+	border-radius: 3px;
+	padding: .2em .7em;
+	background: #fff;
+	color: #006cb6;
+	font-size: 14px;
+}
+
+.commentlist {
+	img.avatar.avatar-32.photo {
+		float: left;
+		margin-right: 10px; }
+
+	.commentmetadata {
+		margin-bottom: 1em;
+
+		a {
+			color: #999;
+		}
+	}
+
+	p {
+		margin-bottom: 1em; }
+
+	.comment-body {
+		margin-bottom: 2em;
+	}
+
+	a.comment-reply-link {
+		display: inline-block;
+		border: 1px solid #999;
+		border-radius: 3px;
+		padding: .2em .7em;
+	}
+}
+
+/* Footer */
+.footer-outer {
+	padding-bottom:40px;
+	padding-top:40px;
+	background: #222;
+}
+
+.footer {
+	background: none;
+	border: none;
+	color: #ccc;
+	a {
+		color: #efefef;
+		text-decoration: underline;
+	}
+
+	h2 {
+		color: #efefef;
+	}
+}
+
+.leftFoot p {
+	line-height: 1.7em;
+}
+
+/* Right Footer | Social Links */
+.rightFoot .clearfix{
+	margin-bottom:15px;
+}
+
+.rightFoot div a {
+	color: #efefef;
+	text-decoration: none;
+	line-height:16px;
+	position:relative;
+	top:6px;
+}
+
+.rightFoot div a sub{
+	font-size: 13px;
+}
+
+.rightFoot div a span{
+	background:url(img/social_icons.png) 0 0 no-repeat;
+	height:48px;
+	width:48px;
+	display:block;
+	float:left;
+	padding-right:10px;
+}
+	.rightFoot div.cyberhusLink a span{
+		background-position:0 0;
+	}
+	.rightFoot div.facebookLink a span{
+		background-position: 0 -60px;
+	}
+	.rightFoot div.youtubeLink a span{
+		background-position:0 -300px;
+	}
+	.rightFoot div.twitterLink a span{
+		background-position:0 -120px;
+	}
+	.rightFoot div.flickrLink a span{
+		background-position:0 -180px;
+	}
+	.rightFoot div.linkedinLink a span{
+		background-position:0 -240px;
+	}
+	.rightFoot div.googleplusLink a span{
+		background-position:0 -360px;
+	}
+	.rightFoot div.newsletterLink a span{
+		background-position:0 -420px;
+	}
+	.rightFoot div.rssLink a span{
+		background-position:0 -480px;
+	}
+
+.leftFoot p{
+	margin-bottom:10px;
+}
+
+.bottomFoot {
+	padding-top: 3em;
+
+	.inner {
+		margin-left: -5px;
+		margin-right: -5px;
+	}
+}
+
+.footer .copyright {
+	text-align: center;
+	color: #666;
+}
+
+/*Contact Tab at left*/
+a#contactTab{
+	position:fixed;
+	text-indent:-9999px;
+	left:0;
+	top:30%;
+	width:36px;
+	height:112px;
+	background:#43b205 url(img/navigation-sprite.png) 7px -661px no-repeat;
+	border:1px solid #1a4402;
+}
+a#contactTab:hover{
+	background-color:#44bf00;
+	width:39px;
+	background-position:10px -661px;
+}
+
+/* Posts */
+
+.posts{
+	position:relative;
+	z-index:1;
+	top:0;
+}
+
+.post h3 a{
+	font: bold 20px Arial,sans-serif;
+	color:#222;
+}
+	.post h3 a:hover{
+	border-bottom:1px solid #000;
+	color:#000;
+	text-decoration:none;
+}
+
+.post .postInfo{
+	display:block;
+
+	font-size: 12px;
+	color:#666;
+	margin-bottom:5px;
+}
+
+.post .postInfo a{
+		color:#333333;
+}
+
+.post .postInfo a:hover, .post p a:hover{
+	color:#00406c;
+}
+
+.posts .post{
+	font-size:16px;
+	line-height:20px;
+	margin-bottom:35px;
+}
+
+a.readMore{
+	font-size: 13px;
+	display: block;
+	padding: 5px 0;
+	margin: -20px 0 30px;
+}
+
+a.more{
+ 	font-size: 13px;
+}
+
+/*Produkter, Erfaringer og Projekter*/
+ a.anchor{
+	display:block;
+	height:20px;
+}
+	a.anchor:hover{
+		cursor:normal;
+	}
+.products h2{
+	font: bold 36px Arial,sans-serif;
+}
+
+
+
+div.wrap p.intro{
+	font-size:13px;
+	line-height:18px;
+	color:#222;
+	margin-bottom: 20px;
+	/* padding:5px; */
+	width:100%;
+	max-width: 640px;
+}
+
+/*coloured line below intro-text*/
+.products .intro {
+  border-bottom: 5px #0097FE solid;
+}
+
+.experience p.intro {
+  border-bottom: 5px #FF1D32 solid;
+}
+
+.projects p.intro {
+  border-bottom: 5px #FCB22E solid;
+}
+
+.team p.intro {
+  border-bottom: 5px #42B10E solid;
+}
+/*
+	.products p.intro, p.intro{
+		background:#d7e9f4;
+		border-bottom:1px solid #cee0ea;
+	}
+	.experience p.intro{
+		background:#ffdbde;
+		border-bottom:1px solid #efd0d3;
+	}
+	.projects p.intro{
+		background:#fff0d6;
+		border-bottom:1px solid #efe1c9;
+	}
+ */
+div.products h3 a:hover, .experience h3 a:hover, .projects h3 a:hover{
+	border:none;
+	text-decoration:none;
+	color:#0098ff;
+}
+/*
+.products .post p, .experience .post p, .projects .post p{
+	margin-bottom: 30px
+}
+*/
+
+.childCatPosts h3{
+  margin-bottom:5px;
+}
+
+.experience .childCatPosts, .projects .childCatPosts{
+	margin-bottom: 20px;
+}
+
+.products .childCatPosts {
+  margin-bottom: 20px;
+}
+/*category wrapper on products and experience page*/
+.products.content .category-wrap, .experience.content .category-wrap  {
+  /*border: 1px solid #ECE3D6;*/
+  margin: 20px 0;
+  padding-bottom: 20px;
+  background: #FFF url(img/categories_lower_shadow.png) no-repeat center bottom;
+}
+
+
+/*Produkt sidebar*/
+
+.ProductsTml span.quote{
+	background:#FFF url(img/quote.png) 0 0 no-repeat;
+	width:36px;
+	height:34px;
+	display:block;
+	float:right;
+	margin-top:5px;
+}
+
+.ProductsTml p.quote{
+	color:#222;
+}
+
+.ProductsTml p.quoteBy{
+	font-size:12px;
+
+	color:#666;
+	margin-bottom:25px;
+
+
+}
+/*Paging*/
+div.paging{
+	float:right;
+}
+/*Archive*/
+
+.archive .results{
+	margin-top:20px;
+}
+
+.archive h2 a{
+	font:bold 28px Arial,sans-serif;
+	color:#222;
+	margin-bottom:0;
+}
+.archive .post{
+	margin-bottom:30px;
+}
+
+.archive .searchByDate ul li, .archive .searchByAuthor ul li {
+	display: inline;
+	list-style-type: none;
+	padding-right: 5px;
+	text-transform:capitalize;
+}
+
+.archive .searchByBar input{
+	border:1px solid #d6d6d6;
+	width:292px;
+	color:#006cb6;
+	padding: 0px 0 15px 10px;
+	font: 20px 'Lato', Arial, Helveltica, Sans-Serif;
+}
+
+/* Mennesker / Team page */
+
+.team .profile img{
+	float:left;
+	width: 100px;
+	height: 280px;
+	padding-right:20px;
+	padding-bottom:40px;
+}
+.team .profile h2{
+	font:bold 20px/22px Arial, Helveltica, Sans-Serif;
+}
+
+.team .profile a{
+	padding: 0 0 5px;
+	display:block;
+}
+
+.team .profile p{
+	color:#666;
+	margin-right:10px;
+	margin-bottom:5px;
+	font-size:12px;
+	line-height:16px;
+}
+.team .row{
+	margin-top:40px;
+}
+
+/*Author page*/
+
+.authorPage h1{
+	font:bold 36px Arial,sans-serif;
+	color:#222;
+	margin-bottom:10px;
+}
+
+.authorPage h2{
+	margin-top:20px;
+
+}
+.authorPage p.about{
+	font:18px/24px 'Lato', Arial, Helveltica, Sans-Serif;
+	color:#222;
+	margin-bottom:25px;
+
+}
+.authorPage .links a{
+	display:block;
+	padding:5px 0 5px 0;
+}
+	.authorPage .links a:hover{
+		text-decoration:none;
+		color:#000;
+
+	}
+.authorPage .links a span{
+	background:#fefbf9 url(img/navigation-sprite.png) 0 0 no-repeat;
+	display:inline-block;
+	position:relative;
+}
+	.authorPage .links a.email span{
+		top:3px;
+		height:14px;
+		margin-right:5px;
+		width:17px;
+		background-position:0 -890px
+	}
+	.authorPage .links a.twitter span{
+		top:3px;
+		height:14px;
+		margin-right:5px;
+		width:17px;
+		background-position:0 -910px
+	}
+	.authorPage .links a.facebook span{
+		top:0px;
+		height:14px;
+		margin-right:5px;
+		width:17px;
+		background-position:0 -930px
+	}
+	.authorPage .links a.linkedin span{
+		top:0px;
+		height:14px;
+		margin-right:5px;
+		width:17px;
+		background-position:0 -950px
+	}
+	.authorPage .links a.website span{
+		top:0px;
+		height:14px;
+		margin-right:5px;
+		width:17px;
+		background-position:0 -870px
+	}
+	.authorPage .links a.rssfeed span{
+		top:1px;
+		height:14px;
+		margin-right:5px;
+		width:17px;
+		background-position:0 -970px
+	}
+
+.authorPage .posts{
+	top:0;
+}
+
+.authorPage  h3 a{
+	font:bold 22px/22px Arial, Helveltica, Sans-Serif;
+	color:#222;
+	}
+
+.authorPage  a.more{
+	display:block;
+	margin-bottom:30px;
+
+}
+
+/* Presse */
+.presse{
+	margin-top:20px;
+	margin-bottom:10px;
+}
+
+.presse p{
+	font-size:13px;
+	line-height:18px;
+}
+
+/* Forsiden */
+img.intro-frontpage{
+  margin:26px 0 35px 0 ;
+  width:480px;
+  height: 180px;
+}
+
+/* International */
+
+.international p{
+	margin-bottom:20px;
+}
+
+/*------------------- Her følger css til de farvede knapper på cfdp sitet -------------------*/
+
+/*--------------
+	GRØN KNAP
+---------------*/
+a.green_button{background:transparent url(img/buttons/green_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px 'Lato', arial, sans-serif;height:35px;padding-right:20px;text-decoration:none}
+
+a.green_button span{background:transparent url(img/buttons/green_span.png) no-repeat scroll bottom left;display:block;line-height:20px;padding:7px 0 8px 40px}
+
+/*---- hover ----*/
+a.green_button:hover{background-position:top right;color:#e6e6e6;outline:none;}
+a.green_button:hover span{background-position:top left;}
+
+/*--------------
+	RØD KNAP
+---------------*/
+a.red_button{background:transparent url(img/buttons/red_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px 'Lato', arial, sans-serif;height:35px;padding-right:20px;text-decoration:none;}
+
+a.red_button span{background:transparent url(img/buttons/red_span.png) no-repeat scroll bottom left;display:block;line-height:20px;padding:7px 0 8px 40px;}
+
+/*---- hover ----*/
+a.red_button:hover{background-position:top right;color:#e6e6e6;outline:none;}
+a.red_button:hover span{background-position:top left;}
+
+/*--------------
+	BLÅ KNAP
+---------------*/
+a.blue_button{background:transparent url(img/buttons/blue_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px 'Lato', arial, sans-serif;height:35px;padding-right:20px;text-decoration:none;}
+
+a.blue_button span{background:transparent url(img/buttons/blue_span.png) no-repeat scroll bottom left;display:block;line-height:20px;padding:7px 0 8px 40px;}
+
+/*---- hover ----*/
+a.blue_button:hover{background-position:top right;color:#e6e6e6;outline:none;}
+a.blue_button:hover span{background-position:top left;}
+
+/*--------------
+	GUL KNAP
+---------------*/
+a.yellow_button{background:transparent url(img/buttons/yellow_a.png) no-repeat scroll bottom right;color:#e6e6e6;display:block;float:left;font:bold 14px 'Lato', arial, sans-serif;height:35px;padding-right:20px;text-decoration:none;}
+
+a.yellow_button span{background:transparent url(img/buttons/yellow_span.png) no-repeat scroll bottom left;display:block;line-height:20px;padding:7px 0 8px 40px;}
+
+/*---- hover ----*/
+a.yellow_button:hover{background-position:top right;color:#e6e6e6;outline:none;}
+a.yellow_button:hover span{background-position:top left;}
+
+
+
+
+
+/*------------------- Her følger css til "Presse/download" -------------------*/
+.portrait {float: left; padding-right: 20px; padding-bottom: 10px;}
+.portrait.last {padding-right: 0;}
+
+p.logo_desc {
+	font-size: 14px;
+	line-height: 18px;
+	margin-bottom: 25px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #ECE3D6;
+}
+
+.logos h3 {font-weight: normal; font-size: 20px; margin-bottom: 10px;}
+
+/*------------------- image box (activated via Editor Templates) -------------------*/
+.cfdp-image-box {margin: 0px 10px 10px 10px;}
+.cfdp-image-box p {font-size: 10px; margin: 0px; text-align:center;}
+
+/*------------------- colored table -------------------*/
+table.color-table td {
+    border: 6px solid #FFFFFF;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+.breadcrumbs {
+	display: none;
+	// margin-bottom: 25px;
+	// color: #999;
+}
+
+.mobile-menu-wrapper {
+	display: none;
+}
+
+
+/* MailChimp Form Embed Code - Classic - 08/17/2011 */
+#mc_embed_signup form {display:block; position:relative; text-align:left; padding:10px 0 10px}
+#mc_embed_signup h2 {font-weight:bold; padding:0; margin:15px 0; font-size:1.4em;}
+#mc_embed_signup input {border:1px solid #999; -webkit-appearance:none;}
+#mc_embed_signup input[type=checkbox]{-webkit-appearance:checkbox;}
+#mc_embed_signup input[type=radio]{-webkit-appearance:radio;}
+#mc_embed_signup input:focus {border-color:#333;}
+#mc_embed_signup .button {clear:both; background-color: #aaa; border: 0 none; border-radius:4px; color: #FFFFFF; cursor: pointer; display: inline-block; font-size:15px; font-weight: bold; height: 32px; line-height: 32px; margin: 0 5px 10px 0; padding: 0 22px; text-align: center; text-decoration: none; vertical-align: top; white-space: nowrap; width: auto;}
+#mc_embed_signup .button:hover {background-color:#777;}
+#mc_embed_signup .small-meta {font-size: 11px;}
+#mc_embed_signup .nowrap {white-space:nowrap;}
+
+#mc_embed_signup .mc-field-group {clear:left; position:relative; width:96%; padding-bottom:3%; min-height:50px;}
+#mc_embed_signup .size1of2 {clear:none; float:left; display:inline-block; width:46%; margin-right:4%;}
+* html #mc_embed_signup .size1of2 {margin-right:2%; /* Fix for IE6 double margins. */}
+#mc_embed_signup .mc-field-group label {display:block; margin-bottom:3px;}
+#mc_embed_signup .mc-field-group input {display:block; width:100%; padding:8px 0; text-indent:2%;}
+#mc_embed_signup .mc-field-group select {display:inline-block; width:99%; padding:5px 0; margin-bottom:2px;}
+
+#mc_embed_signup .datefield, #mc_embed_signup .phonefield-us{padding:5px 0;}
+#mc_embed_signup .datefield input, #mc_embed_signup .phonefield-us input{display:inline; width:60px; margin:0 2px; letter-spacing:1px; text-align:center; padding:5px 0 2px 0;}
+#mc_embed_signup .phonefield-us .phonearea input, #mc_embed_signup .phonefield-us .phonedetail1 input{width:40px;}
+#mc_embed_signup .datefield .monthfield input, #mc_embed_signup .datefield .dayfield input{width:30px;}
+#mc_embed_signup .datefield label, #mc_embed_signup .phonefield-us label{display:none;}
+
+#mc_embed_signup .indicates-required {text-align:right; font-size:11px; margin-right:4%;}
+#mc_embed_signup .asterisk {color:#c60; font-size:200%;}
+#mc_embed_signup .mc-field-group .asterisk {position:absolute; top:25px; right:10px;}
+#mc_embed_signup .clear {clear:both;}
+
+#mc_embed_signup .mc-field-group.input-group ul {margin:0; padding:5px 0; list-style:none;}
+#mc_embed_signup .mc-field-group.input-group ul li {display:block; padding:3px 0; margin:0;}
+#mc_embed_signup .mc-field-group.input-group label {display:inline;}
+#mc_embed_signup .mc-field-group.input-group input {display:inline; width:auto; border:none;}
+
+#mc_embed_signup div#mce-responses {float:left; top:-1.4em; padding:0em .5em 0em .5em; overflow:hidden; width:90%;margin: 0 5%; clear: both;}
+#mc_embed_signup div.response {margin:1em 0; padding:1em .5em .5em 0; font-weight:bold; float:left; top:-1.5em; z-index:1; width:80%;}
+#mc_embed_signup #mce-error-response {display:none;}
+#mc_embed_signup #mce-success-response {color:#529214; display:none;}
+#mc_embed_signup label.error {display:block; float:none; width:auto; margin-left:1.05em; text-align:left; padding:.5em 0;}
+
+#mc-embedded-subscribe {clear:both; width:auto; display:block; margin:1em 0 1em 5%;}
+#mc_embed_signup #num-subscribers {font-size:1.1em;}
+#mc_embed_signup #num-subscribers span {padding:.5em; border:1px solid #ccc; margin-right:.5em; font-weight:bold;}
+
+#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+
+/*----- Jonas Ravn's helt eget disclaimer jazz-------*/
+p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; line-height: 10px;}

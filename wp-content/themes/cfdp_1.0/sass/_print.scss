@@ -1,0 +1,73 @@
+/* Print Style Sheet */
+@media print {
+body { background:white; color:black; margin:0 }
+
+div.wrap{
+	border:none;
+	background:white;
+}
+div.leftFoot a, div.leftFoot a:visited{
+	color:#222;
+}
+div.content a, div.content a:visited{
+	color:#000;
+	font-weight:bold;
+}
+
+.logo{
+	width:800px;
+}
+
+.logo h1 a{
+	text-indent:0;
+	font: 22px Arial, sans-serif;
+	color:#444;
+	text-decoration:none;
+	width:800px;
+	height:30px;
+}
+
+div.topNav{
+	display:none;
+}
+
+div.searchbar{
+	display:none;
+}
+.wrap .nav{
+	display:none
+}
+
+div.sidebar{
+	display:none;
+}
+
+#SnapABug_bImg{
+	display:none;
+}
+div.shareaholic-show-on-load{
+	display:none;
+}
+
+div#respond{
+	display:none;
+}
+
+div.rightFoot{
+	display:none;
+}
+
+div#googleTranslate{
+	display:none;
+}
+
+a.post-edit-link{
+	display:none;
+}
+
+
+#content { }
+#comments { }
+#sidebar { }
+#footer { }
+}

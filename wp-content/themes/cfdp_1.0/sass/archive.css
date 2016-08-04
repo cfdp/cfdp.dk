@@ -1,0 +1,38 @@
+.header{
+	background:#FFF url(../img/archive.jpg) 0 0 no-repeat;
+	height:118px;
+}
+	.header h1{
+	display:block;
+	height:44px;
+	background:#000;
+	background-color:rgba(0,0,0,0.8);
+    margin:68px 0 0 10px;
+    padding-bottom:6px;
+    color:#fff;
+    font:bold 36px Arial,sans-serif;
+    
+}
+
+
+.sidebar{
+	position:relative;
+	z-index:1;	
+}
+
+.sidebar h2{
+	margin-top:30px;
+}
+
+.sidebar p{
+	font-size:16px;
+	line-height:22px;
+	color:#444;
+	margin-bottom:10px;
+}
+
+.sidebar h4{
+	font-weight:normal;
+	color:#000;
+	
+}

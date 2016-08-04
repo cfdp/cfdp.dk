@@ -1,0 +1,15 @@
+.header{
+	background:#FFF url(http://placehold.it/650x115) 0 0 no-repeat;
+	height:115px;
+}
+	.header h1{
+	display:block;
+	height:44px;
+    margin:68px 0 0 0px;
+    padding:0 0 6px 10px;
+    color:#fff;
+    font:bold 36px Arial,sans-serif;
+}
+#skoler h1{
+	background-color:rgba(255,31,51,0.6);
+}
