@@ -62,7 +62,7 @@
 
 
 <div class="container wrap clearfix" id="content-view">
-	<div class="header">
+	<div class="header clearfix">
 		<a name="top"></a>
 
 		<div class="logo grid_3">
