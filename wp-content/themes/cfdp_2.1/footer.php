@@ -44,15 +44,6 @@
         <div class="googleplusLink grid_2 omega">
           <a target = "_blank" href="https://plus.google.com/101866308520142329920/"><span></span>Følg os på Google+</a>
         </div>
-
-
-      	<a class="topLink" href="#">
-      		<p>Til top</p>
-      	</a>
-
-      	<a class="topLink topLinkleft" href="#">
-      		<p>Til top</p>
-      	</a>
       </div>
 
       <div class="bottomFoot grid_12 alpha">
