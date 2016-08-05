@@ -1,0 +1,21 @@
+{
+  "name": "cfdp",
+  "version": "1.0.0",
+  "description": "Dev tool - Compile and live reload",
+  "main": "gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lajlev/double-dynamo.git"
+  },
+  "author": "Michael Lajlev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lajlev/double-dynamo/issues"
+  },
+  "homepage": "https://cfdp.dk",
+  "devDependencies": {
+    "browser-sync": "^2.14.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.2"
+  }
+}

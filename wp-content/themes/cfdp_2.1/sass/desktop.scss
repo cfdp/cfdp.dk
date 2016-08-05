@@ -1,0 +1,125 @@
+.nav {
+  .header__menu {
+    float: right;
+    height: 70px;
+
+    ul {
+      display: inline-block;
+
+      li {
+        display: block;
+        float: left;
+        border-right: 1px solid #ece3d6;
+
+        &:first-child {
+          border-left: 1px solid #ece3d6;
+        }
+
+        a {
+          padding: 28px 20px 22px;
+          font-size: 16px;
+          font-weight: bold;
+          display: inline-block;
+        }
+
+        &.current-menu-item {
+          position: relative;
+          background: #006AB9;
+
+          // Hack to display a small triangle on 1 level menu items https://i.imgur.com/35Rsem8.png
+          &.menu-item-has-children {
+            &:after {
+              content:"";
+              display: block;
+              position: absolute;
+              bottom: -1px;
+              left: 50%;
+              margin-left: -8px;
+              z-index: 9999;
+              width: 0;
+              height: 0;
+              border-left: 8px solid transparent;
+              border-right: 8px solid transparent;
+              border-bottom: 8px solid #F7FCFF;
+            }
+          }
+
+          a {
+            color: white;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+
+  .searchbar {
+    float: right;
+    height: 70px;
+
+    input {
+      font-size: 16px;
+      font-style: italic;
+      color: #bbb;
+      padding: 28px 20px 18px;
+      border: none;
+    }
+  }
+}
+
+// Messy hack to show sub menu for selected page only :/
+
+.header__sub-menu {
+  position: relative;
+  left: -25px;
+  width: 1040px !important;
+  background: #F7FCFF;
+  border-top: 1px solid #ece3d6;
+  margin-bottom: 30px;
+
+
+  .menu-item{
+    display: none;
+  }
+
+  .current-menu-item,
+  .current-menu-parent {
+    display: block;
+
+    > a {
+      display: none;
+    }
+
+    .sub-menu {
+      text-align: center;
+
+      .menu-item {
+        display: inline-block;
+
+        a {
+          display: inline-block;
+          padding: 20px 10px 16px;
+          font-size: 16px;
+          font-weight: bold;
+        }
+
+        &.current-menu-item a {
+          color: black;
+          text-decoration: none;
+          cursor: default;
+        }
+      }
+    }
+  }
+}
+
+.delimiter {
+  position: relative;
+  left: -25px;
+  width: 1040px !important;
+  border-bottom: 1px solid #ece3d6;
+}
+
+#toggle-menu-button {
+  display: none;
+}

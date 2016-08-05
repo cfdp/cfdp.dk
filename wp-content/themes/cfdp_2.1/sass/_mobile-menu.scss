@@ -1,0 +1,80 @@
+// https://github.com/artberri/sidr
+
+$sidebar-width: 260px;
+$sidebar-width-neg: -260px;
+
+.sidr {
+  display: block;
+  position: fixed;
+  top: 0;
+  height: 100%;
+  z-index: 999999;
+  width: $sidebar-width;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #2E3234;
+
+  &.right {
+    left: auto;
+    right: $sidebar-width-neg;
+  }
+
+  .menu {
+    padding-top: 10px;
+    border-bottom: 1px solid #111;
+
+    li {
+      display: block;
+
+      &.current-menu-item {
+        a {
+          background: #444;
+        }
+
+        .sub-menu li a {
+          background: none;
+        }
+      }
+
+      &.menu-item-has-children a {
+          // border-bottom: none;
+
+          .sub-menu li:last-child a {
+            // border-bottom: 1px solid #111;
+          }
+        }
+
+      a {
+        display: block;
+        padding: 14px 20px;
+        font-size: 18px;
+        color: white;
+        border-top: 1px solid #111;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .sub-menu {
+        a {
+          letter-spacing: 0;
+          text-transform: none;
+          padding-left: 30px;
+          color: #ccc;
+          border-top: none;
+        }
+      }
+    }
+  }
+}
+
+#toggle-menu-button {
+  display: block;
+  font-size: 16px;
+  border: 1px solid #efefef;
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 3px;
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
