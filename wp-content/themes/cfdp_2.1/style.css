@@ -25,9 +25,16 @@ a:hover {
   text-decoration: underline; }
 
 h2, h1 {
-  font: 28px 'Lato', Helveltica, Arial, Sans-Serif;
+  font: 32px 'Lato', Helveltica, Arial, Sans-Serif;
   color: #222;
-  display: block; }
+  display: block;
+  font-weight: bold; }
+
+h2 {
+  font: 26px 'Lato', Helveltica, Arial, Sans-Serif;
+  color: #222;
+  display: block;
+  font-weight: bold; }
 
 /*subheadings for blogposts*/
 .category-indlg .entry h2 {
@@ -452,11 +459,6 @@ div.products h3 a:hover, .experience h3 a:hover, .projects h3 a:hover {
   text-decoration: none;
   color: #0098ff; }
 
-/*
-.products .post p, .experience .post p, .projects .post p{
-	margin-bottom: 30px
-}
-*/
 .childCatPosts h3 {
   margin-bottom: 5px; }
 
@@ -465,13 +467,6 @@ div.products h3 a:hover, .experience h3 a:hover, .projects h3 a:hover {
 
 .products .childCatPosts {
   margin-bottom: 20px; }
-
-/*category wrapper on products and experience page*/
-.products.content .category-wrap, .experience.content .category-wrap {
-  /*border: 1px solid #ECE3D6;*/
-  margin: 20px 0;
-  padding-bottom: 20px;
-  background: #FFF url(img/categories_lower_shadow.png) no-repeat center bottom; }
 
 /*Produkt sidebar*/
 .ProductsTml span.quote {
@@ -643,10 +638,23 @@ img.intro-frontpage {
 .international p {
   margin-bottom: 20px; }
 
+.category-wrap {
+  padding-top: 30px; }
+  .category-wrap .post {
+    padding: 0 20px 0 0;
+    height: 340px; }
+    .category-wrap .post h3 {
+      padding-bottom: 10px; }
+    .category-wrap .post img {
+      width: 100%;
+      height: auto;
+      padding-bottom: 10px; }
+    .category-wrap .post .description,
+    .category-wrap .post a.more {
+      font-size: 16px;
+      line-height: 24px; }
+
 /*------------------- Her følger css til de farvede knapper på cfdp sitet -------------------*/
-/*--------------
-	GRØN KNAP
----------------*/
 a.green_button {
   background: #27ae60;
   color: white;
@@ -657,9 +665,6 @@ a.green_button {
     text-decoration: none;
     background: #229955; }
 
-/*--------------
-	RØD KNAP
----------------*/
 a.red_button {
   background: #c0392b;
   color: white;
@@ -670,9 +675,6 @@ a.red_button {
     text-decoration: none;
     background: #ab3326; }
 
-/*--------------
-	BLÅ KNAP
----------------*/
 a.blue_button {
   background: #2980b9;
   color: white;
@@ -683,9 +685,6 @@ a.blue_button {
     text-decoration: none;
     background: #2472a4; }
 
-/*--------------
-	GUL KNAP
----------------*/
 a.yellow_button {
   background: #f1c40f;
   color: white;
