@@ -11,39 +11,39 @@ Template Name: Page no sidebar
 	<div class="content grid_12 clearfix">
 
 		<div <?php post_class() ?> id="post-<?php the_ID(); ?>">
-		
-			<?php 
+
+			<?php
 				if(has_post_thumbnail()) {
 				the_post_thumbnail();
-				echo '<h2 class="thumbHeading grid_12 alpha clearfix">' . get_the_title() . '</h2>';
-				} 
+				echo '<h1 class="thumbHeading grid_12 clearfix">' . get_the_title() . '</h1>';
+				}
 				else {
-					echo '<h2 class="heading grid_12 alpha clearfix">' . get_the_title() . '</h2>';
+					echo '<h1 class="heading grid_12 clearfix">' . get_the_title() . '</h1>';
 				}
 			?>
 
 			<div class="grid_12 alpha zi1">
 
 				<div class="entry">
-					
+
 					<?php the_content(); ?>
 
 					<?php wp_link_pages(array('before' => 'Pages: ', 'next_or_number' => 'number')); ?>
-					
+
 					<?php the_tags( 'Tags: ', ', ', ''); ?>
 
 				</div>
-				
+
 				<?php edit_post_link('Rediger','',''); ?>
-				
-				<?php comments_template(); ?>		
+
+				<?php comments_template(); ?>
 			</div>
-		
+
 		</div>
-	
-		
-<?php endwhile; endif; ?>	
-	
+
+
+<?php endwhile; endif; ?>
+
 	</div>
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
