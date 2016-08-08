@@ -6,8 +6,9 @@ Description: Adds CfDPs Google analytics trascking code to the <head> of your th
 Author: Michael Lajlev
 Version: 1.0
  */
+add_action( 'wp_head', 'cfdp_google_analytics' );
 
-function wpmudev_google_analytics() { ?>
+function cfdp_google_analytics() { ?>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -19,7 +20,6 @@ function wpmudev_google_analytics() { ?>
 
   </script>
 <?php }
-add_action( 'wp_head', 'cfdp_google_analytics', 10 );
 ?>
 
 
