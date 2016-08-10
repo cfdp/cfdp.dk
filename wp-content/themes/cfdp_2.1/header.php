@@ -67,7 +67,7 @@
 
 		<div class="logo grid_3">
 		  <a href="<?php bloginfo('url'); ?>">
-		    <img src="<?php bloginfo('template_url'); ?>/img/logo@2x.png" width="215" alt="Logo CfDP" />
+		  	<img src="<?php bloginfo('template_url'); ?>/img/logo.png" srcset="<?php bloginfo('template_url'); ?>/img/logo@2x.png 2x" width="300" alt="Logo CfDP">
 		  </a>
 		</div>
     <a id="toggle-menu-button" href="#toggle-menu-button">&#9776;&nbsp; Menu</a>

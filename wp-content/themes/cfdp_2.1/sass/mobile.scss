@@ -111,6 +111,12 @@ body {
   display: none;
 }
 
+.logo img {
+  width: 200px;
+  padding-top: 20px;
+  @media screen and (min-width: 375px) { width: 250px; padding-top: 16px;}
+}
+
 h2 {
   font-size: 28px;
 }
