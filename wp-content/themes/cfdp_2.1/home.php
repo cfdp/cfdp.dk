@@ -8,7 +8,7 @@
   <div class="posts">
     <div class="left grid_8">
       <div class="latest">
-        <h2>Blog indlæg</h2>
+        <h2>Blogindlæg</h2>
         <span class="line"></span>
 
 <?php //2 seneste indlæg med kategorien forsiden

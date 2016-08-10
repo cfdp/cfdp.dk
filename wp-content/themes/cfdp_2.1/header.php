@@ -38,13 +38,13 @@
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 
-	<link rel="stylesheet" type="text/css" media="screen and (min-width: 1024px)" href="<?php bloginfo('stylesheet_directory'); ?>/css/fixed-grid.css" />
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 1024px)" href="<?php bloginfo('template_url'); ?>/css/fixed-grid.css" />
 
-	<link rel="stylesheet" type="text/css" media="screen and (min-width: 1024px)" href="<?php bloginfo('stylesheet_directory'); ?>/css/desktop.css" />
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 1024px)" href="<?php bloginfo('template_url'); ?>/css/desktop.css" />
 
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" />
 
-	<link rel="stylesheet" type="text/css" media="screen and (max-width: 1023px)" href="<?php bloginfo('stylesheet_directory'); ?>/css/mobile.css" />
+	<link rel="stylesheet" type="text/css" media="screen and (max-width: 1023px)" href="<?php bloginfo('template_url'); ?>/css/mobile.css" />
 
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 
