@@ -1,6 +1,9 @@
 /****************************
  HIGH PPI DISPLAY BACKGROUNDS
 *****************************/
+#menu-item-15599 {
+  display: none !important; }
+
 .nav .header__menu {
   float: right;
   height: 70px; }

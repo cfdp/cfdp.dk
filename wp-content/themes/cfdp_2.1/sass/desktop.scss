@@ -1,5 +1,10 @@
 @import "mixins";
 
+#menu-item-15599 {
+  // Hide in english menu item on desktop
+  display: none !important
+}
+
 .nav {
   .header__menu {
     float: right;
