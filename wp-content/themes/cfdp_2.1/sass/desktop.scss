@@ -1,3 +1,5 @@
+@import "mixins";
+
 .nav {
   .header__menu {
     float: right;
@@ -54,15 +56,48 @@
   }
 
   .searchbar {
+    position: relative;
     float: right;
     height: 70px;
 
+    :after {
+      position: absolute;
+      right: 23px;
+      top: 30px;
+      content:"";
+      display: block;
+      width: 14px;
+      height: 14px;
+      @include background-2x( 'http://cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-search', 'png', 14px, 14px, center center, repeat-x );
+    }
+
+
     input {
-      font-size: 16px;
-      font-style: italic;
-      color: #bbb;
-      padding: 28px 20px 18px;
+      font-size: 14px;
+      color: #999;
+      background: #EFEFEF;
+      height: 32px;
+      width: 135px;
+      border-radius: 3px;
+      padding-left: 7px;
+      margin: 20px 15px 0;
       border: none;
+    }
+  }
+  .icon-english-flag {
+    position: relative;
+    float: right;
+    display: block;
+    width: 36px;
+    height: 24px;
+    margin: 25px 0 20px 0;
+    @include background-2x( 'http://cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-english-flag', 'png', 36px, 24px, center center, repeat-x );
+    // Hide text
+    font-size: 0;
+    color: transparent;
+
+    &:hover {
+      @include filter(brightness,89%);
     }
   }
 }

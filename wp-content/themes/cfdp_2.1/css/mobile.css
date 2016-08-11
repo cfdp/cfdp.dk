@@ -158,7 +158,8 @@ body {
 
 .header__menu,
 .wpadminbar,
-.searchbar {
+.searchbar,
+.icon-english-flag {
   display: none; }
 
 .logo img {
