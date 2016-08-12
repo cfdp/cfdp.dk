@@ -23,3 +23,5 @@ node_modules
 
 # Sublime-text
 _.sublime-workspace
+
+wp-content/plugins/cfdp-google-analytics/cfdp-google-analytics.php
