@@ -54,17 +54,17 @@ table {
   width: 260px;
   overflow-x: hidden;
   overflow-y: auto;
-  background: #2E3234; }
+  background: #006cb6; }
   .sidr.right {
     left: auto;
     right: -260px; }
   .sidr .menu {
     padding-top: 10px;
-    border-bottom: 1px solid #111; }
+    border-bottom: 1px solid #005d9d; }
     .sidr .menu li {
       display: block; }
       .sidr .menu li.current-menu-item a {
-        background: #444; }
+        background: #005d9d; }
       .sidr .menu li.current-menu-item .sub-menu li a {
         background: none; }
       .sidr .menu li a {
@@ -72,15 +72,15 @@ table {
         padding: 14px 20px;
         font-size: 18px;
         color: white;
-        border-top: 1px solid #111;
-        text-transform: uppercase;
-        letter-spacing: 1px; }
+        border-top: 1px solid #005d9d; }
       .sidr .menu li .sub-menu a {
         letter-spacing: 0;
         text-transform: none;
         padding-left: 30px;
-        color: #ccc;
+        color: rgba(255, 255, 255, 0.9);
         border-top: none; }
+        .sidr .menu li .sub-menu a:before {
+          content: "- "; }
 
 #toggle-menu-button {
   display: block;

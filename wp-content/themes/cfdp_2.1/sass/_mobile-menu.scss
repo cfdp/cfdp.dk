@@ -2,6 +2,7 @@
 
 $sidebar-width: 260px;
 $sidebar-width-neg: -260px;
+$sidebar-bg-color: #006cb6;
 
 .sidr {
   display: block;
@@ -12,7 +13,7 @@ $sidebar-width-neg: -260px;
   width: $sidebar-width;
   overflow-x: hidden;
   overflow-y: auto;
-  background: #2E3234;
+  background: $sidebar-bg-color;
 
   &.right {
     left: auto;
@@ -21,14 +22,14 @@ $sidebar-width-neg: -260px;
 
   .menu {
     padding-top: 10px;
-    border-bottom: 1px solid #111;
+    border-bottom: 1px solid darken($sidebar-bg-color, 5%);
 
     li {
       display: block;
 
       &.current-menu-item {
         a {
-          background: #444;
+          background: darken($sidebar-bg-color, 5%);
         }
 
         .sub-menu li a {
@@ -36,22 +37,12 @@ $sidebar-width-neg: -260px;
         }
       }
 
-      &.menu-item-has-children a {
-          // border-bottom: none;
-
-          .sub-menu li:last-child a {
-            // border-bottom: 1px solid #111;
-          }
-        }
-
       a {
         display: block;
         padding: 14px 20px;
         font-size: 18px;
         color: white;
-        border-top: 1px solid #111;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        border-top: 1px solid darken($sidebar-bg-color, 5%);
       }
 
       .sub-menu {
@@ -59,8 +50,11 @@ $sidebar-width-neg: -260px;
           letter-spacing: 0;
           text-transform: none;
           padding-left: 30px;
-          color: #ccc;
+          color: rgba(255, 255, 255, .9);
           border-top: none;
+          &:before {
+            content: "- "
+          }
         }
       }
     }
