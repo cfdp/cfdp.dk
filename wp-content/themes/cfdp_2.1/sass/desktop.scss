@@ -22,16 +22,26 @@
           border-left: 1px solid #ece3d6;
         }
 
+        &:hover {
+          background: #006AB9;
+        }
+
         a {
           padding: 28px 20px 22px;
           font-size: 16px;
           font-weight: bold;
           display: inline-block;
+
+          &:hover {
+            text-decoration: none;
+            color: white;
+          }
         }
 
         &.current-menu-item {
           position: relative;
           background: #006AB9;
+
 
           // Hack to display a small triangle on 1 level menu items https://i.imgur.com/35Rsem8.png
           &.menu-item-has-children {
@@ -112,6 +122,7 @@
 .header__sub-menu {
   position: relative;
   left: -25px;
+  top: -1px;
   width: 1040px !important;
   background: #F7FCFF;
   border-top: 1px solid #ece3d6;
