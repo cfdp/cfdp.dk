@@ -173,7 +173,7 @@ msgstr "Udvid dit dit design ved at bruge <a href=\"%s\">Udvalgte billeder</a> t
 msgid "The home page features your choice of up to 6 posts prominently displayed in a grid or slider, controlled by a <a href=\"%1$s\">tag</a>; you can change the tag and layout in <a href=\"%2$s\">Appearance &rarr; Customize</a>. If no posts match the tag, <a href=\"%3$s\">sticky posts</a> will be displayed instead."
 msgstr "Forsiden indeholder et udvalg af op til seks fremtrædende indlæg vist i et gitter eller skyder, kontrolleret med et <a href=\"%1$s\">tag</a>; du kan ændre tagget og layoutet i <a href=\"%2$s\">Udseende &rarr; Tilpas</a>. Hvis ingen indlæg benytter tagget, vil <a href=\"%3$s\">fastgjorte indlæg</a> blive vist i stedet."
 
-#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.7)  #-#-#-#-#
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.8)  #-#-#-#-#
 #. Theme Name of the plugin/theme
 #: inc/customizer.php:142
 msgid "Twenty Fourteen"
@@ -431,7 +431,7 @@ msgstr "Det ser ud til, at vi ikke kan finde det, du leder efter. Måske vil en 
 msgid "Not Found"
 msgstr "Ikke fundet"
 
-#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.7)  #-#-#-#-#
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.8)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:21
 msgid "https://wordpress.org/"

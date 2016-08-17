@@ -219,7 +219,7 @@ msgstr "Primær menu"
 msgid "Proudly powered by %s"
 msgstr "Drevet af %s"
 
-#. #-#-#-#-#  twentyfifteen.pot (Twenty Fifteen 1.5)  #-#-#-#-#
+#. #-#-#-#-#  twentyfifteen.pot (Twenty Fifteen 1.6)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:25
 msgid "https://wordpress.org/"
