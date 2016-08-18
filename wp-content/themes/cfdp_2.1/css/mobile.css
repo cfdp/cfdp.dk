@@ -68,6 +68,7 @@ table {
       .sidr .menu li.current-menu-item .sub-menu li a {
         background: none; }
       .sidr .menu li a {
+        font-family: 'Lato', Sans-Serif;
         display: block;
         padding: 14px 20px;
         font-size: 18px;

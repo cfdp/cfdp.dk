@@ -13,7 +13,7 @@ General comments/License Statement if any.
 */
 body {
   background: #fefbf9;
-  font: 14px/20px 'Lato', Helveltica, Arial, Sans-Serif;
+  font: 18px/24px 'Roboto Slab', serif;
   color: #222; }
 
 a, a:visited {
@@ -24,17 +24,27 @@ a:hover {
   color: #005691;
   text-decoration: underline; }
 
-h2, h1 {
-  font: 32px 'Lato', Helveltica, Arial, Sans-Serif;
+h1,
+.header-h1 {
+  font: 42px 'Lato', Sans-Serif;
+  color: #222;
+  display: block;
+  font-weight: 900;
+  height: 1.5em; }
+
+h2,
+.header-h2 {
+  font: 32px 'Lato', Sans-Serif;
   color: #222;
   display: block;
   font-weight: bold; }
 
-h2 {
-  font: 26px 'Lato', Helveltica, Arial, Sans-Serif;
-  color: #222;
-  display: block;
-  font-weight: bold; }
+.text-intro {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 300;
+  color: #666;
+  margin-bottom: 50px; }
 
 /*subheadings for blogposts*/
 .category-indlg .entry h2 {
@@ -657,6 +667,7 @@ img.intro-frontpage {
 
 /*------------------- Her følger css til de farvede knapper på cfdp sitet -------------------*/
 a.green_button {
+  font-family: 'Lato', Sans-Serif;
   background: #27ae60;
   color: white;
   display: inline-block;
@@ -667,6 +678,7 @@ a.green_button {
     background: #229955; }
 
 a.red_button {
+  font-family: 'Lato', Sans-Serif;
   background: #c0392b;
   color: white;
   display: inline-block;
@@ -677,6 +689,7 @@ a.red_button {
     background: #ab3326; }
 
 a.blue_button {
+  font-family: 'Lato', Sans-Serif;
   background: #2980b9;
   color: white;
   display: inline-block;
@@ -686,7 +699,21 @@ a.blue_button {
     text-decoration: none;
     background: #2472a4; }
 
+a.blue-ghost_button {
+  font-family: 'Lato', Sans-Serif;
+  border: 1px solid #2980b9;
+  background: white;
+  color: #2980b9;
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 3px; }
+  a.blue-ghost_button:hover {
+    text-decoration: none;
+    background: #2980b9;
+    color: #fff; }
+
 a.yellow_button {
+  font-family: 'Lato', Sans-Serif;
   background: #f1c40f;
   color: white;
   display: inline-block;
@@ -941,3 +968,40 @@ p#personal-info-disclaimer {
   font-size: 9px;
   font-style: italic;
   line-height: 10px; }
+
+.persons {
+  margin-top: 90px; }
+
+.person {
+  background: #F6F6F6;
+  display: block;
+  float: left;
+  text-align: center;
+  width: 320px;
+  height: 260px;
+  margin-bottom: 70px; }
+  .person:nth-child(3n+2) {
+    margin: 0 30px; }
+  .person .image {
+    margin: -36px auto 0;
+    width: 128px;
+    height: 128px;
+    border-radius: 100%;
+    overflow: hidden;
+    display: block;
+    border: 8px solid #fff; }
+    .person .image img {
+      width: 128px;
+      height: auto; }
+  .person .name {
+    display: block;
+    margin-top: 10px;
+    font-size: 22px; }
+  .person .title {
+    display: block;
+    margin-top: 5px;
+    font-family: 'Roboto Slab', serif;
+    font-size: 18px;
+    color: #666; }
+  .person .blue-ghost_button {
+    margin-top: 20px; }

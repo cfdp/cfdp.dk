@@ -18,6 +18,7 @@
       .nav .header__menu ul li:hover {
         background: #006AB9; }
       .nav .header__menu ul li a {
+        font-family: 'Lato', Sans-Serif;
         padding: 28px 20px 22px;
         font-size: 16px;
         font-weight: bold;
@@ -122,6 +123,7 @@
         display: inline-block; }
         .header__sub-menu .current-menu-item .sub-menu .menu-item a,
         .header__sub-menu .current-menu-parent .sub-menu .menu-item a {
+          font-family: 'Lato', Sans-Serif;
           display: inline-block;
           padding: 20px 10px 16px;
           font-size: 16px;

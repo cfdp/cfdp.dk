@@ -36,7 +36,7 @@
 	</title>
 
 
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,700,900|Roboto+Slab:100,300,400" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" media="screen and (min-width: 1024px)" href="<?php bloginfo('template_url'); ?>/css/fixed-grid.css" />
 
