@@ -18,7 +18,7 @@ Template Name: Page no sidebar
 				echo '<h1 class="thumbHeading grid_12 clearfix">' . get_the_title() . '</h1>';
 				}
 				else {
-					echo '<h1 class="heading grid_12 clearfix">' . get_the_title() . '</h1>';
+					echo '<h1 class="heading alpha grid_12 clearfix">' . get_the_title() . '</h1>';
 				}
 			?>
 
