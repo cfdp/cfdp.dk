@@ -26,11 +26,6 @@
 			<div class="grid_8 alpha zi1">
 
 				<div class="entry">
-					<?php /* Display dates in indlæg, forsiden, nyheder fra CFDP, international news, */
-					if ( in_category( array( 9, 10, 11, 35 ) )){ ?>
-						<span class="date">Skrevet for <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?> | Seneste redigeret: <?php the_modified_date(); ?></span>
-						<?php
-					} ?>
 					<?php the_content(); ?>
 
 					<?php wp_link_pages(array('before' => 'Pages: ', 'next_or_number' => 'number')); ?>

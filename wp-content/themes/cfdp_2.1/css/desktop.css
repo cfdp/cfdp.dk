@@ -6,7 +6,7 @@
 
 .nav .header__menu {
   float: right;
-  height: 70px; }
+  height: 75px; }
   .nav .header__menu ul {
     display: inline-block; }
     .nav .header__menu ul li {
@@ -49,11 +49,11 @@
 .nav .searchbar {
   position: relative;
   float: right;
-  height: 70px; }
+  height: 75px; }
   .nav .searchbar :after {
     position: absolute;
     right: 23px;
-    top: 30px;
+    top: 32px;
     content: "";
     display: block;
     width: 14px;
@@ -73,7 +73,7 @@
     width: 135px;
     border-radius: 3px;
     padding-left: 7px;
-    margin: 20px 15px 0;
+    margin: 22px 15px 0;
     border: none; }
 
 .nav .icon-english-flag {

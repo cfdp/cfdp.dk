@@ -8,7 +8,7 @@
 .nav {
   .header__menu {
     float: right;
-    height: 70px;
+    height: 75px;
 
     ul {
       display: inline-block;
@@ -74,12 +74,12 @@
   .searchbar {
     position: relative;
     float: right;
-    height: 70px;
+    height: 75px;
 
     :after {
       position: absolute;
       right: 23px;
-      top: 30px;
+      top: 32px;
       content:"";
       display: block;
       width: 14px;
@@ -96,7 +96,7 @@
       width: 135px;
       border-radius: 3px;
       padding-left: 7px;
-      margin: 20px 15px 0;
+      margin: 22px 15px 0;
       border: none;
     }
   }

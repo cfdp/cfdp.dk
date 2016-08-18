@@ -1,14 +1,8 @@
 <div class="aboutAuthor clearfix block">
-	<h2>Indlæggets forfatter</h2>
-	<span class="line"></span>
 	<a class="imgLink" href="<?php the_author_meta('user_url'); ?>"><?php echo get_avatar( get_the_author_meta('email'), '55' ); ?></a>
 	<p class="bio">
-		<?php the_author_posts_link(); ?> :
-		<?php the_author_meta('description'); ?>
+		Skrevet for <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?> af <?php the_author_posts_link(); ?>
 	</p>
-
-	<a class="rssfeed" href='<?php bloginfo('url') ?>/author/<?php authorPermalink(get_the_author());?>/feed/'><span></span>Abonner på RSS-feed</a><br>
-	<a class="newsletter" href="/nyhedsbrev"><span></span>Tilmeld nyhedsbrev</a>
 </div>
 
 

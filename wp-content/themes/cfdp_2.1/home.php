@@ -1,34 +1,37 @@
 <?php get_header(); ?>
 
-<div class="content">
-  <div class="slider grid_12">
+<div class="content clearfix">
+  <div class="slider grid_12 clearfix">
     <?php dynamic_content_gallery(); ?>
   </div><!-- .slider -->
+  <div class="grid_12 clearfix">
+    <h1>Blogindlæg</h1>
+    <div class="posts">
 
-  <div class="posts">
-    <div class="left grid_8">
-      <div class="latest">
-        <h2>Blogindlæg</h2>
-        <span class="line"></span>
-
-<?php //2 seneste indlæg med kategorien forsiden
+  <?php
         $query = array(
           'category__in' => array(9),
-          'posts_per_page'  => 3,
+          'posts_per_page'  => 6,
         );
         query_posts($query);
-          if ( have_posts() ) : while ( have_posts() ) : the_post();
-?>
+          if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
           <div class="post">
-            <h3><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h3>
+            <?php if(has_post_thumbnail()) { ?>
+            <a class="image" href="<?php the_permalink(); ?>">
+              <?php the_post_thumbnail('large'); ?>
+              <h3><?php the_title(); ?></h3>
+            </a>
+            <?php } ?>
+
             <span class="postInfo">
               af <a href="#" class="author"><?php the_author_posts_link(); ?></a> for
               <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
               <?php $comment_count = get_comment_count($post->ID); ?><?php if ($comment_count['approved'] > 0) : ?> | <?php endif; ?>
               <?php comments_popup_link('', '1 Kommentar', '% Kommentarer'); ?>
             </span>
-            <?php truncate( get_the_excerpt(), 350); ?>
-             <a href="<?php the_permalink() ?>" class="more">Læs&nbsp;indlæg</a>
+              <p class="text-intro">
+                <?php truncate( get_the_excerpt(), 350); ?> <a href="<?php the_permalink() ?>" class="more">Læs&nbsp;indlæg</a>
+              </p>
           </div>
 
         <?php endwhile; else:
@@ -40,14 +43,7 @@
         <a href="erfarninger/vidensarkiv/" class="readMore">Læs&nbsp;flere&nbsp;indlæg</a>
 
       </div>
-    </div> <!-- .left -->
-
-    <div class="right grid_4">
-      <h2>Tweets</h2>
-      <span class="line"></span>
-      <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/CFDPs" data-widget-id="453859743497322497" data-chrome="transparent noheader" data-tweet-limit="3">Tweets by @CFDPs</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-    </div><!-- .right -->
+    </div>
   </div>
 </div>
 

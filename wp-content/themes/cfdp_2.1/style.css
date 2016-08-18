@@ -210,27 +210,6 @@ div.container h2.heading.grid_12 {
   padding-right: 10px;
   margin: 4px 0 20px; }
 
-.aboutAuthor a.rssfeed span {
-  background: #fefbf9 url(img/navigation-sprite.png) 0 0 no-repeat;
-  display: inline-block;
-  position: relative;
-  top: 1px;
-  height: 14px;
-  margin-right: 5px;
-  margin-top: 5px;
-  width: 17px;
-  background-position: 0 -970px; }
-
-.aboutAuthor a.newsletter span {
-  background: #fefbf9 url(img/navigation-sprite.png) 0 0 no-repeat;
-  display: inline-block;
-  position: relative;
-  top: 3px;
-  height: 14px;
-  margin-right: 5px;
-  width: 17px;
-  background-position: 0 -890px; }
-
 /*Related Posts*/
 .relatedPosts {
   margin-bottom: 30px; }
@@ -238,10 +217,6 @@ div.container h2.heading.grid_12 {
     margin-bottom: 10px; }
   .relatedPosts p {
     margin-bottom: 5px; }
-
-/*Twitter*/
-.twitter ul li {
-  margin-bottom: 15px; }
 
 /*Comments*/
 div#respond h2, h2#comments {
@@ -289,7 +264,8 @@ div#respond textarea#comment {
 .footer {
   background: none;
   border: none;
-  color: #ccc; }
+  color: #ccc;
+  font-weight: 300; }
   .footer a {
     color: #efefef;
     text-decoration: underline; }
@@ -312,41 +288,6 @@ div#respond textarea#comment {
 
 .rightFoot div a sub {
   font-size: 13px; }
-
-.rightFoot div a span {
-  background: url(img/social_icons.png) 0 0 no-repeat;
-  height: 48px;
-  width: 48px;
-  display: block;
-  float: left;
-  padding-right: 10px; }
-
-.rightFoot div.cyberhusLink a span {
-  background-position: 0 0; }
-
-.rightFoot div.facebookLink a span {
-  background-position: 0 -60px; }
-
-.rightFoot div.youtubeLink a span {
-  background-position: 0 -300px; }
-
-.rightFoot div.twitterLink a span {
-  background-position: 0 -120px; }
-
-.rightFoot div.flickrLink a span {
-  background-position: 0 -180px; }
-
-.rightFoot div.linkedinLink a span {
-  background-position: 0 -240px; }
-
-.rightFoot div.googleplusLink a span {
-  background-position: 0 -360px; }
-
-.rightFoot div.newsletterLink a span {
-  background-position: 0 -420px; }
-
-.rightFoot div.rssLink a span {
-  background-position: 0 -480px; }
 
 .leftFoot p {
   margin-bottom: 10px; }
@@ -379,44 +320,51 @@ a#contactTab:hover {
 
 /* Posts */
 .posts {
-  position: relative;
-  z-index: 1;
-  top: 0; }
-
-.post h3 a {
-  font: bold 20px Arial,sans-serif;
-  color: #222; }
-
-.post h3 a:hover {
-  border-bottom: 1px solid #000;
-  color: #000;
-  text-decoration: none; }
-
-.post .postInfo {
-  display: block;
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 5px; }
-
-.post .postInfo a {
-  color: #333333; }
-
-.post .postInfo a:hover, .post p a:hover {
-  color: #00406c; }
-
-.posts .post {
-  font-size: 16px;
-  line-height: 20px;
-  margin-bottom: 35px; }
-
-a.readMore {
-  font-size: 13px;
-  display: block;
-  padding: 5px 0;
-  margin: -20px 0 30px; }
-
-a.more {
-  font-size: 13px; }
+  margin-top: 30px; }
+  .posts .post {
+    margin-bottom: 50px; }
+  .posts .postInfo {
+    display: block;
+    margin: 10px 0 15px; }
+  .posts .image {
+    width: 990px;
+    height: 226px;
+    display: block;
+    position: relative;
+    transition: all 2s; }
+    .posts .image img {
+      display: block; }
+    .posts .image h3 {
+      position: absolute;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+      width: 930px;
+      padding: 0 30px;
+      text-align: center;
+      display: block;
+      font-family: 'Lato', Sans-Serif;
+      font-size: 42px;
+      line-height: 50px;
+      color: #fff;
+      font-weight: 900;
+      z-index: 9; }
+  .posts .image:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.65);
+    opacity: 1;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s; }
+  .posts .image:hover h3,
+  .posts .image:hover:after {
+    opacity: 0; }
 
 /*Produkter, Erfaringer og Projekter*/
 a.anchor {
@@ -428,15 +376,6 @@ a.anchor:hover {
 
 .products h2 {
   font: bold 36px Arial,sans-serif; }
-
-div.wrap p.intro {
-  font-size: 13px;
-  line-height: 18px;
-  color: #222;
-  margin-bottom: 20px;
-  /* padding:5px; */
-  width: 100%;
-  max-width: 640px; }
 
 /*coloured line below intro-text*/
 .products .intro {
@@ -451,20 +390,6 @@ div.wrap p.intro {
 .team p.intro {
   border-bottom: 5px #42B10E solid; }
 
-/*
-	.products p.intro, p.intro{
-		background:#d7e9f4;
-		border-bottom:1px solid #cee0ea;
-	}
-	.experience p.intro{
-		background:#ffdbde;
-		border-bottom:1px solid #efd0d3;
-	}
-	.projects p.intro{
-		background:#fff0d6;
-		border-bottom:1px solid #efe1c9;
-	}
- */
 div.products h3 a:hover, .experience h3 a:hover, .projects h3 a:hover {
   border: none;
   text-decoration: none;
@@ -524,111 +449,6 @@ div.paging {
   color: #006cb6;
   padding: 0px 0 15px 10px;
   font: 20px 'Lato', Arial, Helveltica, Sans-Serif; }
-
-/* Mennesker / Team page */
-.team .profile img {
-  float: left;
-  width: 100px;
-  height: 280px;
-  padding-right: 20px;
-  padding-bottom: 40px; }
-
-.team .profile h2 {
-  font: bold 20px/22px Arial, Helveltica, Sans-Serif; }
-
-.team .profile a {
-  padding: 0 0 5px;
-  display: block; }
-
-.team .profile p {
-  color: #666;
-  margin-right: 10px;
-  margin-bottom: 5px;
-  font-size: 12px;
-  line-height: 16px; }
-
-.team .row {
-  margin-top: 40px; }
-
-/*Author page*/
-.authorPage h1 {
-  font: bold 36px Arial,sans-serif;
-  color: #222;
-  margin-bottom: 10px; }
-
-.authorPage h2 {
-  margin-top: 20px; }
-
-.authorPage p.about {
-  font: 18px/24px 'Lato', Arial, Helveltica, Sans-Serif;
-  color: #222;
-  margin-bottom: 25px; }
-
-.authorPage .links a {
-  display: block;
-  padding: 5px 0 5px 0; }
-
-.authorPage .links a:hover {
-  text-decoration: none;
-  color: #000; }
-
-.authorPage .links a span {
-  background: #fefbf9 url(img/navigation-sprite.png) 0 0 no-repeat;
-  display: inline-block;
-  position: relative; }
-
-.authorPage .links a.email span {
-  top: 3px;
-  height: 14px;
-  margin-right: 5px;
-  width: 17px;
-  background-position: 0 -890px; }
-
-.authorPage .links a.twitter span {
-  top: 3px;
-  height: 14px;
-  margin-right: 5px;
-  width: 17px;
-  background-position: 0 -910px; }
-
-.authorPage .links a.facebook span {
-  top: 0px;
-  height: 14px;
-  margin-right: 5px;
-  width: 17px;
-  background-position: 0 -930px; }
-
-.authorPage .links a.linkedin span {
-  top: 0px;
-  height: 14px;
-  margin-right: 5px;
-  width: 17px;
-  background-position: 0 -950px; }
-
-.authorPage .links a.website span {
-  top: 0px;
-  height: 14px;
-  margin-right: 5px;
-  width: 17px;
-  background-position: 0 -870px; }
-
-.authorPage .links a.rssfeed span {
-  top: 1px;
-  height: 14px;
-  margin-right: 5px;
-  width: 17px;
-  background-position: 0 -970px; }
-
-.authorPage .posts {
-  top: 0; }
-
-.authorPage h3 a {
-  font: bold 22px/22px Arial, Helveltica, Sans-Serif;
-  color: #222; }
-
-.authorPage a.more {
-  display: block;
-  margin-bottom: 30px; }
 
 /* Presse */
 .presse {
@@ -975,13 +795,16 @@ p#personal-info-disclaimer {
 .person {
   background: #F6F6F6;
   display: block;
-  float: left;
   text-align: center;
-  width: 320px;
+  width: 100%;
   height: 260px;
-  margin-bottom: 70px; }
-  .person:nth-child(3n+2) {
-    margin: 0 30px; }
+  margin-bottom: 70px;
+  float: left; }
+  @media (min-width: 1024px) {
+    .person {
+      width: 320px; }
+      .person:nth-child(3n+2) {
+        margin: 0 30px; } }
   .person .image {
     margin: -36px auto 0;
     width: 128px;
