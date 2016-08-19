@@ -1,7 +1,9 @@
+<?php $personurl = get_cimyFieldValue($authorid, 'personurl'); ?>
+
 <div class="aboutAuthor clearfix block">
 	<a class="imgLink" href="<?php the_author_meta('user_url'); ?>"><?php echo get_avatar( get_the_author_meta('email'), '55' ); ?></a>
 	<p class="bio">
-		Skrevet for <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?> af <?php the_author_posts_link(); ?>
+		Skrevet for <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?> af <a href="/person/<?php echo cimy_uef_sanitize_content($personurl); ?>" class="author"><?php the_author(); ?></a>
 	</p>
 </div>
 
