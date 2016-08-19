@@ -25,7 +25,9 @@
             <h3><?php the_title(); ?></h3>
           </a>
           <?php } else { ?>
-          <h3 class="boxed"><?php the_title(); ?></h3>
+          <a href="<?php the_permalink(); ?>">
+            <h3 class="boxed"><?php the_title(); ?></h3>
+          </a>
            <?php } ?>
 
           <span class="postInfo">
