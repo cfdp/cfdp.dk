@@ -52,6 +52,10 @@ h2,
 	margin-bottom: 50px;
 }
 
+.divider {
+	border-bottom: 1px solid #ece3d6;
+}
+
 
 /*subheadings for blogposts*/
 .category-indlg .entry h2 {
@@ -390,8 +394,9 @@ a#contactTab:hover{
 	}
 
 	.postInfo {
+		color: #999;
 		display: block;
-		margin: 10px 0 15px;
+		margin: 15px 0 15px;
 	}
 
 	.image {
@@ -827,6 +832,97 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 
 		.blue-ghost_button {
 			margin-top: 20px;
+		}
+	}
+}
+
+
+.single-person {
+	.content {
+		header {
+			width: 600px;
+			margin: 40px auto;
+		}
+
+		.profile-image {
+			margin: 0 auto;
+			width: 220px;
+			height: 220px;
+			border-radius: 100%;
+			overflow: hidden;
+
+			img {
+				width: 220px;
+				height: auto;
+			}
+		}
+		.name,
+		.title {
+			text-align: center;
+			width: 100%;
+			display: block;
+		}
+		.title {
+			font-size: 26px;
+			color: #666;
+			font-weight: 300;
+			padding-bottom: 40px;
+		}
+
+		.person__info {
+			text-align: center;
+
+			.item {
+				display: inline-block;
+				padding-right: 30px;
+
+				&:last-child {
+					padding-right: 0;
+				}
+
+				.heading {
+					display: block;
+					font-family: 'Lato', Sans-Serif;
+					color: #999;
+					font-size: 12px;
+					text-transform: uppercase;
+					letter-spacing: 1px;
+				}
+
+				.item__content {
+					display: block;
+				}
+			}
+		}
+		.person__desc {
+			padding-top: 25px;
+			color: #333;
+		}
+	}
+
+	section.blog-posts {
+		padding-top: 30px;
+
+		width: 600px;
+		margin: 0 auto;
+
+		.post {
+			margin: 40px 0;
+		}
+
+		h2 {
+			text-align: center;
+		}
+
+		h3 {
+			font-size: 22px;
+			font-weight: 900;
+		}
+
+		.postInfo {
+			color: #999;
+			font-weight: 300;
+			font-size: 16px;
 		}
 	}
 }

@@ -11,65 +11,74 @@
     $meta_type = get_post_meta( get_the_ID(), 'type', true );
   ?>
 
-  <div class="person content grid_12 clearfix">
-    <?php
-      if(has_post_thumbnail()) {
-      the_post_thumbnail('medium_large');
-      } else {
-        echo '<img src="http://thecatapi.com/api/images/get?format=src&type=jpg">';
-      }
-    ?>
-    <h1 class="name"><?php the_title(); ?></h1>
-    <?php
-      if ( !empty( $meta_titel ) ) { echo '<span class="title">' . $meta_titel . '</span>'; }
-    ?>
-    <div class="person__info">
+  <div class="content grid_12 clearfix">
+    <header>
       <?php
-        if ( !empty( $meta_phone ) ) { echo '<div class="item"><span class="heading">Telefon</span><span class="content">' . $meta_phone . '</span></div>'; }
-        if ( !empty( $meta_mail ) ) { echo '<div class="item"><span class="heading">Email</span><span class="content">' . $meta_mail . '</span></div>'; }
-        if ( !empty( $meta_linkedin ) ) { echo '<div class="item"><span class="heading">Linkedin</span><span class="content">' . $meta_linkedin . '</span></div>'; }
-        if ( !empty( $meta_type ) ) { echo '<div class="item"><span class="heading">Rolle</span><span class="content">' . $meta_type . '</span></div>'; }
+        if(has_post_thumbnail()) {
+        echo '<div class="profile-image">';
+        the_post_thumbnail('medium_large');
+        echo '</div>';
+        } else {
+          echo '<img src="http://thecatapi.com/api/images/get?format=src&type=jpg">';
+        }
       ?>
-    </div>
-    <?php
-      if ( !empty( $meta_desc ) ) { echo '<div class="person__desc">' . $meta_desc . '</div>'; }
-    ?>
-
-    <?php edit_post_link('Rediger person','',''); ?>
-
-  <?php
-      $query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish','author'=>$meta_user, 'posts_per_page'=>5)); ?>
-
-      <?php if ( $query->have_posts() ) : ?>
-
-        <h2 class="clearfix">Blogindlæg</h2>
-          <div class="posts--person clearfix">
-            <!-- the loop -->
-            <?php while ( $query->have_posts() ) : $query->the_post(); ?>
-
-        <div class="post">
-          <a href="<?php the_permalink(); ?>">
-            <h3><?php the_title(); ?></h3>
-          </a>
-          <span class="postInfo">
-            Skrevet for
-            <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
-          </span>
-            <p class="text-intro">
-              <?php truncate( get_the_excerpt(), 350); ?> <a href="<?php the_permalink() ?>" class="more">Læs&nbsp;indlæg</a>
-            </p>
-        </div>
-        <?php endwhile; ?>
-
-        <?php wp_reset_postdata(); ?>
-
-        <?php else : ?>
-          <p><?php _e( 'Desværre, ingen person fundet' ); ?></p>
-        <?php endif; ?>
-
+      <h1 class="name"><?php the_title(); ?></h1>
+      <?php
+        if ( !empty( $meta_titel ) ) { echo '<span class="title">' . $meta_titel . '</span>'; }
+      ?>
+      <div class="person__info">
+        <?php
+          if ( !empty( $meta_phone ) ) { echo '<div class="item"><span class="heading">Telefon</span><span class="content"><a href="tel:' . $meta_phone . '">' . $meta_phone . '</a></span></div>'; }
+          if ( !empty( $meta_mail ) ) { echo '<div class="item"><span class="heading">Email</span><span class="content"><a href="mailto:' . $meta_mail . '">' . $meta_mail . '</a></span></div>'; }
+          if ( !empty( $meta_linkedin ) ) { echo '<div class="item"><span class="heading">Linkedin</span><span class="content">' . $meta_linkedin . '</span></div>'; }
+          if ( !empty( $meta_type ) ) { echo '<div class="item"><span class="heading">Rolle</span><span class="item__content">' . $meta_type . '</span></div>'; }
+        ?>
       </div>
-    </div> <!-- Blogindlæg END -->
-<?php endwhile; endif; ?>
+      <?php
+        if ( !empty( $meta_desc ) ) { echo '<div class="person__desc">' . $meta_desc . '</div>'; }
+      ?>
+
+      <?php edit_post_link('Rediger person','',''); ?>
+    </header>
+        <?php
+            $query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish','author'=>$meta_user, 'posts_per_page'=>5)); ?>
+
+            <?php if ( $query->have_posts() ) : ?>
+              <div class="divider"></div>
+              <section class="blog-posts">
+
+              <h2 class="clearfix">Seneste indlæg</h2>
+                <div class="posts--person clearfix">
+                  <!-- the loop -->
+                  <?php while ( $query->have_posts() ) : $query->the_post(); ?>
+
+              <div class="post">
+                <a href="<?php the_permalink(); ?>">
+                  <h3><?php the_title(); ?></h3>
+                </a>
+                <span class="postInfo">
+                  <?php echo get_the_author(); ?>  skrev for
+                  <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
+                </span>
+                  <p class="text">
+                    <?php truncate( get_the_excerpt(), 350); ?> <a href="<?php the_permalink() ?>" class="more">Læs&nbsp;indlæg</a>
+                  </p>
+              </div>
+              <?php endwhile; ?>
+
+              <?php wp_reset_postdata(); ?>
+
+              <?php else : ?>
+                <p><?php _e( 'Desværre, ingen person fundet' ); ?></p>
+              <?php endif; ?>
+
+            </div>
+          </div> <!-- Blogindlæg END -->
+        </section>
+      <?php endwhile; endif; ?>
+
+
+
   </div>
 
 

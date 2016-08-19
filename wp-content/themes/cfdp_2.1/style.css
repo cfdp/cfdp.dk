@@ -46,6 +46,9 @@ h2,
   color: #666;
   margin-bottom: 50px; }
 
+.divider {
+  border-bottom: 1px solid #ece3d6; }
+
 /*subheadings for blogposts*/
 .category-indlg .entry h2 {
   font: 22px 'Lato', Helveltica, Arial, Sans-Serif;
@@ -308,8 +311,9 @@ a#contactTab:hover {
   .posts .post {
     margin-bottom: 50px; }
   .posts .postInfo {
+    color: #999;
     display: block;
-    margin: 10px 0 15px; }
+    margin: 15px 0 15px; }
   .posts .image {
     width: 100%;
     height: auto;
@@ -824,3 +828,66 @@ p#personal-info-disclaimer {
       color: #666; }
     .persons .person .blue-ghost_button {
       margin-top: 20px; }
+
+.single-person .content header {
+  width: 600px;
+  margin: 40px auto; }
+
+.single-person .content .profile-image {
+  margin: 0 auto;
+  width: 220px;
+  height: 220px;
+  border-radius: 100%;
+  overflow: hidden; }
+  .single-person .content .profile-image img {
+    width: 220px;
+    height: auto; }
+
+.single-person .content .name,
+.single-person .content .title {
+  text-align: center;
+  width: 100%;
+  display: block; }
+
+.single-person .content .title {
+  font-size: 26px;
+  color: #666;
+  font-weight: 300;
+  padding-bottom: 40px; }
+
+.single-person .content .person__info {
+  text-align: center; }
+  .single-person .content .person__info .item {
+    display: inline-block;
+    padding-right: 30px; }
+    .single-person .content .person__info .item:last-child {
+      padding-right: 0; }
+    .single-person .content .person__info .item .heading {
+      display: block;
+      font-family: 'Lato', Sans-Serif;
+      color: #999;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px; }
+    .single-person .content .person__info .item .item__content {
+      display: block; }
+
+.single-person .content .person__desc {
+  padding-top: 25px;
+  color: #333; }
+
+.single-person section.blog-posts {
+  padding-top: 30px;
+  width: 600px;
+  margin: 0 auto; }
+  .single-person section.blog-posts .post {
+    margin: 40px 0; }
+  .single-person section.blog-posts h2 {
+    text-align: center; }
+  .single-person section.blog-posts h3 {
+    font-size: 22px;
+    font-weight: 900; }
+  .single-person section.blog-posts .postInfo {
+    color: #999;
+    font-weight: 300;
+    font-size: 16px; }

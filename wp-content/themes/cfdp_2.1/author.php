@@ -80,20 +80,4 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-	    $('#nav4 div.tab').addClass('tabOpen');
-	    lastBlock = $("#nav4 div.tabOpen");
-	});
-</script>
 <?php get_footer(); ?>
