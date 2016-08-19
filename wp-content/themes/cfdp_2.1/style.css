@@ -275,32 +275,16 @@ div#respond textarea#comment {
 .leftFoot p {
   line-height: 1.7em; }
 
-/* Right Footer | Social Links */
-.rightFoot .clearfix {
-  margin-bottom: 15px; }
-
-.rightFoot div a {
-  color: #efefef;
-  text-decoration: none;
-  line-height: 16px;
-  position: relative;
-  top: 6px; }
-
-.rightFoot div a sub {
-  font-size: 13px; }
-
-.leftFoot p {
-  margin-bottom: 10px; }
-
-.bottomFoot {
-  padding-top: 3em; }
-  .bottomFoot .inner {
-    margin-left: -5px;
-    margin-right: -5px; }
-
 .footer .copyright {
   text-align: center;
   color: #666; }
+
+@media (max-width: 1023px) {
+  .footer {
+    text-align: center; }
+    .footer [class^="grid_"] {
+      margin-bottom: 30px;
+      line-height: 26px; } }
 
 /*Contact Tab at left*/
 a#contactTab {
@@ -327,20 +311,22 @@ a#contactTab:hover {
     display: block;
     margin: 10px 0 15px; }
   .posts .image {
-    width: 990px;
-    height: 226px;
+    width: 100%;
+    height: auto;
     display: block;
     position: relative;
-    transition: all 2s; }
+    transition: all 1.5s; }
     .posts .image img {
-      display: block; }
+      display: block;
+      width: 100%;
+      height: auto; }
     .posts .image h3 {
       position: absolute;
       top: 50%;
       -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
-      width: 930px;
+      width: 100%;
       padding: 0 30px;
       text-align: center;
       display: block;
@@ -349,7 +335,17 @@ a#contactTab:hover {
       line-height: 50px;
       color: #fff;
       font-weight: 900;
-      z-index: 9; }
+      z-index: 9;
+      box-sizing: border-box; }
+      @media (max-width: 1023px) {
+        .posts .image h3 {
+          font-size: 32px;
+          line-height: 40px; } }
+      @media (max-width: 579px) {
+        .posts .image h3 {
+          font-size: 24px;
+          line-height: 30px;
+          padding: 0 10px; } }
   .posts .image:after {
     content: '';
     position: absolute;
@@ -357,14 +353,15 @@ a#contactTab:hover {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.65);
+    background-image: radial-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
     opacity: 1;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s; }
-  .posts .image:hover h3,
-  .posts .image:hover:after {
-    opacity: 0; }
+    transition: all 1.5s;
+    -webkit-transition: all 1.5s;
+    -moz-transition: all 1.5s; }
+  @media (min-width: 580px) {
+    .posts .image:hover h3,
+    .posts .image:hover:after {
+      opacity: 0; } }
 
 /*Produkter, Erfaringer og Projekter*/
 a.anchor {
@@ -791,40 +788,39 @@ p#personal-info-disclaimer {
 
 .persons {
   margin-top: 90px; }
-
-.person {
-  background: #F6F6F6;
-  display: block;
-  text-align: center;
-  width: 100%;
-  height: 260px;
-  margin-bottom: 70px;
-  float: left; }
-  @media (min-width: 1024px) {
-    .person {
-      width: 320px; }
-      .person:nth-child(3n+2) {
-        margin: 0 30px; } }
-  .person .image {
-    margin: -36px auto 0;
-    width: 128px;
-    height: 128px;
-    border-radius: 100%;
-    overflow: hidden;
+  .persons .person {
+    background: #F6F6F6;
     display: block;
-    border: 8px solid #fff; }
-    .person .image img {
+    text-align: center;
+    width: 100%;
+    height: 260px;
+    margin-bottom: 70px;
+    float: left; }
+    @media (min-width: 1024px) {
+      .persons .person {
+        width: 320px; }
+        .persons .person:nth-child(3n+2) {
+          margin: 0 30px; } }
+    .persons .person .image {
+      margin: -36px auto 0;
       width: 128px;
-      height: auto; }
-  .person .name {
-    display: block;
-    margin-top: 10px;
-    font-size: 22px; }
-  .person .title {
-    display: block;
-    margin-top: 5px;
-    font-family: 'Roboto Slab', serif;
-    font-size: 18px;
-    color: #666; }
-  .person .blue-ghost_button {
-    margin-top: 20px; }
+      height: 128px;
+      border-radius: 100%;
+      overflow: hidden;
+      display: block;
+      border: 8px solid #fff; }
+      .persons .person .image img {
+        width: 128px;
+        height: auto; }
+    .persons .person .name {
+      display: block;
+      margin-top: 10px;
+      font-size: 22px; }
+    .persons .person .title {
+      display: block;
+      margin-top: 5px;
+      font-family: 'Roboto Slab', serif;
+      font-size: 18px;
+      color: #666; }
+    .persons .person .blue-ghost_button {
+      margin-top: 20px; }

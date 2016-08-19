@@ -15,12 +15,6 @@
 					echo '<h2 class="heading grid_8 alpha clearfix">' . get_the_title() . '</h2>';
 				}
 			?>
-			<div class="breadcrumbs clearfix">
-		    <?php if(function_exists('bcn_display'))
-		    {
-		        bcn_display();
-		    }?>
-			</div>
 
 
 			<div class="grid_8 alpha zi1">
