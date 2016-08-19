@@ -24,7 +24,9 @@
             <?php the_post_thumbnail('large'); ?>
             <h3><?php the_title(); ?></h3>
           </a>
-          <?php } ?>
+          <?php } else { ?>
+          <h3 class="boxed"><?php the_title(); ?></h3>
+           <?php } ?>
 
           <span class="postInfo">
             af <a href="/person/<?php echo cimy_uef_sanitize_content($personurl); ?>" class="author"><?php the_author(); ?></a> for

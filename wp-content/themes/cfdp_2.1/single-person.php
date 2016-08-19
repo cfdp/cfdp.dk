@@ -5,6 +5,7 @@
     $meta_titel = get_post_meta( get_the_ID(), 'titel', true );
     $meta_phone = get_post_meta( get_the_ID(), 'phone', true );
     $meta_desc = get_post_meta( get_the_ID(), 'description', true );
+    $meta_desc_html = apply_filters('meta_content', $meta_desc);
     $meta_mail = get_post_meta( get_the_ID(), 'mail', true );
     $meta_linkedin = get_post_meta( get_the_ID(), 'linkedin', true );
     $meta_user = get_post_meta( get_the_ID(), 'user', true );
@@ -35,10 +36,8 @@
         ?>
       </div>
       <?php
-        if ( !empty( $meta_desc ) ) { echo '<div class="person__desc">' . $meta_desc . '</div>'; }
+        if ( !empty( $meta_desc ) ) { echo '<div class="person__desc">' . $meta_desc_html . '</div>'; }
       ?>
-
-      <?php edit_post_link('Rediger person','',''); ?>
     </header>
         <?php
             $query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish','author'=>$meta_user, 'posts_per_page'=>5)); ?>

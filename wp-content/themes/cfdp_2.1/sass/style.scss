@@ -390,13 +390,32 @@ a#contactTab:hover{
 	margin-top: 30px;
 
 	.post {
-		margin-bottom: 50px;
+		margin-bottom: 70px;
 	}
 
 	.postInfo {
 		color: #999;
 		display: block;
 		margin: 15px 0 15px;
+	}
+
+	h3 {
+		text-align: center;
+		display: block;
+		font-family: 'Lato', Sans-Serif;
+		font-size: 42px;
+		font-weight: 900;
+		line-height: 50px;
+		box-sizing: border-box;
+		padding: 0 30px;
+		@media (max-width: 1023px) {font-size: 32px; line-height: 40px;}
+		@media (max-width: 579px) {font-size: 24px; line-height: 30px; padding: 0 10px;}
+
+		&.boxed {
+			background: #efefef;
+			padding-top: 20px;
+			padding-bottom: 20px;
+		}
 	}
 
 	.image {
@@ -419,18 +438,8 @@ a#contactTab:hover{
 	    -ms-transform: translateY(-50%);
 	    transform: translateY(-50%);
     	width: 100%;
-    	padding: 0 30px;
-    	text-align: center;
-			display: block;
-			font-family: 'Lato', Sans-Serif;
-			font-size: 42px;
-			@media (max-width: 1023px) {font-size: 32px; line-height: 40px;}
-			@media (max-width: 579px) {font-size: 24px; line-height: 30px; padding: 0 10px;}
-			line-height: 50px;
 			color: #fff;
-			font-weight: 900;
 			z-index: 9;
-			box-sizing: border-box;
 		}
 	}
 
