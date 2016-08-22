@@ -77,7 +77,6 @@
 ?>
 <div class="otherProducts">
 	<h2>Andre oplæg</h2>
-	<span class="line"></span>
 <?php
 	while ( have_posts() ) : the_post();
 ?>
@@ -94,12 +93,3 @@
 	endif;
 		wp_reset_query();
 ?>
-
-
-
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-	    $('#nav1 div.tab').addClass('tabOpen');
-	    lastBlock = $("#nav1 div.tabOpen");
-	});
-</script>

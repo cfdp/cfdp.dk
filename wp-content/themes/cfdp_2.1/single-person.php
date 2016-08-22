@@ -47,11 +47,16 @@
               <section class="blog-posts">
 
               <h2 class="clearfix">Seneste indlæg</h2>
-                <div class="posts--person clearfix">
+                <div class="clearfix">
                   <!-- the loop -->
                   <?php while ( $query->have_posts() ) : $query->the_post(); ?>
 
               <div class="post">
+                <?php if(has_post_thumbnail()) { ?>
+                <a class="image" href="<?php the_permalink(); ?>">
+                  <?php the_post_thumbnail('large'); ?>
+                </a>
+                <?php } ?>
                 <a href="<?php the_permalink(); ?>">
                   <h3><?php the_title(); ?></h3>
                 </a>

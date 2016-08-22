@@ -24,9 +24,12 @@ a:hover {
   color: #005691;
   text-decoration: underline; }
 
+p {
+  padding-bottom: 1em; }
+
 h1,
 .header-h1 {
-  font: 42px 'Lato', Sans-Serif;
+  font: 38px 'Lato', Sans-Serif;
   color: #222;
   display: block;
   font-weight: 900;
@@ -34,13 +37,13 @@ h1,
 
 h2,
 .header-h2 {
-  font: 32px 'Lato', Sans-Serif;
+  font: 28px 'Lato', Sans-Serif;
   color: #222;
   display: block;
   font-weight: bold; }
 
 .text-intro {
-  font-size: 22px;
+  font-size: 20px;
   line-height: 30px;
   font-weight: 300;
   color: #666;
@@ -198,11 +201,19 @@ div.container h2.heading.grid_12 {
 .sidebar .block {
   margin-bottom: 20px; }
 
-.otherProducts .post h3 a {
-  color: #444; }
+.otherProducts h2 {
+  font-weight: 100;
+  font-family: 'Roboto Slab', serif;
+  font-size: 26px;
+  color: #999;
+  margin-bottom: 10px; }
 
 .otherProducts .post {
   margin-bottom: 15px; }
+  .otherProducts .post h3 a {
+    font-family: 'Lato', Sans-Serif;
+    font-weight: bold;
+    font-size: 20px; }
 
 /*Author*/
 .aboutAuthor {
@@ -305,73 +316,6 @@ a#contactTab:hover {
   width: 39px;
   background-position: 10px -661px; }
 
-/* Posts */
-.posts {
-  margin-top: 30px; }
-  .posts .post {
-    margin-bottom: 70px; }
-  .posts .postInfo {
-    color: #999;
-    display: block;
-    margin: 15px 0 15px; }
-  .posts h3 {
-    text-align: center;
-    display: block;
-    font-family: 'Lato', Sans-Serif;
-    font-size: 42px;
-    font-weight: 900;
-    line-height: 50px;
-    box-sizing: border-box;
-    padding: 0 30px; }
-    @media (max-width: 1023px) {
-      .posts h3 {
-        font-size: 32px;
-        line-height: 40px; } }
-    @media (max-width: 579px) {
-      .posts h3 {
-        font-size: 24px;
-        line-height: 30px;
-        padding: 0 10px; } }
-    .posts h3.boxed {
-      background: #efefef;
-      padding-top: 20px;
-      padding-bottom: 20px; }
-  .posts .image {
-    width: 100%;
-    height: auto;
-    display: block;
-    position: relative;
-    transition: all 1.5s; }
-    .posts .image img {
-      display: block;
-      width: 100%;
-      height: auto; }
-    .posts .image h3 {
-      position: absolute;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-      width: 100%;
-      color: #fff;
-      z-index: 9; }
-  .posts .image:after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-image: radial-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
-    opacity: 1;
-    transition: all 1.5s;
-    -webkit-transition: all 1.5s;
-    -moz-transition: all 1.5s; }
-  @media (min-width: 580px) {
-    .posts .image:hover h3,
-    .posts .image:hover:after {
-      opacity: 0; } }
-
 /*Produkter, Erfaringer og Projekter*/
 a.anchor {
   display: block;
@@ -379,22 +323,6 @@ a.anchor {
 
 a.anchor:hover {
   cursor: normal; }
-
-.products h2 {
-  font: bold 36px Arial,sans-serif; }
-
-/*coloured line below intro-text*/
-.products .intro {
-  border-bottom: 5px #0097FE solid; }
-
-.experience p.intro {
-  border-bottom: 5px #FF1D32 solid; }
-
-.projects p.intro {
-  border-bottom: 5px #FCB22E solid; }
-
-.team p.intro {
-  border-bottom: 5px #42B10E solid; }
 
 div.products h3 a:hover, .experience h3 a:hover, .projects h3 a:hover {
   border: none;
@@ -478,18 +406,24 @@ img.intro-frontpage {
 .category-wrap {
   padding-top: 30px; }
   .category-wrap .post {
-    padding: 0 20px 0 0;
-    height: 340px; }
+    width: 100%;
+    display: block;
+    padding: 0 0 50px 0; }
+    @media (min-width: 1024px) {
+      .category-wrap .post {
+        width: 48%;
+        float: left; }
+        .category-wrap .post:nth-child(odd) {
+          margin-right: 4%; } }
     .category-wrap .post h3 {
-      padding-bottom: 10px; }
+      font-family: 'Lato', Sans-Serif;
+      padding-bottom: 10px;
+      font-size: 28px;
+      line-height: 36px; }
     .category-wrap .post img {
       width: 100%;
       height: auto;
       padding-bottom: 10px; }
-    .category-wrap .post .description,
-    .category-wrap .post a.more {
-      font-size: 16px;
-      line-height: 24px; }
 
 /*------------------- Her følger css til de farvede knapper på cfdp sitet -------------------*/
 a.green_button {
@@ -881,18 +815,37 @@ p#personal-info-disclaimer {
   padding-top: 25px;
   color: #333; }
 
-.single-person section.blog-posts {
+.blog-posts {
   padding-top: 30px;
-  width: 600px;
+  width: 100%;
+  max-width: 640px;
   margin: 0 auto; }
-  .single-person section.blog-posts .post {
-    margin: 40px 0; }
-  .single-person section.blog-posts h2 {
-    text-align: center; }
-  .single-person section.blog-posts h3 {
-    font-size: 22px;
+  .blog-posts .post {
+    margin: 50px 0;
+    padding: 0 20px 30px;
+    border-bottom: 1px solid #efefef; }
+    .blog-posts .post:last-child {
+      border-bottom: none; }
+  .blog-posts .image img {
+    width: 100%;
+    height: auto;
+    padding-bottom: 10px; }
+  .blog-posts h2 {
+    text-align: center;
+    font-weight: 100;
+    font-family: 'Roboto Slab', serif;
+    font-size: 36px;
+    color: #999; }
+  .blog-posts a {
+    color: #222; }
+  .blog-posts h3 {
+    font-family: 'Lato', Sans-Serif;
+    font-size: 26px;
+    line-height: 32px;
     font-weight: 900; }
-  .single-person section.blog-posts .postInfo {
+  .blog-posts .postInfo {
+    display: block;
     color: #999;
     font-weight: 300;
-    font-size: 16px; }
+    font-size: 16px;
+    margin: 6px 0 12px; }
