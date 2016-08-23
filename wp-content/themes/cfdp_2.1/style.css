@@ -769,7 +769,8 @@ p#personal-info-disclaimer {
       margin-top: 20px; }
 
 .single-person .content header {
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   margin: 40px auto; }
 
 .single-person .content .profile-image {
@@ -816,13 +817,13 @@ p#personal-info-disclaimer {
   color: #333; }
 
 .blog-posts {
-  padding-top: 30px;
+  padding-top: 50px;
   width: 100%;
   max-width: 640px;
   margin: 0 auto; }
   .blog-posts .post {
     margin: 50px 0;
-    padding: 0 20px 30px;
+    padding: 0 0 30px;
     border-bottom: 1px solid #efefef; }
     .blog-posts .post:last-child {
       border-bottom: none; }
@@ -832,9 +833,9 @@ p#personal-info-disclaimer {
     padding-bottom: 10px; }
   .blog-posts h2 {
     text-align: center;
-    font-weight: 100;
+    font-weight: 300;
     font-family: 'Roboto Slab', serif;
-    font-size: 36px;
+    font-size: 26px;
     color: #999; }
   .blog-posts a {
     color: #222; }
