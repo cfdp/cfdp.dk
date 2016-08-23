@@ -39,7 +39,7 @@ Template Name: International
 		<h2><?php the_title(); ?></h2>
 		<span class="line"></span>
 		<?php the_content(); ?>
-		<?php edit_post_link('Rediger','',''); ?>
+
 		<?php endwhile; endif; ?>
 	</div><!-- end .about posts -->
 

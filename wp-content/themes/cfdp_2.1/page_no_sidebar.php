@@ -34,7 +34,7 @@ Template Name: Page no sidebar
 
 				</div>
 
-				<?php edit_post_link('Rediger','',''); ?>
+
 
 				<?php comments_template(); ?>
 			</div>

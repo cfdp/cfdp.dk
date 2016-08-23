@@ -25,7 +25,7 @@ $custom_fields = base_get_all_custom_fields();
 					<?php the_tags( 'Tags: ', ', ', ''); ?>
 				</div>
 
-				<?php edit_post_link('Rediger','',''); ?>
+
 				<?php comments_template(); ?>
 			</div>
 		</div>
