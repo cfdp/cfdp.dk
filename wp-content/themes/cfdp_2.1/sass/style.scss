@@ -3,7 +3,7 @@ Theme Name: Center for Digital Pædagogik
 Theme URI: http://cfdp.dk
 Description:
 Author: Michael Lajlev
-Author URI: http://osweb.dk
+Author URI: http://laj.lv
 Version: 1.00
 Tags: Social, Clean
 .
@@ -75,68 +75,46 @@ h4 {
 	margin: 3px 0;
 }
 
-.entry span.date{
-	font-size:14px;
-	line-height:24px;
-	color:#888;
-	padding-bottom: 20px;
-	display:block;
-}
+.entry {
+	span.date {
+		font-size:14px;
+		line-height:24px;
+		color:#888;
+		padding-bottom: 20px;
+		display:block;
+	}
+	h2 {
+		line-height: 38px;
+    margin-bottom: 10px;
+	}
 
-.entry p{
-	font-size:16px;
-	line-height:22px;
-	color:#333;
-	padding-bottom: 5px;
-	margin-bottom:10px;
-}
+	ul li {
+		list-style-type:square;
+		margin-left: 20px;
+	}
 
-.entry p, .entry li{
-	font-size:16px;
-	line-height:22px;
-	color:#333;
-	padding-bottom: 5px;
-}
+	.ol li{
+		list-style-type: decimal;
+		margin-left: 20px;
+	}
 
-.entry ul li{
-	list-style-type:square;
-	margin-left: 20px;
-}
+	.alignleft {
+		float: left;
+		padding: 10px 10px 10px 0;
+		max-width: 100%;
+	}
 
-.entry ol li{
-	list-style-type: decimal;
-	margin-left: 20px;
-}
+	.alignright {
+		float: right;
+		padding: 10px 0 10px 10px;
+	}
 
-
-.entry .alignleft{
-	float:left;
-	padding: 10px 10px 10px 0;
-	max-width: 100%;
-}
-.entry .alignright{
-	float:right;
-	padding: 10px 0 10px 10px;
-}
-
-.entry .wp-caption-text {
-	font-size: 12px;
-	line-height: 18px;
-	font-style: italic;
-	color: #666;
-}
-
-span.line{
-	z-index:-1;
-	position:relative;
-	top: -3px;
-	display:block;
-	border-bottom:1px solid #d6d6d6;
-	margin-bottom:10px;
-}
-.zi1{
-	position:relative;
-	z-index:1;
+	.wp-caption-text {
+		font-size: 12px;
+		line-height: 18px;
+		font-style: italic;
+		color: #666;
+	}
 }
 
 .wrap {
@@ -151,18 +129,6 @@ span.line{
 
 	position: relative;
 }
-
-a.post-edit-link{
-	font-size:10px;
-	color:#999;
-	padding:5px 0;
-	display:block;
-}
-
-a.post-edit-link:hover{
-	color:#000;
-}
-
 
 // Header
 
