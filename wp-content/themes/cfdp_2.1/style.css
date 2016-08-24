@@ -54,12 +54,12 @@ h2,
 
 /*subheadings for blogposts*/
 .category-indlg .entry h2 {
-  font: 22px 'Lato', Helveltica, Arial, Sans-Serif;
+  font: 22px 'Lato', Sans-Serif;
   font-weight: bold;
   padding: .3em 0; }
 
 h4 {
-  font: 15px/20px 'Lato', Helveltica, Arial, Sans-Serif;
+  font: 15px/20px 'Lato', Sans-Serif;
   color: #222;
   font-style: italic;
   margin: 3px 0; }
@@ -74,6 +74,16 @@ h4 {
 .entry h2 {
   line-height: 38px;
   margin-bottom: 10px; }
+
+.entry h3 {
+  font-family: 'Lato', Sans-Serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #222; }
+  .entry h3 a {
+    color: #222; }
 
 .entry ul li {
   list-style-type: square;
@@ -820,3 +830,6 @@ p#personal-info-disclaimer {
     font-weight: 300;
     font-size: 16px;
     margin: 6px 0 12px; }
+
+.panel-grid-cell .so-panel {
+  margin-bottom: 15px !important; }
