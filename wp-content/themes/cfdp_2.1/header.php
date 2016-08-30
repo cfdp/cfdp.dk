@@ -73,7 +73,7 @@
     <a id="toggle-menu-button" href="#toggle-menu-button">&#9776;&nbsp; Menu</a>
 
 		<div class="nav grid_9 clearfix">
-		  <a class="icon-english-flag" href="/in-english/">In english</a>
+		  <a class="icon-english-flag" href="/cfdp-in-english/">In english</a>
 		  <div class="searchbar">
 		    <?php include (TEMPLATEPATH . '/searchform.php' ); ?>
 		  </div>
