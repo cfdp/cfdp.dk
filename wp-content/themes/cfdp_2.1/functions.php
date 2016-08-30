@@ -73,21 +73,12 @@ function truncate($str, $len){
   }
 }
 
-//Get the authors permalink hack
-function authorPermalink($userDisplayName){
-	$displayNameLower = strtolower($userDisplayName);
-	$displayNameLowerScore = str_replace(" ","-",$displayNameLower);
-	echo $displayNameLowerScore;
-}
 
 // Remove & add elements in user profile
 function my_new_contactmethods( $contactmethods ) {
   unset($contactmethods['aim']);
   unset($contactmethods['jabber']);
   unset($contactmethods['yim']);
-  $contactmethods['twitter'] = 'Twitter <br /> (fx twitter.com/#username#)';
-  $contactmethods['facebook'] = 'Facebook <br /> (fx facebook.com/#username#)';
-  $contactmethods['linkedin'] = 'Linkedin <br /> (fx linkedin.com/#username#)';
   return $contactmethods;
 }
 add_filter('user_contactmethods','my_new_contactmethods',10,1);
