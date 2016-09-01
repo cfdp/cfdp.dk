@@ -15,8 +15,9 @@ if ( have_posts() ) {
 }
 ?>
 
+
 <?php
-$query = new WP_Query(array('post_type'=>'person', 'post_status'=>'publish','meta_key'=>'type', 'meta_value'=>'medarbejder', 'posts_per_page'=>-1)); ?>
+$query = new WP_Query(array('post_type'=>'person', 'post_status'=>'publish','meta_key'=>'type', 'meta_value'=>'medarbejder', 'orderby'=>'meta_value_num', 'meta_key'=>'order', 'posts_per_page'=>-1)); ?>
 
 <?php if ( $query->have_posts() ) : ?>
 
