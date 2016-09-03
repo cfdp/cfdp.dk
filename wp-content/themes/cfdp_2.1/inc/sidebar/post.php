@@ -1,15 +1,10 @@
-<?php
-	$authorid = get_the_author_meta('id');
-	$personurl = get_cimyFieldValue($authorid, 'personurl');
-?>
-
+<?php include (TEMPLATEPATH . '/inc/post_authorlink.php' ); ?>
 <div class="aboutAuthor clearfix block">
 	<a class="imgLink" href="<?php the_author_meta('user_url'); ?>"><?php echo get_avatar( get_the_author_meta('email'), '55' ); ?></a>
 	<p class="bio">
-		Skrevet for <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?> af <a href="/person/<?php echo cimy_uef_sanitize_content($personurl); ?>" class="author"><?php the_author(); ?></a>
+		Skrevet for <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?> af <?php echo $custom_author_link ?>
 	</p>
 </div>
-
 
 
 <?php
