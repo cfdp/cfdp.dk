@@ -31,6 +31,19 @@ p {
 	padding-bottom: 1em;
 }
 
+blockquote {
+	padding-bottom: 1em;
+
+	p {
+		padding-bottom: 0;
+    border-left: 5px solid #000;
+    padding-left: .5em;
+    font-size: 22px;
+    line-height: 30px;
+    color: #000;
+	}
+}
+
 h1,
 .header-h1 {
 	font: 38px 'Lato', Sans-Serif;
