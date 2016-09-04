@@ -845,3 +845,14 @@ p#personal-info-disclaimer {
 
 .panel-grid-cell .so-panel {
   margin-bottom: 15px !important; }
+
+.panel-row-style-boxed .panel-grid-cell .so-panel {
+  margin-bottom: 0 !important;
+  background: #efefef;
+  padding: 0 15px 5px;
+  text-align: center; }
+  .panel-row-style-boxed .panel-grid-cell .so-panel:first-child {
+    padding: 15px; }
+
+.panel-row-style-boxed .sow-image-container .so-widget-image {
+  display: inline-block !important; }
