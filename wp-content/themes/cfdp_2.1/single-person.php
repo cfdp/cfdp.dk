@@ -40,7 +40,7 @@
       ?>
     </header>
         <?php
-            $query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish','author'=>$meta_user, 'posts_per_page'=>5)); ?>
+            $query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish','author'=>$meta_user, 'posts_per_page'=>5, 'paged'  => $paged)); ?>
 
             <?php if ( $query->have_posts() ) : ?>
               <div class="divider"></div>

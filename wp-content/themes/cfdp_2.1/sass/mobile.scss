@@ -101,6 +101,7 @@ body {
   //overflow-x: hidden;
   width: 100%;
   height: 100%;
+  font: 18px/24px 'Roboto Slab', serif;
 }
 
 // Hide hacks fro mobile
@@ -115,6 +116,11 @@ body {
   width: 200px;
   padding-top: 20px;
   @media screen and (min-width: 375px) { width: 250px; padding-top: 16px;}
+}
+
+h1 {
+  font-size: 36px;
+  line-height: 1.2em;
 }
 
 h2 {
@@ -147,9 +153,6 @@ iframe#facebook-faces {
   margin-bottom: 40px;
 }
 
-.content h2.heading {
-  width: 100%;
-}
 
 //Comments
 div#respond textarea#comment {

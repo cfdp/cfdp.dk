@@ -1,11 +1,4 @@
 <?php include (TEMPLATEPATH . '/inc/post_authorlink.php' ); ?>
-<div class="aboutAuthor clearfix block">
-	<a class="imgLink" href="<?php the_author_meta('user_url'); ?>"><?php echo get_avatar( get_the_author_meta('email'), '55' ); ?></a>
-	<p class="bio">
-		Skrevet for <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?> af <?php echo $custom_author_link ?>
-	</p>
-</div>
-
 
 <?php
 	$tags = wp_get_post_tags($post->ID);
@@ -13,7 +6,6 @@
 ?>
 <div class="relatedTags block">
 	<h2>Relaterede indlæg</h2>
-	<span class="line"></span>
 <?php
 		$first_tag = $tags[0]->term_id;
 
@@ -29,7 +21,7 @@
   			while ($my_query->have_posts()) : $my_query->the_post();
 ?>
 	<p>
-		<a href="<?php the_permalink() ?>" rel="bookmark" title="Læa <?php the_title_attribute(); ?>"><?php the_title(); ?></a>
+		<a href="<?php the_permalink() ?>" rel="bookmark" title="Læs <?php the_title_attribute(); ?>"><?php the_title(); ?></a>
 	</p>
 <?php
 	    	endwhile;

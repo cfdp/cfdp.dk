@@ -11,7 +11,7 @@
 ?>
 
 <?php if ( have_comments() ) : ?>
-	
+
 	<h2 id="comments"><?php comments_number('Ingen kommentarer endnu', 'En kommentar', '% kommentar' );?></h2>
 	 <div class="lineContainer"><span class="line"></span></div>
 
@@ -28,7 +28,7 @@
 		<div class="next-posts"><?php previous_comments_link() ?></div>
 		<div class="prev-posts"><?php next_comments_link() ?></div>
 	</div>
-	
+
  <?php else : // this is displayed if there are no comments so far ?>
 
 	<?php if ( comments_open() ) : ?>
@@ -38,12 +38,12 @@
 		<p></p>
 
 	<?php endif; ?>
-	
+
 <?php endif; ?>
 
 <?php if ( comments_open() ) : ?>
 
-<div class="zi1" id="respond">
+<div id="respond">
 
 	<h2><?php comment_form_title( 'Skriv kommentar', 'Skriv kommentar til %s' ); ?></h2>
 	<span class="line"></span>
@@ -65,18 +65,12 @@
 		<?php else : ?>
 
 			<div>
-				<input type="text" name="author" id="author" value="<?php echo esc_attr($comment_author); ?>" size="22" tabindex="1" <?php if ($req) echo "aria-required='true'"; ?> />
-				<label for="author">Navn <?php if ($req) echo "(Kræves)"; ?></label>
+				<input type="text" name="author" id="author" placeholder="👤 &nbsp;Navn" value="<?php echo esc_attr($comment_author); ?>" size="22" tabindex="1" <?php if ($req) echo "aria-required='true'"; ?> />
 			</div>
 
 			<div>
-				<input type="text" name="email" id="email" value="<?php echo esc_attr($comment_author_email); ?>" size="22" tabindex="2" <?php if ($req) echo "aria-required='true'"; ?> />
-				<label for="email">E-mail (vil ikke blive offentligjort) <?php if ($req) echo "(kræves)"; ?></label>
-			</div>
-
-			<div>
-				<input type="text" name="url" id="url" value="<?php echo esc_attr($comment_author_url); ?>" size="22" tabindex="3" />
-				<label for="url">Dit website</label>
+				<input type="text" name="email" id="email" placeholder="✉️ &nbsp;E-mail" value="<?php echo esc_attr($comment_author_email); ?>" size="22" tabindex="2" <?php if ($req) echo "aria-required='true'"; ?> />
+				<label for="email">Vi passer godt på din e-mail</label>
 			</div>
 
 		<?php endif; ?>
@@ -84,20 +78,20 @@
 		<!--<p>You can use these tags: <code><?php echo allowed_tags(); ?></code></p>-->
 
 		<div>
-			<textarea name="comment" id="comment" cols="58" rows="10" tabindex="4"></textarea>
+			<textarea name="comment" id="comment" cols="58" rows="10" tabindex="4" placeholder="✍ &nbsp;Skriv som du vil skrive til en ven :)"></textarea>
 		</div>
 
 		<div>
-			<input name="submit" type="submit" id="submit" tabindex="5" value="Send kommentar" />
+			<input name="submit" type="submit" class="blue_button" id="submit" tabindex="5" value="Send kommentar" />
 			<?php comment_id_fields(); ?>
 		</div>
-		
+
 		<?php do_action('comment_form', $post->ID); ?>
 
 	</form>
 
 	<?php endif; // If registration required and not logged in ?>
-	
+
 </div>
 
 <?php endif; ?>
