@@ -134,17 +134,49 @@ h4 {
   padding: 14px 0 10px;
   width: 300px; }
 
-/*Comments*/
-#respond {
-  font-family: 'Lato', Sans-Serif;
-  padding-top: 20px;
+.relatedTags h2 {
+  margin: 30px 0 20px;
+  border-bottom: 1px solid #efefef; }
+
+.comments {
   width: 100%;
   max-width: 640px;
-  margin: 0 auto;
-  margin-bottom: 50px; }
-  #respond h2, #respond h2#comments {
+  margin: 0 auto; }
+  .comments .comment {
+    margin-bottom: 50px; }
+    .comments .comment .comment-body {
+      background: #f6f6f6;
+      padding: 1em; }
+    .comments .comment.byuser .comment-body {
+      background: #e7eff5; }
+    .comments .comment .comment-reply-link {
+      color: white !important;
+      padding: 7px 15px !important; }
+    .comments .comment .children {
+      margin-bottom: 50px;
+      padding-left: 40px; }
+  .comments h2 {
     margin: 30px 0 20px;
     border-bottom: 1px solid #efefef; }
+  .comments .commentlist img.avatar.avatar-32.photo {
+    margin-top: -3px;
+    display: inline-block; }
+  .comments .comment-author,
+  .comments .comment-meta {
+    display: inline-block;
+    color: #999;
+    font-weight: 300;
+    margin-bottom: 1em; }
+    .comments .comment-author cite,
+    .comments .comment-meta cite {
+      font-style: normal; }
+    .comments .comment-author .says,
+    .comments .comment-meta .says {
+      display: none; }
+
+#respond {
+  font-family: 'Lato', Sans-Serif;
+  margin-bottom: 50px; }
   #respond label {
     color: #ccc;
     font-weight: 300;
@@ -162,7 +194,8 @@ h4 {
     font-size: 18px;
     border: 1px solid #ccc;
     line-height: 26px;
-    padding: .6em .8em; }
+    padding: .6em .8em;
+    box-sizing: border-box; }
   #respond input#submit {
     font-size: 18px;
     margin-top: 1.5em; }
@@ -320,7 +353,7 @@ a.red_button {
     text-decoration: none;
     background: #ab3326; }
 
-.blue_button, .paging a {
+.blue_button, .comments .comment .comment-reply-link, .paging a {
   font-family: 'Lato', Sans-Serif;
   background: #2980b9;
   color: white;
@@ -328,7 +361,7 @@ a.red_button {
   padding: 12px 18px;
   border-radius: 3px;
   border: none; }
-  .blue_button:hover, .paging a:hover {
+  .blue_button:hover, .comments .comment .comment-reply-link:hover, .paging a:hover {
     text-decoration: none;
     background: #2472a4; }
 

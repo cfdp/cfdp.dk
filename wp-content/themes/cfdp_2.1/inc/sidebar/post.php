@@ -26,6 +26,7 @@
 <?php
 	    	endwhile;
 	  	}
+	  	wp_reset_query();
 ?>
 </div>
 <?php

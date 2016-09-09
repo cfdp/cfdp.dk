@@ -9,10 +9,11 @@
 		return;
 	}
 ?>
-
+<div class="comments">
 <?php if ( have_comments() ) : ?>
 
-	<h2 id="comments"><?php comments_number('Ingen kommentarer endnu', 'En kommentar', '% kommentar' );?></h2>
+
+	<h2><?php comments_number('Ingen kommentarer endnu', 'En kommentar', '% kommentarer' );?></h2>
 	 <div class="lineContainer"><span class="line"></span></div>
 
 	<div class="navigation">
@@ -45,7 +46,7 @@
 
 <div id="respond">
 
-	<h2><?php comment_form_title( 'Skriv kommentar', 'Skriv kommentar til %s' ); ?></h2>
+	<h2><?php comment_form_title( 'Skriv ny kommentar', 'Skriv kommentar til %s' ); ?></h2>
 	<span class="line"></span>
 
 	<div class="cancel-comment-reply">
@@ -92,6 +93,7 @@
 
 	<?php endif; // If registration required and not logged in ?>
 
+</div>
 </div>
 
 <?php endif; ?>

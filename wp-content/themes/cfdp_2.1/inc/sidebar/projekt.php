@@ -157,12 +157,3 @@ query_posts('page_id=59');
 	endif;
 	wp_reset_query();
 ?>
-
-
-
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-	    $('#nav3 div.tab').addClass('tabOpen');
-	    lastBlock = $("#nav3 div.tabOpen");
-	});
-</script>
