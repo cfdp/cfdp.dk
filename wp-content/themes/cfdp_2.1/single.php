@@ -19,9 +19,16 @@
 		<div class="entry <?php if ( !empty( $meta_teaser ) ){ echo 'entry--with-teaser';} ?>">
 			<h1><?php the_title(); ?></h1>
 			<?php if ( !empty( $meta_teaser ) ) {echo '<p class="text-intro">' . $meta_teaser . '</p>';} ?>
+
+			<?php if ( post_is_in_descendant_category( 162 ) ) { ?>
+				<p class="post-info">
+					Senest redigeret for <?php echo human_time_diff(get_the_modified_time('U'), current_time('timestamp')); ?> siden af <?php echo $custom_author_link; ?>
+				</p>
+			<?php } else { ?>
 			<p class="post-info">
 				Skrevet af <?php echo $custom_author_link; ?> for <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')); ?> siden</p>
 			</p>
+			<?php } ?>
 
 			<?php the_content(); ?>
 			<?php wp_link_pages(array('before' => 'Pages: ', 'next_or_number' => 'number')); ?>
