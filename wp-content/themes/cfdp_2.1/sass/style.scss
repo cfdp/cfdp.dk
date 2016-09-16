@@ -64,6 +64,15 @@ h2,
 	padding-bottom: .5em;
 }
 
+h3 {
+	font-family: 'Lato', Sans-Serif;
+	font-size: 26px;
+	line-height: 32px;
+	font-weight: bold;
+	padding-top: .5em;
+	padding-bottom: .5em;
+}
+
 .text-intro {
 	font-size: 20px;
 	line-height: 30px;
@@ -788,6 +797,23 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 	}
 }
 
+.otherProducts {
+
+	margin-bottom: 30px;
+	.post {
+		box-sizing: border-box;
+		background: #F6F6F6;
+		padding: 15px;
+		text-align: center;
+		width: 48%;
+		float: left;
+
+		&:nth-child(odd) {
+			margin-left: 4%;
+		}
+	}
+}
+
 // Page builder styles
 
 .panel-grid-cell {
@@ -809,6 +835,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 			}
 		}
 	}
+
 	.sow-image-container .so-widget-image {
 		display: inline-block !important;
 	}

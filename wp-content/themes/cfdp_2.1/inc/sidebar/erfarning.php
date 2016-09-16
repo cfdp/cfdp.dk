@@ -170,14 +170,13 @@ if($themeta != '') {
 
 	if ( have_posts()  && !isset($parent_cat_1)) :
 ?>
-<div class="otherProducts">
+<div class="otherProducts clearfix">
 	<h2>Andre erfaringer</h2>
-	<span class="line"></span>
 <?php
 	while ( have_posts() ) : the_post();
 ?>
 	<div class="post">
-		<h3><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h3>
+		<h2><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
 		<?php truncate(get_the_excerpt(), 150); ?>
 		<a href="<?php the_permalink() ?>" class="more">Læs mere</a>
 	</div>
