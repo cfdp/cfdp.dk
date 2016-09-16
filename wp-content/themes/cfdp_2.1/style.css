@@ -332,7 +332,7 @@ a#contactTab:hover {
 a.green_button {
   font-family: 'Lato', Sans-Serif;
   background: #27ae60;
-  color: white;
+  color: white !important;
   display: inline-block;
   padding: 12px 18px;
   border-radius: 3px;
@@ -344,7 +344,7 @@ a.green_button {
 a.red_button {
   font-family: 'Lato', Sans-Serif;
   background: #c0392b;
-  color: white;
+  color: white !important;
   display: inline-block;
   padding: 12px 18px;
   border-radius: 3px;
@@ -356,7 +356,7 @@ a.red_button {
 .blue_button, .comments .comment .comment-reply-link, .paging a {
   font-family: 'Lato', Sans-Serif;
   background: #2980b9;
-  color: white;
+  color: white !important;
   display: inline-block;
   padding: 12px 18px;
   border-radius: 3px;
@@ -369,7 +369,7 @@ a.blue-ghost_button {
   font-family: 'Lato', Sans-Serif;
   border: 1px solid #2980b9;
   background: white;
-  color: #2980b9;
+  color: #2980b9 !important;
   display: inline-block;
   padding: 12px 18px;
   border-radius: 3px;
@@ -382,7 +382,7 @@ a.blue-ghost_button {
 a.yellow_button {
   font-family: 'Lato', Sans-Serif;
   background: #f1c40f;
-  color: white;
+  color: white !important;
   display: inline-block;
   padding: 12px 18px;
   border-radius: 3px;
