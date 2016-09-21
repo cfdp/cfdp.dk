@@ -11,13 +11,8 @@ Template Name: Page Home
       <?php the_content(); ?>
     <?php endwhile; endif; ?>
   </div>
-
-  <div class="slider grid_12 clearfix">
-    <?php dynamic_content_gallery(); ?>
-  </div><!-- .slider -->
   <div class="grid_12 clearfix">
     <div class="blog-posts">
-      <h2 class="clearfix">Seneste indlæg</h2>
       <?php
         $query = array('category__in' => array(9), 'posts_per_page'  => 6, 'paged'  => $paged);
         query_posts($query);
