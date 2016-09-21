@@ -1,3 +1,4 @@
+<?php include (TEMPLATEPATH . '/inc/post_authorlink.php' ); ?>
 <?php get_header(); ?>
 
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
@@ -25,9 +26,10 @@
 					Senest redigeret for <?php echo human_time_diff(get_the_modified_time('U'), current_time('timestamp')); ?> siden af <?php echo $custom_author_link; ?>
 				</p>
 			<?php } else { ?>
-			<p class="post-info">
-				Skrevet af <?php echo $custom_author_link; ?> for <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')); ?> siden</p>
-			</p>
+			<span class="post-info">
+		    Indlæg af <?php echo $custom_author_link ?> for
+		    <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
+		  </span>
 			<?php } ?>
 
 			<?php the_content(); ?>
