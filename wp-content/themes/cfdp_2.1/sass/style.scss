@@ -46,7 +46,7 @@ blockquote {
 
 h1,
 .header-h1 {
-	font: 38px 'Lato', Sans-Serif;
+	font: 32px 'Lato', Sans-Serif;
 	color: #222;
 	display: block;
 	font-weight: 900;
@@ -56,7 +56,7 @@ h1,
 
 h2,
 .header-h2 {
-	font: 28px 'Lato', Sans-Serif;
+	font: 26px 'Lato', Sans-Serif;
 	color: #222;
 	display: block;
 	font-weight: bold;
@@ -66,7 +66,7 @@ h2,
 
 h3 {
 	font-family: 'Lato', Sans-Serif;
-	font-size: 26px;
+	font-size: 22px;
 	line-height: 32px;
 	font-weight: bold;
 	padding-top: .5em;
@@ -114,6 +114,8 @@ h4 {
 	.post-info {
 		color: #999;
 		font-weight: 300;
+		padding-bottom: 20px;
+		display: block;
 	}
 
 }
@@ -745,7 +747,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 }
 
 .blog-posts {
-	padding-top: 50px;
+	padding-top: 20px;
 	width: 100%;
 	max-width: 640px;
 	margin: 0 auto;
