@@ -10,7 +10,7 @@
   </a>
 
   <span class="postInfo">
-    af <?php echo $custom_author_link ?> for
+    Indlæg af <?php echo $custom_author_link ?> for
     <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
   </span>
     <p class="text">
