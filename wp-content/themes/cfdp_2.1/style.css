@@ -68,7 +68,7 @@ h3 {
   line-height: 30px;
   font-weight: 300;
   color: #666;
-  margin-bottom: 50px; }
+  margin-bottom: 25px; }
 
 h4 {
   font: 15px/20px 'Lato', Sans-Serif;
@@ -97,7 +97,7 @@ h4 {
 .single-post .post-info {
   color: #999;
   font-weight: 300;
-  padding-bottom: 20px;
+  padding-bottom: 4px;
   display: block; }
 
 .entry ul li {
@@ -779,7 +779,7 @@ p#personal-info-disclaimer {
     color: #999;
     font-weight: 300;
     font-size: 16px;
-    margin: 6px 0 12px; }
+    margin: 6px 0 4px; }
 
 .otherProducts {
   margin-bottom: 30px; }
