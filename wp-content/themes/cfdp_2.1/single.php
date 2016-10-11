@@ -25,7 +25,7 @@
 				<p class="post-info">
 					Senest redigeret for <?php echo human_time_diff(get_the_modified_time('U'), current_time('timestamp')); ?> siden af <?php echo $custom_author_link; ?>
 				</p>
-			<?php } else { ?>
+			<?php } else if ( !in_category('case') ) { ?>
 			<span class="post-info">
 		    Indlæg af <?php echo $custom_author_link ?> for
 		    <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
