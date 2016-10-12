@@ -14,7 +14,13 @@ Template Name: Page Home
   <div class="grid_12 clearfix">
     <div class="blog-posts">
       <?php
-        $query = array('category__in' => array(9), 'posts_per_page'  => 6, 'paged'  => $paged);
+        $paged = ( get_query_var('page') ) ? get_query_var('page') : 1;
+
+        $query = array(
+          'category__in' => array(9),
+          'posts_per_page'  => 6,
+          'paged'  => $paged
+        );
         query_posts($query);
         include (TEMPLATEPATH . '/inc/posts.php' );
       ?>
