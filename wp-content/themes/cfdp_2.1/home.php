@@ -18,14 +18,8 @@
           <?php previous_posts_link( __( 'Nyere indlæg <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
         </div>
         <?php wp_reset_query(); ?>
-
-
       </div>
     </div>
   </div>
 </div>
-
-
-
-
 <?php get_footer(); ?>

@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Page Home
+Template Name: International
 */
 ?>
 <?php get_header(); ?>
