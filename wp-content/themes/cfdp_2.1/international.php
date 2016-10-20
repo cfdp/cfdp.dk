@@ -14,7 +14,9 @@ Template Name: Page Home
   <div class="grid_12 clearfix">
     <div class="blog-posts">
       <?php
-        $paged = ( get_query_var('page') ) ? get_query_var('page') : 1;
+        if ( get_query_var( 'paged' ) ) { $paged = get_query_var( 'paged' ); }
+        elseif ( get_query_var( 'page' ) ) { $paged = get_query_var( 'page' ); }
+        else { $paged = 1; }
 
         $query = array(
           'category__in' => array(35),
@@ -25,13 +27,12 @@ Template Name: Page Home
         if ( have_posts() ) : while ( have_posts() ) : the_post();
         include (TEMPLATEPATH . '/inc/post.php' );
         endwhile; else:
-        echo('Desværre, ingen indlæg fundet');
+        echo('No blogposts found :(');
         endif;
        ?>
-
         <div class="paging">
-          <?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Tidligere indlæg', 'twentyten' ) ); ?>
-          <?php previous_posts_link( __( 'Nyere indlæg <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
+          <?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Previous posts', 'twentyten' ) ); ?>
+          <?php previous_posts_link( __( 'Next posts <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
         </div>
         <?php wp_reset_query(); ?>
 
