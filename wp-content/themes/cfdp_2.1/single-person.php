@@ -31,7 +31,7 @@
         <?php
           if ( !empty( $meta_phone ) ) { echo '<div class="item"><span class="heading">Telefon</span><span class="item__content"><a href="tel:' . $meta_phone . '">' . $meta_phone . '</a></span></div>'; }
           if ( !empty( $meta_mail ) ) { echo '<div class="item"><span class="heading">Email</span><span class="item__content"><a href="mailto:' . $meta_mail . '">' . $meta_mail . '</a></span></div>'; }
-          if ( !empty( $meta_linkedin ) ) { echo '<div class="item"><span class="heading">Linkedin</span><span class="item__content"><a href="http://' . $meta_linkedin . '">' . $meta_linkedin . '</a></span></div>'; }
+          if ( !empty( $meta_linkedin ) ) { echo '<div class="item"><span class="heading">Linkedin</span><span class="item__content"><a href="http://' . $meta_linkedin . '">Se profil</a></span></div>'; }
           // if ( !empty( $meta_type ) ) { echo '<div class="item"><span class="heading">Rolle</span><span class="item__content">' . $meta_type . '</span></div>'; }
         ?>
       </div>
