@@ -3,7 +3,7 @@
 Plugin Name: Page Builder by SiteOrigin
 Plugin URI: https://siteorigin.com/page-builder/
 Description: A drag and drop, responsive page builder that simplifies building your website.
-Version: 2.4.16
+Version: 2.4.19
 Author: SiteOrigin
 Author URI: https://siteorigin.com
 License: GPL3
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: http://siteorigin.com/page-builder/#donate
 */
 
-define('SITEORIGIN_PANELS_VERSION', '2.4.16');
+define('SITEORIGIN_PANELS_VERSION', '2.4.19');
 if ( ! defined('SITEORIGIN_PANELS_JS_SUFFIX' ) ) {
 	define('SITEORIGIN_PANELS_JS_SUFFIX', '.min');
 }
@@ -1610,11 +1610,42 @@ function siteorigin_panels_process_panels_data( $panels_data ){
 }
 add_filter( 'siteorigin_panels_data', 'siteorigin_panels_process_panels_data', 5 );
 
-function siteorigin_premium_display_teaser(){
-	return
+/**
+ * Display one of the premium or contribution teasers
+ */
+function siteorigin_panels_display_premium_teaser(){
+	if (
 		siteorigin_panels_setting( 'display-teaser' ) &&
 		apply_filters( 'siteorigin_premium_upgrade_teaser', true ) &&
-		! defined( 'SITEORIGIN_PREMIUM_VERSION' );
+		! defined( 'SITEORIGIN_PREMIUM_VERSION' )
+	) {
+
+		$links = array(
+			array( __( 'Page Builder Addons', 'siteorigin-panels' ), __( 'Addons', 'siteorigin-panels' ), siteorigin_panels_premium_url() ),
+			array( __( 'Contribute to Page Builder', 'siteorigin-panels' ), __( 'Contribute', 'siteorigin-panels' ), 'http://siteorigin.com/downloads/contribution/' ),
+		);
+		$i = floor( time() / (30*60) ) % count( $links );
+
+		if( !empty( $links[ $i ] ) ) {
+			?>
+			<a class="so-tool-button so-siteorigin-premium" title="<?php echo esc_attr( $links[$i][0] ) ?>" href="<?php echo esc_url( $links[$i][2] ) ?>" target="_blank">
+				<span class="so-panels-icon so-panels-icon-plus"></span>
+				<span class="so-button-text"><?php echo esc_html( $links[$i][1] ) ?></span>
+			</a>
+			<?php
+		}
+	}
+}
+
+function siteorigin_panels_premium_url() {
+	$ref = apply_filters( 'siteorigin_premium_affiliate_id', '' );
+	$url = 'https://siteorigin.com/downloads/premium/?featured_plugin=siteorigin-panels';
+
+	if( $ref ) {
+		$url = add_query_arg( 'ref', urlencode( $ref ), $url );
+	}
+
+	return $url;
 }
 
 // Include the live editor file if we're in live editor mode.
