@@ -1,4 +1,3 @@
-
 </div>
 </div> <!-- .container.wrap.clearfix -->
 <div class="footer-outer">
