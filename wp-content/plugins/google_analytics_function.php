@@ -1,4 +1,14 @@
 <?php
+/*
+Plugin Name: Simple Google Analytics Plugin
+Plugin URI: http://laj.lv
+Description: Adds a Google analytics trascking code to the <head> of your theme, by hooking to wp_head.
+Author: Michael Lajlev
+Version: 1.0
+ */
+?>
+
+<?php
 function cfdp_google_analytics() { ?>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
