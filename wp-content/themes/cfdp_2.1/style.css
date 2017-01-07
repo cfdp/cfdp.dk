@@ -184,21 +184,27 @@ h4 {
     .comments .comment-meta .says {
       display: none; }
 
-#respond {
+#respond,
+#module--newsletter {
   font-family: 'Lato', Sans-Serif;
   margin-bottom: 50px; }
-  #respond label {
+  #respond label,
+  #module--newsletter label {
     color: #ccc;
     font-weight: 300;
     font-size: 16px; }
-  #respond input[type="text"] {
+  #respond input[type="text"],
+  #respond input[type="email"],
+  #module--newsletter input[type="text"],
+  #module--newsletter input[type="email"] {
     outline: 0;
     border: 1px solid #ccc;
     font-size: 18px;
     padding: .6em .8em;
     margin-bottom: 1em;
     margin-right: 1em; }
-  #respond textarea#comment {
+  #respond textarea#comment,
+  #module--newsletter textarea#comment {
     width: 100%;
     max-width: 640px;
     font-size: 18px;
@@ -206,7 +212,8 @@ h4 {
     line-height: 26px;
     padding: .6em .8em;
     box-sizing: border-box; }
-  #respond input#submit {
+  #respond input[type="submit"],
+  #module--newsletter input[type="submit"] {
     font-size: 18px;
     margin-top: 1.5em; }
 
@@ -806,3 +813,37 @@ p#personal-info-disclaimer {
 
 .panel-row-style-boxed .sow-image-container .so-widget-image {
   display: inline-block !important; }
+
+#module--newsletter {
+  background-color: #42a947;
+  border: none;
+  margin-top: 60px;
+  margin-bottom: 0;
+  padding: 50px 30px 30px;
+  color: #fff;
+  text-align: center; }
+  #module--newsletter h2 {
+    color: #fff;
+    padding-bottom: 1em; }
+  #module--newsletter div {
+    display: inline-block; }
+  #module--newsletter input[type="text"],
+  #module--newsletter input[type="email"] {
+    margin-left: .5em;
+    margin-right: .5em;
+    width: 250px; }
+  #module--newsletter input[type="submit"] {
+    margin-left: .5em;
+    margin-right: .5em;
+    background: #f1c40f;
+    width: 250px;
+    margin-top: 0; }
+  #module--newsletter .action--dismiss-module {
+    padding-top: 1em;
+    display: block;
+    color: #fff;
+    text-decoration: underline;
+    font-size: 14px;
+    opacity: .75; }
+    #module--newsletter .action--dismiss-module:hover {
+      opacity: 1; }

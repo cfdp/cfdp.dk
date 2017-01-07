@@ -1,5 +1,13 @@
-</div>
+
+  </div>
 </div> <!-- .container.wrap.clearfix -->
+<div id="module--newsletter">
+  <h2>Vil du modtage CfDPs nyhedsbrev?</h2>
+  <div class="form--inline">
+    <?php echo do_shortcode('[mc4wp_form id="17417"]'); ?>
+  </div>
+  <a href="#👎newsletter" class="action--dismiss-module">Nej tak</a>
+</div>
 <div class="footer-outer">
   <div class="footer container wrap clearfix">
     <div class="grid_12 zi1">
