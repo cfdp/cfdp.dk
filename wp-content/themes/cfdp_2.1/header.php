@@ -37,6 +37,7 @@
 	<?php if ( is_singular() ) wp_enqueue_script( 'comment-reply' ); ?>
 	<?php wp_head(); ?>
 	<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/jquery.sidr.min.js"></script>
+	<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/js.cookie.js"></script>
 	<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/general.js"></script>
 </head>
 <body <?php body_class(); ?>>
