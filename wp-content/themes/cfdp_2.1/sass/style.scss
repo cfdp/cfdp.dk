@@ -894,3 +894,13 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 	}
 
 }
+
+.pagination--custom {
+	text-align: center;
+	margin-bottom: 3em;
+
+	a {
+		margin-left: .5em;
+		margin-right: .5em;
+	}
+}

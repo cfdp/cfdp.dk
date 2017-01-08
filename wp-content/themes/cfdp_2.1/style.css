@@ -847,3 +847,10 @@ p#personal-info-disclaimer {
     opacity: .75; }
     #module--newsletter .action--dismiss-module:hover {
       opacity: 1; }
+
+.pagination--custom {
+  text-align: center;
+  margin-bottom: 3em; }
+  .pagination--custom a {
+    margin-left: .5em;
+    margin-right: .5em; }

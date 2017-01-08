@@ -1,7 +1,19 @@
 <?php get_header(); ?>
 
+  <?php
+  // Needed for pagination on custome post type
+  if ( get_query_var('paged') ) {
+      $paged = get_query_var('paged');
+  } elseif ( get_query_var('page') ) { // 'page' is used instead of 'paged' on Static Front Page
+      $paged = get_query_var('page');
+  } else {
+      $paged = 1;
+  } ?>
+
+
   <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
   <?php
+    // fetch custom fields
     $meta_titel = get_post_meta( get_the_ID(), 'titel', true );
     $meta_phone = get_post_meta( get_the_ID(), 'phone', true );
     $meta_desc = get_post_meta( get_the_ID(), 'description', true );
@@ -39,14 +51,31 @@
         if ( !empty( $meta_desc ) ) { echo '<div class="person__desc">' . $meta_desc_html . '</div>'; }
       ?>
     </header>
+    <div id="blogposts"></div>
         <?php
-            $query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish','author'=>$meta_user, 'posts_per_page'=>5, 'paged'  => $paged)); ?>
+        $query = new WP_Query(
+          array(
+            'post_type'=>'post',
+            'post_status'=>'publish',
+            'author'=>$meta_user,
+            'posts_per_page'=>5,
+            'paged'  => $paged
+          )
+        );
 
+        $max_pages = $query->max_num_pages;
+        $current_page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        ?>
             <?php if ( $query->have_posts() ) : ?>
               <div class="divider"></div>
               <section class="blog-posts">
+              <?php if($current_page == 0){
+              echo '<h2 class="clearfix">Seneste indlæg</h2>';
+              } else {
+                echo '<h2 class="clearfix">Indlæg af ' . get_the_author() . ' (side ' . $current_page . ' af ' . $max_pages . ')</h2>';
+              }
+              ?>
 
-              <h2 class="clearfix">Seneste indlæg</h2>
                 <div class="clearfix">
                   <!-- the loop -->
                   <?php while ( $query->have_posts() ) : $query->the_post(); ?>
@@ -69,11 +98,52 @@
                   </p>
               </div>
               <?php endwhile; ?>
+              <?php
+
+                // Set to 0 of first page
+                if ($current_page !== null && !is_numeric($current_page)) {
+                  $current_page = 1;
+                }
+
+                //Remove pagination number from url if not first page
+                if($current_page !== 1){
+                  $url_without_pagination = dirname(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) . '/';
+                  ?>
+
+                  <script>
+                    // Scroll to posts if not first
+                    jQuery(document).ready(function($) {
+                      // Handler for .ready() called.
+                      $('html, body').animate({
+                        scrollTop: $('#blogposts').offset().top
+                      }, 900);
+                    });
+                  </script>
+                <?php
+                } else {
+                  $url_without_pagination = $_SERVER['REQUEST_URI'];
+                }
+
+              ?>
+
+              <div class="pagination--custom">
+
+                <?php
+                  if($current_page < $max_pages){
+                    echo '<a class="blue_button" href="' . $url_without_pagination . ($current_page+1) . '">Tidligere indlæg</a>';
+                  }
+
+                  if($current_page > 1){
+                    echo '<a class="blue_button" href="' . $url_without_pagination . ($current_page-1) . '">Nyere indlæg</a>';
+                  }
+                ?>
+              </div>
+
 
               <?php wp_reset_postdata(); ?>
 
               <?php else : ?>
-                <p><?php _e( 'Desværre, ingen person fundet' ); ?></p>
+                <p><?php _e( 'Desværre, ingen indlæg fundet' ); ?></p>
               <?php endif; ?>
 
             </div>
