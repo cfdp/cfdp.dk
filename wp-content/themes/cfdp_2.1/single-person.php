@@ -129,12 +129,12 @@
               <div class="pagination--custom">
 
                 <?php
-                  if($current_page < $max_pages){
-                    echo '<a class="blue_button" href="' . $url_without_pagination . ($current_page+1) . '">Tidligere indlæg</a>';
+                  if($current_page > 1){
+                    echo '<a class="blue_button" href="' . $url_without_pagination . ($current_page-1) . '"><span class="meta-nav">&larr;</span> Nyere indlæg</a>';
                   }
 
-                  if($current_page > 1){
-                    echo '<a class="blue_button" href="' . $url_without_pagination . ($current_page-1) . '">Nyere indlæg</a>';
+                  if($current_page < $max_pages){
+                    echo '<a class="blue_button" href="' . $url_without_pagination . ($current_page+1) . '">Tidligere indlæg <span class="meta-nav">&rarr;</span></a>';
                   }
                 ?>
               </div>

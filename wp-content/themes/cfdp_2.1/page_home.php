@@ -23,8 +23,9 @@ Template Name: Page Home
         include (TEMPLATEPATH . '/inc/posts.php' );
       ?>
         <div class="paging">
-          <?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Tidligere indlæg', 'twentyten' ) ); ?>
-          <?php previous_posts_link( __( 'Nyere indlæg <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
+          <?php previous_posts_link( __( '<span class="meta-nav">&larr;</span> Nyere indlæg', 'twentyten' ) ); ?>
+          <?php next_posts_link( __( 'Tidligere indlæg <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
+
         </div>
         <?php wp_reset_query(); ?>
       </div>
