@@ -8,6 +8,7 @@ sitemap.*
 wp-config.php
 .htaccess
 robots.txt
+wp-content/wflogs
 
 # Hidden system files
 *.DS_Store
