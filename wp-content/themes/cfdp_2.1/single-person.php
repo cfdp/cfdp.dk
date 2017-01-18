@@ -72,7 +72,7 @@
               <?php if($current_page == 0){
               echo '<h2 class="clearfix">Seneste indlæg</h2>';
               } else {
-                echo '<h2 class="clearfix">Indlæg af ' . get_the_author() . ' (side ' . $current_page . ' af ' . $max_pages . ')</h2>';
+                echo '<h2 class="clearfix">Indlæg af ' . get_the_title() . ' (side ' . $current_page . ' af ' . $max_pages . ')</h2>';
               }
               ?>
 
