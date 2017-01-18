@@ -15,7 +15,6 @@
  * Added to avoid blank line on RSS feeds
  * Source: http://premierdesignwebsites.com/solving-wordpress-remove-blank-line-from-rss-feed/
  */
-include('wpwhitespacefix.php');
 
 define('WP_USE_THEMES', true);
 
