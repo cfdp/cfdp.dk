@@ -51,7 +51,8 @@
         if ( !empty( $meta_desc ) ) { echo '<div class="person__desc">' . $meta_desc_html . '</div>'; }
       ?>
     </header>
-    <div id="blogposts"></div>
+    <?php if($meta_user !== 'null'): ?>
+    <div id="blogposts">
         <?php
         $query = new WP_Query(
           array(
@@ -148,6 +149,7 @@
 
             </div>
           </div> <!-- Blogindlæg END -->
+          <?php endif; ?>
         </section>
       <?php endwhile; endif; ?>
 
