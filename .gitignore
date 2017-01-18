@@ -9,6 +9,7 @@ wp-config.php
 .htaccess
 robots.txt
 wp-content/wflogs
+wordfence-waf.php
 
 # Hidden system files
 *.DS_Store
