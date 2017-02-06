@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 4.7.x - Administration - Network Admin package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-01-14 14:40:35+0000\n"
+"PO-Revision-Date: 2017-01-25 23:09:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -559,15 +559,7 @@ msgstr "Denne e-mailadresse vil modtage notifikationer. Registreringer og suppor
 
 #: wp-admin/network/users.php:170
 msgid "Hover over any user on the list to make the edit links appear. The Edit link on the left will take you to their Edit User profile page; the Edit link on the right by any site name goes to an Edit Site screen for that site."
-msgstr "Hold musen over en bruger på listen for at få redigeringslinks. Redigeringslinket til venstre vil føre dig til redigering af deres brugerprofil; redigeringslinket til højre fører dig til Rediger websted skærmbilledet for webstedet."
-
-#: wp-admin/network/index.php:36
-msgid "To add a new user, <strong>click Create a New User</strong>."
-msgstr "For at tilføje en ny bruger, <strong>klik Opret ny bruger</strong>."
-
-#: wp-admin/network/index.php:37
-msgid "To add a new site, <strong>click Create a New Site</strong>."
-msgstr "For at tilføje er nyt websted, <strong>klik Opret nyt websted</strong>."
+msgstr "Hold musen over en bruger på listen for at vise redigeringslinkene. Redigeringslinket til venstre vil føre dig til redigering af deres brugerprofil; redigeringslinket til højre fører dig til Rediger websted-skærmbilledet for webstedet."
 
 #: wp-admin/network/index.php:40
 msgid "To search for a site, <strong>enter the path or domain</strong>."
@@ -576,6 +568,14 @@ msgstr "For at søge efter et websted, <strong>skriv stien eller domænet</stron
 #: wp-admin/network/index.php:39
 msgid "To search for a user, <strong>enter an email address or username</strong>. Use a wildcard to search for a partial username, such as user&#42;."
 msgstr "For at søge efter en bruger, <strong>skriv en e-mailadresse eller et brugernavn</strong>. Brug et jokertegn for at søge på et delvist brugernavn, såsom bruger&#42;."
+
+#: wp-admin/network/index.php:37
+msgid "To add a new site, <strong>click Create a New Site</strong>."
+msgstr "For at tilføje er nyt websted, <strong>klik på Opret nyt websted</strong>."
+
+#: wp-admin/network/index.php:36
+msgid "To add a new user, <strong>click Create a New User</strong>."
+msgstr "For at tilføje en ny bruger, <strong>klik på Opret ny bruger</strong>."
 
 #: wp-admin/network/index.php:26
 msgid "Update your network"
@@ -618,15 +618,13 @@ msgstr "Velkommen til din netværksadministration. Dette område af administrati
 msgid "Upgrade Network"
 msgstr "Opgrader netværk"
 
-#: wp-admin/network/upgrade.php:22
-msgid "Only use this screen once you have updated to a new version of WordPress through Updates/Available Updates (via the Network Administration navigation menu or the Toolbar). Clicking the Upgrade Network button will step through each site in the network, five at a time, and make sure any database updates are applied."
-msgstr ""
-"Brug kun dette skærmbillede efter du har opdateret til den seneste version af WordPress gennem Opdateringer/Tilgængelige opdateringer (via Netværksadministrationens navigationsmenu eller værktøjslinjen).\n"
-"Hvis du klikker på Opdater netværk knappen vil du trinvist komme gennem hvert websted i netværket, fem ad gangen, og sikre at databaseopdateringerne gennemføres."
-
 #: wp-admin/network/upgrade.php:126
 msgid "WordPress has been updated! Before we send you on your way, we need to individually upgrade the sites in your network."
 msgstr "WordPress er blevet opdateret! Før vi sender dig af sted, så skal vi opdatere alle webstederne i dit netværk individuelt."
+
+#: wp-admin/network/upgrade.php:22
+msgid "Only use this screen once you have updated to a new version of WordPress through Updates/Available Updates (via the Network Administration navigation menu or the Toolbar). Clicking the Upgrade Network button will step through each site in the network, five at a time, and make sure any database updates are applied."
+msgstr "Brug kun dette skærmbillede efter du har opdateret til den seneste version af WordPress gennem Opdateringer/Tilgængelige opdateringer (via Netværksadministrationens navigationsmenu eller værktøjslinjen). Hvis du klikker på Opgrader netværk-knappen vil du trinvist komme gennem hvert websted i netværket, fem ad gangen, og sikre at databaseopdateringerne gennemføres."
 
 #. translators: 1: user login, 2: site url, 3: site name/title
 #: wp-admin/network/site-new.php:145
@@ -694,25 +692,9 @@ msgstr "Er du sikker på, at du vil slette disse temaer?"
 msgid "Yes, delete this theme"
 msgstr "Ja, slet dette tema"
 
-#: wp-admin/network/themes.php:127
-msgid "You are about to remove the following theme:"
-msgstr "Du er ved at fjerne dette tema:"
-
-#: wp-admin/network/themes.php:126
-msgid "This theme may be active on other sites in the network."
-msgstr "Dette tema kan være aktivt på andre websteder i netværket."
-
 #: wp-admin/network/site-themes.php:200
 msgid "Network enabled themes are not shown on this screen."
 msgstr "Netværksaktiverede temaer vises ikke på dette skærmbillede."
-
-#: wp-admin/network/user-new.php:20
-msgid "Add User will set up a new user account on the network and send that person an email with username and password."
-msgstr "Tilføj bruger vil oprette en ny brugerkonto på netværket og personen vil få tilsendt en e-mail med brugernavn og kodeord."
-
-#: wp-admin/network/site-themes.php:191 wp-admin/network/themes.php:270
-msgid "Theme disabled."
-msgstr "Tema deaktiveret."
 
 #: wp-admin/network/site-themes.php:197 wp-admin/network/themes.php:284
 msgid "No theme selected."
@@ -783,14 +765,6 @@ msgstr "Alle websteder"
 msgid "Site added. <a href=\"%1$s\">Visit Dashboard</a> or <a href=\"%2$s\">Edit Site</a>"
 msgstr "Websted tilføjet. <a href=\"%1$s\">Gå til Kontrolpanel</a> eller <a href=\"%2$s\">Rediger websted</a>"
 
-#: wp-admin/network/sites.php:28
-msgid "Add New takes you to the Add New Site screen. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page."
-msgstr "Tilføj ny fører dig til et Tilføj nyt websted skærmbillede. Du kan søge efter et websted på navn, ID nummer eller IP-adresse. Skærmindstillinger giver mulighed for at vælge, hvor mange websteder der vises på en side."
-
-#: wp-admin/network/themes.php:125
-msgid "Delete Theme"
-msgstr "Slet tema"
-
 #: wp-admin/network/menu.php:55 wp-admin/network/settings.php:19
 msgid "Network Settings"
 msgstr "Netværksindstillinger"
@@ -825,19 +799,9 @@ msgstr "<strong>Temaer</strong> — Dette område viser temaer, der endnu ikke e
 msgid "<strong>Settings</strong> &mdash; This page shows a list of all settings associated with this site. Some are created by WordPress and others are created by plugins you activate. Note that some fields are grayed out and say Serialized Data. You cannot modify these values due to the way the setting is stored in the database."
 msgstr "<strong>Settings</strong> — Denne side viser en liste over alle indstillingerne på dette websted. Nogle er lavet af WordPress og andre er lavet af plugins, du har aktiveret. Bemærk at nogle felter er grålige og siger Serialized Data. Du kan ikke ændre disse værdier på grund af måden, indstillingerne er gemt i databasen."
 
-#: wp-admin/network/site-info.php:23 wp-admin/network/site-settings.php:22
-#: wp-admin/network/site-themes.php:22 wp-admin/network/site-users.php:25
-msgid "<strong>Users</strong> &mdash; This displays the users associated with this site. You can also change their role, reset their password, or remove them from the site. Removing the user from the site does not remove the user from the network."
-msgstr "<strong>Brugere</strong> — Dette viser brugerne, der er tilknyttet dette websted. Du kan også ændre deres rolle, nulstille deres kodeord eller fjerne dem fra webstedet. At fjerne en bruger fra et websted fjerner dem ikke fra netværket."
-
 #: wp-admin/network/sites.php:144
 msgid "Sorry, you are not allowed to delete the site."
 msgstr "Du har desværre ikke tilladelse til at slette webstedet."
-
-#: wp-admin/network/site-info.php:37 wp-admin/network/site-settings.php:36
-#: wp-admin/network/site-themes.php:57 wp-admin/network/site-users.php:52
-msgid "Invalid site ID."
-msgstr "Ugyldigt websted ID."
 
 #: wp-admin/network/site-info.php:126
 msgid "Site info updated."
@@ -851,6 +815,40 @@ msgstr "Tema aktiveret."
 #: wp-admin/network/site-themes.php:21 wp-admin/network/site-users.php:24
 msgid "<strong>Info</strong> &mdash; The site URL is rarely edited as this can cause the site to not work properly. The Registered date and Last Updated date are displayed. Network admins can mark a site as archived, spam, deleted and mature, to remove from public listings or disable."
 msgstr "<strong>Info</strong> — Webstedets URL ændres sjældent, da det kan gøre, at webstedet ikke fungerer ordentligt. Datoen Registreret og Sidst opdateret bliver vist. Netværksadministratorer kan markere et websted som arkiveret, spam, slettet og modent, fjerne det fra offentligt tilgængeligt eller deaktivere det."
+
+#: wp-admin/network/site-info.php:23 wp-admin/network/site-settings.php:22
+#: wp-admin/network/site-themes.php:22 wp-admin/network/site-users.php:25
+msgid "<strong>Users</strong> &mdash; This displays the users associated with this site. You can also change their role, reset their password, or remove them from the site. Removing the user from the site does not remove the user from the network."
+msgstr "<strong>Brugere</strong> — Dette viser brugerne, der er tilknyttet dette websted. Du kan også ændre deres rolle, nulstille deres adgangskode eller fjerne dem fra webstedet. At fjerne en bruger fra et websted fjerner dem ikke fra netværket."
+
+#: wp-admin/network/user-new.php:20
+msgid "Add User will set up a new user account on the network and send that person an email with username and password."
+msgstr "Tilføj bruger vil oprette en ny brugerkonto på netværket og personen vil få tilsendt en e-mail med brugernavn og adgangskode."
+
+#: wp-admin/network/site-info.php:37 wp-admin/network/site-settings.php:36
+#: wp-admin/network/site-themes.php:57 wp-admin/network/site-users.php:52
+msgid "Invalid site ID."
+msgstr "Ugyldigt websted-ID."
+
+#: wp-admin/network/sites.php:28
+msgid "Add New takes you to the Add New Site screen. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page."
+msgstr "Tilføj ny fører dig til et Tilføj nyt websted-skærmbillede. Du kan søge efter et websted på navn, ID-nummer eller IP-adresse. Skærmindstillinger giver mulighed for at vælge, hvor mange websteder der vises på en side."
+
+#: wp-admin/network/site-themes.php:191 wp-admin/network/themes.php:270
+msgid "Theme disabled."
+msgstr "Tema deaktiveret."
+
+#: wp-admin/network/themes.php:125
+msgid "Delete Theme"
+msgstr "Slet tema"
+
+#: wp-admin/network/themes.php:127
+msgid "You are about to remove the following theme:"
+msgstr "Du er i gang med at fjerne følgende tema:"
+
+#: wp-admin/network/themes.php:126
+msgid "This theme may be active on other sites in the network."
+msgstr "Dette tema kan være aktivt på andre websteder i netværket."
 
 #: wp-admin/includes/network.php:113 wp-admin/includes/network.php:373
 #: wp-admin/includes/network.php:545 wp-admin/includes/network.php:585
@@ -1008,10 +1006,6 @@ msgstr "Du behøver en jokertegn DNS-record, hvis du har tænkt dig at bruge fun
 msgid "The choice of subdirectory sites is disabled if this setup is more than a month old because of permalink problems with &#8220;/blog/&#8221; from the main site. This disabling will be addressed in a future version."
 msgstr "Valget af websteder med undermapper bliver deaktiveret hvis opsætningen er mere end en måned gammel på grund af problemer med &#8220;/blog/&#8221; fra hovedwebstedet. Denne deaktivering vil der blive taget hånd om i en senere version."
 
-#: wp-admin/network.php:60
-msgid "Choose subdomains or subdirectories; this can only be switched afterwards by reconfiguring your install. Fill out the network details, and click install. If this does not work, you may have to add a wildcard DNS record (for subdomains) or change to another setting in Permalinks (for subdirectories)."
-msgstr "Vælg subdomæner eller undermapper; dette kan kun ændres efterfølgende ved at genkonfigurere din installation. Udfyld netværksdetaljerne og klik installer. Hvis dette ikke virker, så skal du tilføje DNS-record med jokertegn (for subdomæner) eller skifte til en anden indstilling i Permanente links (for undermapper)."
-
 #: wp-admin/includes/network.php:128
 msgid "Return to Dashboard"
 msgstr "Vend tilbage til Kontrolpanelet"
@@ -1023,6 +1017,10 @@ msgstr "Dette skærmbillede giver dig mulighed for at konfigurere et netværk me
 #: wp-admin/includes/network.php:374
 msgid "Please complete the configuration steps. To create a new network, you will need to empty or remove the network database tables."
 msgstr "Fuldfør venligst konfigurationstrinene. For at oprette et nyt netværk, bliver du nødt til at tømme eller fjerne databasetabellerne."
+
+#: wp-admin/network.php:60
+msgid "Choose subdomains or subdirectories; this can only be switched afterwards by reconfiguring your install. Fill out the network details, and click install. If this does not work, you may have to add a wildcard DNS record (for subdomains) or change to another setting in Permalinks (for subdirectories)."
+msgstr "Vælg subdomæner eller undermapper; dette kan kun ændres efterfølgende ved at genkonfigurere din installation. Udfyld netværksdetaljerne og klik på installer. Hvis dette ikke virker, så skal du tilføje DNS-record med jokertegn (for subdomæner) eller skifte til en anden indstilling i Permanente links (for undermapper)."
 
 #: wp-admin/network/users.php:70
 msgid "Warning! User cannot be modified. The user %s is a network administrator."
@@ -1366,10 +1364,6 @@ msgstr "Første kommentar forfatter"
 msgid "Max upload file size"
 msgstr "Maksimal størrelse på filer der uploades"
 
-#: wp-admin/network/site-new.php:247
-msgid "The username and password will be mailed to this email address."
-msgstr "Dit brugernavn og kodeord vil blive sendt til denne e-mailadresse."
-
 #: wp-admin/network/settings.php:192
 msgid "Banned Email Domains"
 msgstr "Blokerede e-maildomæner"
@@ -1389,3 +1383,7 @@ msgstr "Begrænsning i oprettelser i forhold til e-mailadresser"
 #: wp-admin/network/settings.php:275
 msgid "First Comment URL"
 msgstr "Første kommentar-URL"
+
+#: wp-admin/network/site-new.php:247
+msgid "The username and password will be mailed to this email address."
+msgstr "Dit brugernavn og adgangskode vil blive sendt til denne e-mailadresse."
