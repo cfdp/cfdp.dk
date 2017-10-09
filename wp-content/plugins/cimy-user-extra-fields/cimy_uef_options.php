@@ -24,7 +24,7 @@ function cimy_save_options() {
 	$options['aue_hidden_fields'] = array();
 	$options['wp_hidden_fields'] = array();
 
-	$options['welcome_email'] = stripslashes($_POST['welcome_email']);
+	$options['welcome_email'] = isset($_POST['welcome_email']) ? stripslashes($_POST['welcome_email']) : '';
 	cimy_wpml_register_string("a_opt_welcome_email", $options['welcome_email']);
 	$options['extra_fields_title'] = stripslashes($_POST['extra_fields_title']);
 	$options['extra_fields_title'] = substr($options['extra_fields_title'], 0, $max_length_extra_fields_title);
@@ -128,12 +128,13 @@ function cimy_save_options() {
 	$tot_wp_hidden_fields = count($old_wp_hidden_fields);
 	$action = "add";
 
-	(isset($_POST['confirm_email'])) ? $options['confirm_email'] = true : $options['confirm_email'] = false;
-	(isset($_POST['confirm_form'])) ? $options['confirm_form'] = true : $options['confirm_form'] = false;
+	$options["confirm_email"] = empty($_POST['confirm_email']) ? false : true;
+	$options["confirm_form"] = empty($_POST['confirm_form']) ? false : true;
 	if ($options['confirm_email'])
 		cimy_force_signup_table_creation();
-	(isset($_POST['redirect_to'])) ? $options['redirect_to'] = $_POST['redirect_to'] : $options['redirect_to'] = "";
-	(isset($_POST['mail_include_fields'])) ? $options['mail_include_fields'] = true : $options['mail_include_fields'] = false;
+	$options["redirect_to"] = empty($_POST['redirect_to']) ? "" : $_POST['redirect_to'];
+	$options["mail_include_fields"] = empty($_POST['mail_include_fields']) ? false : true;
+	$options["email_include_plaintext_password"] = empty($_POST['email_include_plaintext_password']) ? false : true;
 
 	if (isset($_POST['captcha']))
 		$options['captcha'] = $_POST['captcha'];
@@ -373,7 +374,7 @@ function cimy_show_options($results, $embedded) {
 		if (function_exists("screen_icon"))
 			screen_icon("options-general");
 	?>
-	<h2><?php _e("Options");
+	<h2><?php _e("Settings");
 	
 	if (!isset($cimy_top_menu)) {
 		?> - <a href="#addfield"><?php _e("Add a new Field", $cimy_uef_domain); ?></a> - <a href="#extrafields"><?php _e("Extra Fields", $cimy_uef_domain); ?></a><?php
@@ -459,6 +460,17 @@ function cimy_show_options($results, $embedded) {
 			<td>
 			<?php
 				_e("the email sent to the admin and to the user upon registration will have all fields", $cimy_uef_domain);
+			?>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">
+				<input type="checkbox" name="email_include_plaintext_password" id="email_include_plaintext_password" value="1"<?php checked(true, $options['email_include_plaintext_password'], true); ?> />
+				<label for="email_include_plaintext_password"><?php _e("Show plain text password in the welcome email", $cimy_uef_domain); ?></label>
+			</th>
+			<td>
+			<?php
+				_e("the email sent to the user upon registration will include the user's password in plain text (may be useful, but less secure)", $cimy_uef_domain);
 			?>
 			</td>
 		</tr>

@@ -3,10 +3,11 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://mc4wp.com/#utm_source=wp-plugin-repo&utm_medium=mailchimp-for-wp&utm_campaign=donate-link
 Tags: mailchimp, mc4wp, email, marketing, newsletter, subscribe, widget, mc4wp, contact form 7, woocommerce, buddypress, ibericode, mailchimp forms, mailchimp integrations
 Requires at least: 4.1
-Tested up to: 4.7
-Stable tag: 4.0.12
+Tested up to: 4.8.1
+Stable tag: 4.1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires PHP: 5.2.4
 
 MailChimp for WordPress, the absolute best. Subscribe your WordPress site visitors to your MailChimp lists, with ease.
 
@@ -31,7 +32,7 @@ MailChimp for WordPress helps you add more subscribers to your MailChimp lists u
 	- Default WordPress Registration Form
 	- Contact Form 7
 	- WooCommerce
-	- Ninja Forms
+	- Ninja Forms 3
 	- BuddyPress
     - MemberPress
 	- Events Manager
@@ -178,16 +179,142 @@ The plugin is translated using Transifex. If you want to help out, please head o
 
 MailChimp for WordPress is being developed on GitHub. If you want to collaborate, please look at [ibericode/mailchimp-for-wordpress](https://github.com/ibericode/mailchimp-for-wordpress).
 
+#### Customizing the plugin
+
+MailChimp for WordPress comes with many filter & action hooks which allow you to modify the default plugin behavior. We're also maintaining a [collection of common code snippets for MailChimp for WordPress](https://github.com/ibericode/mc4wp-snippets).
+
 == Screenshots ==
 
-1. A static sign-up form in the sidebar of the Twenty Fifteen theme.
-2. Highly effective 1-click subscribe option in your comment, registration or other forms.
-3. Use your own fields or use our Field Builder.
-4. Integrations for many popular plugins.
-5. Don't know CSS? No worries, our Styles Builder will do the heavy lifting for you! **(Pro Feature)**
-6. Detailed statistics on which methods are generating the most subscribers. **(Pro Feature)**
+1. Create beautiful sign-up forms that blend in with your theme.
+2. Integrate with any other plugin out there.
+3. Add a highly converting top bar form to your site.
+4. Style your form with our Styles Builder (premium feature).
+5. Integrate your WooCommerce store with MailChimp (premium feature).
+6. Dive into detailed sign-up statistics (premium feature).
 
 == Changelog == 
+
+
+#### 4.1.9 - September 19, 2017
+
+**Improvements**
+
+- Add `<label>` element to sign-up checkbox for WCAG compatibility.
+- Custom integration now works with Enfold theme's contact form element.
+
+
+#### 4.1.7 & 4.1.8 - September 8, 2017
+
+**Fixes**
+
+- Properly escape the return value of `add_query_arg` when it is used in HTML attributes to prevent cross-site scripting. Thanks to [Karim Ouerghemmi of RIPS](https://www.ripstech.com/) for responsibly disclosing.
+- Now loading integrations after WPML so that String Translations work properly.
+
+**Additions**
+
+- Add sign-up integration for WPForms forms.
+
+**Improvements**
+
+- Updated internal JS dependencies.
+- Form tag `{data key="foo.bar"}` now allows you to access nested array values.
+
+
+#### 4.1.6 - July 31, 2017
+
+**Fixes**
+
+- Method on API class for retrieving campaign data.
+
+**Improvements**
+
+- Show Akamai reference number when an API request is blocked by MailChimp's firewall.
+- Minor output buffering improvements in form previewer.
+
+
+#### 4.1.5 - June 27, 2017
+
+**Fixes**
+
+- Failsafe against outputting sign-up checkbox twice in registration forms.
+- Properly close HTML anchor element in French translation files.
+- Fix BuddyPress sign-ups when using WordPress Multisite.
+
+**Improvements**
+
+- Fire action hook `mc4wp_form_updated_subscriber` whenever a form was used to update a subscriber in MailChimp.
+- Increase browser timeout for AJAX request when fetching MailChimp lists.
+
+**Additions**
+
+- Added campaign & template methods to API client class.
+ 
+
+
+#### 4.1.4 - June 15, 2017
+
+**Fixes**
+
+- Some form specific JS events were not firing due to incorrect event names.
+- Registration form integration now works with WooCommerce registration form.
+- Notice that asks for a plugin review would re-appear after dismissing it.
+
+
+#### 4.1.3 - May 24, 2017
+
+**Improvements**
+
+- Randomise time of cron event that renews MailChimp lists.
+- Always try to show MailChimp list info when API key is given.
+
+
+#### 4.1.2 - May 8, 2017
+
+**Fixes**
+
+- Use earlier hook priority for Ninja Forms 3 integration so action is registered on time.
+
+**Improvements**
+
+- Improved MailChimp list fetching & memory usage for accounts with many lists.
+- Show error message when fetching lists fails.
+- Updated plugin translations.
+
+#### 4.1.1 - April 11, 2017
+
+**Fixes**
+
+- WPML String Translation not working with the checkbox label for sign-up integrations.
+
+**Improvements**
+
+- Use updated order methods when using WooCommerce 3.0, thanks to Liam McArthur.
+- Updated JavaScript dependencies.
+
+
+#### 4.1.0 - March 14, 2017
+
+**Improvements**
+
+- Updated all JavaScript dependencies in the plugin.
+- Failsafed filter hooks to prevent invalid variable types.
+- Explain that greyed out integrations means that specific plugin is not activated.
+- Conditional form elements now uses event delegation, so it works with forms in [Boxzilla pop-ups](https://boxzillaplugin.com/).
+- Updated language files.
+
+**Additions**
+
+- Added support for Ninja Forms 3.
+- Added `mc4wp_integration_show_checkbox` filter.
+
+
+#### 4.0.13 - February 8, 2017
+
+**Improvements**
+
+- Ensure fields are HTML decoded before sending to MailChimp.
+- Better OptimizePress compatibility.
+- Show all address-type fields as required when form contains 1 or more fields of the same address group.
 
 
 #### 4.0.12 - January 16, 2017
@@ -248,7 +375,7 @@ MailChimp for WordPress is being developed on GitHub. If you want to collaborate
 
 **Additions**
 
-- Add `data-hide-if` attribute logic to forms. See [conditionally hide form fields](https://mc4wp.com/kb/conditional-fields-elements/). Thanks to [Kurt Zenisek](http://kurtzenisek.com/).
+- Add `data-hide-if` attribute logic to forms. See [conditionally hide form fields](https://kb.mc4wp.com/conditional-fields-elements/). Thanks to [Kurt Zenisek](http://kurtzenisek.com/).
 - Add hooks for delayed BuddyPress sign-up. Thanks to [Christian Wach](https://profiles.wordpress.org/needle).
 
 
@@ -686,7 +813,7 @@ Added `mc4wp_use_sslverify` filter to disable or explicitly enable SSL certifica
 
 **Improvements**
 
-- Add form-specific classes to preview form element. This allows the [Styles Builder](https://mc4wp.com/features/) to work with the Form Preview.
+- Add form-specific classes to preview form element. This allows the [Styles Builder](https://mc4wp.com/premium-features/) to work with the Form Preview.
 - Form events are now triggered _after_ the page has finished loading, so all scripts are loaded & ready to use.
 - Reset background-color in Form Themes stylesheets.
 

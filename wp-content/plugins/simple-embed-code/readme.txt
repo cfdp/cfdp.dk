@@ -1,10 +1,9 @@
-﻿=== Code Embed ===
+=== Code Embed ===
 Contributors: dartiss
-Donate link: http://artiss.co.uk/donate
-Tags: code, embed, html, javascript, script, simple, video, xhtml, youtube
-Requires at least: 3.3
-Tested up to: 4.7
-Stable tag: 2.2.1
+Tags: code, embed, html, javascript, script
+Requires at least: 4.6
+Tested up to: 4.8
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +13,7 @@ Code Embed provides a very easy and efficient way to embed code (JavaScript and 
 
 Code Embed allows you to embed code - JavaScript and HTML primarily - in a post. This is incredibly useful for embedding video, etc, when required and is used, amongst other, by Mozilla. It cannot be used for server side code, such as PHP.
 
-Features include..
+Key features include...
 
 * Add HTML or JavaScript to posts or pages - particularly useful for embedding videos!
 * Embed in widgets using the [Widget Logic](http://wordpress.org/extend/plugins/widget-logic/ "Widget Logic") plugin
@@ -23,9 +22,20 @@ Features include..
 * Search for embedding code via a simple search option
 * Add a simple suffix to the embed code to convert videos to responsive output
 * Embed an external script directly using just the URL
-* Fully internationalized ready for translations. **If you would like to add a translation to his plugin then please let us know via the plugins' [forum](http://wordpress.org/support/plugin/simple-embed-code "Plugin Forums")**
+* And much, much more!
 
-Here's how easy it is...
+Technical specification...
+
+* Licensed under [GPLv2 (or later)](http://wordpress.org/about/gpl/ "GNU General Public License")
+* Designed for both single and multi-site installations
+* PHP7 compatible
+* Fully internationalized, ready for translations **If you would like to add a translation to this plugin then please head to our [Translating WordPress](https://translate.wordpress.org/projects/wp-plugins/simple-embed-code "Translating WordPress") page**
+
+For the latest known issue and planned enhancements, please see [my Bug Tracker site](https://artiss.uk/bugtracker/index.php?project=4 "Bug Tracker") site.
+
+== Getting Started ==
+
+Here's how easy it is to use…
 
 1. Once you have the plugin installed start a new post or page.
 2. In the `Custom Fields` meta box enter a name of CODE1 and your embed code as the value. Save this.
@@ -33,7 +43,9 @@ Here's how easy it is...
 
 And that's it - when the post or page is viewed `%CODE1%` will be replaced with the code that you asked to be embedded.
 
-This should get you started - for more information and advanced options please read the "Other Notes" tab. Alternatively, there's a fantastic guide at [Elftronix](http://www.elftronix.com/free-easy-plugin-add-javascript-to-wordpress-posts-pages/ "Free Easy Plugin! Add Javascript to WordPress Posts & Pages") which I would recommend.
+**If you cannot find the location of the `Custom Fields` meta box on your post editor screen, please see the FAQ section for more information**
+
+This should get you started - for more information and advanced options please see below.. Alternatively, there's a fantastic guide at [Elftronix](http://www.elftronix.com/free-easy-plugin-add-javascript-to-wordpress-posts-pages/ "Free Easy Plugin! Add Javascript to WordPress Posts & Pages") which I would recommend.
 
 Although this plugin works for both posts and pages for simplicity I will simply refer to posts - bear in mind that pages work in the same way.
 
@@ -105,7 +117,7 @@ To use, when adding the embed code onto the page, simply add `_RES` to the end, 
 
 This will now output the embedded code full width, but a width that is dynamic and will resize when required.
 
-If you don't wish the output to be full width you can specify a maximum width by adding an additonal `_x` on the end, where `x` is the required width in pixels. For example, `%CODE1_RES_500%` this will output `CODE1` as responsive but with a maximum width of 500 pixels.
+If you don't wish the output to be full width you can specify a maximum width by adding an additional `_x` on the end, where `x` is the required width in pixels. For example, `%CODE1_RES_500%` this will output `CODE1` as responsive but with a maximum width of 500 pixels.
 
 **It should be noted that this is an experimental addition and will not work in all circumstances.**
 
@@ -125,15 +137,12 @@ By default embed code will not appear in excerpts. However, you can switch this 
 
 == Installation ==
 
-Code Embed can be found and installed via the Plugin menu within WordPress administration. Alternatively, it can be downloaded and installed manually...
+Code Embed can be found and installed via the Plugin menu within WordPress administration (Plugins -> Add New). Alternatively, it can be downloaded from WordPress.org and installed manually...
 
-1. Upload the entire `simple-code-embed` folder to your wp-content/plugins/ directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
+1. Upload the entire `simple-embed-code` folder to your `wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress administration.
 
-Once installed, no matter which method you use, you'll then need to do the following...
-
-1. Under the Settings section of the administration menu there should now be a new option named "Code Embed". Select this option to set the default options.
-2. Add the identifier code to the appropriate posts and pages where you wish the code to be embedded.
+Voila! It's ready to go.
 
 == Frequently Asked Questions ==
 
@@ -142,6 +151,12 @@ Once installed, no matter which method you use, you'll then need to do the follo
 If your code contains the characters `]]>` then you'll find that it doesn't - WordPress modifies this itself.
 
 Otherwise, it's likely to be your code and not this plugin. The best way to confirm this is to look at the source of the page and compare the code output with what you embedded. Does it match? If it does, then your code is at fault.
+
+= I can't find the Custom Fields meta box =
+
+This 'meta box' is not added by this plugin but is built into WordPress. If you cannot find it on the post or page editor screen then click the 'Screen Options' tab in the top right-hand corner. Ensure 'Custom Fields' is ticked. Please see the screenshots section for an image on how this appears on a 'box fresh' installation of WordPress.
+
+If you still can't find it then you may have a theme or plugin that removes this or may have a problem with your WordPress installation - you will need to try normal diagnostics to try and resolve this, including requesting help on [the WordPress support forum](https://wordpress.org/support/forum/how-to-and-troubleshooting/ "Fixing WordPress Forum"). It would be greatly appreciated if you don't give me poor reviews in this situation as, I say, this component is not part of this plugin but, by using it, keeps this plugin simple to use and bloat-free :)
 
 = What's the maximum size of the embed code that I can save in a custom field? =
 
@@ -154,15 +169,24 @@ WordPress stores the custom field contents in a MySQL table using the `longtext`
 3. The resultant video from the previous example code
 4. The options screen
 5. The search screen, showing search results
+6. The Custom Fields meta-box and the screen switch - both highlighted in red
 
 == Changelog ==
+
+[Learn more about my version numbering methodology](https://artiss.blog/2016/09/wordpress-plugin-versioning/ "WordPress Plugin Versioning") 
+
+= 2.2.2 =
+* Maintenance: Updated README to work better with new plugin directory format. Also, now converting all text to US English, which is the WordPress standard. Snazzy.
+* Maintenance: Updated all links to artiss.blog and removed donation links. Clickable.
+* Maintenance: Minimum WordPress level is now 4.6 for this plugin, meaning I could remove various pieces of code. Strong and stable.
+* Maintenance: Lots of language updates, many of which are a consequence of the move to WordPress 4.6 (including removal of language files and links, etc). Verbacious.
 
 = 2.2.1 =
 * Maintenance: Updated branding, inc. adding donation links
 
 = 2.2 =
 * Enhancement: Added support for embedding code in excerpts
-* Enhancement: Validated, sanitised and escaped the admin screen data
+* Enhancement: Validated, sanitized and escaped the admin screen data
 * Maintenance: Overhauled the way default options are fetched and/or generated. Now a lot more efficient
 * Maintenance: Updated the admin screens so they are formatted in a similar way to the default WordPress screens
 * Maintenance: Removed hardcoding of plugin folder
@@ -216,7 +240,7 @@ WordPress stores the custom field contents in a MySQL table using the `longtext`
 
 = 1.5 =
 * Maintenance: Renamed plugin to bring in line with new plugin conventions
-* Maintenance: Plugin re-write to create more efficient code - can now also completely personalise the embed code used in the post
+* Maintenance: Plugin re-write to create more efficient code - can now also completely personalize the embed code used in the post
 * Maintenance: PHPDoc used throughout for documentation purposes, plus new coding standards
 * Maintenance: Instructions completely re-written
 * Enhancement: Support information improved, including contextual help on the settings screen (if supported)
@@ -243,47 +267,5 @@ versions of this plugin
 
 == Upgrade Notice ==
 
-= 2.2.1 =
-* Minor update to change branding
-
-= 2.2 =
-* Upgrade to add ability to embed code in excerpts. Also tidied and refreshed
-
-= 2.1.2 =
-* Update with text domain, ready for automatic translation
-
-= 2.1.1 =
-* Various minor fixes and updates
-
-= 2.1 =
-* Upgrade for change of branding and removal of redundant features
-
-= 2.0.2 =
-* Upgrade to fix a [minor XSS vulnerability](https://bugzilla.mozilla.org/show_bug.cgi?id=771315 "Bug 771315 - WP Plugin Simple-embed-Code - Fix XSS Before Adding to Hacks Blog")
-
-= 2.0.1 =
-* Upgrade to remove embed code length restriction
-
-= 2.0 =
-* Upgrade to improve the administration menus and add further features such as internationalization and responsive video conversion
-
-= 1.6.1 =
-* Fixes critical bug in version 1.6
-
-= 1.6 =
-* Added ability to specify global code embeds
-
-= 1.5.1 =
-* Added form security
-
-= 1.5 =
-* Much more efficient performance and ability to totally personalise the embed code used in posts
-
-= 1.4.1 =
-* Minor bug fix
-
-= 1.4 =
-* Update to specify your own embed word and max. embeds per post
-
-= 1.3 =
-* Upgrade if you'd like to be able to embed more than 5 scripts on a single page
+= 2.2.2 =
+* Maintenance updates

@@ -4,18 +4,14 @@
 *
 * Allow the user to change the default options
 *
-* @package	Code-Embed
+* @package	simple-embed-code
 * @since	1.4
 *
 * @uses ce_help				Return help text
 */
 ?>
 <div class="wrap">
-<?php
-global $wp_version;
-if ( ( float ) $wp_version >= 4.3 ) { $heading = '1'; } else { $heading = '2'; }
-?>
-<h<?php echo $heading; ?>><?php _e( 'Code Embed Options', 'simple-embed-code' ); ?></h<?php echo $heading; ?>>
+<h1><?php _e( 'Code Embed Options', 'simple-embed-code' ); ?></h1>
 <?php
 
 // If options have been updated on screen, update the database
@@ -27,6 +23,7 @@ if ( ( !empty( $_POST ) ) && ( check_admin_referer( 'code-embed-profile' , 'code
 	$options[ 'opening_ident' ] = sanitize_text_field( strtoupper( trim( $_POST[ 'code_embed_opening' ], '[]<>' ) ) );
 	$options[ 'keyword_ident' ] = sanitize_text_field( strtoupper( trim( $_POST[ 'code_embed_keyword' ], '[]<>' ) ) );
 	$options[ 'closing_ident' ] = sanitize_text_field( strtoupper( trim( $_POST[ 'code_embed_closing' ], '[]<>' ) ) );
+
 	if ( isset( $_POST[ 'code_embed_debug' ] ) ) { $options[ 'debug' ] = sanitize_text_field( $_POST[ 'code_embed_debug' ] ); } else { $options[ 'debug' ] = ''; }
 	if ( isset( $_POST[ 'code_embed_excerpt' ] ) ) { $options[ 'excerpt' ] = sanitize_text_field( $_POST[ 'code_embed_excerpt' ] );	 } else { $options[ 'excerpt' ] = ''; }
 

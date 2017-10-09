@@ -41,7 +41,7 @@ class MC4WP_Form_Manager {
 		add_action( 'init', array( $this, 'initialize' ) );
 
 		// forms
-		add_action( 'wp_enqueue_scripts', array( $this, 'init_asset_manager' ), 1 );
+		add_action( 'template_redirect', array( $this, 'init_asset_manager' ), 1 );
 		add_action( 'template_redirect', array( 'MC4WP_Form_Previewer', 'init' ) );
 
 		// widget
@@ -70,11 +70,6 @@ class MC4WP_Form_Manager {
 				'labels' => array(
 					'name' => 'MailChimp Sign-up Forms',
 					'singular_name' => 'Sign-up Form',
-					'add_new_item' => 'Add New Form',
-					'edit_item' => 'Edit Form',
-					'new_item' => 'New Form',
-					'all_items' => 'All Forms',
-					'view_item' => null
 				),
 				'public' => false
 			)

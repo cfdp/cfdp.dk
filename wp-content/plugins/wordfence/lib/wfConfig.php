@@ -13,6 +13,7 @@ class wfConfig {
 	private static $tmpFileHeader = "<?php\n/* Wordfence temporary file security header */\necho \"Nothing to see here!\\n\"; exit(0);\n?>";
 	private static $tmpDirCache = false;
 	public static $defaultConfig = array(
+		//All exportable boolean options
 		"checkboxes" => array(
 			"alertOn_critical" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"alertOn_update" => array('value' => false, 'autoload' => self::AUTOLOAD),
@@ -34,8 +35,7 @@ class wfConfig {
 			//"perfLoggingEnabled" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"scheduledScansEnabled" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"lowResourceScansEnabled" => array('value' => false, 'autoload' => self::AUTOLOAD),
-			"scansEnabled_public" => array('value' => false, 'autoload' => self::AUTOLOAD),
-			"scansEnabled_heartbleed" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"scansEnabled_checkGSB" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_checkHowGetIPs" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_core" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_themes" => array('value' => false, 'autoload' => self::AUTOLOAD),
@@ -43,10 +43,12 @@ class wfConfig {
 			"scansEnabled_coreUnknown" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_malware" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_fileContents" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"scansEnabled_fileContentsGSB" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_checkReadableConfig" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_suspectedFiles" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_posts" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_comments" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"scansEnabled_suspiciousOptions" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_passwds" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_diskSpace" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_options" => array('value' => true, 'autoload' => self::AUTOLOAD),
@@ -57,6 +59,7 @@ class wfConfig {
 			"scansEnabled_highSense" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_oldVersions" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_suspiciousAdminUsers" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"liveActivityPauseEnabled" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"firewallEnabled" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"blockFakeBots" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"autoBlockScanners" => array('value' => true, 'autoload' => self::AUTOLOAD),
@@ -66,6 +69,12 @@ class wfConfig {
 			"loginSec_blockAdminReg" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"loginSec_disableAuthorScan" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"loginSec_disableOEmbedAuthor" => array('value' => false, 'autoload' => self::AUTOLOAD),
+			"notification_updatesNeeded" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"notification_securityAlerts" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"notification_promotions" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"notification_blogHighlights" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"notification_productUpdates" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"notification_scanStatus" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"other_hideWPVersion" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"other_noAnonMemberComments" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"other_blockBadPOST" => array('value' => false, 'autoload' => self::AUTOLOAD),
@@ -73,6 +82,7 @@ class wfConfig {
 			"other_pwStrengthOnUpdate" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"other_WFNet" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"other_scanOutside" => array('value' => false, 'autoload' => self::AUTOLOAD),
+			"other_bypassLitespeedNoabort" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"deleteTablesOnDeact" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"autoUpdate" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"disableCookies" => array('value' => false, 'autoload' => self::AUTOLOAD),
@@ -89,40 +99,76 @@ class wfConfig {
 			'ajaxWatcherDisabled_admin' => array('value' => false, 'autoload' => self::AUTOLOAD),
 			'wafAlertOnAttacks' => array('value' => true, 'autoload' => self::AUTOLOAD),
 			'disableWAFIPBlocking' => array('value' => false, 'autoload' => self::AUTOLOAD),
+			'showAdminBarMenu' => array('value' => true, 'autoload' => self::AUTOLOAD),
 		),
+		//All exportable variable type options
 		"otherParams" => array(
-			"scan_include_extra" => "",
-			// 'securityLevel' => '2',
-			"alertEmails" => "", "liveTraf_ignoreUsers" => "", "liveTraf_ignoreIPs" => "", "liveTraf_ignoreUA" => "",  "apiKey" => "", "maxMem" => '256', 'scan_exclude' => '', 'scan_maxIssues' => 1000, 'scan_maxDuration' => '', 'whitelisted' => '', 'bannedURLs' => '', 'maxExecutionTime' => '', 'howGetIPs' => '', 'actUpdateInterval' => '', 'alert_maxHourly' => 0, 'loginSec_userBlacklist' => '',
-			'liveTraf_maxRows' => 2000,
-			"neverBlockBG" => "neverBlockVerified",
-			"loginSec_countFailMins" => "240",
-			"loginSec_lockoutMins" => "240",
-			'loginSec_strongPasswds' => 'pubs',
-			'loginSec_maxFailures' => "20",
-			'loginSec_maxForgotPasswd' => "20",
-			'maxGlobalRequests' => "DISABLED",
-			'maxGlobalRequests_action' => "throttle",
-			'maxRequestsCrawlers' => "DISABLED",
-			'maxRequestsCrawlers_action' => "throttle",
-			'maxRequestsHumans' => "DISABLED",
-			'maxRequestsHumans_action' => "throttle",
-			'max404Crawlers' => "DISABLED",
-			'max404Crawlers_action' => "throttle",
-			'max404Humans' => "DISABLED",
-			'max404Humans_action' => "throttle",
-			'maxScanHits' => "DISABLED",
-			'maxScanHits_action' => "throttle",
-			'blockedTime' => "300",
-			'email_summary_interval' => 'weekly',
-			'email_summary_excluded_directories' => 'wp-content/cache,wp-content/plugins/wordfence/tmp',
-			'allowed404s' => "/favicon.ico\n/apple-touch-icon*.png\n/*@2x.png\n/browserconfig.xml",
-			'wafAlertWhitelist' => '',
-			'wafAlertInterval' => 600,
-			'wafAlertThreshold' => 100,
-		)
+			"scan_include_extra" => array('value' => "", 'autoload' => self::AUTOLOAD),
+			"alertEmails" => array('value' => "", 'autoload' => self::AUTOLOAD), 
+			"liveTraf_ignoreUsers" => array('value' => "", 'autoload' => self::AUTOLOAD), 
+			"liveTraf_ignoreIPs" => array('value' => "", 'autoload' => self::AUTOLOAD), 
+			"liveTraf_ignoreUA" => array('value' => "", 'autoload' => self::AUTOLOAD),  
+			"apiKey" => array('value' => "", 'autoload' => self::AUTOLOAD), 
+			"maxMem" => array('value' => '256', 'autoload' => self::AUTOLOAD), 
+			'scan_exclude' => array('value' => '', 'autoload' => self::AUTOLOAD), 
+			'scan_maxIssues' => array('value' => 1000, 'autoload' => self::AUTOLOAD), 
+			'scan_maxDuration' => array('value' => '', 'autoload' => self::AUTOLOAD), 
+			'whitelisted' => array('value' => '', 'autoload' => self::AUTOLOAD), 
+			'bannedURLs' => array('value' => '', 'autoload' => self::AUTOLOAD), 
+			'maxExecutionTime' => array('value' => '', 'autoload' => self::AUTOLOAD), 
+			'howGetIPs' => array('value' => '', 'autoload' => self::AUTOLOAD), 
+			'actUpdateInterval' => array('value' => '', 'autoload' => self::AUTOLOAD), 
+			'alert_maxHourly' => array('value' => 0, 'autoload' => self::AUTOLOAD), 
+			'loginSec_userBlacklist' => array('value' => '', 'autoload' => self::AUTOLOAD),
+			'liveTraf_maxRows' => array('value' => 2000, 'autoload' => self::AUTOLOAD),
+			"neverBlockBG" => array('value' => "neverBlockVerified", 'autoload' => self::AUTOLOAD),
+			"loginSec_countFailMins" => array('value' => "240", 'autoload' => self::AUTOLOAD),
+			"loginSec_lockoutMins" => array('value' => "240", 'autoload' => self::AUTOLOAD),
+			'loginSec_strongPasswds' => array('value' => 'pubs', 'autoload' => self::AUTOLOAD),
+			'loginSec_maxFailures' => array('value' => "20", 'autoload' => self::AUTOLOAD),
+			'loginSec_maxForgotPasswd' => array('value' => "20", 'autoload' => self::AUTOLOAD),
+			'maxGlobalRequests' => array('value' => "DISABLED", 'autoload' => self::AUTOLOAD),
+			'maxGlobalRequests_action' => array('value' => "throttle", 'autoload' => self::AUTOLOAD),
+			'maxRequestsCrawlers' => array('value' => "DISABLED", 'autoload' => self::AUTOLOAD),
+			'maxRequestsCrawlers_action' => array('value' => "throttle", 'autoload' => self::AUTOLOAD),
+			'maxRequestsHumans' => array('value' => "DISABLED", 'autoload' => self::AUTOLOAD),
+			'maxRequestsHumans_action' => array('value' => "throttle", 'autoload' => self::AUTOLOAD),
+			'max404Crawlers' => array('value' => "DISABLED", 'autoload' => self::AUTOLOAD),
+			'max404Crawlers_action' => array('value' => "throttle", 'autoload' => self::AUTOLOAD),
+			'max404Humans' => array('value' => "DISABLED", 'autoload' => self::AUTOLOAD),
+			'max404Humans_action' => array('value' => "throttle", 'autoload' => self::AUTOLOAD),
+			'maxScanHits' => array('value' => "DISABLED", 'autoload' => self::AUTOLOAD),
+			'maxScanHits_action' => array('value' => "throttle", 'autoload' => self::AUTOLOAD),
+			'blockedTime' => array('value' => "300", 'autoload' => self::AUTOLOAD),
+			'email_summary_interval' => array('value' => 'weekly', 'autoload' => self::AUTOLOAD),
+			'email_summary_excluded_directories' => array('value' => 'wp-content/cache,wp-content/wflogs', 'autoload' => self::AUTOLOAD),
+			'allowed404s' => array('value' => "/favicon.ico\n/apple-touch-icon*.png\n/*@2x.png\n/browserconfig.xml", 'autoload' => self::AUTOLOAD),
+			'wafAlertWhitelist' => array('value' => '', 'autoload' => self::AUTOLOAD),
+			'wafAlertInterval' => array('value' => 600, 'autoload' => self::AUTOLOAD),
+			'wafAlertThreshold' => array('value' => 100, 'autoload' => self::AUTOLOAD),
+			'howGetIPs_trusted_proxies' => array('value' => '', 'autoload' => self::AUTOLOAD),
+		),
+		//Set as default only, not included automatically in the settings import/export or options page saving
+		'defaultsOnly' => array(
+			'cbl_loggedInBlocked' => array('value' => false, 'autoload' => self::AUTOLOAD),
+			'cbl_loginFormBlocked' => array('value' => false, 'autoload' => self::AUTOLOAD),
+			'cbl_restOfSiteBlocked' => array('value' => true, 'autoload' => self::AUTOLOAD),
+			'isPaid' => array('value' => false, 'autoload' => self::AUTOLOAD),
+			'hasKeyConflict' => array('value' => false, 'autoload' => self::AUTOLOAD),
+			'betaThreatDefenseFeed' => array('value' => false, 'autoload' => self::AUTOLOAD),
+			'cbl_action' => array('value' => 'block', 'autoload' => self::AUTOLOAD),
+			'cbl_redirURL' => array('value' => '', 'autoload' => self::AUTOLOAD),
+			'cbl_bypassRedirURL' => array('value' => '', 'autoload' => self::AUTOLOAD),
+			'cbl_bypassRedirDest' => array('value' => '', 'autoload' => self::AUTOLOAD),
+			'cbl_bypassViewURL' => array('value' => '', 'autoload' => self::AUTOLOAD),
+			'cbl_countries' => array('value' => '', 'autoload' => self::AUTOLOAD),
+			'timeoffset_wf_updated' => array('value' => 0, 'autoload' => self::AUTOLOAD),
+			'cacheType' => array('value' => 'disabled', 'autoload' => self::AUTOLOAD),
+			'detectProxyRecommendation' => array('value' => '', 'autoload' => self::DONT_AUTOLOAD),
+			'loginSec_enableSeparateTwoFactor' => array('value' => false, 'autoload' => self::AUTOLOAD),
+		),
 	);
-	public static $serializedOptions = array('lastAdminLogin', 'scanSched', 'emailedIssuesList', 'wf_summaryItems', 'adminUserList', 'twoFactorUsers', 'alertFreqTrack', 'wfStatusStartMsgs', 'vulnerabilities_plugin', 'vulnerabilities_theme');
+	public static $serializedOptions = array('lastAdminLogin', 'scanSched', 'emailedIssuesList', 'wf_summaryItems', 'adminUserList', 'twoFactorUsers', 'alertFreqTrack', 'wfStatusStartMsgs', 'vulnerabilities_plugin', 'vulnerabilities_theme', 'dashboardData', 'malwarePrefixes', 'noc1ScanSchedule', 'allScansScheduled');
 	public static function setDefaults() {
 		foreach (self::$defaultConfig['checkboxes'] as $key => $config) {
 			$val = $config['value'];
@@ -131,9 +177,26 @@ class wfConfig {
 				self::set($key, $val ? '1' : '0', $autoload);
 			}
 		}
-		foreach (self::$defaultConfig['otherParams'] as $key => $val) {
+		foreach (self::$defaultConfig['otherParams'] as $key => $config) {
+			$val = $config['value'];
+			$autoload = $config['autoload'];
 			if (self::get($key) === false) {
-				self::set($key, $val);
+				self::set($key, $val, $autoload);
+			}
+		}
+		foreach (self::$defaultConfig['defaultsOnly'] as $key => $config) {
+			$val = $config['value'];
+			$autoload = $config['autoload'];
+			if (self::get($key) === false) {
+				if ($val === false) {
+					self::set($key, '0', $autoload);
+				}
+				else if ($val === true) {
+					self::set($key, '1', $autoload);
+				}
+				else {
+					self::set($key, $val, $autoload);
+				}
 			}
 		}
 		self::set('encKey', substr(wfUtils::bigRandomHex(), 0, 16));
@@ -182,8 +245,13 @@ class wfConfig {
 		return $options;
 	}
 	public static function updateTableExists() {
-		$table = self::table();
-		self::$tableExists = (strtolower(self::getDB()->querySingle("SHOW TABLES LIKE '%s'", $table)) == strtolower($table));
+		global $wpdb;
+		self::$tableExists = $wpdb->get_col($wpdb->prepare(<<<SQL
+SELECT TABLE_NAME FROM information_schema.TABLES
+WHERE TABLE_SCHEMA=DATABASE()
+AND TABLE_NAME=%s
+SQL
+			, self::table()));
 	}
 	private static function updateCachedOption($name, $val) {
 		$options = self::loadAllOptions();
@@ -230,16 +298,24 @@ class wfConfig {
 		}
 		return $ret;
 	}
-	public static function parseOptions(){
+	public static function parseOptions($excludeOmitted = false) {
 		$ret = array();
-		foreach(self::$defaultConfig['checkboxes'] as $key => $val){ //value is not used. We just need the keys for validation
-			$ret[$key] = isset($_POST[$key]) ? '1' : '0';
+		foreach (self::$defaultConfig['checkboxes'] as $key => $val) { //value is not used. We just need the keys for validation
+			if ($excludeOmitted && isset($_POST[$key])) {
+				$ret[$key] = (int) $_POST[$key];
+			}
+			else if (!$excludeOmitted || isset($_POST[$key])) {
+				$ret[$key] = isset($_POST[$key]) ? '1' : '0';
+			}
 		}
-		foreach(self::$defaultConfig['otherParams'] as $key => $val){
-			if(isset($_POST[$key])){
-				$ret[$key] = stripslashes($_POST[$key]);
-			} else {
-				error_log("Missing options param \"$key\" when parsing parameters.");
+		foreach (self::$defaultConfig['otherParams'] as $key => $val) {
+			if (!$excludeOmitted || isset($_POST[$key])) {
+				if (isset($_POST[$key])) {
+					$ret[$key] = stripslashes($_POST[$key]);
+				}
+				else {
+					error_log("Missing options param \"$key\" when parsing parameters.");
+				}
 			}
 		}
 		/* for debugging only:
@@ -265,6 +341,33 @@ class wfConfig {
 			$val = 0;
 		}
 		self::set($key, $val + 1);
+		return $val + 1;
+	}
+	public static function atomicInc($key) {
+		if (!self::$tableExists) {
+			return false;
+		}
+		
+		global $wpdb;
+		$old_suppress_errors = $wpdb->suppress_errors(true);
+		$table = self::table();
+		$rowExists = false;
+		do {
+			if (!$rowExists && $wpdb->query($wpdb->prepare("INSERT INTO {$table} (name, val, autoload) values (%s, %s, %s)", $key, 1, self::DONT_AUTOLOAD))) {
+				$val = 1;
+				$successful = true;
+			}
+			else {
+				$rowExists = true;
+				$val = self::get($key, 1);
+				if ($wpdb->query($wpdb->prepare("UPDATE {$table} SET val = %s WHERE name = %s AND val = %s", $val + 1, $key, $val))) {
+					$val++;
+					$successful = true;
+				}
+			}
+		} while (!$successful);
+		$wpdb->suppress_errors($old_suppress_errors);
+		return $val;
 	}
 	public static function set($key, $val, $autoload = self::AUTOLOAD) {
 		global $wpdb;
@@ -276,6 +379,10 @@ class wfConfig {
 		}
 
 		if (($key == 'apiKey' || $key == 'isPaid' || $key == 'other_WFNet') && wfWAF::getInstance() && !WFWAF_SUBDIRECTORY_INSTALL) {
+			if ($key == 'isPaid' || $key == 'other_WFNet') {
+				$val = !!$val;
+			}
+			
 			try {
 				wfWAF::getInstance()->getStorageEngine()->setConfig($key, $val);
 			} catch (wfWAFStorageFileException $e) {
@@ -296,10 +403,10 @@ class wfConfig {
 			wfWAFIPBlocksController::synchronizeConfigSettings();
 		} 
 	}
-	public static function get($key, $default = false) {
+	public static function get($key, $default = false, $allowCached = true) {
 		global $wpdb;
 		
-		if (self::hasCachedOption($key)) {
+		if ($allowCached && self::hasCachedOption($key)) {
 			return self::getCachedOption($key);
 		}
 		
@@ -348,7 +455,7 @@ class wfConfig {
 		return 'wordfence_chunked_' . $key . '_';
 	}
 	
-	public static function get_ser($key, $default, $cache = true) {
+	public static function get_ser($key, $default = false, $cache = true) {
 		if (self::hasCachedOption($key)) {
 			return self::getCachedOption($key);
 		}
@@ -566,6 +673,9 @@ class wfConfig {
 	public static function f($key){
 		echo esc_attr(self::get($key));
 	}
+	public static function p() {
+		return self::get('isPaid');
+	}
 	public static function cbp($key){
 		if(self::get('isPaid') && self::get($key)){
 			echo ' checked ';
@@ -616,8 +726,15 @@ class wfConfig {
 			return 0;
 		}
 	}
-	public static function liveTrafficEnabled(){
-		return self::get('liveTrafficEnabled');
+	public static function liveTrafficEnabled(&$overriden = null){
+		$enabled = self::get('liveTrafficEnabled');
+		if (WORDFENCE_DISABLE_LIVE_TRAFFIC || function_exists('wpe_site')) {
+			$enabled = false;
+			if ($overriden !== null) {
+				$overriden = true;
+			}
+		}
+		return $enabled;
 	}
 	public static function enableAutoUpdate(){
 		wfConfig::set('autoUpdate', '1');
@@ -630,9 +747,60 @@ class wfConfig {
 		wfConfig::set('autoUpdate', '0');	
 		wp_clear_scheduled_hook('wordfence_daily_autoUpdate');
 	}
+	public static function createLock($name, $timeout = null) { //Polyfill since WP's built-in version wasn't added until 4.5
+		global $wpdb;
+		$oldBlogID = $wpdb->set_blog_id(0);
+		
+		if (function_exists('WP_Upgrader::create_lock')) {
+			$result = WP_Upgrader::create_lock($name, $timeout);
+			$wpdb->set_blog_id($oldBlogID);
+			return $result;
+		}
+		
+		if (!$timeout) {
+			$timeout = 3600;
+		}
+		
+		$lock_option = $name . '.lock';
+		$lock_result = $wpdb->query($wpdb->prepare("INSERT IGNORE INTO `{$wpdb->options}` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, 'no') /* LOCK */", $lock_option, time()));
+		
+		if (!$lock_result) {
+			$lock_result = get_option($lock_option);
+			if (!$lock_result) {
+				$wpdb->set_blog_id($oldBlogID);
+				return false;
+			}
+			
+			if ($lock_result > (time() - $timeout)) {
+				$wpdb->set_blog_id($oldBlogID);
+				return false;
+			}
+			
+			self::releaseLock($name);
+			$wpdb->set_blog_id($oldBlogID);
+			return self::createLock($name, $timeout);
+		}
+		
+		update_option($lock_option, time());
+		$wpdb->set_blog_id($oldBlogID);
+		return true;
+	}
+	public static function releaseLock($name) {
+		global $wpdb;
+		$oldBlogID = $wpdb->set_blog_id(0);
+		if (function_exists('WP_Upgrader::release_lock')) {
+			$result = WP_Upgrader::release_lock($name);
+		}
+		else {
+			$result = delete_option($name . '.lock');
+		}
+		
+		$wpdb->set_blog_id($oldBlogID);
+		return $result;
+	}
 	public static function autoUpdate(){
 		try {
-			if(getenv('noabort') != '1' && stristr($_SERVER['SERVER_SOFTWARE'], 'litespeed') !== false){
+			if (!wfConfig::get('other_bypassLitespeedNoabort', false) && getenv('noabort') != '1' && stristr($_SERVER['SERVER_SOFTWARE'], 'litespeed') !== false) {
 				$lastEmail = self::get('lastLiteSpdEmail', false);
 				if( (! $lastEmail) || (time() - (int)$lastEmail > (86400 * 30))){
 					self::set('lastLiteSpdEmail', time());
@@ -659,6 +827,11 @@ class wfConfig {
 			}
 			require_once(ABSPATH . 'wp-includes/update.php');
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
+			
+			if (!self::createLock('wfAutoUpdate')) {
+				return;
+			}
+			
 			wp_update_plugins();
 			ob_start();
 			$upgrader = new Plugin_Upgrader();
@@ -672,6 +845,8 @@ class wfConfig {
 			$output = @ob_get_contents();
 			@ob_end_clean();
 		} catch(Exception $e){}
+		
+		self::releaseLock('wfAutoUpdate');
 	}
 	
 	/**

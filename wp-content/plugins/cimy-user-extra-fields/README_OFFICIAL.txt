@@ -631,6 +631,12 @@ A lot of times I cannot reproduce the problem and I need more details, so if you
 
 
 CHANGELOG:
+v2.7.2 - 10/05/2017
+- Fixed registration rules were applied on profile update when certain plug-ins are installed, like bbpress (thanks to Vane R.)
+- Fixed MYSQL error on WordPress MS when creating sites through other plug-ins (thanks to Kathy Goss)
+- Fixed PHP Notice:  Undefined index: welcome_email on WordPress MS
+- Updated Securimage Captcha to v3.6.4 (fixes this vulnerability https://www.redteam-pentesting.de/en/advisories/rt-sa-2016-002/-cross-site-scripting-in-securimage-3-6-2)
+
 v2.7.1 - 08/02/2016
 - Added support for reCAPTCHA v2
 - Fixed filter by radio Extra Fields under Users Extended

@@ -9,15 +9,18 @@ include plugin_dir_path(__FILE__).'inc/post-selector.php';
 include plugin_dir_path(__FILE__).'inc/string-utils.php';
 include plugin_dir_path(__FILE__).'inc/attachments.php';
 include plugin_dir_path(__FILE__).'inc/actions.php';
+include plugin_dir_path(__FILE__).'inc/shortcode.php';
 
 /**
  * @param $css
  */
 function siteorigin_widget_add_inline_css($css){
 	global $siteorigin_widgets_inline_styles;
-	if(empty($siteorigin_widgets_inline_styles)) $siteorigin_widgets_inline_styles = '';
+	if ( empty( $siteorigin_widgets_inline_styles ) ) {
+	    $siteorigin_widgets_inline_styles = array();
+    }
 
-	$siteorigin_widgets_inline_styles .= $css;
+	$siteorigin_widgets_inline_styles[] = $css;
 }
 
 /**
@@ -25,11 +28,14 @@ function siteorigin_widget_add_inline_css($css){
  */
 function siteorigin_widget_print_styles(){
 	global $siteorigin_widgets_inline_styles;
-	if(!empty($siteorigin_widgets_inline_styles)) {
-		?><style type="text/css"><?php echo($siteorigin_widgets_inline_styles) ?></style><?php
-	}
+	if ( ! empty( $siteorigin_widgets_inline_styles ) ) {
+        foreach ($siteorigin_widgets_inline_styles as $widget_css) {
+            ?>
+            <style type="text/css"><?php echo($widget_css) ?></style><?php
+        }
+    }
 
-	$siteorigin_widgets_inline_styles = '';
+	$siteorigin_widgets_inline_styles = array();
 }
 add_action('wp_head', 'siteorigin_widget_print_styles');
 add_action('wp_footer', 'siteorigin_widget_print_styles');
@@ -105,7 +111,7 @@ function siteorigin_widget_get_font($font_value) {
 			$font['weight'] = $font_parts[1];
 			$font_url_param .= ':' . $font_parts[1];
 		}
-		$font['css_import'] = '@import url(http' . ( is_ssl() ? 's' : '' ) . '://fonts.googleapis.com/css?family=' . $font_url_param . ');';
+		$font['css_import'] = '@import url(https://fonts.googleapis.com/css?family=' . $font_url_param . ');';
 	}
 	else {
 		$font['family'] = $font_value;
@@ -124,7 +130,7 @@ function siteorigin_widget_get_font($font_value) {
  */
 function siteorigin_widget_add_bundle_groups($widgets){
 	foreach( $widgets as $class => &$widget ) {
-		if( preg_match('/SiteOrigin_Widget_(.*)_Widget/i', $class, $matches) ) {
+		if( preg_match('/SiteOrigin_Widgets?_(.*)_Widget/i', $class, $matches) ) {
 			$widget['icon'] = 'so-widget-icon so-widget-icon-'.strtolower($matches[1]);
 			$widget['groups'] = array('so-widgets-bundle');
 		}
@@ -232,4 +238,16 @@ function siteorigin_widgets_get_measurements_list() {
 
 	// Allow themes and plugins to trim or enhance the list.
 	return apply_filters('siteorigin_widgets_get_measurements_list', $measurements);
+}
+
+
+/**
+ * Returns the base URL of our widget with `$path` appended.
+ *
+ * @param string $path Extra path to append to the end of the URL.
+ *
+ * @return string Base URL of the widget, with $path appended.
+ */
+function siteorigin_widgets_url( $path = '' ) {
+	return plugins_url( 'so-widgets-bundle/' . $path );
 }

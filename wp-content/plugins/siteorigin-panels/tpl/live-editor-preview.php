@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-wp_enqueue_style( 'siteorigin-preview-style', plugin_dir_url( __FILE__ ) . '../css/live-editor-preview.css', array(), SITEORIGIN_PANELS_VERSION );
+wp_enqueue_style( 'siteorigin-preview-style', siteorigin_panels_url( 'css/live-editor-preview.css' ), array(), SITEORIGIN_PANELS_VERSION );
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -26,7 +26,7 @@ wp_enqueue_style( 'siteorigin-preview-style', plugin_dir_url( __FILE__ ) . '../c
 						method_exists( 'SiteOrigin_Widget_Field_Class_Loader', 'extend' )
 					)
 				) {
-					$data['widgets'] = siteorigin_panels_process_raw_widgets( $data['widgets'] );
+					$data['widgets'] = SiteOrigin_Panels_Admin::single()->process_raw_widgets( $data['widgets'], false, false );
 				}
 				echo siteorigin_panels_render( 'l' . md5( serialize( $data ) ), true, $data);
 			}

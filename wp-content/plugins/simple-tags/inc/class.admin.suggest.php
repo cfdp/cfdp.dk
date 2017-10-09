@@ -50,14 +50,14 @@ class SimpleTags_Admin_Suggest {
 	public static function get_suggest_tags_title() {
 		$title = '<img style="float:right; display:none;" id="st_ajax_loading" src="' . STAGS_URL . '/assets/images/ajax-loader.gif" alt="' . __( 'Ajax loading', 'simpletags' ) . '" />';
 		$title .= __( 'Suggested tags from :', 'simpletags' ) . '&nbsp;&nbsp;';
-		$title .= '<a class="local_db" href="#suggestedtags">' . __( 'Local tags', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
-		$title .= '<a class="yahoo_api" href="#suggestedtags">' . __( 'Yahoo', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
-		$title .= '<a class="opencalais_api" href="#suggestedtags">' . __( 'OpenCalais', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
-		$title .= '<a class="alchemyapi" href="#suggestedtags">' . __( 'AlchemyAPI', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
-		$title .= '<a class="zemanta" href="#suggestedtags">' . __( 'Zemanta', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
-		$title .= '<a class="datatxt" href="#suggestedtags">' . __( 'dataTXT', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
-		$title .= '<a class="tag4site" href="#suggestedtags">' . __( 'Tag4Site.RU', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
-		$title .= '<a class="proxem" href="#suggestedtags">' . __( 'Proxem', 'simpletags' ) . '</a>';
+		$title .= '<a data-ajaxaction="tags_from_local_db" class="suggest-action-link" href="#suggestedtags">' . __( 'Local tags', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
+		$title .= '<a data-ajaxaction="tags_from_yahoo" class="suggest-action-link" href="#suggestedtags">' . __( 'Yahoo', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
+		$title .= '<a data-ajaxaction="tags_from_opencalais" class="suggest-action-link" href="#suggestedtags">' . __( 'OpenCalais', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
+		$title .= '<a data-ajaxaction="tags_from_alchemyapi" class="suggest-action-link" href="#suggestedtags">' . __( 'AlchemyAPI', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
+		$title .= '<a data-ajaxaction="tags_from_zemanta" class="suggest-action-link" href="#suggestedtags">' . __( 'Zemanta', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
+		$title .= '<a data-ajaxaction="tags_from_datatxt" class="suggest-action-link" href="#suggestedtags">' . __( 'dataTXT by Dandelion', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
+		$title .= '<a data-ajaxaction="tags_from_tag4site" class="suggest-action-link" href="#suggestedtags">' . __( 'Tag4Site.RU', 'simpletags' ) . '</a>&nbsp;&nbsp;-&nbsp;&nbsp;';
+		$title .= '<a data-ajaxaction="tags_from_proxem" class="suggest-action-link" href="#suggestedtags">' . __( 'Proxem', 'simpletags' ) . '</a>';
 
 		return $title;
 	}
@@ -151,12 +151,14 @@ class SimpleTags_Admin_Suggest {
 			exit();
 		}
 
-		$response = wp_remote_post( 'http://api.opencalais.com/enlighten/rest/', array(
-			'body' => array(
-				'licenseID' => SimpleTags_Plugin::get_option_value( 'opencalais_key' ),
-				'content'   => $content,
-				'paramsXML' => self::_get_params_xml_opencalais()
-			)
+		$response = wp_remote_post( 'https://api.thomsonreuters.com/permid/calais', array(
+			'timeout' => 30,
+			'headers' => array(
+				'X-AG-Access-Token' => SimpleTags_Plugin::get_option_value( 'opencalais_key' ),
+                'Content-Type' => 'text/html',
+                'outputFormat' => 'application/json'
+			),
+			'body' => $content
 		) );
 
 		if ( ! is_wp_error( $response ) && $response != null ) {
@@ -188,16 +190,6 @@ class SimpleTags_Admin_Suggest {
 		}
 		echo '<div class="clear"></div>';
 		exit();
-	}
-
-	private static function _get_params_xml_opencalais() {
-		return '
-			<c:params xmlns:c="http://s.opencalais.com/1/pred/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-				<c:processingDirectives c:contentType="text/html" c:outputFormat="application/json" c:enableMetadataType="GenericRelations,SocialTags"></c:processingDirectives>
-				<c:userDirectives c:allowDistribution="false" c:allowSearch="false" c:externalID="" c:submitter="Simple Tags"></c:userDirectives>
-				<c:externalMetadata></c:externalMetadata>
-			</c:params>
-		';
 	}
 
 	/**
@@ -318,17 +310,7 @@ class SimpleTags_Admin_Suggest {
 		status_header( 200 );
 		header( "Content-Type: text/html; charset=" . get_bloginfo( 'charset' ) );
 
-		// API ID ?
-		if ( SimpleTags_Plugin::get_option_value( 'datatxt_id' ) == '' ) {
-			echo '<p>' . __( 'dataTXT needs an API ID to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags' ) . '</p>';
-			exit();
-		}
-
-		// API Key ?
-		if ( SimpleTags_Plugin::get_option_value( 'datatxt_key' ) == '' ) {
-			echo '<p>' . __( 'dataTXT needs an API key to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags' ) . '</p>';
-			exit();
-		}
+		$request_ws_args = array();
 
 		// Get data
 		$content = stripslashes( $_POST['content'] ) . ' ' . stripslashes( $_POST['title'] );
@@ -338,27 +320,45 @@ class SimpleTags_Admin_Suggest {
 			exit();
 		}
 
-		$confidence = 0.6;
+		$request_ws_args['text'] = $content;
+
+		// Custom confidence ?
+		$request_ws_args['min_confidence'] = 0.6;
 		if ( SimpleTags_Plugin::get_option_value( 'datatxt_min_confidence' ) != "" ) {
-			$confidence = SimpleTags_Plugin::get_option_value( 'datatxt_min_confidence' );
+			$request_ws_args['min_confidence'] = SimpleTags_Plugin::get_option_value( 'datatxt_min_confidence' );
+		}
+
+		// Token ? or old ID/key ?
+		if ( SimpleTags_Plugin::get_option_value( 'datatxt_access_token' ) == '' ) {
+			// API ID ?
+			if ( SimpleTags_Plugin::get_option_value( 'datatxt_id' ) == '' ) {
+				echo '<p>' . __( 'dataTXT needs an API ID to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags' ) . '</p>';
+				exit();
+			}
+
+			// API Key ?
+			if ( SimpleTags_Plugin::get_option_value( 'datatxt_key' ) == '' ) {
+				echo '<p>' . __( 'dataTXT needs an API key to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags' ) . '</p>';
+				exit();
+			}
+
+			$request_ws_args['$app_key'] = SimpleTags_Plugin::get_option_value( 'datatxt_key' );
+			$request_ws_args['$app_id'] = SimpleTags_Plugin::get_option_value( 'datatxt_id' );
+		} else {
+			$request_ws_args['token'] = SimpleTags_Plugin::get_option_value( 'datatxt_access_token' );
 		}
 
 		// Build params
 		$response = wp_remote_post( 'https://api.dandelion.eu/datatxt/nex/v1', array(
 			'user-agent' => 'WordPress simple-tags',
-			'body'       => array(
-				'$app_key'       => SimpleTags_Plugin::get_option_value( 'datatxt_key' ),
-				'$app_id'        => SimpleTags_Plugin::get_option_value( 'datatxt_id' ),
-				'min_confidence' => $confidence,
-				'text'           => $content
-			)
+			'body'       => $request_ws_args
 		) );
 
 		if ( ! is_wp_error( $response ) && $response != null ) {
 			if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
 				$data = wp_remote_retrieve_body( $response );
 			} else {
-				echo '<p>' . __( 'Invalid dataTXT ID or Key', 'simpletags' ) . '</p>';
+				echo '<p>' . __( 'Invalid dataTXT ID/Key or access token !', 'simpletags' ) . '</p>';
 				exit();
 			}
 		}
@@ -579,18 +579,14 @@ class SimpleTags_Admin_Suggest {
 		) );
 
 		if ( ! is_wp_error( $response ) && $response != null ) {
-			if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
-				$data = wp_remote_retrieve_body( $response );
-
-			}
+			$data = wp_remote_retrieve_body( $response );
 		}
 
 		$data = json_decode( $data );
 
 		if ( $data == false || ! isset( $data->categories ) ) {
-			var_dump( $response );
-
-			return false;
+			echo '<p>' . __( 'Error from Proxem API: ', 'simpletags' ) . $data->message . '</p>';
+			exit();
 		}
 
 		if ( empty( $data->categories ) ) {

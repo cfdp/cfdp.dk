@@ -1,5 +1,15 @@
+/* globals jQuery , sowb */
 
-/* globals jQuery */
-jQuery(function ($) {
-    $('video.sow-video-widget').mediaelementplayer();
-});
+var sowb = window.sowb || {};
+
+jQuery( function ( $ ) {
+	sowb.setupVideoPlayers = function() {
+		var $ = jQuery;
+		$('video.sow-video-widget').mediaelementplayer();
+	};
+	sowb.setupVideoPlayers();
+
+	$( sowb ).on( 'setup_widgets', sowb.setupVideoPlayers );
+} );
+
+window.sowb = sowb;

@@ -262,19 +262,19 @@ function cptui_get_single_taxonomy_registery( $taxonomy = array() ) {
 	 */
 
 	$labels = array(
-		"name" => __( '<?php echo $taxonomy['label']; ?>', '<?php echo $textdomain; ?>' ),
-		"singular_name" => __( '<?php echo $taxonomy['singular_label']; ?>', '<?php echo $textdomain; ?>' ),
+		"name" => __( "<?php echo $taxonomy['label']; ?>", "<?php echo $textdomain; ?>" ),
+		"singular_name" => __( "<?php echo $taxonomy['singular_label']; ?>", "<?php echo $textdomain; ?>" ),
 <?php
 	foreach ( $taxonomy['labels'] as $key => $label ) {
 		if ( ! empty( $label ) ) {
-			echo "\t\t" . '"' . $key . '" => __( \'' . $label . '\', \'' . $textdomain . '\' ),' . "\n";
+			echo "\t\t" . '"' . $key . '" => __( "' . $label . '", "' . $textdomain . '" ),' . "\n";
 		}
 	}
 ?>
 	);
 
 	$args = array(
-		"label" => __( '<?php echo $taxonomy['label']; ?>', '<?php echo $textdomain; ?>' ),
+		"label" => __( "<?php echo $taxonomy['label']; ?>", "<?php echo $textdomain; ?>" ),
 		"labels" => $labels,
 		"public" => <?php echo $public; ?>,
 		"hierarchical" => <?php echo $taxonomy['hierarchical']; ?>,
@@ -430,16 +430,16 @@ function cptui_get_single_post_type_registery( $post_type = array() ) {
 	 */
 
 	$labels = array(
-		"name" => __( '<?php echo $post_type['label']; ?>', '<?php echo $textdomain; ?>' ),
-		"singular_name" => __( '<?php echo $post_type['singular_label']; ?>', '<?php echo $textdomain; ?>' ),
+		"name" => __( "<?php echo $post_type['label']; ?>", "<?php echo $textdomain; ?>" ),
+		"singular_name" => __( "<?php echo $post_type['singular_label']; ?>", "<?php echo $textdomain; ?>" ),
 <?php
 	foreach ( $post_type['labels'] as $key => $label ) {
 		if ( ! empty( $label ) ) {
 			if ( 'parent' === $key ) {
 				// Fix for incorrect label key. See #439.
-				echo "\t\t" . '"' . 'parent_item_colon' . '" => __( \'' . $label . '\', \'' . $textdomain . '\' ),' . "\n";
+				echo "\t\t" . '"' . 'parent_item_colon' . '" => __( "' . $label . '", "' . $textdomain . '" ),' . "\n";
 			} else {
-				echo "\t\t" . '"' . $key . '" => __( \'' . $label . '\', \'' . $textdomain . '\' ),' . "\n";
+				echo "\t\t" . '"' . $key . '" => __( "' . $label . '", "' . $textdomain . '" ),' . "\n";
 			}
 		}
 	}
@@ -447,7 +447,7 @@ function cptui_get_single_post_type_registery( $post_type = array() ) {
 	);
 
 	$args = array(
-		"label" => __( '<?php echo $post_type['label']; ?>', '<?php echo $textdomain; ?>' ),
+		"label" => __( "<?php echo $post_type['label']; ?>", "<?php echo $textdomain; ?>" ),
 		"labels" => $labels,
 		"description" => "<?php echo $post_type['description']; ?>",
 		"public" => <?php echo disp_boolean( $post_type['public'] ); ?>,
@@ -747,6 +747,8 @@ function cptui_render_getcode_section() {
 	<h1><?php _e( 'Get Post Type and Taxonomy Code', 'custom-post-type-ui' ); ?></h1>
 
 		<h2><?php _e( 'All CPT UI Post Types', 'custom-post-type-ui' ); ?></h2>
+
+		<p><?php esc_html_e( 'All of the selectable code snippets below are useful if you wish to migrate away from CPTUI and retain your existing registered post types or taxonomies.', 'custom-post-type-ui' ); ?></p>
 
 		<?php $cptui_post_types = cptui_get_post_type_data(); ?>
 		<label for="cptui_post_type_get_code"><?php _e( 'Copy/paste the code below into your functions.php file.', 'custom-post-type-ui' ); ?></label>

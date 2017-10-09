@@ -4,7 +4,7 @@
 *
 * Add various adminstration menu options
 *
-* @package	Code-Embed
+* @package	simple-embed-code
 */
 
 /**
@@ -49,12 +49,7 @@ add_filter( 'plugin_action_links', 'ce_add_settings_link', 10, 2 );
 
 function ce_set_plugin_meta( $links, $file ) {
 
-	if ( strpos( $file, 'code-embed.php' ) !== false ) {
-
-		$links = array_merge( $links, array( '<a href="http://wordpress.org/support/plugin/simple-embed-code">' . __( 'Support', 'simple-embed-code' ) . '</a>' ) );
-		$links = array_merge( $links, array( '<a href="http://www.artiss.co.uk/donate">' . __( 'Donate', 'simple-embed-code' ) . '</a>' ) );		
-
-	}
+	if ( strpos( $file, 'code-embed.php' ) !== false ) { $links = array_merge( $links, array( '<a href="https://wordpress.org/plugins/simple-embed-code/">' . __( 'Support', 'simple-embed-code' ) . '</a>' ) ); }
 
 	return $links;
 }
@@ -174,7 +169,7 @@ function ce_search() {
 function ce_options_help() {
 
 	$help_text = '<p>' . __( 'Use this screen to modify the various settings, including the identifiers and keyword used to specify your embedded code.', 'simple-embed-code' ) . '</p>';
-	$help_text .= '<p>' . __( 'The first option allows to suppress debug output. Normally this is an HTML comment in your page source - if you wish to hide this then simply ticket this option.', 'simple-embed-code' ) . '</p>';
+	$help_text .= '<p>' . __( 'The first option allows to suppress debug output. Normally this is an HTML comment in your page source - if you wish to hide this then simply tick this option.', 'simple-embed-code' ) . '</p>';
 	$help_text .= '<p>' . __( 'The second option allows to specify whether code embed requests should work in excerpts.', 'simple-embed-code' ) . '</p>';
 	$help_text .= '<p>' . __( 'The keyword is the name used for your custom field. The custom field\'s value is the code that you wish to embed.', 'simple-embed-code' ) . '</p>';
 	$help_text .= '<p>' . __( 'The keyword, sandwiched with the identifier before and after, is what you then need to add to your post or page to activate the embed code.', 'simple-embed-code' ) . '</p>';
@@ -196,7 +191,7 @@ function ce_search_help() {
 
 	$help_text = '<p>' . __( 'This screen allows you to search for the post and pages that a particular code embed has been used in.', 'simple-embed-code' ) . '</p>';
 	$help_text .= '<p>' . __( 'Simply enter the code suffix that you wish to search for and press the \'Search\' key to display a list of all the posts using it. In addition the code will be shown alongside it. Click on the post name to edit the post.', 'simple-embed-code' ) . '</p>';
-	$help_text .= '<p>' . __( 'The search results are grouped together in matching code groups, so posts with the same code will be shown together with the same colour background.', 'simple-embed-code' ) . '</p>';
+	$help_text .= '<p>' . __( 'The search results are grouped together in matching code groups, so posts with the same code will be shown together with the same color background.', 'simple-embed-code' ) . '</p>';
 
 	return $help_text;
 }

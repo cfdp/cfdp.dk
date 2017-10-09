@@ -3,14 +3,14 @@
 Plugin Name: Comment Moderation E-mail only to Author
 Plugin URI: http://status301.net/wordpress-plugins/comment-moderation-e-mail-to-post-author/
 Description: Send comment moderation notifications **only** to the posts Author, not to the site Administration address (as configured on Settings > General) any more, unless the author in question has no moderation rights. There are no options, just activate and the site admin will no longer be bothered with notifications about posts from other authors. <strong>Happy with it? <em><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Comment%20Moderation%20E-mail%20to%20Post%20Author&item_number=0%2e4&no_shipping=0&tax=0&bn=PP%2dDonationsBF&charset=UTF%2d8&lc=us">Buy me a coffee...</a></em> Thanks! :)</strong>
-Version: 0.4
+Version: 0.5
 Author: RavanH
 Author URI: http://status301.net/
 */
 
 /**
  * Filters wp_notify_moderator() recipients: $emails includes only author e-mail,
- * unless the authors e-mail is missing or the author has no moderator rights. 
+ * unless the authors e-mail is missing or the author has no moderator rights.
  *
  * @since 0.4
  *

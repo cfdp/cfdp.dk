@@ -62,8 +62,7 @@ class ShareaholicPublic {
    * Inserts the script code snippet into the head of the page
    */
   public static function script_tag() {
-    if (ShareaholicUtilities::has_accepted_terms_of_service() &&
-        ShareaholicUtilities::get_or_create_api_key()) {
+    if (ShareaholicUtilities::has_accepted_terms_of_service() && ShareaholicUtilities::get_or_create_api_key()) {
       ShareaholicUtilities::load_template('script_tag', array(
         'api_key' => ShareaholicUtilities::get_option('api_key'),
         'base_settings' => ShareaholicPublicJS::get_base_settings(),
@@ -124,10 +123,10 @@ class ShareaholicPublic {
       } else {
         $id = $post->ID;
       }
-      
+            
       // Get post tags
       $keywords = implode(', ' , ShareaholicUtilities::permalink_keywords($id));
-             
+
       // Get post categories
       $categories_array = get_the_category($id);
       $categories = '';
@@ -143,11 +142,11 @@ class ShareaholicPublic {
        $categories = trim($output, $separator);
       }      
       
-      // Merge post tags and categories
+      // Merge post tags, categories and post type
       if ($keywords != ''){
-        $keywords .= ', '.$categories;
+        $keywords .= ', '.$categories.', '.$post->post_type;
       } else {
-        $keywords .= $categories;
+        $keywords .= $categories.', '.$post->post_type;
       }
             
       // Encode, lowercase & trim appropriately
@@ -169,18 +168,24 @@ class ShareaholicPublic {
    * Draws Shareaholic article meta tags
    */
   private static function draw_article_meta_tag() {
+    
+    if (in_array(ShareaholicUtilities::page_type(), array('index', 'category')) || is_404()) {
+        echo "<meta name='shareaholic:article_visibility' content='private' />\n";
+        return;
+    }
+    
     if (in_array(ShareaholicUtilities::page_type(), array('page', 'post'))) {
       global $post;
-    
+      
       // Article Publish and Modified Time
-      $article_published_time = strtotime($post->post_date_gmt);
-      $article_modified_time = strtotime(get_lastpostmodified('GMT'));
+      $article_published_time = get_the_date( DATE_W3C );
+      $article_modified_time = get_the_modified_date( DATE_W3C );
     
       if (!empty($article_published_time)) {
-        echo "<meta name='shareaholic:article_published_time' content='" . date('c', $article_published_time) . "' />\n";
+        echo "<meta name='shareaholic:article_published_time' content='" . $article_published_time . "' />\n";
       }
       if (!empty($article_modified_time)) {
-        echo "<meta name='shareaholic:article_modified_time' content='" . date('c', $article_modified_time) . "' />\n";
+        echo "<meta name='shareaholic:article_modified_time' content='" . $article_modified_time . "' />\n";
       }
       
       // Article Visibility
@@ -219,7 +224,7 @@ class ShareaholicPublic {
         }
       }
       if (!empty($article_author_name)) {
-        echo "<meta name='shareaholic:article_author_name' content='" . $article_author_name . "' />\n";
+        echo "<meta name='shareaholic:article_author_name' content='" . htmlspecialchars($article_author_name, ENT_QUOTES) . "' />\n";
       }
     }
   }
@@ -249,7 +254,7 @@ class ShareaholicPublic {
    */
   private static function draw_plugin_version_meta_tag() {
       echo "<meta name='shareaholic:wp_version' content='" . ShareaholicUtilities::get_version() . "' />\n";
-  }  
+  }
   
   /**
    * Draws Shareaholic site name meta tag.
@@ -279,6 +284,9 @@ class ShareaholicPublic {
       global $post;
       $thumbnail_src = '';
       
+      if (is_attachment()) {
+        $thumbnail_src = wp_get_attachment_thumb_url();
+      }
       if (function_exists('has_post_thumbnail') && has_post_thumbnail($post->ID)) {
         $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
         $thumbnail_src = esc_attr($thumbnail[0]);
@@ -300,7 +308,11 @@ class ShareaholicPublic {
       global $post;
       $thumbnail_src = '';
       $settings = ShareaholicUtilities::get_settings();
-      if (!get_post_meta($post->ID, 'shareaholic_disable_open_graph_tags', true) && (isset($settings['disable_og_tags']) && $settings['disable_og_tags'] == "off")) {        
+      
+      if (!get_post_meta($post->ID, 'shareaholic_disable_open_graph_tags', true) && (isset($settings['disable_og_tags']) && $settings['disable_og_tags'] == "off")) {
+        if (is_attachment()) {
+          $thumbnail_src = wp_get_attachment_thumb_url();
+        }
         if (function_exists('has_post_thumbnail') && has_post_thumbnail($post->ID)) {
           $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
           $thumbnail_src = esc_attr($thumbnail[0]);
@@ -333,14 +345,14 @@ class ShareaholicPublic {
             $settings[$app]["{$page_type}_above_content"] == 'on') {
           // share_buttons_post_above_content
           $id = $settings['location_name_ids'][$app]["{$page_type}_above_content"];
-          $content = self::canvas($id, $app) . $content;
+          $content = self::canvas($id, $app, "{$page_type}_above_content") . $content;
         }
 
         if (isset($settings[$app]["{$page_type}_below_content"]) &&
             $settings[$app]["{$page_type}_below_content"] == 'on') {
           // share_buttons_post_below_content
           $id = $settings['location_name_ids'][$app]["{$page_type}_below_content"];
-          $content .= self::canvas($id, $app);
+          $content .= self::canvas($id, $app, "{$page_type}_below_content");
         }
       }
     }
@@ -362,7 +374,7 @@ class ShareaholicPublic {
    * @param string $link url
    * @param string $summary summary text for URL
    */
-  public static function canvas($id, $app, $title = NULL, $link = NULL, $summary = NULL) {
+  public static function canvas($id, $app, $id_name, $title = NULL, $link = NULL, $summary = NULL) {
     global $post, $wp_query;
     $page_type = ShareaholicUtilities::page_type();
     $is_list_page = $page_type == 'index' || $page_type == 'category';
@@ -389,6 +401,7 @@ class ShareaholicPublic {
     
     $canvas = "<div class='shareaholic-canvas'
       data-app-id='$id'
+      data-app-id-name='$id_name'
       data-app='$app'
       data-title='$title'
       data-link='$link'
@@ -536,6 +549,7 @@ class ShareaholicPublic {
     
     $info = array(
   	'plugin_version' => Shareaholic::VERSION,
+  	'plugin_version_in_db' => ShareaholicUtilities::get_version(),
   	'site_id' => ShareaholicUtilities::get_option('api_key'),
   	'domain' => get_bloginfo('url'),
   	'language' => get_bloginfo('language'),
@@ -625,6 +639,34 @@ class ShareaholicPublic {
         echo json_encode($permalink_list);
       }
       exit;
+  }
+  
+  /**
+   * Function to return relevant info for the SDK Badge
+   *
+   * @return sdk info in JSON
+   */
+  public static function sdk_info() {
+
+    if (!current_user_can('activate_plugins')) {
+      $info = array(
+        'sdk_info' => array(
+          'message' => "Unauthorized",
+        ),
+      );
+    } else {
+      $info = array(
+        'sdk_info' => array(
+          'site_id' => ShareaholicUtilities::get_option('api_key'),
+          'verification_key' => ShareaholicUtilities::get_option('verification_key'),
+          'wp_user_info' => ShareaholicUtilities::user_info(),
+        ),
+      );
+    }
+    
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($info);
+    exit;
   }
   
   /**
@@ -727,8 +769,8 @@ class ShareaholicPublic {
         'post_tags' => $tags,
         'post_categories' => $categories,
         'post_language' => get_bloginfo('language'),
-        'post_published' => date('c', strtotime($post->post_date_gmt)),
-        'post_updated' => date('c', strtotime(get_lastpostmodified('GMT'))),
+        'post_published' => get_the_date( DATE_W3C ),
+        'post_updated' => get_the_modified_date( DATE_W3C ),
         'post_visibility' => $post->post_status,
       ),
       'post_stats' => array(

@@ -29,6 +29,7 @@ class ShareaholicAdmin {
          ShareaholicUtilities::share_counts_api_connectivity_check();
        }
     }
+    self::check_redirect_url();
     self::check_review_dismissal();
     self::check_plugin_review();
   }
@@ -48,7 +49,66 @@ class ShareaholicAdmin {
 
     add_site_option(self::REVIEW_DISMISS_OPTION, true);
   }
+  
+  /**
+   * Redirect to Plans
+   *
+   */
+  public static function go_premium() {
+    echo <<<JQUERY
+<script type="text/javascript">
+window.location = "https://shareaholic.com/plans";
+</script>
+JQUERY;
+  }
+  
+  /**
+   * Redirection Utility (used by SDK - Badge)
+   *
+   */
+  public static function check_redirect_url() {
+    
+    $redirect_url = isset($_GET['shareaholic_redirect_url']) ? strtolower($_GET['shareaholic_redirect_url']) : NULL;
+    
+    if ($redirect_url != NULL) {
+      
+      // Support redirect URLs with no scheme; default to httpS
+      $parsed = parse_url($redirect_url);
+      if (empty($parsed['scheme'])) {
+        $redirect_url = 'https://' . ltrim($redirect_url);
+      }
 
+      // exit if redirect is not to shareaholic.com
+      $redirect_url_host = parse_url($redirect_url, PHP_URL_HOST);
+      
+      if ($redirect_url_host != "shareaholic.com" && $redirect_url_host != "stageaholic.com" && $redirect_url_host != "spreadaholic.com") {
+        wp_redirect(admin_url('admin.php?page=shareaholic-settings'));
+        exit;
+      }
+      
+      // Get User Email
+      $current_user = wp_get_current_user();
+      $user_email = urlencode($current_user->user_email);
+      
+      // Pass verification_key only if current wp user has permission to the key
+      if (current_user_can('activate_plugins')) {
+        $verification_key = ShareaholicUtilities::get_option('verification_key');
+      } else {
+        $verification_key = "unauthorized";
+      }
+      
+      $enriched_redirect_url = add_query_arg( array(
+          'site_id' => ShareaholicUtilities::get_option('api_key'),
+          'verification_key' => $verification_key,
+          'email' => $user_email,
+          'ref' => 'wordpress',
+      ), $redirect_url);
+      
+      wp_redirect($enriched_redirect_url);
+      exit;
+    }
+  }
+  
   /**
    * Check if we should display the review message days after the
    * plugin has been activated
@@ -81,7 +141,7 @@ class ShareaholicAdmin {
       <p>' . __('You have been using the ', 'shareaholic') . '<a href="' . admin_url('admin.php?page=shareaholic-settings') . '">Shareaholic plugin</a>' . __(' for some time now, do you like it? If so, please consider leaving us a review on WordPress.org! It would help us out a lot and we would really appreciate it.', 'shareaholic') . '
         <br />
         <br />
-        <a onclick="location.href=\'' . esc_url($dismiss_url) . '\';" class="button button-primary" href="' . esc_url('https://wordpress.org/support/view/plugin-reviews/shareaholic?rate=5#postform') . '" target="_blank">' . __('Leave a Review', 'shareaholic') . '</a>
+        <a onclick="location.href=\'' . esc_url($dismiss_url) . '\';" class="button button-primary" href="' . esc_url('https://wordpress.org/support/plugin/shareaholic/reviews/?rate=5#new-post') . '" target="_blank">' . __('Leave a Review', 'shareaholic') . '</a>
         <a href="' . esc_url($dismiss_url) . '">' . __('No thanks', 'shareaholic') . '</a>
       </p>
     </div>';
@@ -200,7 +260,6 @@ class ShareaholicAdmin {
     }
   }
 
-
   /**
    * The actual function in charge of drawing the meta boxes.
    */
@@ -251,7 +310,6 @@ class ShareaholicAdmin {
       }
     }
   }
-  
 
   /**
    * Enqueing styles and scripts for the admin panel
@@ -260,11 +318,9 @@ class ShareaholicAdmin {
    */
   public static function enqueue_scripts() {
     if (isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
-      wp_enqueue_style('shareaholic_application_css', ShareaholicUtilities::asset_url_admin('assets/application.css'), false,  ShareaholicUtilities::get_version());
       wp_enqueue_style('shareaholic_bootstrap_css', plugins_url('assets/css/bootstrap.css', __FILE__), false,  ShareaholicUtilities::get_version());
+      wp_enqueue_style('shareaholic_reveal_css', plugins_url('assets/css/reveal.css', __FILE__), false,  ShareaholicUtilities::get_version());
       wp_enqueue_style('shareaholic_main_css', plugins_url('assets/css/main.css', __FILE__), false,  ShareaholicUtilities::get_version());
-      wp_enqueue_style('shareaholic_open_sans_css', '//fonts.googleapis.com/css?family=Open+Sans:400,300,700');
-
       wp_enqueue_script('shareholic_utilities_js', ShareaholicUtilities::asset_url_admin('assets/pub/utilities.js'), false, ShareaholicUtilities::get_version());
       wp_enqueue_script('shareholic_bootstrap_js', plugins_url('assets/js/bootstrap.min.js', __FILE__), false,  ShareaholicUtilities::get_version());
       wp_enqueue_script('shareholic_jquery_custom_js', plugins_url('assets/js/jquery_custom.js', __FILE__), false,  ShareaholicUtilities::get_version());
@@ -279,13 +335,16 @@ class ShareaholicAdmin {
    * Puts a new menu item under Settings.
    */
   public static function admin_menu() {
+    
+    $icon_svg = ShareaholicUtilities::get_icon_svg();
+    
     add_menu_page(
       __('Shareaholic Settings', 'shareaholic'),
       __('Shareaholic', 'shareaholic'),
       'manage_options',
       'shareaholic-settings',
       array('ShareaholicAdmin', 'admin'),
-      SHAREAHOLIC_ASSET_DIR . 'img/shareaholic_16x16_2.png'
+      $icon_svg
     );
     add_submenu_page(
       'shareaholic-settings',
@@ -303,7 +362,15 @@ class ShareaholicAdmin {
       'shareaholic-advanced',
       array('ShareaholicAdmin', 'advanced_admin')
     );
-  }
+    add_submenu_page(
+      'shareaholic-settings',
+      __('Go Premium', 'shareaholic'),
+      __('<span style="color: #FCB214;">Go Premium</span>', 'shareaholic'),
+      'activate_plugins',
+      'shareaholic-premium',
+      array('ShareaholicAdmin', 'go_premium')
+    );
+  }  
 
   /**
    * Updates the information if passed in and sets save message.
@@ -370,7 +437,7 @@ class ShareaholicAdmin {
         'image_url' => SHAREAHOLIC_ASSET_DIR . 'img'
       ));
     }
-
+    
     if(isset($_POST['reset_settings'])
       && $_POST['reset_settings'] == 'Y'
       && check_admin_referer($action, 'nonce_field')) {
@@ -484,62 +551,63 @@ class ShareaholicAdmin {
   /**
    * This function is in charge of determining whether to send the "get started" email
    */
-   public static function welcome_email() {
+   public static function welcome_email() {     
      // check whether email has been sent
-     if (ShareaholicUtilities::get_option('welcome_email_sent') != true) {
-       ShareaholicAdmin::send_welcome_email();
+     if (ShareaholicUtilities::get_option('welcome_email_sent') != "y") { 
        // set flag that the email has been sent
-       ShareaholicUtilities::update_options(array('welcome_email_sent' => true));
+       ShareaholicUtilities::update_options(array('welcome_email_sent' => "y"));
+       // send email
+       ShareaholicAdmin::send_welcome_email();
      }
    }
+  
   
   /**
    * This function is in charge of sending the "get started" email
    */
   public static function send_welcome_email() {
-    $site_url = get_bloginfo('url');
-    $api_key = ShareaholicUtilities::get_option('api_key');
-    $payment_url = 'https://shareaholic.com/account';
-    $shr_wp_dashboard_url = admin_url('admin.php?page=shareaholic-settings');
-    $sign_up_link = 'https://shareaholic.com/publisher_tools/'.ShareaholicUtilities::get_option('api_key').'/verify?verification_key='.ShareaholicUtilities::get_option('verification_key').'&redirect_to='.'https://shareaholic.com/publisher_tools/'.ShareaholicUtilities::get_option('api_key').'/websites/edit?verification_key='.ShareaholicUtilities::get_option('verification_key');
+    if (function_exists('wp_mail')) {
+      $site_url = get_bloginfo('url');
+      $api_key = ShareaholicUtilities::get_option('api_key');
+      $payment_url = 'https://shareaholic.com/user-settings/payments';
+      $shr_wp_dashboard_url = esc_url(admin_url("admin.php?page=shareaholic-settings"));
+      $sign_up_link = esc_url(admin_url("admin.php?shareaholic_redirect_url=shareaholic.com/signup/"));    
+      $to = get_bloginfo('admin_email');
+      $subject = 'Thank you for installing Shareaholic Plugin for WordPress!';
+      $message = "
+      <p>Hi there,</p>
     
-    $to = get_bloginfo('admin_email');
-    $subject = 'Thank you for installing Shareaholic for WordPress!';
-    $message = "
-    <p>Hi there,</p>
-    
-    <p>Thank you for installing Shareaholic on $site_url! You are one step closer to growing your website traffic and revenue with our award winning  all-in-one content amplification platform. Completing your set-up is easy, just follow these three easy steps and you'll be ready to go:</p>
+      <p>Thank you for installing Shareaholic on $site_url! You are one step closer to growing your website. Completing your set-up is easy, just follow these three easy steps and you'll be ready to go:</p>
         
-    <p><strong>Step 1. Customize to your needs</strong><br /><br />
+      <p><strong>Step 1. Customize to your needs</strong><br /><br />
     
-    Personalize the design of the Share Buttons and Related Content Recommendations App to match your website using the \"Customize\" buttons in your <a href='$shr_wp_dashboard_url'>Shareaholic App Manager in WordPress</a>, then choose where you want them to appear on your website using the checkboxes!
+      Personalize the various apps (ex. Share Buttons and Related Content) to match your website design using the \"Customize\" buttons in your <a href='$shr_wp_dashboard_url'>Shareaholic App Manager in WordPress</a>, then choose where you want them to appear on your website using the checkboxes!
             
-    <p><strong>Step 2: Sign-up for a free Shareaholic account</strong><br /><br />
+      <p><strong>Step 2: Create your free Shareaholic account</strong><br /><br />
     
-    This will allow you to add more (free!) features like Analytics, Floating Share Buttons, Follow Buttons and more. <strong><a href='$sign_up_link'>Click here to sign-up</a></strong>, or <a href='$sign_up_link'>login to an existing Shareaholic account</a> and we'll automatically sync the plugin settings with your account.</p>
+      This will enable you to add more features like Analytics, Floating Share Buttons, Share Buttons for Images, Follow Buttons and more. <strong><a href='$sign_up_link'>Click here to sign-up</a></strong>, or <a href='$sign_up_link'>login to an existing Shareaholic account</a> and we'll automatically sync the plugin settings with your account.</p>
     
-    <p><strong>Step 3: Control your earnings and setup how you would like to get paid</strong><br /><br />
+      <p><strong>Step 3: Control your earnings and setup how you would like to get paid</strong><br /><br />
     
-    Decide how much you would like to earn from Promoted Content (native ads that appear in the Related Content app) and other monetization apps by editing your settings in the \"Monetization\" section of the plugin. Next, visit the \"Username and email address\" <a href='$payment_url'>section of your Shareaholic.com account</a> to add your PayPal information, so you can collect the revenue you generate from Shareaholic.</p>
+      Decide how much you would like to earn from Promoted Content (native ads that appear in the Related Content app) and other monetization apps by editing your settings in the \"Monetization\" section of the plugin. Next, visit the \"Payments\" <a href='$payment_url'>section of your Shareaholic.com account</a> to add your PayPal information, so you can collect the revenue your site earns.</p>
     
-    <p>Have questions? Simply reply to this email and we will help you out!</p>
+      <p>Have questions? Simply reply to this email and we will help you out!</p>
 
-    <p>Let's get started,<br /><br />
+      <p>Let's get started,<br /><br />
     
-    Mary Anne & Cameron<br />
-    Shareaholic Happiness Team<br />
-    <a href='http://support.shareaholic.com'>support.shareaholic.com</a><br /><br />
-    <img width='200' height='36' src='https://shareaholic.com/assets/layouts/shareaholic-logo.png' alt='Shareaholic' title='Shareaholic' /><br />
-    <p style='font-size:12px;color:#C3C2C2;'>This is an automated, one-time e-mail sent by your WordPress CMS directly to the website admin</p><br />
-    <img width='0' height='0' src='https://www.google-analytics.com/collect?v=1&tid=UA-12964573-6&cid=$api_key&t=event&ec=email&ea=open&el=$site_url-$api_key&cs=lifecycle&cm=email&cn=wp_welcome_email' />";
-    
-    $headers = "From: Shareaholic <hello@shareaholic.com>\r\n";
-    $headers.= "Reply-To: Mary Anne <hello@shareaholic.com>\r\n";
-    $headers.= "X-Mailer: PHP/" . phpversion() . "\r\n";
-    $headers.= "MIME-Version: 1.0\r\n";
-    $headers.= "Content-type: text/html; charset=utf-8\r\n";
-    
-    if (function_exists('wp_mail')){
+      The Shareaholic Team<br />
+      <a href='http://support.shareaholic.com'>support.shareaholic.com</a><br /><br />
+      <img width='200' height='36' src='https://shareaholic.com/assets/layouts/shareaholic-logo.png' alt='Shareaholic' title='Shareaholic' /><br />
+      <p style='font-size:12px;color:#C3C2C2;'>This is an automated, one-time e-mail sent by your WordPress CMS directly to the website admin</p><br />
+      <img width='0' height='0' src='https://www.google-analytics.com/collect?v=1&tid=UA-12964573-6&cid=$api_key&t=event&ec=email&ea=open&el=$site_url-$api_key&cs=lifecycle&cm=email&cn=wp_welcome_email' />";
+        
+      $headers = "From: Shareaholic <hello@shareaholic.com>\r\n";
+      $headers.= "Reply-To: Shareaholic <hello@shareaholic.com>\r\n";
+      $headers.= "X-Mailer: PHP/" . phpversion() . "\r\n";
+      $headers.= "MIME-Version: 1.0\r\n";
+      $headers.= "Content-type: text/html; charset=utf-8\r\n";
+      
+      // Send email
       wp_mail($to, $subject, $message, $headers);
     }
   }
@@ -548,7 +616,7 @@ class ShareaholicAdmin {
     global $pagenow;
     if ($pagenow == 'options-permalink.php') {
       $css_class = 'error';
-      $message = 'WARNING: changing the permalink structure will reset the share counts for your pages.';
+      $message = 'WARNING: Updating your permalink structure will reset the social share counts for your pages. <a href="https://shareaholic.com/plans">Upgrade to Shareaholic Premium</a> to enable <a href="https://support.shareaholic.com/hc/en-us/articles/115002083586">Share Count Recovery</a>.';
       echo "<div class='$css_class'><p style='font-weight: bold;'>";
       _e($message, 'Shareaholic');
       echo '</p></div>';

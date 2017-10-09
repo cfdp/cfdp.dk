@@ -293,6 +293,10 @@ function cimy_plugin_install () {
 			$options["wp_hidden_fields"][] = "username";
 		}
 
+		if (version_compare($options['version'], "2.7.1", "<=") === true) {
+			$options["email_include_plaintext_password"] = false;
+		}
+
 		$options['version'] = $cimy_uef_version;
 
 		cimy_set_options($options);
@@ -333,9 +337,9 @@ function cimy_force_signup_table_creation() {
 			$charset_collate .= " COLLATE $wpdb->collate";
 	}
 
-	if ($wpdb->get_var("SHOW TABLES LIKE '".$wpdb->prefix."signups'") != $wpdb->prefix."signups") {
+	if ($wpdb->get_var("SHOW TABLES LIKE '".$wpdb->base_prefix."signups'") != $wpdb->base_prefix."signups") {
 
-		$sql = "CREATE TABLE ".$wpdb->prefix."signups (
+		$sql = "CREATE TABLE ".$wpdb->base_prefix."signups (
 			domain varchar(200) NOT NULL default '',
 			path varchar(100) NOT NULL default '',
 			title longtext NOT NULL,
@@ -378,6 +382,7 @@ function cimy_manage_db($command) {
 		'confirm_email' => false,
 		'password_meter' => false,
 		'mail_include_fields' => false,
+		'email_include_plaintext_password' => false,
 		'redirect_to' => '',
 		'file_fields' => array(
 			'show_in_reg' => 0,
@@ -602,11 +607,11 @@ function cimy_set_options($options) {
 function cimy_uef_get_meta_from_user_login($user_login) {
 	global $wpdb;
 
-	return $wpdb->get_row($wpdb->prepare("SELECT user_login, user_email, meta FROM ".$wpdb->prefix."signups WHERE user_login = %s AND active = %d", $user_login, 0), ARRAY_A);
+	return $wpdb->get_row($wpdb->prepare("SELECT user_login, user_email, meta FROM ".$wpdb->base_prefix."signups WHERE user_login = %s AND active = %d", $user_login, 0), ARRAY_A);
 }
 
 function cimy_uef_get_meta_from_url($domain, $path) {
 	global $wpdb;
 
-	return $wpdb->get_row($wpdb->prepare("SELECT user_login, user_email, meta FROM ".$wpdb->prefix."signups WHERE domain = %s AND path = %s AND active = %d", $domain, $path, 0), ARRAY_A);
+	return $wpdb->get_row($wpdb->prepare("SELECT user_login, user_email, meta FROM ".$wpdb->base_prefix."signups WHERE domain = %s AND path = %s AND active = %d", $domain, $path, 0), ARRAY_A);
 }

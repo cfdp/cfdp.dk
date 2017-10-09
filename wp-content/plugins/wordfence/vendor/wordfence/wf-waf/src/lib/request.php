@@ -4,6 +4,8 @@ interface wfWAFRequestInterface {
 
 	public function getBody();
 	
+	public function getRawBody();
+	
 	public function getMd5Body();
 
 	public function getQueryString();
@@ -81,6 +83,14 @@ class wfWAFRequest implements wfWAFRequestInterface {
 		list($headersString, $bodyString) = explode("\n\n", $requestString, 2);
 		$headersString = trim($headersString);
 		$bodyString = trim($bodyString);
+		
+		if (defined('WFWAF_DISABLE_RAW_BODY') && WFWAF_DISABLE_RAW_BODY) {
+			$request->setRawBody('');
+		}
+		else {
+			$request->setRawBody($bodyString);
+		}
+		
 		$headers = explode("\n", $headersString);
 		// Assume first is method
 		if (preg_match('/^([a-z]+) (.*?) HTTP\/1.[0-9]/i', $headers[0], $matches)) {
@@ -248,6 +258,13 @@ class wfWAFRequest implements wfWAFRequestInterface {
 		$request->setMetadata(array());
 
 		$request->setBody(wfWAFUtils::stripMagicQuotes($_POST));
+		if (defined('WFWAF_DISABLE_RAW_BODY') && WFWAF_DISABLE_RAW_BODY) {
+			$request->setRawBody('');
+		}
+		else {
+			$request->setRawBody(wfWAFUtils::rawPOSTBody());
+		}
+		
 		$request->setQueryString(wfWAFUtils::stripMagicQuotes($_GET));
 		$request->setCookies(wfWAFUtils::stripMagicQuotes($_COOKIE));
 		$request->setFiles(wfWAFUtils::stripMagicQuotes($_FILES));
@@ -323,6 +340,7 @@ class wfWAFRequest implements wfWAFRequestInterface {
 
 	private $auth;
 	private $body;
+	private $rawBody;
 	private $md5Body;
 	private $cookies;
 	private $fileNames;
@@ -369,6 +387,10 @@ class wfWAFRequest implements wfWAFRequestInterface {
 			return $this->_arrayValueByKeys($this->body, $args);
 		}
 		return $this->body;
+	}
+	
+	public function getRawBody() {
+		return $this->rawBody;
 	}
 	
 	public function getMd5Body() {
@@ -421,7 +443,7 @@ class wfWAFRequest implements wfWAFRequestInterface {
 	 * @param string|null $baseKey The base key used when recursing.
 	 * @return string
 	 */
-	public function getCookieString($cookies = null, $baseKey = null) {
+	public function getCookieString($cookies = null, $baseKey = null, $preventRedaction = false) {
 		if ($cookies == null) {
 			$cookies = $this->getCookies();
 		}
@@ -442,8 +464,11 @@ class wfWAFRequest implements wfWAFRequestInterface {
 				$nestedCookies = $this->getCookieString($cookieValue, $resolvedName);
 				$cookieString .= $nestedCookies;
 			}
-			else
-			{
+			else {
+				if (strpos($resolvedName, 'wordpress_') === 0 && !$preventRedaction) {
+					$cookieValue = '<redacted>';
+				}
+				
 				$cookieString .= $resolvedName . '=' . urlencode($cookieValue) . '; ';
 			}
 		}
@@ -523,7 +548,7 @@ class wfWAFRequest implements wfWAFRequestInterface {
 	 * @return string
 	 */
 	public function highlightFailedParams($failedParams = array(), $highlightParamFormat = '[param]%s[/param]',
-	                                      $highlightMatchFormat = '[match]%s[/match]') {
+	                                      $highlightMatchFormat = '[match]%s[/match]', $preventRedaction = false) {
 		$highlights = array();
 
 		// Cap at 47.5kb
@@ -597,7 +622,7 @@ class wfWAFRequest implements wfWAFRequestInterface {
 				switch (wfWAFUtils::strtolower($header)) {
 					case 'cookie':
 						// TODO: Hook up highlights to cookies
-						$request .= 'Cookie: ' . trim($this->getCookieString()) . "\n";
+						$request .= 'Cookie: ' . trim($this->getCookieString(null, null, $preventRedaction)) . "\n";
 						break;
 
 					case 'host':
@@ -607,7 +632,7 @@ class wfWAFRequest implements wfWAFRequestInterface {
 					case 'authorization':
 						$hasAuth = true;
 						if ($auth) {
-							$request .= 'Authorization: Basic ' . base64_encode($auth['user'] . ':' . $auth['password']) . "\n";
+							$request .= 'Authorization: Basic ' . ($preventRedaction ? base64_encode($auth['user'] . ':' . $auth['password']) : '<redacted>') . "\n";
 						}
 						break;
 
@@ -619,7 +644,7 @@ class wfWAFRequest implements wfWAFRequestInterface {
 		}
 
 		if (!$hasAuth && $auth) {
-			$request .= 'Authorization: Basic ' . base64_encode($auth['user'] . ':' . $auth['password']) . "\n";
+			$request .= 'Authorization: Basic ' . ($preventRedaction ? base64_encode($auth['user'] . ':' . $auth['password']) : '<redacted>') . "\n";
 		}
 
 		$body = $this->getBody();
@@ -823,6 +848,10 @@ FORM;
 	public function setBody($body) {
 		$this->body = $body;
 		$this->setMd5Body($this->md5EncodeKeys($body));
+	}
+	
+	public function setRawBody($rawBody) {
+		$this->rawBody = $rawBody;
 	}
 	
 	/**

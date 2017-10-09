@@ -4,16 +4,12 @@
 *
 * Allow the user to change the default options
 *
-* @package	Code-Embed
+* @package	simple-embed-code
 * @since	1.6
 */
 ?>
 <div class="wrap">
-<?php
-global $wp_version;
-if ( ( float ) $wp_version >= 4.3 ) { $heading = '1'; } else { $heading = '2'; }
-?>
-<h<?php echo $heading; ?>><?php _e( 'Code Embed Search', 'simple-embed-code' ); ?></h<?php echo $heading; ?>>
+<h1><?php _e( 'Code Embed Search', 'simple-embed-code' ); ?></h1>
 
 <?php
 echo '<p>' . __( 'Enter the suffix to search for below and press the \'Search\' button to view the results. Further help can be found by clicking on the Help tab at the top right-hand of the screen.', 'simple-embed-code' ) . '</p>';

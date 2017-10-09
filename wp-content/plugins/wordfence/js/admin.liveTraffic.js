@@ -25,8 +25,7 @@
 			new GroupByModel('statusCode', 'HTTP Response Code'),
 			new GroupByModel('action', 'Firewall Response', 'enum', ['ok', 'throttled', 'lockedOut', 'blocked', 'blocked:waf']),
 			new GroupByModel('ip', 'IP'),
-			urlGroupBy,
-			new GroupByModel('host', 'Host')
+			urlGroupBy
 		];
 
 		self.presetFiltersOptions = ko.observableArray([
@@ -142,9 +141,15 @@
 		};
 		self.reloadListings = function(options) {
 			pullDownListings(options, function(listings) {
+				var groupByKO = self.groupBy();
+				var groupBy = '';
+				if (groupByKO) {
+					groupBy = groupByKO.param();
+				}
+				
 				var newListings = [];
 				for (var i = 0; i < listings.length; i++) {
-					newListings.push(new ListingModel(listings[i]));
+					newListings.push(new ListingModel(listings[i], groupBy));
 				}
 				self.listings(newListings);
 			})
@@ -284,7 +289,7 @@
 		self.sql = ko.observable('');
 	};
 
-	var ListingModel = function(data) {
+	var ListingModel = function(data, groupBy) {
 		var self = this;
 
 		self.id = ko.observable(0);
@@ -330,6 +335,10 @@
 				self[prop] !== undefined && self[prop](data[prop]);
 			}
 		}
+		
+		if (data['lastHit'] !== undefined) {
+			self['ctime'](data['lastHit']); 
+		}
 
 		// Use the same format as these update.
 		self.timeAgo = ko.pureComputed(function() {
@@ -351,6 +360,26 @@
 		});
 
 		self.firewallAction = ko.pureComputed(function() {
+			//Grouped by firewall action listing
+			if (groupBy == 'action') {
+				switch (self.action()) {
+					case 'lockedOut':
+						return 'Locked out from logging in';
+					case 'blocked:waf-always':
+						return 'Blocked by the Wordfence Application Firewall and plugin settings';
+					case 'blocked:wordfence':
+						return 'Blocked by Wordfence plugin settings';
+					case 'blocked:wfsnrepeat':
+					case 'blocked:wfsn':
+						return 'Blocked by the Wordfence Security Network';
+					case 'blocked:waf':
+						return 'Blocked by the Wordfence Web Application Firewall';
+					default:
+						return 'Blocked by Wordfence';
+				}
+			}
+			
+			//Standard listing
 			var desc = '';
 			switch (self.action()) {
 				case 'lockedOut':
@@ -648,6 +677,8 @@
 		liveTrafficWrapper.find('form').submit();
 		WFAD.mode = 'liveTraffic';
 
+		var legendWrapper = $('#wf-live-traffic-legend-wrapper');
+		var placeholder = $('#wf-live-traffic-legend-placeholder');
 		var legend = $('#wf-live-traffic-legend');
 		var adminBar = $('#wpadminbar');
 		var liveTrafficListings = $('#wf-lt-listings');
@@ -656,10 +687,22 @@
 		var loadingListings = false;
 		$(window).on('scroll', function() {
 			var win = $(this);
-			if (liveTrafficWrapper.offset().top < win.scrollTop() + adminBar.outerHeight() + 20) {
+			var needsSticky = (WFAD.isSmallScreen ? (legendWrapper.offset().top < win.scrollTop() + 10) : (legendWrapper.offset().top < win.scrollTop() + adminBar.outerHeight() + 10));
+			if (needsSticky) {
+				var legendWidth = legend.width();
+				var legendHeight = legend.height();
+				
 				legend.addClass('sticky');
+				legend.css('width', legendWidth);
+				legend.css('height', legendHeight);
+				placeholder.addClass('sticky');
+				placeholder.css('width', legendWidth);
+				placeholder.css('height', legendHeight);
 			} else {
 				legend.removeClass('sticky');
+				legend.css('width', 'auto');
+				legend.css('height', 'auto');
+				placeholder.removeClass('sticky');
 			}
 
 			var firstRow = liveTrafficListings.children().first();

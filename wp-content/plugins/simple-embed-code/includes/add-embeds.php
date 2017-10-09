@@ -4,7 +4,7 @@
 *
 * Functions to add embed code to posts
 *
-* @package	Code-Embed
+* @package	simple-embed-code
 */
 
 /**

@@ -1,6 +1,10 @@
 <?php
 class wfDB {
 	public $errorMsg = false;
+	public static function networkPrefix() {
+		global $wpdb;
+		return $wpdb->get_blog_prefix(0);
+	}
 	public function __construct(){
 	}
 	public function querySingle(){
@@ -68,7 +72,13 @@ class wfDB {
 	}
 	public function createKeyIfNotExists($table, $col, $keyName){
 		$table = $this->prefix() . $table;
-		$exists = $this->querySingle("show tables like '$table'");
+		
+		$exists = $this->querySingle(<<<SQL
+SELECT TABLE_NAME FROM information_schema.TABLES
+WHERE TABLE_SCHEMA=DATABASE()
+AND TABLE_NAME='%s'
+SQL
+			, $table);
 		$keyFound = false;
 		if($exists){
 			$q = $this->querySelect("show keys from $table");

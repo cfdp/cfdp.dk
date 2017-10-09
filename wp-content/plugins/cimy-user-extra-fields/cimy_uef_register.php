@@ -58,7 +58,7 @@ function cimy_register_overwrite_password($password) {
 			// seems useless since this code cannot be reached with a bad key anyway you never know
 			$key = esc_sql($key);
 
-			$sql = "SELECT active, meta FROM ".$wpdb->signups." WHERE activation_key='".$key."'";
+			$sql = "SELECT active, meta FROM ".$wpdb->base_prefix."signups WHERE activation_key='".$key."'";
 			$data = $wpdb->get_results($sql);
 
 			// is there something?
@@ -111,19 +111,19 @@ function cimy_register_user_extra_fields($user_id, $password="", $meta=array()) 
 
 	// ok ok this is yet another call from wp_create_user function under cimy_uef_activate_signup, we are not yet ready for this, aboooort!
 	if ($user_signups) {
-		$signup = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."signups WHERE user_login = %s AND active = 0", $user_login));
+		$signup = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".$wpdb->base_prefix."signups WHERE user_login = %s AND active = 0", $user_login));
 		if (!empty($signup))
 			return;
 	}
 	if (!empty($meta)) {
-		$meta_db = $wpdb->get_var($wpdb->prepare("SELECT meta FROM ".$wpdb->prefix."signups WHERE user_login = %s", $user_login));
+		$meta_db = $wpdb->get_var($wpdb->prepare("SELECT meta FROM ".$wpdb->base_prefix."signups WHERE user_login = %s", $user_login));
 		$meta_db = unserialize($meta_db);
 		// password detected, kill it!
 		if (!empty($meta_db['cimy_uef_wp_PASSWORD'])) {
 			unset($meta_db['cimy_uef_wp_PASSWORD']);
 			if (!empty($meta_db['cimy_uef_wp_PASSWORD2']))
 				unset($meta_db['cimy_uef_wp_PASSWORD2']);
-			$wpdb->update($wpdb->prefix."signups", array('meta' => serialize($meta_db)), array('user_login' => $user_login));
+			$wpdb->update($wpdb->base_prefix."signups", array('meta' => serialize($meta_db)), array('user_login' => $user_login));
 		}
 	}
 
@@ -269,11 +269,11 @@ function cimy_register_user_extra_fields($user_id, $password="", $meta=array()) 
 	}
 
 	if ($user_signups) {
-		$sql = $wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID=%d", $user_id);
-		$saved_user = array_shift($wpdb->get_results($sql));
+		$query_result = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID=%d", $user_id));
+		$saved_user = array_shift($query_result);
 		$key = substr( md5( time() . rand() . $saved_user->user_email ), 0, 16 );
 
-		$wpdb->insert($wpdb->prefix."signups", array(
+		$wpdb->insert($wpdb->base_prefix."signups", array(
 			'user_login' => $saved_user->user_login,
 			'user_email' => $saved_user->user_email,
 			'registered' => $saved_user->user_registered,
@@ -281,11 +281,8 @@ function cimy_register_user_extra_fields($user_id, $password="", $meta=array()) 
 			'activation_key' => $key,
 			'meta' => serialize($meta),
 		));
-		$sql = $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID=%d", $user_id);
-		$wpdb->query($sql);
-
-		$sql = $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id=%d", $user_id);
-		$wpdb->query($sql);
+		$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->users WHERE ID=%d", $user_id));
+		$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id=%d", $user_id));
 
 		cimy_signup_user_notification($saved_user->user_login, $saved_user->user_email, $key, serialize($meta));
 	}
@@ -311,13 +308,10 @@ function cimy_registration_check_mu_wrapper($data) {
 
 // added for profile rules check
 function cimy_profile_check_wrapper($errors, $update, $user) {
-	$errors = cimy_registration_check($user->user_login, $user->user_email, $errors);
-
-	if (!empty($errors))
-		$update = false;
+	$errors = cimy_registration_check($user->user_login, $user->user_email, $errors, $update);
 }
 
-function cimy_registration_check($user_login, $user_email, $errors) {
+function cimy_registration_check($user_login, $user_email, $errors, $from_profile = false) {
 	global $wpdb, $rule_canbeempty, $rule_email, $rule_maxlen, $fields_name_prefix, $wp_fields_name_prefix, $rule_equalto_case_sensitive, $apply_equalto_rule, $cimy_uef_domain, $cimy_uef_file_types, $rule_equalto_regex, $user_level, $cimy_uef_file_images_types, $wp_hidden_fields, $rule_maxlen_is_str;
 
 	if (cimy_is_at_least_wordpress35())
@@ -348,9 +342,6 @@ function cimy_registration_check($user_login, $user_email, $errors) {
 
 	$extra_fields = get_cimyFields(false, true);
 	$wp_fields = get_cimyFields(true);
-	$from_profile = false;
-	if (!empty($_POST["from"]) && $_POST["from"] == "profile")
-		$from_profile = true;
 	$i = 1;
 
 	// do first for the WP fields then for EXTRA fields

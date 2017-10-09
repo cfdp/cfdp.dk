@@ -158,6 +158,9 @@ class SimpleTags_Client_Autolinks {
 
 		$z = 0;
 		foreach ( (array) self::$link_tags as $term_name => $term_link ) {
+			// Force string for tags "number"
+			$term_name = (string) $term_name;
+			
 			// Exclude terms ? next...
 			if ( in_array( $term_name, (array) $excludes_terms ) ) {
 				continue;
@@ -219,7 +222,7 @@ class SimpleTags_Client_Autolinks {
 		}
 
 		// get only the body tag with its contents, then trim the body tag itself to get only the original content
-		$content = mb_substr( $dom->saveXML( $xpath->query( '//body' )->item( 0 ) ), 6, - 7, "UTF-8" );
+		$content = mb_substr( $dom->saveHTML( $xpath->query( '//body' )->item( 0 ) ), 6, - 7, "UTF-8" );
 	}
 
 	/**

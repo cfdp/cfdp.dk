@@ -17,14 +17,29 @@ function wp_new_user_notification($user_id, $plaintext_pass = null, $notify = ''
 
 	$options = cimy_get_options();
 	if (!is_multisite()) {
-		if (!$options["confirm_email"])
-			wp_new_user_notification_original($user_id, $plaintext_pass, $options["mail_include_fields"], false, cimy_wpml_translate_string("a_opt_welcome_email", $options["welcome_email"]), $notify);
-		// if confirmation email is enabled delete the default_password_nag but checks first if has not been done on top of this function!
-		else if (!isset($_POST["cimy_uef_wp_PASSWORD"]))
+		if (!$options["confirm_email"]) {
+			wp_new_user_notification_original($user_id, 
+											$plaintext_pass, 
+											$options["mail_include_fields"], 
+											false, 
+											cimy_wpml_translate_string("a_opt_welcome_email", $options["welcome_email"]), 
+											$notify, 
+											$options["email_include_plaintext_password"]
+											);
+		} else if (!isset($_POST["cimy_uef_wp_PASSWORD"])) {
+			// if confirmation email is enabled delete the default_password_nag
+			// but checks first if has not been done on top of this function!
 			delete_user_meta($user_id, 'default_password_nag');
-	}
-	else {
-		wp_new_user_notification_original($user_id, $plaintext_pass, $options["mail_include_fields"], $notify);
+		}
+	} else {
+		wp_new_user_notification_original($user_id, 
+										$plaintext_pass, 
+										$options["mail_include_fields"], 
+										false, 
+										'',
+										$notify, 
+										$options["email_include_plaintext_password"]
+										);
 	}
 }
 endif;
@@ -32,11 +47,18 @@ endif;
 add_filter('send_password_change_email', 'cimy_uef_send_password_change_email', 10, 3);
 
 function cimy_uef_send_password_change_email($send, $user, $userdata) {
-	return empty($_POST["cimy_uef_wp_PASSWORD"]) ? true : false;
+	return empty($_POST["cimy_uef_wp_PASSWORD"]) ? true && !empty($send) : false;
 }
 
-function wp_new_user_notification_original($user_id, $plaintext_pass = null, $include_fields = false, $activation_data = false, $welcome_email = '', $notify = '') {
-	global $wpdb, $wp_hasher;
+function wp_new_user_notification_original($user_id, 
+											$plaintext_pass = null, 
+											$include_fields = false, 
+											$activation_data = false, 
+											$welcome_email = '', 
+											$notify = '', 
+											$include_plaintext_password = false
+											) {
+	global $wpdb, $wp_hasher, $cimy_uef_domain;
 	$user = new WP_User($user_id);
 
 	$user_login = stripslashes($user->user_login);
@@ -68,7 +90,8 @@ function wp_new_user_notification_original($user_id, $plaintext_pass = null, $in
 	}
 
 	$message = str_replace("USERNAME", $user_login, $welcome_email);
-	if ( empty($plaintext_pass) ) {
+
+	if (empty($plaintext_pass)) {
 		// Generate something random for a password reset key.
 		$key = wp_generate_password( 20, false );
 
@@ -86,8 +109,10 @@ function wp_new_user_notification_original($user_id, $plaintext_pass = null, $in
 		$pass_link = __('To set your password, visit the following address:') . "\r\n\r\n";
 		$pass_link .= '<' . network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user->user_login), 'login') . ">\r\n\r\n";
 		$message = str_replace("PASSWORD", $pass_link, $message);
-	} else {
+	} else if ($include_plaintext_password) {
 		$message = str_replace("PASSWORD", $plaintext_pass, $message);
+	} else {
+		$message = str_replace("PASSWORD", __('Your chosen password.', $cimy_uef_domain), $message);
 	}
 
 	if ($include_fields) {
@@ -283,9 +308,7 @@ function cimy_uef_activate($message) {
 function cimy_uef_activate_signup($key) {
 	global $wpdb, $current_site, $cimy_uef_domain;
 
-	// seems no more required since WP 3.1
-// 	require_once( ABSPATH . WPINC . '/registration.php');
-	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM ".$wpdb->prefix."signups WHERE activation_key = %s", $key) );
+	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM ".$wpdb->base_prefix."signups WHERE activation_key = %s", $key) );
 
 	if ( empty($signup) )
 		return new WP_Error('invalid_key', __('Invalid activation key.', $cimy_uef_domain));
@@ -300,7 +323,7 @@ function cimy_uef_activate_signup($key) {
 	if (!empty($meta["cimy_uef_wp_PASSWORD"]))
 		$password = $meta["cimy_uef_wp_PASSWORD"];
 	else
-		$password = wp_generate_password();
+		$password = wp_generate_password(12, false);
 
 	$user_id = username_exists($user_login);
 
@@ -318,18 +341,26 @@ function cimy_uef_activate_signup($key) {
 
 	cimy_register_user_extra_fields($user_id, $password, $meta);
 
-	if ((empty($meta["cimy_uef_wp_PASSWORD"])) && ($user_already_exists))
+	if (empty($meta["cimy_uef_wp_PASSWORD"]) && $user_already_exists) {
 		update_user_option( $user_id, 'default_password_nag', true, true ); //Set up the Password change nag.
+	}
 
 	$now = current_time('mysql', true);
 
-	$wpdb->update( $wpdb->prefix."signups", array('active' => 1, 'activated' => $now), array('activation_key' => $key) );
+	$wpdb->update( $wpdb->base_prefix."signups", array('active' => 1, 'activated' => $now), array('activation_key' => $key) );
 
 	if ($user_already_exists)
 		return new WP_Error( 'user_already_exists', __( 'That username is already activated.', $cimy_uef_domain), $signup);
 
 	$options = cimy_get_options();
-	wp_new_user_notification_original($user_id, $password, $options["mail_include_fields"], $meta, cimy_wpml_translate_string("a_opt_welcome_email", $options["welcome_email"]), 'both');
+	wp_new_user_notification_original($user_id, 
+									$password, 
+									$options["mail_include_fields"], 
+									$meta, 
+									cimy_wpml_translate_string("a_opt_welcome_email", $options["welcome_email"]), 
+									'both', 
+									$options["email_include_plaintext_password"]
+									);
 	return array('user_id' => $user_id, 'password' => $password, 'meta' => $meta);
 }
 
@@ -337,14 +368,14 @@ function cimy_check_user_on_signups($errors, $user_name, $user_email) {
 	global $wpdb, $cimy_uef_domain;
 
 	// Has someone already signed up for this username?
-	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM ".$wpdb->prefix."signups WHERE user_login = %s", $user_name) );
+	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM ".$wpdb->base_prefix."signups WHERE user_login = %s", $user_name) );
 	if ( $signup != null ) {
 		$registered_at =  mysql2date('U', $signup->registered);
 		$now = current_time( 'timestamp', true );
 		$diff = $now - $registered_at;
 		// If registered more than two days ago or already approved and then deleted, cancel registration and let this signup go through.
 		if (($diff > 172800) || ($signup->active))
-			$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix."signups WHERE user_login = %s", $user_name) );
+			$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->base_prefix."signups WHERE user_login = %s", $user_name) );
 		else
 			$errors->add('user_name', __('That username is currently reserved but may be available in a couple of days.', $cimy_uef_domain));
 
@@ -352,12 +383,12 @@ function cimy_check_user_on_signups($errors, $user_name, $user_email) {
 			$errors->add('user_email_used', __('username and email used', $cimy_uef_domain));
 	}
 
-	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM ".$wpdb->prefix."signups WHERE user_email = %s", $user_email) );
+	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM ".$wpdb->base_prefix."signups WHERE user_email = %s", $user_email) );
 	if ( $signup != null ) {
 		$diff = current_time( 'timestamp', true ) - mysql2date('U', $signup->registered);
 		// If registered more than two days ago or already approved and then deleted, cancel registration and let this signup go through.
 		if (($diff > 172800) || ($signup->active))
-			$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix."signups WHERE user_email = %s", $user_email) );
+			$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->base_prefix."signups WHERE user_email = %s", $user_email) );
 		else
 			$errors->add('user_email', __('That email address has already been used. Please check your inbox for an activation email. It will become available in a couple of days if you do nothing.', $cimy_uef_domain));
 	}

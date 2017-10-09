@@ -3,8 +3,8 @@ Contributors: RavanH
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Comment%20Moderation%20E-mail%20to%20Post%20Author&item_number=0%2e1&no_shipping=0&tax=0&bn=PP%2dDonationsBF&charset=UTF%2d8&lc=us
 Tags: comments, moderation, comment, author, comment notification, comment moderation, comment moderation notification, comment moderation recipients, comment_moderation_recipients, comment moderation email, comment moderation e-mail, moderation queue, e-mail, email
 Requires at least: 3.7
-Tested up to: 4.0
-Stable tag: 0.4
+Tested up to: 4.8
+Stable tag: 0.5
 
 Send comment moderation notifications ONLY to the Author, not to the site Administration address any more.
 
@@ -20,16 +20,16 @@ This plugin changes that.
 
 Just install and activate it: All post comment moderation notifications will be sent **only** to each respective **Post Author**. If, by any chance, the post author has no moderation rights (Contributor level) *or* there is no author e-mail set then the default site e-mail address will still get the notification.
 
-Works on WordPress 3.7 and above in both Normal and Multi-site mode.
+WordPress Multisite compatible, per-site or network activated or as a must-use plugin.
 
 == Installation ==
 
-Hit [install now](http://coveredwebservices.com/wp-plugin-install/?plugin=comment-moderation-e-mail-to-post-author), provide your site home address and continue to log in on your own site. Easy, by Covered Web Service :) 
+Hit [install now](http://coveredwebservices.com/wp-plugin-install/?plugin=comment-moderation-e-mail-to-post-author), provide your site home address and continue to log in on your own site. Easy, by Covered Web Service :)
 
 == Frequently Asked Questions ==
 
 = I see no settings page =
-There is no settings page. The plugin will do only *one thing* : make comment moderation notifications go to the authors e-mail address, and no longer the site moderator address. 
+There is no settings page. The plugin will do only *one thing* : make comment moderation notifications go to the authors e-mail address, and no longer the site moderator address.
 
 = Nothing looks different. Is it working at all? =
 To test if it is working:
@@ -39,21 +39,24 @@ To test if it is working:
 3. Switch back to your normal browser window, verify that comment went into the moderation queue, verify that you as site administrator did not receive any moderation e-mail and then ask the post author if he/she did receive the moderation notification correctly :)
 
 = I get no messages =
-This plugin does not send any messages. It only changes the addressee of the comment moderation queue notifications that are sent by WordPress. 
+This plugin does not send any messages. It only changes the addressee of the comment moderation queue notifications that are sent by WordPress.
 
-If nobody get any of these notifications, disable the plugin and test again. You will probably still not get any notifications and the problem lies with WordPress not being able to send emails via PHP. There are other plugins or tutorials about server configuration that can help you with that... 
+If nobody get any of these notifications, disable the plugin and test again. You will probably still not get any notifications and the problem lies with WordPress not being able to send emails via PHP. There are other plugins or tutorials about server configuration that can help you with that...
 
-= Does this plugin work on WPMU / WP3+ Multi Site mode? =
+= Does this plugin work on WPMU / Multisite mode? =
 Yep, it was made for Multisite :)
 
-You can install it in /plugins/ and activate it *site-by-site* or *network wide*. Or you can upload it to /mu-plugins/ for automatic (Must-use) inclusion.
+You can install it in /plugins/ and activate it *site-by-site* or *network wide*. Or you can upload it to /mu-plugins/ for automatic (must-use) inclusion.
 
 == Upgrade Notice ==
 
-= 0.4 =
-WP 3.7+ compatibility
+= 0.5 =
+WP 4.8+ compatibility
 
 == Changelog ==
+
+= 0.5 =
+WP 4.8+ compatibility
 
 = 0.4 =
 New concept: filter comment_moderation_recipients available since WP 3.7
