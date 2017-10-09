@@ -58,13 +58,13 @@
     display: block;
     width: 14px;
     height: 14px;
-    background-image: url("http://cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-search.png");
+    background-image: url("//cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-search.png");
     background-size: 14px 14px;
     background-position: center center;
     background-repeat: repeat-x; }
     @media all and (-webkit-min-device-pixel-ratio: 1.5), all and (-o-min-device-pixel-ratio: 3 / 2), all and (min--moz-device-pixel-ratio: 1.5), all and (min-device-pixel-ratio: 1.5) {
       .nav .searchbar :after {
-        background-image: url("http://cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-search@2x.png"); } }
+        background-image: url("//cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-search@2x.png"); } }
   .nav .searchbar input {
     font-size: 14px;
     color: #999;
@@ -83,7 +83,7 @@
   width: 36px;
   height: 24px;
   margin: 27px 0 20px 0;
-  background-image: url("http://cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-english-flag.png");
+  background-image: url("//cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-english-flag.png");
   background-size: 36px 24px;
   background-position: center center;
   background-repeat: repeat-x;
@@ -91,7 +91,7 @@
   color: transparent; }
   @media all and (-webkit-min-device-pixel-ratio: 1.5), all and (-o-min-device-pixel-ratio: 3 / 2), all and (min--moz-device-pixel-ratio: 1.5), all and (min-device-pixel-ratio: 1.5) {
     .nav .icon-english-flag {
-      background-image: url("http://cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-english-flag@2x.png"); } }
+      background-image: url("//cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-english-flag@2x.png"); } }
   .nav .icon-english-flag:hover {
     -webkit-filter: brightness(89%);
     -moz-filter: brightness(89%);
