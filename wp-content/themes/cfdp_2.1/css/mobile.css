@@ -266,4 +266,35 @@ div#respond textarea#comment {
     margin-bottom: 2em; }
     .childCatPosts .post.grid_4 img {
       width: 100%;
-      height: auto; } }
+      height: auto; }
+  .widget_siteorigin-panels-postloop {
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: 1fr;
+    -ms-grid-columns: 1fr;
+    grid-gap: 20px; }
+    .widget_siteorigin-panels-postloop .post:nth-child(1) {
+      grid-column: 1;
+      -ms-grid-column: 1;
+      grid-row: 1;
+      -ms-grid-row: 1; }
+    .widget_siteorigin-panels-postloop .post:nth-child(2) {
+      grid-column: 1;
+      -ms-grid-column: 1;
+      grid-row: 2;
+      -ms-grid-row: 2; }
+    .widget_siteorigin-panels-postloop .post:nth-child(3) {
+      grid-column: 1;
+      -ms-grid-column: 1;
+      grid-row: 3;
+      -ms-grid-row: 3; }
+    .widget_siteorigin-panels-postloop .post:nth-child(4) {
+      grid-column: 1;
+      -ms-grid-column: 1;
+      grid-row: 4;
+      -ms-grid-row: 4; }
+    .widget_siteorigin-panels-postloop .post:nth-child(5) {
+      grid-column: 1;
+      -ms-grid-column: 1;
+      grid-row: 5;
+      -ms-grid-row: 5; } }
