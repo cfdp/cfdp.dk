@@ -5,19 +5,10 @@ Template Name: Page Home
 ?>
 <?php get_header(); ?>
 
-<?php
-
-// Get the video URL and put it in the $video variable
-$videoID = get_post_meta($post->ID, 'banner_video', true);
-if ($videoID) {
-	$videoURL = 'http://www.youtube.com/watch?v=' . $videoID; 
-}
-?>
-
 <section id="big-video">
     <div class="video" 
          data-src="<?php the_field('fallback_img') ?>" 
-         data-video="<?php echo $videoURL; ?>" 
+         data-video="<?php the_field('banner_video'); ?>" 
          data-placeholder="<?php the_field('start_img') ?>">
     </div>
 </section>
