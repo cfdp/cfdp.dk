@@ -5,7 +5,6 @@
 $custom_fields = base_get_all_custom_fields();
 ?>
 
-Hej hej hej
 	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 			<?php
 				if(has_post_thumbnail()) {
