@@ -1,9 +1,9 @@
 === Page Builder by SiteOrigin ===
 Tags: page builder, responsive, widget, widgets, builder, page, admin, gallery, content, cms, pages, post, css, layout, grid
 Requires at least: 4.4
-Tested up to: 4.8.1
-Stable tag: 2.5.13
-Build time: 2017-09-29T20:40:18+02:00
+Tested up to: 4.9
+Stable tag: 2.6.6
+Build time: 2018-04-25T14:59:51+02:00
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: https://siteorigin.com/downloads/contribution/
@@ -95,6 +95,62 @@ Page Builder is actively developed and updated, so generally I'd recommend that 
 We've tried to ensure that Page Builder is compatible with most plugin widgets. It's best to just download Page Builder and test for yourself.
 
 == Changelog ==
+
+= 2.6.6 - 25 April 2018 =
+* Only filter WooCommerce content when on the shop page.
+* Fix Background fallback URL notices.
+
+= 2.6.5 - 23 April 2018 =
+* Don't use `mime_content_type` for external layouts if it's not available. Just check file extensions.
+* Get correct ID for WooCommerce shop page to allow PB to render correctly.
+* Added image fallback url field for background images in row, cell and widget styles.
+* Temporarily remove Jetpack widgets requiring scripts for admin form, until we can reliably enqueue their scripts.
+* Remove loading indicator and display message when loading widget and style forms fail.
+* Allow setting margins around specific widgets.
+
+= 2.6.4 - 4 April 2018 =
+* Only call widget `enqueue_admin_scripts` function for WP core JS widgets.
+
+= 2.6.3 - 6 March 2018 =
+* Use `delete_post_meta_by_key` instead of direct DB query to clear old cache renders.
+* Removed special handling for retrieving data from TinyMCE editor fields. Just use the field value directly.
+* Show correct preview for current editor when another editor has created an autosave.
+* Use minified CSS files.
+
+= 2.6.2 - 23 January 2018 =
+* Prevent Gutenberg from taking over existing PB pages.
+* Remove PB metaboxes from Gutenberg editor.
+
+= 2.6.1 - 18 January 2018 =
+* Switch off output buffering when enqueueing admin scripts.
+* Prevent custom post types from showing in the settings list.
+* Make sure 'SiteOrigin_Panels_Widgets_Layout' exists before setting icon for widgets lists.
+* Hide individual action links when features disabled and prevent editing by clicking directly on spanner when edit row disabled.
+* Adapt PB welcome message when some features not supported.
+* Column width CSS output correctly for locales which use ',' as decimal separator.
+* Fixed prebuilt layout directory items.
+
+= 2.6.0 - 17 December 2017 =
+* Load prebuilt layout JSON files found in themes!
+* Allow post types with numeric slugs.
+* Add a filter for inline styles.
+
+= 2.5.16 - 22 November 2017 =
+* Disabled the Content Cache feature until we've resolved all issues and conflicts.
+
+= 2.5.15 - 17 November 2017 =
+* Don't use deprecated `load` event jQuery function shortcut.
+* Immediately switch to Page Builder if `revertToEditor` feature isn't supported.
+* Fix switching between standard editor and Page Builder.
+* Removed some duplicated jQuery selectors.
+* Prevent error with invalid plugin action links.
+* Add compatibility for new WP core Custom HTML and Media Gallery widgets.
+
+= 2.5.14 - 6 November 2017 =
+* Content Cache: Add Enqueue hook to allow 3rd parties to enqueue cache friendly assets.
+* Added raw_panels_data flag for layout imports.
+* Save ratio and ratio_direction as row attributes.
+* Add rel="noopener noreferrer" for all 3rd party/unknown links.
 
 = 2.5.13 - 29 September 2017 =
 * Always enqueue parallax when in cache mode.

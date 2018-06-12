@@ -13,7 +13,7 @@ class wfWAFUtils {
 		if (wfWAFUtils::strlen($ip) == 16 && wfWAFUtils::substr($ip, 0, 12) == "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff") {
 			$ip = wfWAFUtils::substr($ip, 12, 4);
 		}
-		return self::hasIPv6Support() ? inet_ntop($ip) : self::_inet_ntop($ip);
+		return self::hasIPv6Support() ? @inet_ntop($ip) : self::_inet_ntop($ip);
 	}
 
 	/**
@@ -24,7 +24,7 @@ class wfWAFUtils {
 	 */
 	public static function inet_pton($ip) {
 		// convert the 4 char IPv4 to IPv6 mapped version.
-		$pton = str_pad(self::hasIPv6Support() ? inet_pton($ip) : self::_inet_pton($ip), 16,
+		$pton = str_pad(self::hasIPv6Support() ? @inet_pton($ip) : self::_inet_pton($ip), 16,
 			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x00\x00\x00\x00", STR_PAD_LEFT);
 		return $pton;
 	}
@@ -534,7 +534,12 @@ class wfWAFUtils {
 	 */
 	public static function iniSizeToBytes($val) {
 		$val = trim($val);
+		if (preg_match('/^\d+$/', $val)) {
+			return (int) $val;
+		}
+		
 		$last = strtolower(substr($val, -1));
+		$val = (int) substr($val, 0, -1);
 		switch ($last) {
 			case 'g':
 				$val *= 1024;
@@ -544,7 +549,7 @@ class wfWAFUtils {
 				$val *= 1024;
 		}
 		
-		return intval($val);
+		return $val;
 	}
 	
 	public static function reverseLookup($IP) {

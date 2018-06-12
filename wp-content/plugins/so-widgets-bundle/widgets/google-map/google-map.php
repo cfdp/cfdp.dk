@@ -26,13 +26,6 @@ class SiteOrigin_Widget_GoogleMap_Widget extends SiteOrigin_Widget {
 
 	function initialize() {
 
-		wp_register_script(
-			'sow-google-map',
-			plugin_dir_url( __FILE__ ) . 'js/js-map' . SOW_BUNDLE_JS_SUFFIX . '.js',
-			array( 'jquery' ),
-			SOW_BUNDLE_VERSION
-		);
-
 		add_action( 'siteorigin_widgets_before_widget_sow-google-map', array( $this, 'enqueue_widget_scripts' ) );
 	}
 
@@ -44,7 +37,7 @@ class SiteOrigin_Widget_GoogleMap_Widget extends SiteOrigin_Widget {
 				'label'       => __( 'Map center', 'so-widgets-bundle' ),
 				'description' => sprintf(
 					__( 'The name of a place, town, city, or even a country. Can be an exact address too. Please ensure you have enabled the <strong>Geocoding API</strong> in the %sGoogle APIs Dashboard%s.', 'so-widgets-bundle' ),
-					'<a href="https://console.developers.google.com/apis/dashboard?project=_" target="_blank">',
+					'<a href="https://console.developers.google.com/apis/dashboard?project=_" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 				),
 			),
@@ -59,7 +52,7 @@ class SiteOrigin_Widget_GoogleMap_Widget extends SiteOrigin_Widget {
 						'required'    => true,
 						'description' => sprintf(
 							__( 'Enter your %sAPI key%s. Your map may not function correctly without one.', 'so-widgets-bundle' ),
-							'<a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">',
+							'<a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank" rel="noopener noreferrer">',
 							'</a>'
 						)
 					)
@@ -295,7 +288,7 @@ class SiteOrigin_Widget_GoogleMap_Widget extends SiteOrigin_Widget {
 						'rows'        => 5,
 						'hidden'      => true,
 						'label'       => __( 'Raw JSON styles', 'so-widgets-bundle' ),
-						'description' => __( 'Copy and paste predefined styles here from <a href="http://snazzymaps.com/" target="_blank">Snazzy Maps</a>.', 'so-widgets-bundle' )
+						'description' => __( 'Copy and paste predefined styles here from <a href="http://snazzymaps.com/" target="_blank" rel="noopener noreferrer">Snazzy Maps</a>.', 'so-widgets-bundle' )
 					),
 					'custom_map_styles'   => array(
 						'type'       => 'repeater',
@@ -367,7 +360,7 @@ class SiteOrigin_Widget_GoogleMap_Widget extends SiteOrigin_Widget {
 				'hide'        => true,
 				'description' => sprintf(
 					__( 'Display a route on your map, with waypoints between your starting point and destination. Please ensure you have enabled the <strong>Directions API</strong> in the %sGoogle APIs Dashboard%s.', 'so-widgets-bundle' ),
-					'<a href="https://console.developers.google.com/apis/dashboard?project=_" target="_blank">',
+					'<a href="https://console.developers.google.com/apis/dashboard?project=_" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 					),
 				'fields'      => array(
@@ -445,7 +438,7 @@ class SiteOrigin_Widget_GoogleMap_Widget extends SiteOrigin_Widget {
 				'required'    => true,
 				'description' => sprintf(
 					__( 'Enter your %sAPI key%s. Your map won\'t function correctly without one.', 'so-widgets-bundle' ),
-					'<a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">',
+					'<a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 				)
 			)

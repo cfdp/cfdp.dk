@@ -248,7 +248,7 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 		);
 		$wrapper_attr_string = '';
 		foreach ( $data as $name => $value ) {
-			$wrapper_attr_string = ' data-' . esc_html( $name ) . '="' . esc_attr( $value ) . '"';
+			$wrapper_attr_string .= ' data-' . esc_html( $name ) . '="' . esc_attr( $value ) . '"';
 		}
 
 		return $wrapper_attr_string;
@@ -441,12 +441,14 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 
 		// Filter the instance specifically for the form
 		$instance = apply_filters('siteorigin_widgets_form_instance_' . $this->id_base, $instance, $this);
-
-		$form_id = 'siteorigin_widget_form_'.md5( uniqid( rand(), true ) );
+		
+		// `more_entropy` adds a period to the id.
+		$id = str_replace( '.', '', uniqid( rand(), true ) );
+		$form_id = 'siteorigin_widget_form_' . md5( $id );
 		$class_name = str_replace( '_', '-', strtolower( $this->widget_class ) );
 
 		if( empty( $instance['_sow_form_id'] ) ) {
-			$instance['_sow_form_id'] = uniqid();
+			$instance['_sow_form_id'] = $id;
 		}
 		?>
 		<div class="siteorigin-widget-form siteorigin-widget-form-main siteorigin-widget-form-main-<?php echo esc_attr($class_name) ?>" id="<?php echo $form_id ?>" data-class="<?php echo esc_attr( $this->widget_class ) ?>" style="display: none">
@@ -467,8 +469,8 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 				$this->fields[$field_name] = $field;
 			}
 			?>
-			<input type="hidden" name="<?php echo $this->get_field_name('_sow_form_id') ?>" value="<?php echo esc_attr( $instance['_sow_form_id'] ) ?>" class="siteorigin-widgets-form-id" />
-			<input type="hidden" name="<?php echo $this->get_field_name('_sow_form_timestamp') ?>" value="<?php echo ! empty( $instance['_sow_form_timestamp'] ) ? esc_attr( $instance['_sow_form_timestamp'] ) : '' ?>" class="siteorigin-widgets-form-timestamp" />
+			<input type="hidden" name="<?php echo $this->so_get_field_name('_sow_form_id') ?>" value="<?php echo esc_attr( $instance['_sow_form_id'] ) ?>" class="siteorigin-widgets-form-id" />
+			<input type="hidden" name="<?php echo $this->so_get_field_name('_sow_form_timestamp') ?>" value="<?php echo ! empty( $instance['_sow_form_timestamp'] ) ? esc_attr( $instance['_sow_form_timestamp'] ) : '' ?>" class="siteorigin-widgets-form-timestamp" />
 		</div>
 		<div class="siteorigin-widget-form-no-styles">
 			<?php $this->scripts_loading_message() ?>
@@ -481,7 +483,7 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 		<?php endif; ?>
 
 		<?php if( !empty( $this->widget_options['help'] ) ) : ?>
-			<a href="<?php echo sow_esc_url($this->widget_options['help']) ?>" class="siteorigin-widget-help-link siteorigin-panels-help-link" target="_blank"><?php _e('Help', 'so-widgets-bundle') ?></a>
+			<a href="<?php echo sow_esc_url($this->widget_options['help']) ?>" class="siteorigin-widget-help-link siteorigin-panels-help-link" target="_blank" rel="noopener noreferrer"><?php _e('Help', 'so-widgets-bundle') ?></a>
 		<?php endif; ?>
 
 		<script type="text/javascript">
@@ -812,7 +814,7 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 	 * @return string
 	 */
 	public function get_instance_css( $instance ){
-		if( !class_exists('lessc') ) require plugin_dir_path( __FILE__ ).'inc/lessc.inc.php';
+		if( !class_exists( 'SiteOrigin_LessC' ) ) require plugin_dir_path( __FILE__ ) . 'inc/lessc.inc.php';
 		if( !class_exists('SiteOrigin_Widgets_Less_Functions') ) require plugin_dir_path( __FILE__ ).'inc/less-functions.php';
 
 		if( !method_exists( $this, 'get_less_content' ) ) {
@@ -867,7 +869,7 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 
 			$less = $css_imports . "\n\n" . '.so-widget-'.$css_name." { \n".$less."\n } ";
 
-			$compiler = new lessc();
+			$compiler = new SiteOrigin_LessC();
 			$lc_functions = new SiteOrigin_Widgets_Less_Functions($this, $instance);
 			$lc_functions->registerFunctions( $compiler );
 			$compiler = apply_filters( 'siteorigin_widgets_less_compiler', $compiler, $instance, $this );
@@ -1003,7 +1005,7 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 	 * @return array
 	 */
 	function get_google_font_fields( $instance ) {
-		return array();
+		return apply_filters( 'siteorigin_widgets_google_font_fields_' . $this->id_base, array(), $instance, $this );
 	}
 
 	/**
@@ -1218,8 +1220,15 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 	/**
 	 * Enqueue all the registered scripts
 	 */
-	function enqueue_registered_scripts() {
-		foreach ( $this->frontend_scripts as $f_script ) {
+	function enqueue_registered_scripts( $instance ) {
+		$f_scripts = apply_filters(
+			'siteorigin_widgets_frontend_scripts_' . $this->id_base,
+			$this->frontend_scripts,
+			$instance,
+			$this
+		);
+		
+		foreach ( $f_scripts as $f_script ) {
 			if ( ! wp_script_is( $f_script[0] ) ) {
 				wp_enqueue_script(
 					$f_script[0],
@@ -1248,8 +1257,15 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 	/**
 	 * Enqueue any frontend styles that were registered
 	 */
-	function enqueue_registered_styles() {
-		foreach ( $this->frontend_styles as $f_style ) {
+	function enqueue_registered_styles( $instance ) {
+		$f_styles = apply_filters(
+			'siteorigin_widgets_frontend_styles_' . $this->id_base,
+			$this->frontend_styles,
+			$instance,
+			$this
+		);
+		
+		foreach ( $f_styles as $f_style ) {
 			if ( ! wp_style_is( $f_style[0] ) ) {
 				wp_enqueue_style(
 					$f_style[0],
@@ -1268,8 +1284,8 @@ abstract class SiteOrigin_Widget extends WP_Widget {
 	 * will then ensure that the scripts are not enqueued more than once.
 	 */
 	function enqueue_frontend_scripts( $instance ) {
-		$this->enqueue_registered_scripts();
-		$this->enqueue_registered_styles();
+		$this->enqueue_registered_scripts( $instance );
+		$this->enqueue_registered_styles( $instance );
 
 		// Give plugins a chance to enqueue additional frontend scripts
 		do_action('siteorigin_widgets_enqueue_frontend_scripts_' . $this->id_base, $instance, $this);

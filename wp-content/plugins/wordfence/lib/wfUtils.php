@@ -11,6 +11,16 @@ class wfUtils {
 		$pattern = str_replace(' ', '\s', $pattern);
 		return $sep . '^' . str_replace('\*', '.*', $pattern) . '$' . $sep . $mod;
 	}
+	public static function versionedAsset($subpath) {
+		$version = WORDFENCE_BUILD_NUMBER;
+		if ($version != 'WORDFENCE_BUILD_NUMBER' && preg_match('/^(.+?)(\.[^\.]+)$/', $subpath, $matches)) {
+			$prefix = $matches[1];
+			$suffix = $matches[2];
+			return $prefix . '.' . $version . $suffix;
+		}
+		
+		return $subpath;
+	}
 	public static function makeTimeAgo($secs, $noSeconds = false) {
 		if($secs < 1){
 			return "a moment";
@@ -134,6 +144,19 @@ class wfUtils {
 		// $bytes /= (1 << (10 * $pow)); 
 
 		return round($bytes, $precision) . ' ' . $units[$pow];
+	}
+	
+	/**
+	 * Returns the PHP version formatted for display, stripping off the build information when present.
+	 * 
+	 * @return string
+	 */
+	public static function cleanPHPVersion() {
+		$version = phpversion();
+		if (preg_match('/^(\d+\.\d+\.\d+)/', $version, $matches)) {
+			return $matches[1];
+		}
+		return $version;
 	}
 
 	/**
@@ -297,7 +320,7 @@ class wfUtils {
 		if (strlen($ip) == 16 && substr($ip, 0, 12) == "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff") {
 			$ip = substr($ip, 12, 4);
 		}
-		return self::hasIPv6Support() ? inet_ntop($ip) : self::_inet_ntop($ip);
+		return self::hasIPv6Support() ? @inet_ntop($ip) : self::_inet_ntop($ip);
 	}
 
 	/**
@@ -308,7 +331,7 @@ class wfUtils {
 	 */
 	public static function inet_pton($ip) {
 		// convert the 4 char IPv4 to IPv6 mapped version.
-		$pton = str_pad(self::hasIPv6Support() ? inet_pton($ip) : self::_inet_pton($ip), 16,
+		$pton = str_pad(self::hasIPv6Support() ? @inet_pton($ip) : self::_inet_pton($ip), 16,
 			"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\x00\x00\x00\x00", STR_PAD_LEFT);
 		return $pton;
 	}
@@ -449,6 +472,48 @@ class wfUtils {
 	}
 	public static function makeRandomIP(){
 		return rand(11,230) . '.' . rand(0,255) . '.' . rand(0,255) . '.' . rand(0,255);
+	}
+	
+	/**
+	 * Converts a truthy value to a boolean, checking in this order:
+	 * - already a boolean
+	 * - numeric (0 => false, otherwise true)
+	 * - 'false', 'f', 'no', 'n', or 'off' => false
+	 * - 'true', 't', 'yes', 'y', or 'on' => true
+	 * - empty value => false, otherwise true
+	 * 
+	 * @param $value
+	 * @return bool
+	 */
+	public static function truthyToBoolean($value) {
+		if ($value === true || $value === false) {
+			return $value;
+		}
+		
+		if (is_numeric($value)) {
+			return !!$value;
+		}
+		
+		if (preg_match('/^(?:f(?:alse)?|no?|off)$/i', $value)) {
+			return false;
+		}
+		else if (preg_match('/^(?:t(?:rue)?|y(?:es)?|on)$/i', $value)) {
+			return true;
+		}
+		
+		return !empty($value);
+	}
+	
+	/**
+	 * Converts a truthy value to 1 or 0.
+	 * 
+	 * @see wfUtils::truthyToBoolean
+	 * 
+	 * @param $value
+	 * @return int
+	 */
+	public static function truthyToInt($value) {
+		return self::truthyToBoolean($value) ? 1 : 0;
 	}
 
 	/**
@@ -787,6 +852,14 @@ class wfUtils {
 		
 		return true;
 	}
+	public static function isValidEmail($email, $strict = false) {
+		//We don't default to strict, full validation because poorly-configured servers can crash due to the regex PHP uses in filter_var($email, FILTER_VALIDATE_EMAIL)
+		if ($strict) {
+			return filter_var($email, FILTER_VALIDATE_EMAIL !== false);
+		}
+		
+		return preg_match('/^[^@\s]+@[^@\s]+\.[^@\s]+$/i', $email) === 1;
+	}
 	public static function getRequestedURL() {
 		if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST']) {
 			$host = $_SERVER['HTTP_HOST'];
@@ -813,7 +886,7 @@ class wfUtils {
 		return ob_get_contents() . (ob_end_clean() ? "" : "");
 	}
 	public static function bigRandomHex(){
-		return dechex(rand(0, 2147483647)) . dechex(rand(0, 2147483647)) . dechex(rand(0, 2147483647));
+		return bin2hex(wfWAFUtils::random_bytes(16));
 	}
 	public static function encrypt($str){
 		$key = wfConfig::get('encKey');
@@ -978,7 +1051,7 @@ class wfUtils {
 
 	public static function endProcessingFile() {
 		wfConfig::set('scanFileProcessing', null);
-		if (wfConfig::get('lowResourceScansEnabled')) {
+		if (wfScanner::shared()->useLowResourceScanning()) {
 			usleep(10000); //10 ms
 		}
 	}
@@ -995,18 +1068,10 @@ class wfUtils {
 	public static function clearScanLock(){
 		global $wpdb;
 		$wfdb = new wfDB();
-		$wfdb->truncate($wpdb->base_prefix . 'wfHoover');
+		$wfdb->truncate(wfDB::networkTable('wfHoover'));
 
 		wfConfig::set('wf_scanRunning', '');
 		wfIssues::updateScanStillRunning(false);
-	}
-	public static function isScanRunning(){
-		$scanRunning = wfConfig::get('wf_scanRunning');
-		if($scanRunning && time() - $scanRunning < WORDFENCE_MAX_SCAN_LOCK_TIME){
-			return true;
-		} else {
-			return false;
-		}
 	}
 	public static function getIPGeo($IP){ //Works with int or dotted
 
@@ -1021,8 +1086,7 @@ class wfUtils {
 		$IPs = array_unique($IPs);
 		$toResolve = array();
 		$db = new wfDB();
-		global $wpdb;
-		$locsTable = $wpdb->base_prefix . 'wfLocs';
+		$locsTable = wfDB::networkTable('wfLocs');
 		$IPLocs = array();
 		foreach($IPs as $IP){
 			$isBinaryIP = !self::isValidIP($IP);
@@ -1098,9 +1162,13 @@ class wfUtils {
 	}
 
 	public static function reverseLookup($IP) {
+		static $_memoryCache = array();
+		if (isset($_memoryCache[$IP])) {
+			return $_memoryCache[$IP];
+		}
+		
 		$db = new wfDB();
-		global $wpdb;
-		$reverseTable = $wpdb->base_prefix . 'wfReverseCache';
+		$reverseTable = wfDB::networkTable('wfReverseCache');
 		$IPn = wfUtils::inet_pton($IP);
 		$host = $db->querySingle("select host from " . $reverseTable . " where IP=%s and unix_timestamp() - lastUpdate < %d", $IPn, WORDFENCE_REVERSE_LOOKUP_CACHE_TIME);
 		if (!$host) {
@@ -1123,14 +1191,17 @@ class wfUtils {
 					}
 				}
 			}
+			$_memoryCache[$IP] = $host;
 			if (!$host) {
 				$host = 'NONE';
 			}
 			$db->queryWrite("insert into " . $reverseTable . " (IP, host, lastUpdate) values (%s, '%s', unix_timestamp()) ON DUPLICATE KEY UPDATE host='%s', lastUpdate=unix_timestamp()", $IPn, $host, $host);
 		}
 		if ($host == 'NONE') {
+			$_memoryCache[$IP] = '';
 			return '';
 		} else {
+			$_memoryCache[$IP] = $host;
 			return $host;
 		}
 	}
@@ -1727,6 +1798,33 @@ class wfUtils {
 		return true;
 	}
 	
+	/**
+	 * Returns a v4 UUID.
+	 * 
+	 * @return string
+	 */
+	public static function uuid() {
+		return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+			// 32 bits for "time_low"
+			wfWAFUtils::random_int(0, 0xffff), wfWAFUtils::random_int(0, 0xffff),
+			
+			// 16 bits for "time_mid"
+			wfWAFUtils::random_int(0, 0xffff),
+			
+			// 16 bits for "time_hi_and_version",
+			// four most significant bits holds version number 4
+			wfWAFUtils::random_int(0, 0x0fff) | 0x4000,
+			
+			// 16 bits, 8 bits for "clk_seq_hi_res",
+			// 8 bits for "clk_seq_low",
+			// two most significant bits holds zero and one for variant DCE1.1
+			wfWAFUtils::random_int(0, 0x3fff) | 0x8000,
+			
+			// 48 bits for "node"
+			wfWAFUtils::random_int(0, 0xffff), wfWAFUtils::random_int(0, 0xffff), wfWAFUtils::random_int(0, 0xffff)
+		);
+	}
+	
 	public static function base32_encode($rawString, $rightPadFinalBits = false, $padFinalGroup = false, $padCharacter = '=') //Adapted from https://github.com/ademarre/binary-to-text-php
 	{
 		// Unpack string into an array of bytes
@@ -2147,6 +2245,20 @@ class wfUtils {
 		return self::callMBSafeStrFunction('strrpos', $args);
 	}
 	
+	public static function sets_equal($a1, $a2) {
+		if (!is_array($a1) || !is_array($a2)) {
+			return false;
+		}
+		
+		if (count($a1) != count($a2)) {
+			return false;
+		}
+		
+		sort($a1, SORT_NUMERIC);
+		sort($a2, SORT_NUMERIC);
+		return $a1 == $a2;
+	}
+	
 	public static function array_first($array) {
 		if (empty($array)) {
 			return null;
@@ -2200,6 +2312,35 @@ class wfUtils {
 	}
 	
 	/**
+	 * Returns the number of minutes for the time zone offset from UTC. If $timestamp and using a named time zone, 
+	 * it will be adjusted automatically to match whether or not the server's time zone is in Daylight Savings Time.
+	 * 
+	 * @param bool|int $timestamp Assumed to be in UTC. If false, defaults to the current timestamp.
+	 * @return int
+	 */
+	public static function timeZoneMinutes($timestamp = false) {
+		if ($timestamp === false) {
+			$timestamp = time();
+		}
+		
+		$tz = get_option('timezone_string');
+		if (!empty($tz)) {
+			$timezone = new DateTimeZone($tz);
+			$dtStr = gmdate("c", (int) $timestamp); //Have to do it this way because of PHP 5.2
+			$dt = new DateTime($dtStr, $timezone);
+			return (int) ($timezone->getOffset($dt) / 60);
+		}
+		else {
+			$gmt = get_option('gmt_offset');
+			if (!empty($gmt)) {
+				return (int) ($gmt * 60);
+			}
+		}
+		
+		return 0;
+	}
+	
+	/**
 	 * Formats and returns the given timestamp using the time zone set for the WordPress installation.
 	 * 
 	 * @param string $format See the PHP docs on DateTime for the format options. 
@@ -2235,6 +2376,40 @@ class wfUtils {
 			}
 		}
 		return $dt->format($format);
+	}
+	
+	/**
+	 * Parses the given time string and returns its DateTime with the server's configured time zone.
+	 * 
+	 * @param string $timestring
+	 * @return DateTime
+	 */
+	public static function parseLocalTime($timestring) {
+		$utc = new DateTimeZone('UTC');
+		$tz = get_option('timezone_string');
+		if (!empty($tz)) {
+			$tz = new DateTimeZone($tz);
+			return new DateTime($timestring, $tz);
+		}
+		else {
+			$gmt = get_option('gmt_offset');
+			if (!empty($gmt)) {
+				if (PHP_VERSION_ID < 50510) {
+					$timestamp = strtotime($timestring);
+					$dtStr = gmdate("c", (int) ($timestamp + $gmt * 3600)); //Have to do it this way because of < PHP 5.5.10
+					return new DateTime($dtStr, $utc);
+				}
+				else {
+					$direction = ($gmt > 0 ? '+' : '-');
+					$gmt = abs($gmt);
+					$h = (int) $gmt;
+					$m = ($gmt - $h) * 60;
+					$tz = new DateTimeZone($direction . str_pad($h, 2, '0', STR_PAD_LEFT) . str_pad($m, 2, '0', STR_PAD_LEFT));
+					return new DateTime($timestring, $tz);
+				}
+			}
+		}
+		return new DateTime($timestring);
 	}
 }
 
@@ -2391,5 +2566,3 @@ class wfWebServerInfo {
 		$this->softwareName = $softwareName;
 	}
 }
-
-?>

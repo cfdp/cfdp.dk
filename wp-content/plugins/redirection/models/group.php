@@ -35,8 +35,10 @@ class Red_Group {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_groups.*,COUNT( {$wpdb->prefix}redirection_items.id ) AS items,SUM( {$wpdb->prefix}redirection_items.last_count ) AS redirects FROM {$wpdb->prefix}redirection_groups LEFT JOIN {$wpdb->prefix}redirection_items ON {$wpdb->prefix}redirection_items.group_id={$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.id=%d GROUP BY {$wpdb->prefix}redirection_groups.id", $id ) );
-		if ( $row )
+		if ( $row ) {
 			return new Red_Group( $row );
+		}
+
 		return false;
 	}
 
@@ -93,7 +95,7 @@ class Red_Group {
 	static function create( $name, $module_id ) {
 		global $wpdb;
 
-		$name = trim( stripslashes( $name ) );
+		$name = trim( substr( $name, 0, 50 ) );
 		$module_id = intval( $module_id, 10 );
 
 		if ( $name !== '' && Red_Module::is_valid_id( $module_id ) ) {
@@ -117,7 +119,7 @@ class Red_Group {
 		global $wpdb;
 
 		$old_id = $this->module_id;
-		$this->name = trim( wp_kses( stripslashes( $data['name'] ), array() ) );
+		$this->name = trim( wp_kses( $data['name'], array() ) );
 
 		if ( Red_Module::is_valid_id( intval( $data['moduleId'], 10 ) ) ) {
 			$this->module_id = intval( $data['moduleId'], 10 );
@@ -185,8 +187,8 @@ class Red_Group {
 		$offset = 0;
 		$where = '';
 
-		if ( isset( $params['orderBy'] ) && in_array( $params['orderBy'], array( 'name' ), true ) ) {
-			$orderby = $params['orderBy'];
+		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], array( 'name' ), true ) ) {
+			$orderby = $params['orderby'];
 		}
 
 		if ( isset( $params['direction'] ) && in_array( $params['direction'], array( 'asc', 'desc' ), true ) ) {
@@ -201,9 +203,9 @@ class Red_Group {
 			}
 		}
 
-		if ( isset( $params['perPage'] ) ) {
-			$limit = intval( $params['perPage'], 10 );
-			$limit = min( 100, $limit );
+		if ( isset( $params['per_page'] ) ) {
+			$limit = intval( $params['per_page'], 10 );
+			$limit = min( RED_MAX_PER_PAGE, $limit );
 			$limit = max( 5, $limit );
 		}
 
@@ -220,9 +222,17 @@ class Red_Group {
 		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$table} ".$where ) );
 		$items = array();
 
+		$options = red_get_options();
+
 		foreach ( $rows as $row ) {
 			$group = new Red_Group( $row );
-			$items[] = $group->to_json();
+			$group_json = $group->to_json();
+
+			if ( $group->get_id() === $options['last_group_id'] ) {
+				$group_json['default'] = true;
+			}
+
+			$items[] = $group_json;
 		}
 
 		return array(

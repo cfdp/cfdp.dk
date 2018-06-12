@@ -61,6 +61,9 @@ class SiteOrigin_Panels_Admin {
 		SiteOrigin_Panels_Admin_Layouts::single();
 
 		$this->in_save_post = false;
+
+		add_filter( 'gutenberg_can_edit_post_type', array( $this, 'disable_gutenberg_for_panels_posts' ), 10, 2 );
+		add_filter( 'filter_gutenberg_meta_boxes', array( $this, 'disable_panels_for_gutenberg_posts' ) );
 	}
 
 	/**
@@ -115,12 +118,16 @@ class SiteOrigin_Panels_Admin {
 	 * @return array
 	 */
 	function plugin_action_links( $links ) {
+		if( ! is_array( $links ) ) {
+			return $links;
+		}
+		
 		unset( $links['edit'] );
 		$links[] = '<a href="http://siteorigin.com/threads/plugin-page-builder/">' . __( 'Support Forum', 'siteorigin-panels' ) . '</a>';
 		$links[] = '<a href="http://siteorigin.com/page-builder/#newsletter">' . __( 'Newsletter', 'siteorigin-panels' ) . '</a>';
 		
 		if( SiteOrigin_Panels::display_premium_teaser() ) {
-			$links[] = '<a href="' . esc_url( SiteOrigin_Panels::premium_url() ) . '" style="color: #3db634" target="_blank">' . __('Addons', 'siteorigin-panels') . '</a>';
+			$links[] = '<a href="' . esc_url( SiteOrigin_Panels::premium_url() ) . '" style="color: #3db634" target="_blank" rel="noopener noreferrer">' . __('Addons', 'siteorigin-panels') . '</a>';
 		}
 
 		return $links;
@@ -399,7 +406,20 @@ class SiteOrigin_Panels_Admin {
 					'row' => array(
 						'add' => __( 'New Row', 'siteorigin-panels' ),
 						'edit' => __( 'Row', 'siteorigin-panels' ),
-					)
+					),
+					'welcomeMessage' => array(
+						'addingDisabled' => __( 'Hmmm... Adding layout elements is not enabled. Please check if Page Builder has been configured to allow adding elements.', 'siteorigin-panels' ),
+                        'oneEnabled' => __( 'Add a {{%= items[0] %}} to get started.', 'siteorigin-panels' ),
+                        'twoEnabled' => __( 'Add a {{%= items[0] %}} or {{%= items[1] %}} to get started.', 'siteorigin-panels' ),
+                        'threeEnabled' => __( 'Add a {{%= items[0] %}}, {{%= items[1] %}} or {{%= items[2] %}} to get started.', 'siteorigin-panels' ),
+                        'addWidgetButton' => "<a href='#' class='so-tool-button so-widget-add'>" . __( 'Widget', 'siteorigin-panels' ) . "</a>",
+                        'addRowButton' => "<a href='#' class='so-tool-button so-row-add'>" . __( 'Row', 'siteorigin-panels' ) . "</a>",
+                        'addPrebuiltButton' => "<a href='#' class='so-tool-button so-prebuilt-add'>" . __( 'Prebuilt Layout', 'siteorigin-panels' ) . "</a>",
+                        'docsMessage' => sprintf(
+                                __( 'Read our %s if you need help.', 'siteorigin-panels' ),
+                            "<a href='https://siteorigin.com/page-builder/documentation/' target='_blank' rel='noopener noreferrer'>" . __( 'documentation', 'siteorigin-panels' ) . "</a>"
+                        ),
+					),
 				),
 				'plupload'                  => array(
 					'max_file_size'       => wp_max_upload_size() . 'b',
@@ -413,6 +433,9 @@ class SiteOrigin_Panels_Admin {
 				'prebuiltDefaultScreenshot' => siteorigin_panels_url( 'css/images/prebuilt-default.png' ),
 				'loadOnAttach'              => siteorigin_panels_setting( 'load-on-attach' ),
 				'siteoriginWidgetRegex'     => str_replace( '*+', '*', get_shortcode_regex( array( 'siteorigin_widget' ) ) ),
+				'forms' 				=> array(
+					'loadingFailed' => __( 'Unknown error. Failed to load the form. Please check your internet connection, contact your web site administrator, or try again later.', 'siteorigin-panels' ),
+				)
 			) );
 			
 			$js_widgets = array();
@@ -425,14 +448,14 @@ class SiteOrigin_Panels_Admin {
 					$return = $widget_obj->form( array() );
 					// These are the new widgets in WP 4.8 which are largely JS based. They only enqueue their own
 					// scripts on the 'widgets' screen.
-					if ( method_exists( $widget_obj, 'enqueue_admin_scripts' ) ) {
+					if ( $this->is_core_js_widget( $widget_obj ) && method_exists( $widget_obj, 'enqueue_admin_scripts' ) ) {
 						$widget_obj->enqueue_admin_scripts();
 					}
 					do_action_ref_array( 'in_widget_form', array( &$widget_obj, &$return, array() ) );
-					ob_clean();
+					ob_end_clean();
 					
 					// Need to render templates for new WP 4.8 widgets when not on the 'widgets' screen or in the customizer.
-					if ( $this->is_js_widget( $widget_obj ) ) {
+					if ( $this->is_core_js_widget( $widget_obj ) ) {
 						$js_widgets[] = $widget_obj;
 					}
 				}
@@ -463,7 +486,7 @@ class SiteOrigin_Panels_Admin {
 		if ( $force || self::is_admin() ) {
 			wp_enqueue_style(
 				'so-panels-admin',
-				siteorigin_panels_url( 'css/admin.css' ),
+				siteorigin_panels_url( 'css/admin' . SITEORIGIN_PANELS_CSS_SUFFIX . '.css' ),
 				array( 'wp-color-picker' ),
 				SITEORIGIN_PANELS_VERSION
 			);
@@ -680,6 +703,20 @@ class SiteOrigin_Panels_Admin {
 
 		// Other plugins can manipulate the list of widgets. Possibly to add recommended widgets
 		$widgets = apply_filters( 'siteorigin_panels_widgets', $widgets );
+		
+		// Exclude these temporarily, as they won't work until we have a reliable way to enqueue their admin form scripts.
+		$to_exclude = array(
+			'Jetpack_Gallery_Widget',
+			'WPCOM_Widget_GooglePlus_Badge',
+			'Jetpack_Widget_Social_Icons',
+			'Jetpack_Twitter_Timeline_Widget'
+		);
+		
+		foreach ( $to_exclude as $widget_class ) {
+			if ( in_array( $widget_class, $widgets ) ) {
+				unset( $widgets[ $widget_class ] );
+			}
+		}
 
 		// Sort the widgets alphabetically
 		uasort( $widgets, array( $this, 'widgets_sorter' ) );
@@ -820,7 +857,7 @@ class SiteOrigin_Panels_Admin {
 							'/2\{ *(.*?) *\}/',
 						),
 						array(
-							'<a href="' . $install_url . '" target="_blank">$1</a>',
+							'<a href="' . $install_url . '" target="_blank" rel="noopener noreferrer">$1</a>',
 							'<strong>$1</strong>'
 						),
 						sprintf(
@@ -843,7 +880,7 @@ class SiteOrigin_Panels_Admin {
 						),
 						array(
 							'<strong>$1</strong>',
-							'<a href="https://siteorigin.com/thread/" target="_blank">$1</a>'
+							'<a href="https://siteorigin.com/thread/" target="_blank" rel="noopener noreferrer">$1</a>'
 						),
 						sprintf(
 							__( 'The widget 1{%1$s} is not available. Please try locate and install the missing plugin. Post on the 2{support forums} if you need help.', 'siteorigin-panels' ),
@@ -865,12 +902,12 @@ class SiteOrigin_Panels_Admin {
 		$the_widget->number = $widget_number;
 
 		ob_start();
-		if ( $this->is_js_widget( $the_widget ) ) {
+		if ( $this->is_core_js_widget( $the_widget ) ) {
 			?><div class="widget-content"><?php
 		}
 		$return = $the_widget->form( $instance );
 		do_action_ref_array( 'in_widget_form', array( &$the_widget, &$return, $instance ) );
-		if ( $this->is_js_widget( $the_widget ) ) {
+		if ( $this->is_core_js_widget( $the_widget ) ) {
 			?>
 			</div>
 			<input type="hidden" name="id_base" class="id_base" value="<?php echo esc_attr( $the_widget->id_base ); ?>" />
@@ -888,10 +925,22 @@ class SiteOrigin_Panels_Admin {
 		// Add all the information fields
 		return $form;
 	}
-
-	function is_js_widget( $widget ) {
+	
+	/**
+	 * Checks whether a widget is considered to be a JS widget. I.e. it needs to have scripts and/or styles enqueued for
+	 * it's admin form to work.
+	 *
+	 * Can remove the whitelist of core widgets when all widgets are following a similar pattern.
+	 *
+	 * @param $widget The widget to be tested.
+	 *
+	 * @return bool Whether or not the widget is considered a JS widget.
+	 */
+	function is_core_js_widget( $widget ) {
 		$js_widgets = array(
+			'WP_Widget_Custom_HTML',
 			'WP_Widget_Media_Audio',
+			'WP_Widget_Media_Gallery',
 			'WP_Widget_Media_Image',
 			'WP_Widget_Media_Video',
 			'WP_Widget_Text',
@@ -947,13 +996,21 @@ class SiteOrigin_Panels_Admin {
 	 * Display a widget form with the provided data
 	 */
 	function action_widget_form() {
-		if ( empty( $_REQUEST['widget'] ) ) {
-			wp_die();
-		}
 		if ( empty( $_REQUEST['_panelsnonce'] ) || ! wp_verify_nonce( $_REQUEST['_panelsnonce'], 'panels_action' ) ) {
-			wp_die();
+			wp_die(
+				__( 'The supplied nonce is invalid.', 'siteorigin-panels' ),
+				__( 'Invalid nonce.', 'siteorigin-panels' ),
+				403
+			);
 		}
-
+		if ( empty( $_REQUEST['widget'] ) ) {
+			wp_die(
+				__( 'Please specify the type of widget form to be rendered.', 'siteorigin-panels' ),
+				__( 'Missing widget type.', 'siteorigin-panels' ),
+				400
+			);
+		}
+		
 		$request = array_map( 'stripslashes_deep', $_REQUEST );
 
 		$widget_class = $request['widget'];
@@ -1099,4 +1156,68 @@ class SiteOrigin_Panels_Admin {
 		return $strings;
 	}
 
+	/**
+	 * Display links for various SiteOrigin addons
+	 */
+	public static function display_footer_premium_link(){
+		$links = array(
+			array(
+				'text' => __('Get a lightbox addon for SiteOrigin widgets', 'siteorigin-panels'),
+				'url' => SiteOrigin_Panels::premium_url('plugin/lightbox')
+			),
+			array(
+				'text' => __('Get the row, cell and widget animations addon', 'siteorigin-panels'),
+				'url' => SiteOrigin_Panels::premium_url('plugin/lightbox')
+			),
+			array(
+				'text' => __('Get premium email support for SiteOrigin Page Builder', 'siteorigin-panels'),
+				'url' => SiteOrigin_Panels::premium_url()
+			),
+		);
+		$link = $links[array_rand($links)];
+
+		?>
+        <a href="<?php echo esc_url( $link['url'] ) ?>" target="_blank" rel='noopener noreferrer'>
+			<?php echo esc_html( $link['text'] ) ?>.
+        </a>
+		<?php
+	}
+	
+	/**
+	 * Disable the Gutenberg editor for existing PB posts.
+	 *
+	 * @param $can_edit
+	 * @param $post_type
+	 *
+	 * @return bool
+	 */
+	public function disable_gutenberg_for_panels_posts( $can_edit, $post_type ) {
+		$screen = get_current_screen();
+		$post_types = siteorigin_panels_setting( 'post-types' );
+		$panels_data = $screen->base == 'post' ? $this->get_current_admin_panels_data() : array();
+
+		$is_panels_page = in_array( $post_type, $post_types ) && ! empty( $panels_data );
+
+		return ! $is_panels_page && $can_edit;
+	}
+	
+	/**
+	 * Disable PB when we're in the Gutenberg editor.
+	 *
+	 * @param $wp_meta_boxes
+	 *
+	 * @return mixed
+	 */
+	public function disable_panels_for_gutenberg_posts( $wp_meta_boxes ) {
+		foreach ( $wp_meta_boxes as &$locations ) {
+			foreach ( $locations as &$priorities ) {
+				foreach ( $priorities as &$boxes ) {
+					unset( $boxes['so-panels-panels'] );
+					unset( $boxes['siteorigin_page_settings'] );
+
+				}
+			}
+		}
+		return $wp_meta_boxes;
+	}
 }
