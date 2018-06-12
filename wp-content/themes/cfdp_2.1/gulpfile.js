@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 gulp.task('serve', ['sassfiles', 'stylecss'], function() {
 
   browserSync.init({
-    proxy: "cfdp.dev",
+    proxy: "cfdp.test",
     notify: false
   });
 
