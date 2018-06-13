@@ -5,14 +5,6 @@ Template Name: Page Home
 ?>
 <?php get_header(); ?>
 
-<section id="big-video">
-    <div class="video" 
-         data-src="<?php the_field('fallback_img') ?>" 
-         data-video="<?php the_field('banner_video'); ?>" 
-         data-placeholder="<?php the_field('start_img') ?>">
-    </div>
-</section>
-
 <div class="content clearfix">
   <div class="grid_12 clearfix">
     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
@@ -20,5 +12,11 @@ Template Name: Page Home
     <?php endwhile; endif; ?>
   </div>
   </div>
+</div>
+<div class="fp-section-wrapper clearfix">
+    <div class="wrap">
+        <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Front page section") ) : ?>
+        <?php endif;?>
+    </div>
 </div>
 <?php get_footer(); ?>

@@ -68,7 +68,7 @@ table {
       .sidr .menu li.current-menu-item .sub-menu li a {
         background: none; }
       .sidr .menu li a {
-        font-family: 'Lato', Sans-Serif;
+        font-family: 'Montserrat', Sans-Serif;
         display: block;
         padding: 14px 20px;
         font-size: 18px;
@@ -155,7 +155,8 @@ html body * dd.clear {
 body {
   width: 100%;
   height: 100%;
-  font: 18px/24px 'Roboto Slab', serif; }
+  font: 14px/20px 'Merriweather', serif;
+  font-weight: 300; }
 
 .header__menu,
 .wpadminbar,
@@ -171,12 +172,26 @@ body {
       width: 250px;
       padding-top: 16px; } }
 
-h1 {
-  font-size: 36px;
-  line-height: 1.2em; }
+h1,
+.header-h1 {
+  font-size: 50px;
+  line-height: 1em; }
 
-h2 {
-  font-size: 28px; }
+h2,
+.header-h2 {
+  font-size: 35px;
+  line-height: 1.1em;
+  padding-bottom: .5em; }
+
+h3 {
+  font-size: 26px;
+  line-height: 1.3em;
+  padding-bottom: .5em; }
+
+h4 {
+  font-size: 14px;
+  line-height: 1.2em;
+  margin-bottom: 1em; }
 
 p {
   margin-bottom: 1em; }
@@ -187,6 +202,11 @@ body .SnapABug_Button,
 
 #dfcg-fullsize {
   width: 100% !important; }
+
+#big-video .video-overlay p {
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-bottom: 1.5em; }
 
 iframe#facebook-faces {
   margin-bottom: 2em; }
@@ -225,7 +245,7 @@ div#respond textarea#comment {
   float: left;
   margin-bottom: 2em;
   margin-right: 5%;
-  font: 14px/20px 'Lato', Helveltica, Arial, Sans-Serif; }
+  font: 14px/20px 'Montserrat', Helveltica, Arial, Sans-Serif; }
   .childCatPosts .post.grid_4:last-child {
     margin-right: 0; }
   .childCatPosts .post.grid_4 img {
@@ -259,7 +279,7 @@ div#respond textarea#comment {
   .slider {
     display: none; }
   .content h2.heading {
-    font: 28px 'Lato', Helveltica, Arial, Sans-Serif; }
+    font: 28px 'Montserrat', Helveltica, Arial, Sans-Serif; }
   .childCatPosts .post.grid_4 {
     width: 100%;
     float: none;

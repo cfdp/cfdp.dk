@@ -28,7 +28,7 @@
 		         echo ' - page '. $paged; }
 		   ?>
 	</title>
-	<link href="https://fonts.googleapis.com/css?family=Lato:400,700,900|Roboto+Slab:100,300,400" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i|Montserrat:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" media="screen and (min-width: 1024px)" href="<?php bloginfo('template_url'); ?>/css/fixed-grid.css" />
 	<link rel="stylesheet" type="text/css" media="screen and (min-width: 1024px)" href="<?php bloginfo('template_url'); ?>/css/desktop.css" />
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" />
@@ -50,11 +50,10 @@
   js.src = "//connect.facebook.net/da_DK/sdk.js#xfbml=1&version=v2.7&appId=159894837393";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-<div class="container wrap clearfix" id="content-view">
-	<div class="header clearfix">
+    <div class="header clearfix">
 		<div class="logo grid_3">
 		  <a href="<?php bloginfo('url'); ?>">
-		  	<img src="<?php bloginfo('template_url'); ?>/img/logo.png" srcset="<?php bloginfo('template_url'); ?>/img/logo@2x.png 2x" width="300" alt="Logo CfDP">
+		  	<img src="<?php bloginfo('template_url'); ?>/img/logo.svg" width="120" alt="Logo CfDP">
 		  </a>
 		</div>
     <a id="toggle-menu-button" href="#toggle-menu-button">&#9776;&nbsp; Menu</a>
@@ -63,9 +62,27 @@
 		  <div class="searchbar">
 		    <?php include (TEMPLATEPATH . '/searchform.php' ); ?>
 		  </div>
-		  <?php wp_nav_menu( array( 'theme_location' => 'header-menu', 'container_class' => 'header__menu', 'depth' => '1'  ) ); ?>
+		  <?php wp_nav_menu(array(
+            'menu' => 'main', 
+            'container_id' => 'cssmenu', 
+            'walker' => new CSS_Menu_Walker()
+        )); ?>
 		</div>
-		<div class="sub-menu-wrap grid_12" id="mobile-menu">
-			<?php wp_nav_menu( array( 'theme_location' => 'sub-header-menu', 'container_class' => 'header__sub-menu', 'container_id' => 'mobile-menu-view', 'depth' => '2' ) ); ?>
-		</div>
+		
 	</div>
+    <?php if ( is_front_page() ) { ?>
+        <section id="big-video">
+            <div class="video-overlay">
+                <?php the_field('banner_content'); ?>
+                <a class="blue_button" href="<?php the_field('cta_btn'); ?>"><?php the_field('link_txt'); ?></a>
+            </div>
+            <div class="video" 
+                 data-src="<?php the_field('fallback_img') ?>" 
+                 data-video="<?php the_field('banner_video'); ?>" 
+                 data-placeholder="<?php the_field('start_img') ?>">
+            </div>
+        </section>
+        <?php } ?>
+    
+<div class="container wrap clearfix" id="content-view">
+	

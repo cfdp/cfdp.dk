@@ -19,7 +19,7 @@
             background-size: cover;"></div>            
         </a>
         <?php } ?>
-        <p>KATEGORIER:
+        <span class="post-tags">Kategorier:
             <?php 
                 $taxonomy = 'category';
 
@@ -40,7 +40,7 @@
                     echo  $terms;
                 }
             ?>
-        </p>
+        </span>
         <a href="<?php the_permalink(); ?>">
             <h3>
                 <?php the_title(); ?>

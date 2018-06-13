@@ -1,144 +1,21 @@
 /****************************
  HIGH PPI DISPLAY BACKGROUNDS
 *****************************/
-#menu-item-16194 {
-  display: none !important; }
-
-.nav .header__menu {
-  float: right;
-  height: 75px; }
-  .nav .header__menu ul {
-    display: inline-block; }
-    .nav .header__menu ul li {
-      display: block;
-      float: left;
-      border-right: 1px solid #ece3d6; }
-      .nav .header__menu ul li:first-child {
-        border-left: 1px solid #ece3d6; }
-      .nav .header__menu ul li:hover {
-        background: #006AB9; }
-      .nav .header__menu ul li a {
-        font-family: 'Lato', Sans-Serif;
-        padding: 28px 20px 22px;
-        font-size: 16px;
-        font-weight: bold;
-        display: inline-block; }
-        .nav .header__menu ul li a:hover {
-          text-decoration: none;
-          color: white; }
-      .nav .header__menu ul li.current-menu-item {
-        position: relative;
-        background: #006AB9; }
-        .nav .header__menu ul li.current-menu-item.menu-item-has-children:after {
-          content: "";
-          display: block;
-          position: absolute;
-          bottom: -1px;
-          left: 50%;
-          margin-left: -8px;
-          z-index: 9999;
-          width: 0;
-          height: 0;
-          border-left: 8px solid transparent;
-          border-right: 8px solid transparent;
-          border-bottom: 8px solid #F7FCFF; }
-        .nav .header__menu ul li.current-menu-item a {
-          color: white;
-          text-decoration: none; }
-
-.nav .searchbar {
-  position: relative;
-  float: right;
-  height: 75px; }
-  .nav .searchbar :after {
-    position: absolute;
-    right: 23px;
-    top: 32px;
-    content: "";
-    display: block;
-    width: 14px;
-    height: 14px;
-    background-image: url("//cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-search.png");
-    background-size: 14px 14px;
-    background-position: center center;
-    background-repeat: repeat-x; }
-    @media all and (-webkit-min-device-pixel-ratio: 1.5), all and (-o-min-device-pixel-ratio: 3 / 2), all and (min--moz-device-pixel-ratio: 1.5), all and (min-device-pixel-ratio: 1.5) {
-      .nav .searchbar :after {
-        background-image: url("//cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-search@2x.png"); } }
-  .nav .searchbar input {
-    font-size: 14px;
-    color: #999;
-    background: #EFEFEF;
-    height: 32px;
-    width: 135px;
-    border-radius: 3px;
-    padding-left: 7px;
-    margin: 22px 15px 0;
-    border: none; }
-
-.nav .icon-english-flag {
-  position: relative;
-  float: right;
+#cssmenu {
+  font-family: 'Montserrat', Sans-Serif;
   display: block;
-  width: 36px;
-  height: 24px;
-  margin: 27px 0 20px 0;
-  background-image: url("//cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-english-flag.png");
-  background-size: 36px 24px;
-  background-position: center center;
-  background-repeat: repeat-x;
-  font-size: 0;
-  color: transparent; }
-  @media all and (-webkit-min-device-pixel-ratio: 1.5), all and (-o-min-device-pixel-ratio: 3 / 2), all and (min--moz-device-pixel-ratio: 1.5), all and (min-device-pixel-ratio: 1.5) {
-    .nav .icon-english-flag {
-      background-image: url("//cfdp.dk/wordpress/wp-content/themes/cfdp_2.1/img/icon-english-flag@2x.png"); } }
-  .nav .icon-english-flag:hover {
-    -webkit-filter: brightness(89%);
-    -moz-filter: brightness(89%);
-    -ms-filter: brightness(89%);
-    -o-filter: brightness(89%);
-    filter: brightness(89%); }
-
-.header__sub-menu {
-  position: relative;
-  left: -25px;
-  top: -1px;
-  width: 1040px !important;
-  background: #F7FCFF;
-  border-top: 1px solid #ece3d6;
-  margin-bottom: 30px; }
-  .header__sub-menu .menu-item {
-    display: none; }
-  .header__sub-menu .current-menu-item,
-  .header__sub-menu .current-menu-parent {
-    display: block; }
-    .header__sub-menu .current-menu-item > a,
-    .header__sub-menu .current-menu-parent > a {
-      display: none; }
-    .header__sub-menu .current-menu-item .sub-menu,
-    .header__sub-menu .current-menu-parent .sub-menu {
-      text-align: center; }
-      .header__sub-menu .current-menu-item .sub-menu .menu-item,
-      .header__sub-menu .current-menu-parent .sub-menu .menu-item {
-        display: inline-block; }
-        .header__sub-menu .current-menu-item .sub-menu .menu-item a,
-        .header__sub-menu .current-menu-parent .sub-menu .menu-item a {
-          font-family: 'Lato', Sans-Serif;
-          display: inline-block;
-          padding: 20px 10px 16px;
-          font-size: 16px;
-          font-weight: bold; }
-        .header__sub-menu .current-menu-item .sub-menu .menu-item.current-menu-item a,
-        .header__sub-menu .current-menu-parent .sub-menu .menu-item.current-menu-item a {
-          color: black;
-          text-decoration: none;
-          cursor: default; }
-
-.delimiter {
-  position: relative;
-  left: -25px;
-  width: 1040px !important;
-  border-bottom: 1px solid #ece3d6; }
-
-#toggle-menu-button {
-  display: none; }
+  font-size: 35px;
+  font-weight: 600;
+  line-height: 1.2em;
+  padding-top: .8em;
+  padding-bottom: .5em; }
+  #cssmenu > ul > li {
+    margin-bottom: 1em; }
+    #cssmenu > ul > li > ul {
+      margin-left: 20px;
+      font-size: 20px;
+      line-height: 1.3em; }
+      #cssmenu > ul > li > ul > li {
+        margin-bottom: 0.5em; }
+        #cssmenu > ul > li > ul > li:first-child {
+          margin-top: 0.8em; }
