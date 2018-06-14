@@ -10,6 +10,12 @@
         <?php endif;?>
     </div>
 </div>
+<div class="footer-logo-wrapper clearfix">
+    <div class="wrap">
+        <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Footer-logo") ) : ?>
+        <?php endif;?>
+    </div>
+</div>
 
 <?php wp_footer(); ?>
 </body>

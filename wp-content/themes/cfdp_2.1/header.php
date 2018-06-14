@@ -62,14 +62,15 @@
 		  <div class="searchbar">
 		    <?php include (TEMPLATEPATH . '/searchform.php' ); ?>
 		  </div>
-		  <?php wp_nav_menu(array(
-            'menu' => 'main', 
-            'container_id' => 'cssmenu', 
-            'walker' => new CSS_Menu_Walker()
-        )); ?>
+		    <?php wp_nav_menu(array(
+                'menu' => 'main', 
+                'container_id' => 'cssmenu', 
+                'walker' => new CSS_Menu_Walker()
+            )); ?>
 		</div>
 		
 	</div>
+    
     <?php if ( is_front_page() ) { ?>
         <section id="big-video">
             <div class="video-overlay">
@@ -82,7 +83,18 @@
                  data-placeholder="<?php the_field('start_img') ?>">
             </div>
         </section>
-        <?php } ?>
+    <?php } ?>
+    
+    <?php if(has_post_thumbnail()) { ?>
+        <section id="big-banner">
+            <div class="img-container" style="background: url('<?php the_post_thumbnail_url(); ?>'); background-position: 50% 50%;
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;">
+            </div>
+        </section>
+    <?php } ?>
     
 <div class="container wrap clearfix" id="content-view">
-	

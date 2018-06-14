@@ -9,16 +9,15 @@
 ?>
 
     <div class="post">
-        <?php if(has_post_thumbnail()) { ?>
         <a class="image" href="<?php the_permalink(); ?>">
         <div class="post-image" style="background: url('<?php the_post_thumbnail_url(); ?>');background-position: 50% 50%;
+            background-color: #F5F5F5;
             background-repeat: no-repeat;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;"></div>            
         </a>
-        <?php } ?>
         <span class="post-tags">Kategorier:
             <?php 
                 $taxonomy = 'category';

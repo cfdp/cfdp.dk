@@ -168,6 +168,16 @@ if ( function_exists('register_sidebar') )
   )
 );
 
+if ( function_exists('register_sidebar') )
+  register_sidebar(array(
+    'name' => 'Footer-logo',
+    'before_widget' => '<div class = "footer-logo">',
+    'after_widget' => '</div>',
+    'before_title' => '<h2>',
+    'after_title' => '</h2>',
+  )
+);
+
 // Remove category "Not in feed", "International news" & Testbruger
 function myFeedExcluder($query) {
  if ($query->is_feed) {

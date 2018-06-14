@@ -14,7 +14,7 @@ Template Name: Page Home
   </div>
 </div>
 <div class="fp-section-wrapper clearfix">
-    <div class="wrap">
+    <div class="wrap fp-section">
         <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Front page section") ) : ?>
         <?php endif;?>
     </div>
