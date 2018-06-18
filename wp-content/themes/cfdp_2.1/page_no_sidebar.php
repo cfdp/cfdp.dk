@@ -14,20 +14,6 @@ Template Name: Page no sidebar
 
 			<?php echo '<h1 class="heading alpha grid_12 clearfix">' . get_the_title() . '</h1>'; ?>
 
-                <div>
-                    <?php
-                    $taxonomy = 'category';
-                    $terms = get_terms($taxonomy); // Get all terms of a taxonomy
-                    echo "<select onChange=\"document.location.href=this.options[this.selectedIndex].value;\">";
-                    foreach ($terms as $term)
-                    {
-                      echo "<option value=\"";
-                      echo get_term_link($term->slug, $taxonomy);
-                      echo "\">".$term->name."</option>\n";
-                    }
-                          echo "</select>"; ?>
-                </div>
-
 			<div class="grid_12 alpha zi1">
 
 				<div class="entry">
