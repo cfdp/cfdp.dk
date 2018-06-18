@@ -296,16 +296,24 @@ div#respond textarea#comment {
     }
   } 
     
-// Blog posts loop
-.widget_siteorigin-panels-postloop{
-    .post{
-        width: calc(100%);
-        &:nth-child(1),
-        &:nth-child(2){
-            width: calc(100%);     
+    // Blog posts loop
+    .widget_siteorigin-panels-postloop{
+        .post{
+            width: calc(100%);
+            &:nth-child(1),
+            &:nth-child(2){
+                width: calc(100%);     
+            }
+        }
+    }    
+    /*Paging*/
+    .paging{
+        .wp-pagenavi{
+            a{
+                font-size: 0;
+            }
         }
     }
-}    
         
 }
 

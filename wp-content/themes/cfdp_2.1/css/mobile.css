@@ -298,4 +298,7 @@ div#respond textarea#comment {
   .widget_siteorigin-panels-postloop .post {
     width: calc(100%); }
     .widget_siteorigin-panels-postloop .post:nth-child(1), .widget_siteorigin-panels-postloop .post:nth-child(2) {
-      width: calc(100%); } }
+      width: calc(100%); }
+  /*Paging*/
+  .paging .wp-pagenavi a {
+    font-size: 0; } }

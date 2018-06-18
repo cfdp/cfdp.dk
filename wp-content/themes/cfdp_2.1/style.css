@@ -455,6 +455,9 @@ a#contactTab:hover {
         float: right;
         margin-left: 10px;
         margin-top: 8px; }
+    @media (max-width: 1024px) {
+      .paging .wp-pagenavi .nextpostslink::before, .paging .wp-pagenavi .previouspostslink::before {
+        margin-top: 5px; } }
 
 /*Archive*/
 .archive .results {

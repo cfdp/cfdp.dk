@@ -578,6 +578,13 @@ a#contactTab:hover{
                 margin-top: 8px;
             }
         }
+        @media (max-width: 1024px) {
+            .nextpostslink, .previouspostslink{
+                &::before {
+                    margin-top: 5px;
+                }
+            }
+        }
     }
 }
 /*Archive*/
