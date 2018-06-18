@@ -501,16 +501,84 @@ a#contactTab:hover{
 
 /*Paging*/
 .paging{
-	font-family: 'Montserrat', Sans-Serif;
-	text-align: center;
-
-	a {
-		@extend .blue_button;
-		color: white !important;
-		margin: 0 15px;
-	}
-
-	margin-bottom: 50px;
+    margin-bottom: 100px;
+    .wp-pagenavi{
+        display: flex;
+        display: -ms-flexbox;
+        margin-top: 25px;
+        position: relative;
+        a{
+            font-family: 'Montserrat', Sans-Serif;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            font-weight: 300;
+            text-transform: uppercase;
+            border: 1px solid #414141;
+            color: #414141 !important;
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 0px;
+            &:hover{
+                border: 1px solid #006cb6;
+            }
+        }
+        .pages{
+            -ms-flex-order: 2;
+            order: 2;
+            padding: 15px 0 12px 0;
+            border: 0;
+            font-family: 'Montserrat', Sans-Serif;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            text-align: center;
+            position: absolute;
+            width: 140px;
+            left: 50%;
+            margin-left:-70px;
+        }
+        .previouspostslink{
+            -ms-flex-order: 1;
+            order: 1;
+            position: absolute;
+            left: 0;
+            &::before {
+                content: "";
+                display: block;
+                background: url(img/arrow.svg) no-repeat;
+                width: 12px;
+                height: 9px;
+                float: left;
+                margin-right: 10px;
+                margin-top: 8px;
+                -moz-transform: scaleX(-1);
+                -o-transform: scaleX(-1);
+                -webkit-transform: scaleX(-1);
+                transform: scaleX(-1);
+                filter: FlipH;
+                -ms-filter: "FlipH";
+            }
+        }
+        .current{
+            display: none;
+        }
+        .nextpostslink{
+            -ms-flex-order: 3;
+            order: 3;
+            margin-left: auto;
+            position: absolute;
+            right: 0;
+            &::before {
+                content: "";
+                display: block;
+                background: url(img/arrow.svg) no-repeat;
+                width: 12px;
+                height: 9px;
+                float: right;
+                margin-left: 10px;
+                margin-top: 8px;
+            }
+        }
+    }
 }
 /*Archive*/
 
