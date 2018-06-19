@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Page no sidebar
+Template Name: Page post archive
 */
 ?>
 
@@ -8,15 +8,15 @@ Template Name: Page no sidebar
     
 	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-	<div class="content clearfix">
+	<div class="content grid_12 clearfix">
 
-		<div <?php post_class() ?> id="post-<?php the_ID(); ?>">
-
-			<?php echo '<h1 class="heading grid_12 clearfix">' . get_the_title() . '</h1>'; ?>
+		<div id="post-<?php the_ID(); ?>" class="archive">
+            <?php echo '<p class="sub-titel">Kategori:</p>' ?>    
+			<?php echo '<h2 class="heading alpha grid_12 clearfix">' . get_the_title() . '</h2>'; ?>
 
 			<div class="grid_12">
 
-				<div class="entry">
+				<div class="entry results">
 
 					<?php the_content(); ?>
 
@@ -34,4 +34,5 @@ Template Name: Page no sidebar
 <?php endwhile; endif; ?>
 
 	</div>
+
 <?php get_footer(); ?>
