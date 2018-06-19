@@ -30,10 +30,7 @@ jQuery(document).ready(function($) {
     $('#module--newsletter').hide();
   }
 
-// newsletter widget image height    
-$(window).on('load resize', function () {
-    $("#module--newsletter div:nth-child(1) .widget_text").height( $("#module--newsletter div:nth-child(2)").height() );
-});      
+     
     
 // load front page video    
 function isIE () {
@@ -57,8 +54,12 @@ if($(window).width() > 599 && !isIEOld && !isiPad) {
     el = '<div class="video-element" style="background-image: url(' + noVideo + ')"></div>';
 }
 
-$('.video').prepend(el);     
+$('.video').prepend(el);       
 
     
-    
 });
+
+// newsletter widget image height    
+$(window).on('load resize', function () {
+    $("#module--newsletter div:nth-child(1) .widget_text").height( $("#module--newsletter div:nth-child(2)").height() );
+}); 
