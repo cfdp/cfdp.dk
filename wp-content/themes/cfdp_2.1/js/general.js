@@ -1,4 +1,33 @@
 jQuery(document).ready(function($) {
+    
+    var $container = $('.lectures');
+    $container.isotope({
+        filter: '*',
+        layoutMode: 'fitRows',
+        animationOptions: {
+            duration: 750,
+            easing: 'linear',
+            queue: false
+        }
+    });
+ 
+    $('#filters a').click(function(){
+        $('#filters a.active').removeClass('active');
+        $(this).addClass('active');
+ 
+        var selector = $(this).attr('data-filter');
+        $container.isotope({
+            filter: selector,
+            layoutMode: 'fitRows',
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            }
+         });
+         return false;
+    });   
+    
 
   $("#SnapABug_bImg").hover(function(){
         $("#SnapABug_bImg").attr("src","http://www.cfdp.dk/img/contact_us_over.png");
