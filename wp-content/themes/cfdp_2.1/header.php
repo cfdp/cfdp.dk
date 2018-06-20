@@ -71,6 +71,18 @@
 		
 	</div>
     
+    
+    
+    
+    
+    
+    
+    <!-- Header image logic -->   
+    
+    
+    
+    
+    
     <?php if ( is_front_page() ) { ?>
         <section id="big-video">
             <div class="video-overlay">
@@ -85,40 +97,9 @@
         </section>
     <?php } ?>
     
-    <?php if(has_post_thumbnail() && !is_archive() && !is_singular('person')) { ?>
+     <?php if(has_post_thumbnail() && !is_singular('person')) { ?>
         <section id="big-banner">
-            <div class="img-container" style="background-image: url('<?php the_post_thumbnail_url(); ?>');">
-            </div>
-        </section>
-    <?php } ?>
-    
-    <?php if(is_archive()) { ?>
-        <section id="big-banner">
-            <div class="img-container" style="background-image: url('<?php bloginfo('template_url'); ?>/img/fallback.png');">
-                <div class="img-overlay">
-                <?php the_field('archive_banner_content', 1204); ?> 
-                <div class="tag-filter">
-                    <?php
-                    $taxonomy = 'category';
-                    $terms = get_terms($taxonomy); // Get all terms of a taxonomy
-                    echo "<select onChange=\"document.location.href=this.options[this.selectedIndex].value;\">";
-                    echo "<option>Vælg kategori</option>\n";
-                    echo "<option value='/alle-indlaeg'>Alle indlæg</option>\n";
-                    foreach ($terms as $term)
-                    {
-                      echo "<option value=\"";
-                      echo get_term_link($term->slug, $taxonomy);
-                      echo "\">".$term->name."</option>\n";
-                    }
-                          echo "</select>"; ?>
-                </div>
-                </div>
-            </div>
-        </section>
-    <?php } ?>
-    
-    <?php if(is_page_template( 'page_post_archive.php' ) ) { ?>
-        <section id="big-banner">
+            <?php if ( is_page_template( 'page_post_archive.php' ) ) { ?>
             <div class="img-container" style="background-image: url('<?php bloginfo('template_url'); ?>/img/fallback.png');">
                 <div class="img-overlay">
                 <?php the_field('archive_banner_content') ?>
@@ -139,7 +120,46 @@
                 </div>
                 </div>
             </div>
+
+        <?php } elseif ( is_page_template( 'page_lectures.php' ) ) { ?>
+            <div class="img-container" style="background-image: url('<?php bloginfo('template_url'); ?>/img/fallback.png');">
+                <div class="img-overlay">
+                <h1 class="name"><?php the_title(); ?></h1>
+                <p><?php the_field('banner_intro'); ?></p>
+                </div>
+            </div>
+            
+        <?php } elseif ( is_archive() ) { ?>
+            <div class="img-container" style="background-image: url('<?php bloginfo('template_url'); ?>/img/fallback.png');">
+                <div class="img-overlay">
+                <?php the_field('archive_banner_content', 1204); ?> 
+                <div class="tag-filter">
+                    <?php
+                    $taxonomy = 'category';
+                    $terms = get_terms($taxonomy); // Get all terms of a taxonomy
+                    echo "<select onChange=\"document.location.href=this.options[this.selectedIndex].value;\">";
+                    echo "<option>Vælg kategori</option>\n";
+                    echo "<option value='/alle-indlaeg'>Alle indlæg</option>\n";
+                    foreach ($terms as $term)
+                    {
+                      echo "<option value=\"";
+                      echo get_term_link($term->slug, $taxonomy);
+                      echo "\">".$term->name."</option>\n";
+                    }
+                          echo "</select>"; ?>
+                </div>
+                </div>
+            </div>
+
+        <?php } else { ?>
+            <div class="img-container" style="background-image: url('<?php the_post_thumbnail_url(); ?>');">
+            </div>
+
+        <?php } ?>
         </section>
+    
+    
     <?php } ?>
+    
     
 <div class="container wrap clearfix" id="content-view">

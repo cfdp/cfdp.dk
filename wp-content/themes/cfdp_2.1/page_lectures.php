@@ -24,6 +24,11 @@ Template Name: Page foredrag
 
 		</div>
         
+        <div class="lectures-archive-intro">
+            <h2><?php the_field('archive_titel'); ?></h2>
+            <p><?php the_field('archive_content'); ?></p>
+        </div>
+        
         <ul id="filters" class="clearfix">
             <?php
                 $terms = get_terms('foredrag_kategori');
