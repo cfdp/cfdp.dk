@@ -8,33 +8,27 @@ Template Name: Page foredrag
     
 	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-	<div class="content clearfix">
+	<div class="content grid_12 clearfix">
 
 		<div <?php post_class() ?> id="post-<?php the_ID(); ?>">
 
-			<?php echo '<h1 class="heading grid_12 clearfix">' . get_the_title() . '</h1>'; ?>
+            <div class="entry">
 
-			<div class="grid_12">
+                <?php the_content(); ?>
 
-				<div class="entry">
+                <?php wp_link_pages(array('before' => 'Pages: ', 'next_or_number' => 'number')); ?>
 
-					<?php the_content(); ?>
+                <?php the_tags( 'Tags: ', ', ', ''); ?>
 
-					<?php wp_link_pages(array('before' => 'Pages: ', 'next_or_number' => 'number')); ?>
-
-					<?php the_tags( 'Tags: ', ', ', ''); ?>
-
-				</div>
-
-			</div>
+            </div>
 
 		</div>
         
-        <ul id="filters">
+        <ul id="filters" class="clearfix">
             <?php
                 $terms = get_terms('foredrag_kategori');
                 $count = count($terms);
-                    echo '<li>Vælg målgruppe: </li><li><a href="javascript:void(0)" title="" data-filter=".all" class="active">Vis alle</a></li>';
+                    echo '<li><a href="javascript:void(0)" title="" data-filter=".all" class="active">Vis alle</a></li>';
                 if ( $count > 0 ){
 
                     foreach ( $terms as $term ) {

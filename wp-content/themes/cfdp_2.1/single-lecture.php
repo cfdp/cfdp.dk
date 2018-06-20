@@ -8,11 +8,10 @@
         <div class="post-intro">
 
             <h1><?php the_title(); ?></h1>
-            <?php if ( !empty( $meta_teaser ) ) {echo '<p class="text-intro">' . $meta_teaser . '</p>';} ?>
 
         </div>
         
-		<div class="entry <?php if ( !empty( $meta_teaser ) ){ echo 'entry--with-teaser';} ?>">
+		<div class="entry">
 			<?php the_content(); ?>
 		</div>
         

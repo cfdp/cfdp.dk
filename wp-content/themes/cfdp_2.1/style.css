@@ -1231,25 +1231,48 @@ p#personal-info-disclaimer {
     padding-top: 0;
     margin-top: 40px; }
 
-.page-template-page_lecture .entry {
+.page-template-page_lectures .entry {
   width: 100%;
   max-width: 640px;
   margin: 0 auto;
   margin-bottom: 50px; }
 
-.lectures .lecture-item {
+.page-template-page_lectures #filters {
+  margin-bottom: 40px;
+  border-bottom: 1px solid #efefef;
+  padding-bottom: 40px; }
+  .page-template-page_lectures #filters li {
+    float: left;
+    margin-right: 20px; }
+    .page-template-page_lectures #filters li a {
+      font-family: 'Montserrat', Sans-Serif;
+      font-size: 0.9em;
+      letter-spacing: 1px;
+      font-weight: 300;
+      text-transform: uppercase;
+      border: 1px solid #006cb6;
+      color: #006cb6 !important;
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 0px; }
+      .page-template-page_lectures #filters li a:hover, .page-template-page_lectures #filters li a.active {
+        background: #006cb6;
+        color: #ffffff !important;
+        text-decoration: none; }
+
+.page-template-page_lectures .lectures .lecture-item {
   width: calc(1/3 * 100% - (40px / 3));
   float: left;
   margin-bottom: 30px;
   margin-right: 20px; }
-  .lectures .lecture-item:nth-child(3n + 5), .lectures .lecture-item:nth-child(2) {
+  .page-template-page_lectures .lectures .lecture-item:nth-child(3n + 5), .page-template-page_lectures .lectures .lecture-item:nth-child(2) {
     margin-right: 20px; }
-  .lectures .lecture-item:nth-child(3n) {
+  .page-template-page_lectures .lectures .lecture-item:nth-child(3n) {
     margin-right: 0;
     clear: inherit; }
-  .lectures .lecture-item:nth-child(3n + 1) {
+  .page-template-page_lectures .lectures .lecture-item:nth-child(3n + 1) {
     clear: left; }
-  .lectures .lecture-item .post-image {
+  .page-template-page_lectures .lectures .lecture-item .post-image {
     padding-top: 56.25%; }
-  .lectures .lecture-item h3 {
+  .page-template-page_lectures .lectures .lecture-item h3 {
     padding-top: 10px; }
