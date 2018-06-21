@@ -1,5 +1,6 @@
 jQuery(document).ready(function($) {
     
+    //Foredrag isotope
     var $container = $('.lectures');
     $container.isotope({
         filter: '*',
@@ -28,6 +29,27 @@ jQuery(document).ready(function($) {
          return false;
     });   
     
+//Searchbar animation    
+    
+$(".icon-search").toggle(
+    function () { 
+        $(".search-form").animate({marginTop: '0px'}, "fast"); 
+    },
+    function () { 
+        $(".search-form").animate({marginTop: '-85px'}, "fast"); 
+});     
+    
+    
+// menu animation
+$('.burger').on('click', function(event) {
+    $(".menu-overlay").toggleClass("open");
+    $("body").css("overflow", "hidden");
+}); 
+    
+$('.menu-overlay').on('click', function(event) {
+    $(".menu-overlay").toggleClass("open");
+    $("body").css("overflow", "auto");
+});     
 
   $("#SnapABug_bImg").hover(function(){
         $("#SnapABug_bImg").attr("src","http://www.cfdp.dk/img/contact_us_over.png");
@@ -40,11 +62,14 @@ jQuery(document).ready(function($) {
     SnapABug.startLink();
   });
 
-  // https://github.com/artberri/sidr
-  $('#toggle-menu-button').sidr({
-    name: 'mobile-menu',
-    side: 'right'
-  });
+    //remove placeholder on focus
+    $('input,textarea').focus(function(){
+        $(this).data('placeholder',$(this).attr('placeholder'))
+        .attr('placeholder','');
+    }).blur(function(){
+        $(this).attr('placeholder',$(this).data('placeholder'));
+    })
+    
 
   // If no thanks link is click hide newsletter form
 

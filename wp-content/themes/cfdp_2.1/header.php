@@ -50,23 +50,41 @@
   js.src = "//connect.facebook.net/da_DK/sdk.js#xfbml=1&version=v2.7&appId=159894837393";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+    
+    
+    <div class="menu-overlay clearfix">
+        <?php wp_nav_menu(array(
+            'menu' => 'main', 
+            'container_id' => 'cssmenu', 
+            'walker' => new CSS_Menu_Walker()
+        )); ?>
+    </div>
+    
+    
+    <div id="search-form" class="search-form"><?php include (TEMPLATEPATH . '/searchform.php' ); ?></div>    
     <div class="header clearfix">
-		<div class="logo grid_3">
-		  <a href="<?php bloginfo('url'); ?>">
-		  	<img src="<?php bloginfo('template_url'); ?>/img/logo.svg" width="120" alt="Logo CfDP">
-		  </a>
-		</div>
-    <a id="toggle-menu-button" href="#toggle-menu-button">&#9776;&nbsp; Menu</a>
-		<div class="nav grid_9 clearfix">
-		  <a class="icon-english-flag" href="/cfdp-in-english/">In english</a>
-		  <div class="searchbar">
-		    <?php include (TEMPLATEPATH . '/searchform.php' ); ?>
-		  </div>
-		    <?php wp_nav_menu(array(
-                'menu' => 'main', 
-                'container_id' => 'cssmenu', 
-                'walker' => new CSS_Menu_Walker()
-            )); ?>
+        <!-- <a id="toggle-menu-button" href="#toggle-menu-button">&#9776;&nbsp; Menu</a> -->
+		<div class="nav clearfix">
+            <div class="left">
+                <img class="burger" src="<?php bloginfo('template_url'); ?>/img/burger-dark.png" width="30" height="23" alt="Menu CfDP">
+                <div class="logo">
+                    <a href="<?php bloginfo('url'); ?>">
+                        <img src="<?php bloginfo('template_url'); ?>/img/logo.svg" width="120" alt="Logo CfDP">
+                    </a>
+                </div>
+            </div> 
+            <div class="right">
+                <div class="second-menu">
+                    <?php wp_nav_menu(array(
+                        'menu' => 'sekundær menu', 
+                        'container_id' => 'secondary-menu', 
+                        'walker' => new CSS_Menu_Walker()
+                    )); ?>
+                </div>
+                <div class="searchbar">
+                <span class="icon-search"></span>    
+                </div>
+            </div>    
 		</div>
 		
 	</div>
@@ -97,7 +115,7 @@
         </section>
     <?php } ?>
     
-     <?php if(has_post_thumbnail() && !is_singular('person')) { ?>
+     <?php if(has_post_thumbnail() && !is_singular('person') || is_archive()) { ?>
         <section id="big-banner">
             <?php if ( is_page_template( 'page_post_archive.php' ) ) { ?>
             <div class="img-container" style="background-image: url('<?php bloginfo('template_url'); ?>/img/fallback.png');">
@@ -107,6 +125,7 @@
                     <?php
                     $taxonomy = 'category';
                     $terms = get_terms($taxonomy); // Get all terms of a taxonomy
+                    echo "<svg class='select-arrow'></svg>";
                     echo "<select onChange=\"document.location.href=this.options[this.selectedIndex].value;\">";
                     echo "<option>Vælg kategori</option>\n";
                     echo "<option value='/alle-indlaeg'>Alle indlæg</option>\n";
@@ -137,7 +156,8 @@
                     <?php
                     $taxonomy = 'category';
                     $terms = get_terms($taxonomy); // Get all terms of a taxonomy
-                    echo "<select onChange=\"document.location.href=this.options[this.selectedIndex].value;\">";
+                    echo "<svg class='select-arrow'></svg>";                     
+                    echo "<select onChange=\"document.location.href=this.options[this.selectedIndex].value;\">";                     
                     echo "<option>Vælg kategori</option>\n";
                     echo "<option value='/alle-indlaeg'>Alle indlæg</option>\n";
                     foreach ($terms as $term)

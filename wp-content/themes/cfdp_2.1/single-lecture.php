@@ -31,7 +31,7 @@
                                     $terms = rtrim( trim( str_replace( '<br />',  $separator, $terms ) ), $separator );
 
                                     // display post categories
-                                    echo  $terms;
+                                    echo  strip_tags($terms);
                                 }
                             ?>
                         </p>
