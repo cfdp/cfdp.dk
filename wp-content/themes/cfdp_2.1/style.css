@@ -32,10 +32,11 @@ p {
   padding-bottom: 1em; }
 
 blockquote {
-  padding-bottom: 1em; }
+  padding-top: 1.5em;
+  padding-bottom: 1.5em; }
   blockquote p {
     padding-bottom: 0;
-    border-left: 5px solid #000;
+    border-left: 5px solid #006cb6;
     padding-left: .5em;
     font-size: 22px;
     line-height: 30px;
@@ -1290,3 +1291,74 @@ p#personal-info-disclaimer {
       font-size: 0.9em; }
     .page-template-page_lectures .lectures .lecture-item h3 {
       padding-top: 10px; }
+
+.single-lecture .post-intro {
+  width: 100%;
+  max-width: 740px;
+  margin: 0 auto; }
+  .single-lecture .post-intro .text-intro {
+    padding-bottom: 2em;
+    border-bottom: 1px solid #D8D8D8; }
+  .single-lecture .post-intro .intro-box {
+    background: #F5F5F5;
+    padding: 2em 3em;
+    margin-bottom: 2em;
+    margin-top: 50px;
+    font-size: 2em;
+    font-family: 'Montserrat', Sans-Serif;
+    font-size: 18px; }
+    @media (max-width: 1024px) {
+      .single-lecture .post-intro .intro-box {
+        padding: 1.5em; } }
+    .single-lecture .post-intro .intro-box .post-tags {
+      margin: 0;
+      text-transform: none;
+      font-size: 18px;
+      position: relative; }
+      .single-lecture .post-intro .intro-box .post-tags a {
+        color: #414141;
+        font-weight: 300;
+        padding: 0; }
+        .single-lecture .post-intro .intro-box .post-tags a.blue_button, .single-lecture .post-intro .intro-box .post-tags .comments .comment a.comment-reply-link, .comments .comment .single-lecture .post-intro .intro-box .post-tags a.comment-reply-link {
+          font-family: 'Montserrat', Sans-Serif;
+          font-size: 0.9em;
+          letter-spacing: 1px;
+          font-weight: 300;
+          text-transform: uppercase;
+          background: #2980b9;
+          color: white !important;
+          display: inline-block;
+          padding: 12px 30px;
+          border-radius: 0px;
+          border: none; }
+          .single-lecture .post-intro .intro-box .post-tags a.blue_button:hover, .single-lecture .post-intro .intro-box .post-tags .comments .comment a.comment-reply-link:hover, .comments .comment .single-lecture .post-intro .intro-box .post-tags a.comment-reply-link:hover {
+            text-decoration: none;
+            background: #2472a4; }
+      .single-lecture .post-intro .intro-box .post-tags p {
+        padding-bottom: 10px; }
+      .single-lecture .post-intro .intro-box .post-tags p:last-child {
+        padding-bottom: 0; }
+      .single-lecture .post-intro .intro-box .post-tags .left {
+        float: left; }
+      .single-lecture .post-intro .intro-box .post-tags .right {
+        float: right;
+        position: absolute;
+        top: 50%;
+        height: 144px;
+        margin-top: -25px;
+        right: 0; }
+
+.single-lecture .entry {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  margin-bottom: 50px; }
+  .single-lecture .entry #lecture-contact {
+    border-top: 1px solid #D8D8D8;
+    margin-top: 1em;
+    padding-top: 1em; }
+  .single-lecture .entry .shareaholic-canvas {
+    display: none; }
+
+.shareaholic-share-buttons-container .shareaholic-share-buttons-wrapper-with-headline {
+  margin-left: 11px !important; }

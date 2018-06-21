@@ -301,4 +301,23 @@ div#respond textarea#comment {
       width: calc(100%); }
   /*Paging*/
   .paging .wp-pagenavi a {
-    font-size: 0; } }
+    font-size: 0; }
+  .single-lecture .post-intro .intro-box .post-tags p {
+    margin-bottom: 10px; }
+  .single-lecture .post-intro .intro-box .post-tags p:last-child {
+    margin-bottom: 0; }
+  .single-lecture .post-intro .intro-box .post-tags .left {
+    float: left; }
+  .single-lecture .post-intro .intro-box .post-tags .right {
+    float: right;
+    position: inherit;
+    height: auto;
+    margin-top: 10px;
+    width: 100%; } }
+
+.single-lecture .post-intro .intro-box .post-tags p {
+  margin-bottom: 5px;
+  padding-bottom: 5px; }
+
+.single-lecture .post-intro .intro-box .post-tags p:last-child {
+  margin-bottom: 0; }
