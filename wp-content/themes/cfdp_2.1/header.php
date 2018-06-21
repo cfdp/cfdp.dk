@@ -53,6 +53,11 @@
     
     
     <div class="menu-overlay clearfix">
+        <span class="close-menu">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 23" class="close-menu-btn">
+            <path class="cross" d="M14.1,11.5l8.6-8.6c0.5-0.5,0.5-1.4-0.1-2c-0.6-0.6-1.5-0.6-2-0.1L12,9.4L3.4,0.8C2.9,0.3,2,0.3,1.4,0.9c-0.6,0.6-0.6,1.5-0.1,2l8.6,8.6l-8.6,8.6c-0.5,0.5-0.5,1.4,0.1,2c0.6,0.6,1.5,0.6,2,0.1l8.6-8.6l8.6,8.6c0.5,0.5,1.4,0.5,2-0.1c0.6-0.6,0.6-1.5,0.1-2L14.1,11.5z"/>
+            </svg>
+        </span>
         <?php wp_nav_menu(array(
             'menu' => 'main', 
             'container_id' => 'cssmenu', 
@@ -66,7 +71,12 @@
         <!-- <a id="toggle-menu-button" href="#toggle-menu-button">&#9776;&nbsp; Menu</a> -->
 		<div class="nav clearfix">
             <div class="left">
-                <img class="burger" src="<?php bloginfo('template_url'); ?>/img/burger-dark.png" width="30" height="23" alt="Menu CfDP">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 23" class="burger">
+                    <path class="line" d="M1.4,3h27.3C29.4,3,30,2.3,30,1.5S29.4,0,28.6,0H1.4C0.6,0,0,0.7,0,1.5S0.6,3,1.4,3z"/>
+                    <path class="line" d="M28.6,10H1.4C0.6,10,0,10.7,0,11.5S0.6,13,1.4,13h27.3c0.8,0,1.4-0.7,1.4-1.5S29.4,10,28.6,10z"/>
+                    <path class="line" d="M28.6,20H1.4C0.6,20,0,20.7,0,21.5S0.6,23,1.4,23h27.3c0.8,0,1.4-0.7,1.4-1.5S29.4,20,28.6,20z"/>
+                </svg>
+
                 <div class="logo">
                     <a href="<?php bloginfo('url'); ?>">
                         <img src="<?php bloginfo('template_url'); ?>/img/logo.svg" width="120" alt="Logo CfDP">
@@ -81,8 +91,8 @@
                         'walker' => new CSS_Menu_Walker()
                     )); ?>
                 </div>
-                <div class="searchbar">
-                <span class="icon-search"></span>    
+                <div class="search-icon active">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25"><path class="search-svg" d="M18,16.1l7,7L23.1,25l-7-7A9.9,9.9,0,0,1,10,20,10,10,0,1,1,20,10,9.9,9.9,0,0,1,18,16.1Zm-8,1.3A7.4,7.4,0,1,0,2.7,10,7.4,7.4,0,0,0,10,17.4Z"/></svg>       
                 </div>
             </div>    
 		</div>
@@ -115,7 +125,7 @@
         </section>
     <?php } ?>
     
-     <?php if(has_post_thumbnail() && !is_singular('person') || is_archive()) { ?>
+     <?php if(has_post_thumbnail() && !is_singular('person') && !is_search() || is_archive()) { ?>
         <section id="big-banner">
             <?php if ( is_page_template( 'page_post_archive.php' ) ) { ?>
             <div class="img-container" style="background-image: url('<?php bloginfo('template_url'); ?>/img/fallback.png');">

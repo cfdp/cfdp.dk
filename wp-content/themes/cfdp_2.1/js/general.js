@@ -29,15 +29,77 @@ jQuery(document).ready(function($) {
          return false;
     });   
     
-//Searchbar animation    
+//Searchbar animation   
     
-$(".icon-search").toggle(
-    function () { 
-        $(".search-form").animate({marginTop: '0px'}, "fast"); 
-    },
-    function () { 
-        $(".search-form").animate({marginTop: '-85px'}, "fast"); 
-});     
+$( ".search-icon" ).on( "click", animateSearchBar );
+function animateSearchBar() {
+    $( ".search-form" ).toggleClass( "open" );
+}
+
+$( "close-search" ).on( "click", animateSearchBar );
+function animateSearchBar() {
+    $( ".search-form" ).toggleClass( "open" );
+}
+
+$(document).mouseup(function (e){  
+    var container = $("#searchform");
+    if (!container.is(e.target) && container.has(e.target).length === 0 && $( ".search-form" ).hasClass( "open" )){
+        $( ".search-form" ).toggleClass( "open" );	
+    }
+});  	
+
+
+    
+    
+    
+    
+$('.current_page_item').closest('.menu-item-has-children').addClass("opened");    
+    
+$('#cssmenu > ul > li > a').click(function() {
+    var checkElement = $(this).next();	
+
+    if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
+      $(this).closest('li').removeClass('active');
+      checkElement.slideUp('100', 'linear');
+        $(this).parent().toggleClass("opened");
+    }
+
+    if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
+      $('#cssmenu ul ul:visible').slideUp('normal');
+      checkElement.slideDown('100', 'linear');
+        $('.menu-item-has-children').not(this).removeClass("opened");
+        $(this).parent().toggleClass("opened");
+    }
+
+    if (checkElement.is('ul')) {
+      return false;
+    } else {
+      return true;	
+    }
+    
+    if($(this).closest(".menu-item-has-children").length > 0)
+   {
+       
+       alert("Clicked anchor with div parent class: menu-item-has-children");
+   }
+    
+});
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 // menu animation
