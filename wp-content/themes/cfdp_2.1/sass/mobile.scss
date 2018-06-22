@@ -305,7 +305,18 @@ div#respond textarea#comment {
                 width: calc(100%);     
             }
         }
-    }    
+    }  
+    #blogposts, .archive, .related-content, .page-template-page_lecture{
+        .widget_siteorigin-panels-postloop{
+            .post{
+                width: calc(100%);
+                &:nth-child(1),
+                &:nth-child(2){
+                    width: calc(100%);     
+                }
+            }
+        }
+    }
     /*Paging*/
     .paging{
         .wp-pagenavi{

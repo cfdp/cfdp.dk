@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Page post archive
+Template Name: Oversigt alle indlæg
 */
 ?>
 
@@ -20,19 +20,15 @@ Template Name: Page post archive
 
 					<?php the_content(); ?>
 
-					<?php wp_link_pages(array('before' => 'Pages: ', 'next_or_number' => 'number')); ?>
-
-					<?php the_tags( 'Tags: ', ', ', ''); ?>
-
 				</div>
 
 			</div>
 
 		</div>
+    
+    </div>
 
 
 <?php endwhile; endif; ?>
-
-	</div>
 
 <?php get_footer(); ?>

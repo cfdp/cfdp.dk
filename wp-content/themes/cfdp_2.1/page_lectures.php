@@ -1,34 +1,34 @@
 <?php
 /*
-Template Name: Page foredrag
+Template Name: Oversigt foredrag
 */
 ?>
 
-<?php get_header(); ?>
-    
-	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+    <?php get_header(); ?>
 
-	<div class="content grid_12 clearfix">
+    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-		<div <?php post_class() ?> id="post-<?php the_ID(); ?>">
 
+    <div <?php post_class() ?> id="post-
+        <?php the_ID(); ?>">
+        <div class="content grid_12 clearfix">
             <div class="entry">
 
                 <?php the_content(); ?>
 
-                <?php wp_link_pages(array('before' => 'Pages: ', 'next_or_number' => 'number')); ?>
-
-                <?php the_tags( 'Tags: ', ', ', ''); ?>
-
             </div>
 
-		</div>
-        
-        <div class="lectures-archive-intro">
-            <h2><?php the_field('archive_titel'); ?></h2>
-            <p><?php the_field('archive_content'); ?></p>
         </div>
-        
+
+        <div class="lectures-archive-intro">
+            <h2>
+                <?php the_field('archive_titel'); ?>
+            </h2>
+            <p>
+                <?php the_field('archive_content'); ?>
+            </p>
+        </div>
+
         <ul id="filters" class="clearfix">
             <?php
                 $terms = get_terms('foredrag_kategori');
@@ -45,10 +45,10 @@ Template Name: Page foredrag
                 }
             ?>
         </ul>
-        
+
         <div class="lectures">
- 
-          <?php
+
+            <?php
           /* 
           Query the post 
           */
@@ -87,8 +87,8 @@ Template Name: Page foredrag
 
         </div>
 
+    </div>
+    <?php endwhile; endif; ?>
 
-<?php endwhile; endif; ?>
 
-	</div>
-<?php get_footer(); ?>
+    <?php get_footer(); ?>

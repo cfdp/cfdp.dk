@@ -69,8 +69,10 @@
         
 		<div class="entry <?php if ( !empty( $meta_teaser ) ){ echo 'entry--with-teaser';} ?>">
 			<?php the_content(); ?>
-			<?php wp_link_pages(array('before' => 'Pages: ', 'next_or_number' => 'number')); ?>
+			<?php comments_template(); ?>
 		</div>
+        
+        <?php if ( has_tag() ) { ?>
 		<div class="related-content">
 			<?php // Show sidebar based on which cate the post is in.
 
@@ -85,8 +87,8 @@
 			}
 
 			?>
-		</div><!-- .related-content -->
-		<?php comments_template(); ?>
+		</div>
+        <?php } ?>
 	</div><!-- #post- -->
 	<?php endwhile; endif; ?>
 
