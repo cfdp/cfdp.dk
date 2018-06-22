@@ -108,7 +108,7 @@
     <!-- Header image logic -->   
     
     
-    
+
     
     
     <?php if ( is_front_page() ) { ?>
@@ -117,11 +117,9 @@
                 <?php the_field('banner_content'); ?>
                 <a class="blue_button" href="<?php the_field('cta_btn'); ?>"><?php the_field('link_txt'); ?></a>
             </div>
-            <div class="video" 
-                 data-src="<?php the_field('fallback_img') ?>" 
-                 data-video="<?php the_field('banner_video'); ?>" 
-                 data-placeholder="<?php the_field('start_img') ?>">
-            </div>
+            <video autoplay loop muted poster="<?php the_field('start_img') ?>" class="video">
+                <source src="<?php the_field('banner_video'); ?>" type="video/mp4">
+            </video>
         </section>
     <?php } ?>
     
