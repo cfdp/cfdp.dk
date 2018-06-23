@@ -307,23 +307,25 @@ h4 {
     display: -ms-inline-flexbox;
     display: inline-flex;
     margin-left: auto; }
-    .nav .right .second-menu li {
-      display: inline-block;
-      margin-right: 1em; }
-      .nav .right .second-menu li a {
-        font-family: 'Montserrat', Sans-Serif;
-        font-size: 0.9em;
-        font-weight: 300;
-        color: #414141; }
-        .nav .right .second-menu li a:hover {
-          color: #c1c1c1;
-          text-decoration: none; }
+    .nav .right .second-menu {
+      line-height: 2em; }
+      .nav .right .second-menu li {
+        display: inline-block;
+        margin-right: 1em; }
+        .nav .right .second-menu li a {
+          font-family: 'Montserrat', Sans-Serif;
+          font-size: 0.9em;
+          font-weight: 300;
+          color: #414141; }
+          .nav .right .second-menu li a:hover {
+            color: #c1c1c1;
+            text-decoration: none; }
     .nav .right .search-icon {
       cursor: pointer;
       margin-left: 10px;
       line-height: 0; }
       .nav .right .search-icon svg {
-        width: 25px; }
+        width: 28px; }
         .nav .right .search-icon svg .search-svg {
           fill: #414141; }
         .nav .right .search-icon svg:hover .search-svg {
@@ -1595,6 +1597,13 @@ p#personal-info-disclaimer {
       .menu-overlay .close-menu .close-menu-btn:hover .cross {
         fill: rgba(255, 255, 255, 0.5); }
   .menu-overlay #cssmenu {
+    font-family: 'Montserrat', Sans-Serif;
+    display: block;
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 1.2em;
+    padding-top: .8em;
+    padding-bottom: .5em;
     width: fit-content;
     margin-left: 5em; }
     .menu-overlay #cssmenu ul li a {
@@ -1611,7 +1620,7 @@ p#personal-info-disclaimer {
       display: block;
       width: 11px;
       height: 19px;
-      background: url(img/menu-arrow.svg) no-repeat;
+      background: url("img/menu-arrow.svg") no-repeat;
       background-size: 11px 19px;
       opacity: .5;
       -webkit-transform: rotate(0deg);
@@ -1634,6 +1643,18 @@ p#personal-info-disclaimer {
         color: white; }
     .menu-overlay #cssmenu ul li.current-menu-item a {
       color: white; }
+    .menu-overlay #cssmenu > ul > li {
+      margin-bottom: 1em; }
+      .menu-overlay #cssmenu > ul > li > ul {
+        margin-left: 20px;
+        font-size: 20px;
+        line-height: 1.3em; }
+        .menu-overlay #cssmenu > ul > li > ul > li {
+          margin-bottom: 0.5em; }
+          .menu-overlay #cssmenu > ul > li > ul > li:first-child {
+            margin-top: 0.8em; }
+  .menu-overlay div.mobile {
+    display: none; }
 
 .menu-overlay.open {
   opacity: 1;

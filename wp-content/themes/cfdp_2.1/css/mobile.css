@@ -158,19 +158,148 @@ body {
   font: 14px/20px 'Merriweather', serif;
   font-weight: 300; }
 
-.header__menu,
-.wpadminbar,
-.searchbar,
-.icon-english-flag {
-  display: none; }
+.nav {
+  padding: 3em 2em;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -ms-flex-align: center; }
+  @media screen and (max-width: 640px) {
+    .nav {
+      padding: 3em 1em; } }
+  .nav .left {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex; }
+    .nav .left .logo {
+      margin-left: 1em; }
+      .nav .left .logo a {
+        position: relative;
+        top: 5px; }
+        .nav .left .logo a img {
+          width: 115px; }
+  .nav .right {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    margin-left: auto; }
+    @media screen and (max-width: 640px) {
+      .nav .right .second-menu {
+        display: none; } }
+    .nav .right .search-icon {
+      cursor: pointer;
+      margin-left: 10px;
+      line-height: 0; }
+      .nav .right .search-icon svg {
+        width: 27px; }
+        .nav .right .search-icon svg .search-svg {
+          fill: #414141; }
+        .nav .right .search-icon svg:hover .search-svg {
+          fill: #c1c1c1; }
 
-.logo img {
-  width: 200px;
-  padding-top: 20px; }
-  @media screen and (min-width: 375px) {
-    .logo img {
-      width: 250px;
-      padding-top: 16px; } }
+@media screen and (max-width: 640px) {
+  .search-form .search-input {
+    font-size: 1.1em;
+    text-align: left;
+    padding: 0 1.2em;
+    width: calc(100%); } }
+
+.search-form .close-search {
+  position: absolute;
+  top: 50%;
+  right: 125px;
+  z-index: 9;
+  line-height: 0;
+  margin-top: -17px;
+  cursor: pointer;
+  padding: 10px; }
+  .search-form .close-search .close-search-btn {
+    width: 15px; }
+    .search-form .close-search .close-search-btn .cross {
+      fill: #fff; }
+    .search-form .close-search .close-search-btn:hover .cross {
+      fill: rgba(255, 255, 255, 0.5); }
+
+.search-form .search-submit {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  background: #204177;
+  border-radius: 0;
+  border: none;
+  width: 100px;
+  height: 85px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1em;
+  text-transform: uppercase; }
+  .search-form .search-submit:hover {
+    background: #1b3663; }
+
+.menu-overlay {
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute; }
+  .menu-overlay #cssmenu {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2em;
+    padding-top: .8em;
+    padding-bottom: .5em;
+    width: fit-content;
+    margin-left: 2em; }
+    .menu-overlay #cssmenu ul li.menu-item-has-children > a span::after {
+      position: absolute;
+      top: 10px;
+      right: -18px;
+      content: "";
+      display: block;
+      width: 7px;
+      height: 12px;
+      background: url(../img/menu-arrow.svg) no-repeat;
+      background-size: 7px 12px;
+      opacity: .5;
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+      -webkit-transition: all .2s ease-in-out;
+      -moz-transition: all .2s ease-in-out;
+      -ms-transition: all .2s ease-in-out;
+      -o-transition: all .2s ease-in-out;
+      transition: all .2s ease-in-out; }
+    .menu-overlay #cssmenu ul li.menu-item-has-children > a:hover span::after {
+      opacity: 1; }
+    .menu-overlay #cssmenu ul li.menu-item-has-children.opened > a span::after {
+      -webkit-transform: rotate(90deg);
+      transform: rotate(90deg); }
+    .menu-overlay #cssmenu > ul > li {
+      margin-bottom: 1em; }
+      .menu-overlay #cssmenu > ul > li > ul {
+        margin-left: 20px;
+        font-size: 18px;
+        line-height: 1.3em; }
+        .menu-overlay #cssmenu > ul > li > ul > li {
+          margin-bottom: 0.5em; }
+          .menu-overlay #cssmenu > ul > li > ul > li:first-child {
+            margin-top: 0.8em; }
+  .menu-overlay div.mobile {
+    position: absolute;
+    left: 3.5em;
+    bottom: 3em; }
+    @media screen and (max-width: 640px) {
+      .menu-overlay div.mobile {
+        display: block; } }
+    .menu-overlay div.mobile a {
+      color: #fff; }
 
 h1,
 .header-h1 {

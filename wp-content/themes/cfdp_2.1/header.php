@@ -63,6 +63,13 @@
             'container_id' => 'cssmenu', 
             'walker' => new CSS_Menu_Walker()
         )); ?>
+        <div class="second-menu mobile">
+            <?php wp_nav_menu(array(
+                'menu' => 'sekundær menu', 
+                'container_id' => 'secondary-menu', 
+                'walker' => new CSS_Menu_Walker()
+            )); ?>
+        </div>
     </div>
     
     
@@ -84,7 +91,7 @@
                 </div>
             </div> 
             <div class="right">
-                <div class="second-menu">
+                <div class="second-menu desktop">
                     <?php wp_nav_menu(array(
                         'menu' => 'sekundær menu', 
                         'container_id' => 'secondary-menu', 
