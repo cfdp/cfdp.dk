@@ -291,7 +291,11 @@ body {
         left: 3.5em;
         bottom: 3em;
         a{
-            color: #fff;
+            color: rgba(255,255,255,.5);
+            &:hover{
+                color: rgba(255,255,255,1);
+                text-decoration: none;
+            }
         }
     }
 }

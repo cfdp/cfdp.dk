@@ -299,7 +299,10 @@ body {
       .menu-overlay div.mobile {
         display: block; } }
     .menu-overlay div.mobile a {
-      color: #fff; }
+      color: rgba(255, 255, 255, 0.5); }
+      .menu-overlay div.mobile a:hover {
+        color: white;
+        text-decoration: none; }
 
 h1,
 .header-h1 {
