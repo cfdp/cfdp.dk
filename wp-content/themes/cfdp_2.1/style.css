@@ -86,10 +86,15 @@ h4 {
   text-transform: uppercase; }
 
 .text-intro {
+  display: block;
   font-size: 20px;
   line-height: 30px;
   font-weight: 300;
   margin-bottom: 25px; }
+  @media (max-width: 1024px) {
+    .text-intro {
+      font-size: 16px;
+      line-height: 26px; } }
 
 .divider {
   border-bottom: 1px solid #ece3d6; }
@@ -193,6 +198,10 @@ h4 {
   margin-bottom: 5em;
   overflow: hidden;
   position: relative; }
+  @media (max-width: 1024px) {
+    .wrap {
+      margin-top: 3em;
+      margin-bottom: 3em; } }
 
 .wrap.fp-section {
   margin-top: 0; }
@@ -233,6 +242,18 @@ h4 {
     .search-form .search-input:-moz-placeholder {
       /* Firefox 18- */
       color: rgba(255, 255, 255, 0.5); }
+    .search-form .search-input:focus::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: rgba(255, 255, 255, 0); }
+    .search-form .search-input:focus::-moz-placeholder {
+      /* Firefox 19+ */
+      color: rgba(255, 255, 255, 0); }
+    .search-form .search-input:focus:-ms-input-placeholder {
+      /* IE 10+ */
+      color: rgba(255, 255, 255, 0); }
+    .search-form .search-input:focus:-moz-placeholder {
+      /* Firefox 18- */
+      color: rgba(255, 255, 255, 0); }
   .search-form .close-search {
     position: absolute;
     top: 50%;
@@ -601,6 +622,38 @@ h4 {
       text-indent: 1em;
       font: 15px/25px 'Merriweather', serif;
       font-weight: 300; }
+      .newsletter #module--newsletter div:nth-child(2) input[type="text"]::-webkit-input-placeholder,
+      .newsletter #module--newsletter div:nth-child(2) input[type="email"]::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: rgba(65, 65, 65, 0.5); }
+      .newsletter #module--newsletter div:nth-child(2) input[type="text"]::-moz-placeholder,
+      .newsletter #module--newsletter div:nth-child(2) input[type="email"]::-moz-placeholder {
+        /* Firefox 19+ */
+        color: rgba(65, 65, 65, 0.5); }
+      .newsletter #module--newsletter div:nth-child(2) input[type="text"]:-ms-input-placeholder,
+      .newsletter #module--newsletter div:nth-child(2) input[type="email"]:-ms-input-placeholder {
+        /* IE 10+ */
+        color: rgba(65, 65, 65, 0.5); }
+      .newsletter #module--newsletter div:nth-child(2) input[type="text"]:-moz-placeholder,
+      .newsletter #module--newsletter div:nth-child(2) input[type="email"]:-moz-placeholder {
+        /* Firefox 18- */
+        color: rgba(65, 65, 65, 0.5); }
+      .newsletter #module--newsletter div:nth-child(2) input[type="text"]:focus::-webkit-input-placeholder,
+      .newsletter #module--newsletter div:nth-child(2) input[type="email"]:focus::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: rgba(255, 255, 255, 0); }
+      .newsletter #module--newsletter div:nth-child(2) input[type="text"]:focus::-moz-placeholder,
+      .newsletter #module--newsletter div:nth-child(2) input[type="email"]:focus::-moz-placeholder {
+        /* Firefox 19+ */
+        color: rgba(255, 255, 255, 0); }
+      .newsletter #module--newsletter div:nth-child(2) input[type="text"]:focus:-ms-input-placeholder,
+      .newsletter #module--newsletter div:nth-child(2) input[type="email"]:focus:-ms-input-placeholder {
+        /* IE 10+ */
+        color: rgba(255, 255, 255, 0); }
+      .newsletter #module--newsletter div:nth-child(2) input[type="text"]:focus:-moz-placeholder,
+      .newsletter #module--newsletter div:nth-child(2) input[type="email"]:focus:-moz-placeholder {
+        /* Firefox 18- */
+        color: rgba(255, 255, 255, 0); }
     .newsletter #module--newsletter div:nth-child(2) input[type="submit"] {
       font-size: 1em;
       margin-top: 0;
@@ -1678,6 +1731,30 @@ p#personal-info-disclaimer {
     text-indent: 1em;
     font: 15px/25px 'Merriweather', serif;
     font-weight: 300; }
+    .error404 .container input[type="text"]::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: rgba(65, 65, 65, 0.5); }
+    .error404 .container input[type="text"]::-moz-placeholder {
+      /* Firefox 19+ */
+      color: rgba(65, 65, 65, 0.5); }
+    .error404 .container input[type="text"]:-ms-input-placeholder {
+      /* IE 10+ */
+      color: rgba(65, 65, 65, 0.5); }
+    .error404 .container input[type="text"]:-moz-placeholder {
+      /* Firefox 18- */
+      color: rgba(65, 65, 65, 0.5); }
+    .error404 .container input[type="text"]:focus::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: rgba(255, 255, 255, 0); }
+    .error404 .container input[type="text"]:focus::-moz-placeholder {
+      /* Firefox 19+ */
+      color: rgba(255, 255, 255, 0); }
+    .error404 .container input[type="text"]:focus:-ms-input-placeholder {
+      /* IE 10+ */
+      color: rgba(255, 255, 255, 0); }
+    .error404 .container input[type="text"]:focus:-moz-placeholder {
+      /* Firefox 18- */
+      color: rgba(255, 255, 255, 0); }
   .error404 .container input[type="submit"] {
     font-size: 1em;
     margin-top: 0;
@@ -1708,3 +1785,139 @@ p#personal-info-disclaimer {
   -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
   border-radius: 0 !important; }
+
+.sow-contact-form input[type="text"],
+.sow-contact-form input[type="email"],
+.sow-contact-form textarea {
+  outline: 0;
+  background: #F5F5F5;
+  border: 0 !important;
+  border-bottom: 2px solid #E4E4E4 !important;
+  font-size: 1em;
+  margin-bottom: 1em;
+  padding: 0.8em 0;
+  text-indent: 1em;
+  font: 15px/25px 'Merriweather', serif;
+  font-weight: 300; }
+  .sow-contact-form input[type="text"]::-webkit-input-placeholder,
+  .sow-contact-form input[type="email"]::-webkit-input-placeholder,
+  .sow-contact-form textarea::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: rgba(65, 65, 65, 0.5); }
+  .sow-contact-form input[type="text"]::-moz-placeholder,
+  .sow-contact-form input[type="email"]::-moz-placeholder,
+  .sow-contact-form textarea::-moz-placeholder {
+    /* Firefox 19+ */
+    color: rgba(65, 65, 65, 0.5); }
+  .sow-contact-form input[type="text"]:-ms-input-placeholder,
+  .sow-contact-form input[type="email"]:-ms-input-placeholder,
+  .sow-contact-form textarea:-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgba(65, 65, 65, 0.5); }
+  .sow-contact-form input[type="text"]:-moz-placeholder,
+  .sow-contact-form input[type="email"]:-moz-placeholder,
+  .sow-contact-form textarea:-moz-placeholder {
+    /* Firefox 18- */
+    color: rgba(65, 65, 65, 0.5); }
+  .sow-contact-form input[type="text"]:focus::-webkit-input-placeholder,
+  .sow-contact-form input[type="email"]:focus::-webkit-input-placeholder,
+  .sow-contact-form textarea:focus::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: rgba(255, 255, 255, 0); }
+  .sow-contact-form input[type="text"]:focus::-moz-placeholder,
+  .sow-contact-form input[type="email"]:focus::-moz-placeholder,
+  .sow-contact-form textarea:focus::-moz-placeholder {
+    /* Firefox 19+ */
+    color: rgba(255, 255, 255, 0); }
+  .sow-contact-form input[type="text"]:focus:-ms-input-placeholder,
+  .sow-contact-form input[type="email"]:focus:-ms-input-placeholder,
+  .sow-contact-form textarea:focus:-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgba(255, 255, 255, 0); }
+  .sow-contact-form input[type="text"]:focus:-moz-placeholder,
+  .sow-contact-form input[type="email"]:focus:-moz-placeholder,
+  .sow-contact-form textarea:focus:-moz-placeholder {
+    /* Firefox 18- */
+    color: rgba(255, 255, 255, 0); }
+
+.sow-contact-form input[type="submit"] {
+  font-size: 1em !important;
+  margin-top: 0;
+  padding: 15px 18px !important;
+  background: #ED6367 !important;
+  font-family: 'Montserrat', Sans-Serif;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  font-weight: 300 !important;
+  text-transform: uppercase;
+  color: #fff !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  min-width: 150px;
+  cursor: pointer; }
+  .sow-contact-form input[type="submit"]:hover {
+    background: #ea4c51 !important; }
+
+.post-password-form label {
+  display: block;
+  float: left; }
+
+.post-password-form input {
+  float: left;
+  outline: 0;
+  background: #F5F5F5;
+  border: 0;
+  border-bottom: 2px solid #E4E4E4;
+  font-size: 1em;
+  margin-bottom: 1em;
+  margin-top: 0.3em;
+  width: 100%;
+  max-width: 350px;
+  padding: 0.8em 0;
+  text-indent: 1em;
+  font: 15px/25px 'Merriweather', serif;
+  font-weight: 300; }
+  .post-password-form input::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: rgba(65, 65, 65, 0.5); }
+  .post-password-form input::-moz-placeholder {
+    /* Firefox 19+ */
+    color: rgba(65, 65, 65, 0.5); }
+  .post-password-form input:-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgba(65, 65, 65, 0.5); }
+  .post-password-form input:-moz-placeholder {
+    /* Firefox 18- */
+    color: rgba(65, 65, 65, 0.5); }
+  .post-password-form input:focus::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: rgba(255, 255, 255, 0); }
+  .post-password-form input:focus::-moz-placeholder {
+    /* Firefox 19+ */
+    color: rgba(255, 255, 255, 0); }
+  .post-password-form input:focus:-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgba(255, 255, 255, 0); }
+  .post-password-form input:focus:-moz-placeholder {
+    /* Firefox 18- */
+    color: rgba(255, 255, 255, 0); }
+
+.post-password-form input[type="submit"] {
+  font-size: 1em;
+  margin-top: 0;
+  padding: 15px 18px;
+  background-color: #2980b9;
+  font-family: 'Montserrat', Sans-Serif;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  font-weight: 300;
+  text-transform: uppercase;
+  width: 120px;
+  color: #fff;
+  border: 2px solid #2980b9;
+  clear: left;
+  text-indent: 0;
+  cursor: pointer; }
+  .post-password-form input[type="submit"]:hover {
+    background: #2472a4; }

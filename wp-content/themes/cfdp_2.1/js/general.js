@@ -84,21 +84,6 @@ $('#cssmenu > ul > li > a').click(function() {
    }
     
 });
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -124,13 +109,7 @@ $('.menu-overlay').on('click', function(event) {
     SnapABug.startLink();
   });
 
-    //remove placeholder on focus
-    $('input,textarea').focus(function(){
-        $(this).data('placeholder',$(this).attr('placeholder'))
-        .attr('placeholder','');
-    }).blur(function(){
-        $(this).attr('placeholder',$(this).data('placeholder'));
-    })
+
     
 
   // If no thanks link is click hide newsletter form

@@ -69,7 +69,11 @@
         
 		<div class="entry <?php if ( !empty( $meta_teaser ) ){ echo 'entry--with-teaser';} ?>">
 			<?php the_content(); ?>
-			<?php comments_template(); ?>
+            <?php 
+                if( comments_open() ) {
+                    comments_template();
+                }
+            ?>
 		</div>
         
         <?php if ( has_tag() ) { ?>
