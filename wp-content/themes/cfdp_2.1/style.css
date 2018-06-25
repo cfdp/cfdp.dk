@@ -124,8 +124,11 @@ h4 {
   margin-bottom: 2em;
   display: block;
   border-bottom: 1px solid #D8D8D8;
-  display: flex;
-  align-items: center; }
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  align-items: center;
+  width: 100%; }
   .single-post .post-info img {
     border-radius: 50%;
     margin-right: 0.4em; }
@@ -135,6 +138,8 @@ h4 {
     .single-post .post-info p span {
       color: #A1A1A1;
       font-style: italic; }
+  .single-post .post-info div {
+    float: left; }
 
 .search-results h1 {
   margin-bottom: 0.8em !important; }
@@ -152,8 +157,11 @@ h4 {
       padding-bottom: 0;
       margin-bottom: 0;
       display: block;
-      display: flex;
-      align-items: center; }
+      display: -webkit-inline-flex;
+      display: -ms-inline-flexbox;
+      display: inline-flex;
+      align-items: center;
+      width: 100%; }
       .search-results .post-intro .search-post-wrapper .post-info img {
         border-radius: 50%;
         margin-right: 0.4em; }
@@ -264,7 +272,8 @@ h4 {
     cursor: pointer;
     padding: 10px; }
     .search-form .close-search .close-search-btn {
-      width: 15px; }
+      width: 15px;
+      height: 15px; }
       .search-form .close-search .close-search-btn .cross {
         fill: #fff; }
       .search-form .close-search .close-search-btn:hover .cross {
@@ -313,6 +322,7 @@ h4 {
       cursor: pointer;
       display: block;
       height: 25px;
+      width: 33px;
       margin-top: 10px; }
       .nav .left .burger .line {
         fill: #414141; }
@@ -327,20 +337,22 @@ h4 {
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
     display: inline-flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
     margin-left: auto; }
-    .nav .right .second-menu {
-      line-height: 2em; }
-      .nav .right .second-menu li {
-        display: inline-block;
-        margin-right: 1em; }
-        .nav .right .second-menu li a {
-          font-family: 'Montserrat', Sans-Serif;
-          font-size: 0.9em;
-          font-weight: 300;
-          color: #414141; }
-          .nav .right .second-menu li a:hover {
-            color: #c1c1c1;
-            text-decoration: none; }
+    .nav .right .second-menu li {
+      display: inline-block;
+      margin-right: 1em; }
+      .nav .right .second-menu li a {
+        font-family: 'Montserrat', Sans-Serif;
+        font-size: 0.9em;
+        font-weight: 300;
+        color: #414141;
+        line-height: 1em; }
+        .nav .right .second-menu li a:hover {
+          color: #c1c1c1;
+          text-decoration: none; }
     .nav .right .search-icon {
       cursor: pointer;
       margin-left: 10px;
@@ -553,7 +565,7 @@ h4 {
 .page-template-page_lectures .lectures {
   margin-bottom: 50px; }
   .page-template-page_lectures .lectures .lecture-item {
-    width: calc(1/3 * 100% - (40px / 3));
+    width: calc(1/3 * 99.99% - (40px / 3));
     float: left;
     margin-bottom: 30px;
     margin-right: 20px; }
@@ -1569,6 +1581,7 @@ p#personal-info-disclaimer {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    background-position: center center;
     color: #fff;
     text-align: center;
     position: relative;
@@ -1614,12 +1627,12 @@ p#personal-info-disclaimer {
     padding: 0 5px; }
 
 .widget_siteorigin-panels-postloop .post {
-  width: calc(1/3 * 100% - (40px / 3));
+  width: calc(1/3 * 99.99% - (40px / 3));
   float: left;
   margin-bottom: 30px;
   margin-right: 20px; }
   .widget_siteorigin-panels-postloop .post:nth-child(1), .widget_siteorigin-panels-postloop .post:nth-child(2) {
-    width: calc(1/2 * 100% - (20px / 2)); }
+    width: calc(1/2 * 99.99% - (20px / 2)); }
   .widget_siteorigin-panels-postloop .post:nth-child(3n) {
     clear: left; }
   .widget_siteorigin-panels-postloop .post:nth-child(2), .widget_siteorigin-panels-postloop .post:nth-child(3n+5) {
@@ -1630,7 +1643,7 @@ p#personal-info-disclaimer {
     padding-top: 10px; }
 
 #blogposts .widget_siteorigin-panels-postloop .post, .archive .widget_siteorigin-panels-postloop .post, .related-content .widget_siteorigin-panels-postloop .post, .page-template-page_lecture .widget_siteorigin-panels-postloop .post, .page-template-default .widget_siteorigin-panels-postloop .post {
-  width: calc(1/3 * 100% - (40px / 3)); }
+  width: calc(1/3 * 99.99% - (40px / 3)); }
   #blogposts .widget_siteorigin-panels-postloop .post:nth-child(3n + 5), #blogposts .widget_siteorigin-panels-postloop .post:nth-child(2), .archive .widget_siteorigin-panels-postloop .post:nth-child(3n + 5), .archive .widget_siteorigin-panels-postloop .post:nth-child(2), .related-content .widget_siteorigin-panels-postloop .post:nth-child(3n + 5), .related-content .widget_siteorigin-panels-postloop .post:nth-child(2), .page-template-page_lecture .widget_siteorigin-panels-postloop .post:nth-child(3n + 5), .page-template-page_lecture .widget_siteorigin-panels-postloop .post:nth-child(2), .page-template-default .widget_siteorigin-panels-postloop .post:nth-child(3n + 5), .page-template-default .widget_siteorigin-panels-postloop .post:nth-child(2) {
     margin-right: 20px; }
   #blogposts .widget_siteorigin-panels-postloop .post:nth-child(3n), .archive .widget_siteorigin-panels-postloop .post:nth-child(3n), .related-content .widget_siteorigin-panels-postloop .post:nth-child(3n), .page-template-page_lecture .widget_siteorigin-panels-postloop .post:nth-child(3n), .page-template-default .widget_siteorigin-panels-postloop .post:nth-child(3n) {
@@ -1718,7 +1731,8 @@ p#personal-info-disclaimer {
     right: 2.1em;
     cursor: pointer; }
     .menu-overlay .close-menu .close-menu-btn {
-      width: 25px; }
+      width: 25px;
+      height: 25px; }
       .menu-overlay .close-menu .close-menu-btn .cross {
         fill: #fff; }
       .menu-overlay .close-menu .close-menu-btn:hover .cross {
@@ -2069,8 +2083,11 @@ p#personal-info-disclaimer {
     margin-bottom: 2em;
     display: block;
     border-bottom: 1px solid #D8D8D8;
-    display: flex;
-    align-items: center; }
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    align-items: center;
+    width: 100%; }
     .single-faq .post-intro .post-info img {
       border-radius: 50%;
       margin-right: 0.4em; }
@@ -2086,3 +2103,6 @@ p#personal-info-disclaimer {
   max-width: 640px;
   margin: 0 auto;
   margin-bottom: 50px; }
+
+input[type="submit"] {
+  -webkit-appearance: none; }

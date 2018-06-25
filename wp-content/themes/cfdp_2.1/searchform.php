@@ -4,6 +4,6 @@
     </svg>
 </span>
 <form method="get" id="searchform" action="<?php bloginfo('home'); ?>/">
-    <input class="search-input" type="text" placeholder="Hvad leder du efter? Søg her..." name="s" id="s" />
+    <input class="search-input" type="text" placeholder="Søg her..." name="s" id="s" />
     <input class="search-submit" type="submit" id="searchsubmit" value="Søg" />
 </form>

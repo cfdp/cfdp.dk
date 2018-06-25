@@ -138,8 +138,11 @@ h4 {
         margin-bottom: 2em;
 		display: block;
         border-bottom: 1px solid #D8D8D8;
-        display: flex;
+        display: -webkit-inline-flex;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
         align-items:center;
+        width: 100%;
         img{
             border-radius: 50%;
             margin-right: 0.4em;
@@ -151,6 +154,9 @@ h4 {
                 color: #A1A1A1;
                 font-style: italic;
             }    
+        }
+        div{
+            float: left;
         }
 	}
 
@@ -173,8 +179,11 @@ h4 {
                 padding-bottom: 0;
                 margin-bottom: 0;
                 display: block;
-                display: flex;
+                display: -webkit-inline-flex;
+                display: -ms-inline-flexbox;
+                display: inline-flex;
                 align-items:center;
+                width: 100%;
                 img{
                     border-radius: 50%;
                     margin-right: 0.4em;
@@ -307,6 +316,7 @@ h4 {
         padding: 10px;
         .close-search-btn{
             width: 15px;
+            height: 15px;
             .cross{
                 fill: #fff;
             }
@@ -364,6 +374,7 @@ h4 {
             cursor: pointer;
             display: block;
             height: 25px;
+            width: 33px;
             margin-top: 10px;
             .line{
                 fill: #414141;
@@ -386,9 +397,11 @@ h4 {
         display: -webkit-inline-flex;
         display: -ms-inline-flexbox;
         display: inline-flex;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
         margin-left: auto;
         .second-menu{
-            line-height: 2em;
             li{
                 display: inline-block;
                 margin-right: 1em;
@@ -397,6 +410,7 @@ h4 {
                     font-size: 0.9em;
                     font-weight: 300;
                     color: #414141;
+                    line-height: 1em;
                     &:hover{
                         color: lighten(#414141, 50%);
                         text-decoration: none;
@@ -673,7 +687,7 @@ h4 {
     .lectures{
         margin-bottom: 50px;
         .lecture-item{
-            width: calc(1/3 * 100% - (40px / 3));
+            width: calc(1/3 * 99.99% - (40px / 3));
             float: left;
             margin-bottom: 30px;
             margin-right: 20px;
@@ -1747,6 +1761,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
+        background-position: center center; 
         color: #fff;
         text-align: center;
         position: relative;
@@ -1801,13 +1816,13 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 // Blog posts loop
 .widget_siteorigin-panels-postloop{
     .post{
-        width: calc(1/3 * 100% - (40px / 3));
+        width: calc(1/3 * 99.99% - (40px / 3));
         float: left;
         margin-bottom: 30px;
         margin-right: 20px;
         &:nth-child(1),
         &:nth-child(2){
-            width: calc(1/2 * 100% - (20px / 2);     
+            width: calc(1/2 * 99.99% - (20px / 2);     
         }
         &:nth-child(3n){
             clear: left;     
@@ -1829,7 +1844,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 #blogposts, .archive, .related-content, .page-template-page_lecture, .page-template-default{
     .widget_siteorigin-panels-postloop{
         .post{
-            width: calc(1/3 * 100% - (40px / 3));
+            width: calc(1/3 * 99.99% - (40px / 3));
             &:nth-child(3n + 5), &:nth-child(2){
                 margin-right: 20px;
             }
@@ -1940,6 +1955,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         cursor: pointer;
         .close-menu-btn{
             width: 25px;
+            height: 25px;
             .cross{
                 fill: #fff;
             }
@@ -2341,8 +2357,11 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
             margin-bottom: 2em;
             display: block;
             border-bottom: 1px solid #D8D8D8;
-            display: flex;
+            display: -webkit-inline-flex;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
             align-items:center;
+            width: 100%;
             img{
                 border-radius: 50%;
                 margin-right: 0.4em;
@@ -2364,3 +2383,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 		margin-bottom: 50px;
 	}
 }
+
+input[type="submit"] {
+     -webkit-appearance: none;
+} 
