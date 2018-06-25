@@ -33,7 +33,7 @@
 
 			<?php } ?>
             
-            <div class="results grid_12 widget_siteorigin-panels-postloop">
+            <div class="results widget_siteorigin-panels-postloop">
 
                     <?php while (have_posts()) : the_post(); ?>
                                 
@@ -82,7 +82,7 @@
                 
                     <?php endwhile; ?>
 
-                    <div class="paging"><?php wp_pagenavi(); ?></div>
+                    <div class="paging clearfix"><?php wp_pagenavi(); ?></div>
             </div>
 
 	<?php else : ?>

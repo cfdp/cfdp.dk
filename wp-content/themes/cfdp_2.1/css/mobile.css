@@ -435,6 +435,10 @@ div#respond textarea#comment {
     width: calc(100%); }
     #blogposts .widget_siteorigin-panels-postloop .post:nth-child(1), #blogposts .widget_siteorigin-panels-postloop .post:nth-child(2), .archive .widget_siteorigin-panels-postloop .post:nth-child(1), .archive .widget_siteorigin-panels-postloop .post:nth-child(2), .related-content .widget_siteorigin-panels-postloop .post:nth-child(1), .related-content .widget_siteorigin-panels-postloop .post:nth-child(2), .page-template-page_lecture .widget_siteorigin-panels-postloop .post:nth-child(1), .page-template-page_lecture .widget_siteorigin-panels-postloop .post:nth-child(2) {
       width: calc(100%); }
+  .archive.author .blog-posts .post {
+    width: calc(100%); }
+    .archive.author .blog-posts .post:nth-child(1), .archive.author .blog-posts .post:nth-child(2) {
+      width: calc(100%); }
   /*Paging*/
   .paging .wp-pagenavi a {
     font-size: 0; }

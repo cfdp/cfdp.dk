@@ -279,16 +279,16 @@ h4 {
         font-family: 'Montserrat', Sans-Serif;
         font-weight: 300;
         &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.4);
         }
         &::-moz-placeholder { /* Firefox 19+ */
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.4);
         }
         &:-ms-input-placeholder { /* IE 10+ */
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.4);
         }
         &:-moz-placeholder { /* Firefox 18- */
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.4);
         }
         
         
@@ -519,16 +519,16 @@ h4 {
             font: 15px/25px 'Merriweather', serif;
             font-weight: 300;
             &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
             }
             &::-moz-placeholder { /* Firefox 19+ */
-                color: rgba(65,65,65,0.5);
+                color: rgba(65,65,65,0.6);
             }
             &:-ms-input-placeholder { /* IE 10+ */
-                color: rgba(65,65,65,0.5);
+                color: rgba(65,65,65,0.6);
             }
             &:-moz-placeholder { /* Firefox 18- */
-                color: rgba(65,65,65,0.5);
+                color: rgba(65,65,65,0.6);
             }
 
 
@@ -558,16 +558,16 @@ h4 {
             font: 15px/25px 'Merriweather', serif;
             font-weight: 300;
             &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
             }
             &::-moz-placeholder { /* Firefox 19+ */
-                color: rgba(65,65,65,0.5);
+                color: rgba(65,65,65,0.6);
             }
             &:-ms-input-placeholder { /* IE 10+ */
-                color: rgba(65,65,65,0.5);
+                color: rgba(65,65,65,0.6);
             }
             &:-moz-placeholder { /* Firefox 18- */
-                color: rgba(65,65,65,0.5);
+                color: rgba(65,65,65,0.6);
             }
 
 
@@ -848,16 +848,16 @@ h4 {
                 font: 15px/25px 'Merriweather', serif;
                 font-weight: 300;
                 &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-                    color: rgba(65,65,65,0.5);
+                    color: rgba(65,65,65,0.6);
                 }
                 &::-moz-placeholder { /* Firefox 19+ */
-                    color: rgba(65,65,65,0.5);
+                    color: rgba(65,65,65,0.6);
                 }
                 &:-ms-input-placeholder { /* IE 10+ */
-                    color: rgba(65,65,65,0.5);
+                    color: rgba(65,65,65,0.6);
                 }
                 &:-moz-placeholder { /* Firefox 18- */
-                    color: rgba(65,65,65,0.5);
+                    color: rgba(65,65,65,0.6);
                 }
 
 
@@ -1025,7 +1025,7 @@ a#contactTab:hover{
 
 /*Paging*/
 .paging{
-    margin-bottom: 100px;
+    margin-bottom: 75px;
     .wp-pagenavi{
         display: flex;
         display: -ms-flexbox;
@@ -1145,7 +1145,24 @@ a#contactTab:hover{
 .archive.author{
     .blog-posts{
         margin-bottom: 50px;
+        max-width: 920px;
         .post{
+            width: calc(1/3 * 99.99% - (40px / 3));
+            float: left;
+            clear: none;
+            margin: 0;
+            margin-right: 20px;
+            border-bottom: 0;
+            &:nth-child(3n + 5), &:nth-child(2){
+                margin-right: 20px;
+            }
+            &:nth-child(3n){
+                margin-right: 0;
+                clear: inherit;
+            }
+            &:nth-child(3n + 1){
+                clear: left;
+            }
             .post-image{
                 padding-top: 45%;
             }
@@ -1859,6 +1876,8 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     }
 }
 
+
+
 .related-content{
     overflow: hidden;
     border-top: 1px solid #efefef;
@@ -2085,17 +2104,18 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
             text-indent: 1em;
             font: 15px/25px 'Merriweather', serif;
             font-weight: 300;
+            height: 25px;
             &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
             }
             &::-moz-placeholder { /* Firefox 19+ */
-                color: rgba(65,65,65,0.5);
+                color: rgba(65,65,65,0.6);
             }
             &:-ms-input-placeholder { /* IE 10+ */
-                color: rgba(65,65,65,0.5);
+                color: rgba(65,65,65,0.6);
             }
             &:-moz-placeholder { /* Firefox 18- */
-                color: rgba(65,65,65,0.5);
+                color: rgba(65,65,65,0.6);
             }
 
 
@@ -2165,16 +2185,16 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         font: 15px/25px 'Merriweather', serif;
         font-weight: 300;
         &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
         &::-moz-placeholder { /* Firefox 19+ */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
         &:-ms-input-placeholder { /* IE 10+ */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
         &:-moz-placeholder { /* Firefox 18- */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
 
 
@@ -2235,16 +2255,16 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         font: 15px/25px 'Merriweather', serif;
         font-weight: 300;
         &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        color: rgba(65,65,65,0.5);
+        color: rgba(65,65,65,0.6);
         }
         &::-moz-placeholder { /* Firefox 19+ */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
         &:-ms-input-placeholder { /* IE 10+ */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
         &:-moz-placeholder { /* Firefox 18- */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
 
 
@@ -2300,16 +2320,16 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         font: 15px/25px 'Merriweather', serif;
         font-weight: 300;
         &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
         &::-moz-placeholder { /* Firefox 19+ */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
         &:-ms-input-placeholder { /* IE 10+ */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
         &:-moz-placeholder { /* Firefox 18- */
-            color: rgba(65,65,65,0.5);
+            color: rgba(65,65,65,0.6);
         }
 
 

@@ -8,7 +8,7 @@ Template Name: Oversigt alle indlæg
     
 	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-	<div class="content grid_12 clearfix">
+	<div class="content clearfix">
 
 		<div id="post-<?php the_ID(); ?>" class="archive">
             <?php echo '<p class="sub-titel">Kategori:</p>' ?>    
