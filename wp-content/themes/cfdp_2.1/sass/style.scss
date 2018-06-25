@@ -504,6 +504,32 @@ h4 {
             text-indent: 1em;
             font: 15px/25px 'Merriweather', serif;
             font-weight: 300;
+            &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: rgba(65,65,65,0.5);
+            }
+            &::-moz-placeholder { /* Firefox 19+ */
+                color: rgba(65,65,65,0.5);
+            }
+            &:-ms-input-placeholder { /* IE 10+ */
+                color: rgba(65,65,65,0.5);
+            }
+            &:-moz-placeholder { /* Firefox 18- */
+                color: rgba(65,65,65,0.5);
+            }
+
+
+            &:focus::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                color: rgba(255,255,255,0);
+            }
+            &:focus::-moz-placeholder { /* Firefox 19+ */
+                color: rgba(255,255,255,0);
+            }
+            &:focus:-ms-input-placeholder { /* IE 10+ */
+                color: rgba(255,255,255,0);
+            }
+            &:focus:-moz-placeholder { /* Firefox 18- */
+                color: rgba(255,255,255,0);
+            }
         }
         textarea {
             outline:0;
@@ -517,6 +543,32 @@ h4 {
             text-indent: 1em;
             font: 15px/25px 'Merriweather', serif;
             font-weight: 300;
+            &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: rgba(65,65,65,0.5);
+            }
+            &::-moz-placeholder { /* Firefox 19+ */
+                color: rgba(65,65,65,0.5);
+            }
+            &:-ms-input-placeholder { /* IE 10+ */
+                color: rgba(65,65,65,0.5);
+            }
+            &:-moz-placeholder { /* Firefox 18- */
+                color: rgba(65,65,65,0.5);
+            }
+
+
+            &:focus::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                color: rgba(255,255,255,0);
+            }
+            &:focus::-moz-placeholder { /* Firefox 19+ */
+                color: rgba(255,255,255,0);
+            }
+            &:focus:-ms-input-placeholder { /* IE 10+ */
+                color: rgba(255,255,255,0);
+            }
+            &:focus:-moz-placeholder { /* Firefox 18- */
+                color: rgba(255,255,255,0);
+            }
         }
         input[type="submit"] {
             font-size: 1em;
@@ -1076,7 +1128,32 @@ a#contactTab:hover{
 	font: 20px 'Montserrat', Arial, Helveltica, Sans-Serif;
 }
 
-
+.archive.author{
+    .blog-posts{
+        margin-bottom: 50px;
+        .post{
+            .post-image{
+                padding-top: 45%;
+            }
+            .post-tags{
+                display: block;
+                font-family: 'Montserrat', Sans-Serif;
+                font-size: 13px;
+                font-weight: 300;
+                color: #414141;
+                text-transform: uppercase;
+                margin-top: 15px;
+                a{
+                    color: #A1A1A1;
+                    padding: 0 5px;
+                }
+            }
+            a{
+                color: #4D79C1;
+            }
+        }
+    }
+}
 
 /* International */
 
@@ -1749,7 +1826,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 }
 
 // Blog posts loop person page, related content, lectures
-#blogposts, .archive, .related-content, .page-template-page_lecture{
+#blogposts, .archive, .related-content, .page-template-page_lecture, .page-template-default{
     .widget_siteorigin-panels-postloop{
         .post{
             width: calc(1/3 * 100% - (40px / 3));
@@ -2189,4 +2266,101 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         }
     } 
     
+}
+
+.widget_mc4wp_form_widget{
+    input[type="text"],
+    input[type="email"] {
+        outline:0;
+        background: #F5F5F5;
+        border: 0;
+        border-bottom: 2px solid #E4E4E4;
+        font-size: 1em;
+        margin-bottom: 1em;
+        width: 90%;
+        max-width: 350px;
+        padding: 0.8em 0;
+        text-indent: 1em;
+        font: 15px/25px 'Merriweather', serif;
+        font-weight: 300;
+        &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: rgba(65,65,65,0.5);
+        }
+        &::-moz-placeholder { /* Firefox 19+ */
+            color: rgba(65,65,65,0.5);
+        }
+        &:-ms-input-placeholder { /* IE 10+ */
+            color: rgba(65,65,65,0.5);
+        }
+        &:-moz-placeholder { /* Firefox 18- */
+            color: rgba(65,65,65,0.5);
+        }
+
+
+        &:focus::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: rgba(255,255,255,0);
+        }
+        &:focus::-moz-placeholder { /* Firefox 19+ */
+            color: rgba(255,255,255,0);
+        }
+        &:focus:-ms-input-placeholder { /* IE 10+ */
+            color: rgba(255,255,255,0);
+        }
+        &:focus:-moz-placeholder { /* Firefox 18- */
+            color: rgba(255,255,255,0);
+        }
+    }
+    input[type="submit"] {
+        font-size: 1em;
+        margin-top: 0;
+        padding: 15px 18px;
+        background-color: #ED6367;
+        font-family: 'Montserrat', Sans-Serif;
+        font-size: 0.9em;
+        letter-spacing: 1px;
+        font-weight: 300;
+        text-transform: uppercase;
+        &:hover{
+            background: darken(#ED6367, 5%);
+        }
+    } 
+}
+
+.single-faq{
+    .post-intro {
+		width: 100%;
+		max-width: 720px;
+		margin: 0 auto;
+        .post-tags{
+            display: none;
+            margin-top: 0;
+        }
+        .post-info {
+            font-weight: 300;
+            padding-bottom: 2em;
+            margin-bottom: 2em;
+            display: block;
+            border-bottom: 1px solid #D8D8D8;
+            display: flex;
+            align-items:center;
+            img{
+                border-radius: 50%;
+                margin-right: 0.4em;
+            }
+            p{
+                margin-bottom: 0;
+                padding-bottom: 0;
+                span{
+                    color: #A1A1A1;
+                    font-style: italic;
+                }    
+            }
+        }
+	} 
+    .entry {
+		width: 100%;
+		max-width: 640px;
+		margin: 0 auto;
+		margin-bottom: 50px;
+	}
 }
