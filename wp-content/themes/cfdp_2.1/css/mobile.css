@@ -246,10 +246,10 @@ body {
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  position: absolute; }
+  -webkit-justify-content: center;
+  -ms-flex-pack: justify;
+  justify-content: center;
+  flex-direction: column; }
   .menu-overlay #cssmenu {
     font-size: 24px;
     font-weight: 600;
@@ -257,7 +257,8 @@ body {
     padding-top: .8em;
     padding-bottom: .5em;
     width: fit-content;
-    margin-left: 2em; }
+    margin-left: 20%;
+    width: 100%; }
     .menu-overlay #cssmenu ul li.menu-item-has-children > a span::after {
       position: absolute;
       top: 10px;
@@ -291,16 +292,16 @@ body {
           margin-bottom: 0.5em; }
           .menu-overlay #cssmenu > ul > li > ul > li:first-child {
             margin-top: 0.8em; }
-  .menu-overlay div.mobile {
-    position: absolute;
-    left: 3.5em;
-    bottom: 3em; }
+  .menu-overlay .mobile {
+    width: 100%;
+    margin-left: 20%;
+    margin-top: 4em; }
     @media screen and (max-width: 640px) {
-      .menu-overlay div.mobile {
+      .menu-overlay .mobile {
         display: block; } }
-    .menu-overlay div.mobile a {
+    .menu-overlay .mobile a {
       color: rgba(255, 255, 255, 0.5); }
-      .menu-overlay div.mobile a:hover {
+      .menu-overlay .mobile a:hover {
         color: white;
         text-decoration: none; }
 
@@ -461,3 +462,6 @@ div#respond textarea#comment {
 
 .single-lecture .post-intro .intro-box .post-tags p:last-child {
   margin-bottom: 0; }
+
+.error404 .container input[type="text"] {
+  height: 50px; }

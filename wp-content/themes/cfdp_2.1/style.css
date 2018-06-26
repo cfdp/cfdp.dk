@@ -1548,8 +1548,11 @@ p#personal-info-disclaimer {
     z-index: 99;
     width: 65%;
     margin: 0 auto;
-    position: relative;
     top: 50%;
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
     transform: translateY(-50%); }
     #big-video .video-overlay h1 {
       padding-bottom: 0.3em; }
@@ -1607,6 +1610,10 @@ p#personal-info-disclaimer {
     margin: 0 auto;
     position: relative;
     top: 50%;
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
     transform: translateY(-50%);
     min-height: 400px; }
     #big-banner .img-container .img-overlay {
@@ -1618,6 +1625,10 @@ p#personal-info-disclaimer {
       margin: 0 auto;
       position: relative;
       top: 50%;
+      -ms-transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -o-transform: translateY(-50%);
       transform: translateY(-50%); }
       #big-banner .img-container .img-overlay h1 {
         padding-bottom: 0.3em; }
@@ -1809,7 +1820,7 @@ p#personal-info-disclaimer {
           margin-bottom: 0.5em; }
           .menu-overlay #cssmenu > ul > li > ul > li:first-child {
             margin-top: 0.8em; }
-  .menu-overlay div.mobile {
+  .menu-overlay .mobile {
     display: none; }
 
 .menu-overlay.open {
@@ -1828,13 +1839,14 @@ p#personal-info-disclaimer {
     border-bottom: 2px solid #E4E4E4;
     font-size: 1em;
     margin-bottom: 1em;
-    width: 100%;
+    width: 85%;
     max-width: 450px;
     padding: 0.8em 0;
     text-indent: 1em;
     font: 15px/25px 'Merriweather', serif;
     font-weight: 300;
-    height: 25px; }
+    height: 25px;
+    -webkit-appearance: none; }
     .error404 .container input[type="text"]::-webkit-input-placeholder {
       /* Chrome/Opera/Safari */
       color: rgba(65, 65, 65, 0.6); }
