@@ -124,7 +124,7 @@
                 <?php the_field('banner_content'); ?>
                 <a class="blue_button" href="<?php the_field('cta_btn'); ?>"><?php the_field('link_txt'); ?></a>
             </div>
-            <video autoplay loop muted poster="<?php the_field('start_img') ?>" class="video">
+            <video playsinline autoplay loop muted poster="<?php the_field('start_img') ?>" class="video">
                 <source src="<?php the_field('banner_video'); ?>" type="video/mp4">
             </video>
         </section>
