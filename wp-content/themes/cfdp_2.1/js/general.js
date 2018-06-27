@@ -85,6 +85,16 @@ $('#cssmenu > ul > li > a').click(function() {
     
 });
     
+// Fixed header on scroll - subpages
+    
+$(window).scroll(function() {
+  var scrolledY = $(window).scrollTop();
+    if ($(window).width() < 1500) {
+       $('.img-container').css('background-position', 'center ' + ((scrolledY)) + 'px');
+    }
+});
+  
+    
     
     
 // menu animation

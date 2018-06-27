@@ -16,6 +16,9 @@ body {
 	font: 15px/26px 'Merriweather', serif;
     font-weight: 300;
 	color: #414141;
+    -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-smoothing: antialiased;
 }
 
 a, a:visited{
@@ -1767,24 +1770,27 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     }
 }
 
-// Video banner styles - front page
+// Banner styles
 #big-banner {
     position: relative;
     overflow: hidden;
     height: 40vw;
     min-height: 400px;
     max-height: 500px;
-    margin-bottom: 0;    
+    margin-bottom: 0; 
+    max-height: 590px;
+    margin-bottom: -90px;
+    top: -90px;
+    z-index: -1;
     .img-container{
         background-repeat: no-repeat;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        background-position: center center; 
+        background-position: center top; 
         color: #fff;
         text-align: center;
-        position: relative;
         z-index: 99;
         width: 100%;
         max-width: 1500px;
@@ -1806,7 +1812,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
             width: 65%;
             margin: 0 auto;
             position: relative;
-            top: 50%;
+            top: calc(50% + 45px);
             -ms-transform: translateY(-50%);
             -webkit-transform: translateY(-50%);
             -moz-transform: translateY(-50%);
@@ -1963,7 +1969,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
@@ -1973,11 +1979,11 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     z-index: 999999;
     opacity: 0;
 	visibility: hidden;
-    -webkit-transition: all .2s ease-in-out;
-       -moz-transition: all .2s ease-in-out;
-        -ms-transition: all .2s ease-in-out;
-         -o-transition: all .2s ease-in-out;
-            transition: all .2s ease-in-out;
+    -webkit-transition: opacity .2s ease-in-out;
+       -moz-transition: opacity .2s ease-in-out;
+        -ms-transition: opacity .2s ease-in-out;
+         -o-transition: opacity .2s ease-in-out;
+            transition: opacity .2s ease-in-out;
     .close-menu{
         position: absolute;
         top: 2.1em;
