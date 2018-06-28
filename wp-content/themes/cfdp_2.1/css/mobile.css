@@ -258,30 +258,30 @@ body {
     padding-bottom: .5em;
     width: fit-content;
     margin-left: 20%;
-    width: 100%; }
-    .menu-overlay #cssmenu ul li.menu-item-has-children > a span::after {
-      position: absolute;
-      top: 10px;
-      right: -18px;
-      content: "";
-      display: block;
-      width: 7px;
-      height: 12px;
-      background: url(../img/menu-arrow.svg) no-repeat;
-      background-size: 7px 12px;
-      opacity: .5;
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-      -webkit-transition: all .2s ease-in-out;
-      -moz-transition: all .2s ease-in-out;
-      -ms-transition: all .2s ease-in-out;
-      -o-transition: all .2s ease-in-out;
-      transition: all .2s ease-in-out; }
-    .menu-overlay #cssmenu ul li.menu-item-has-children > a:hover span::after {
-      opacity: 1; }
-    .menu-overlay #cssmenu ul li.menu-item-has-children.opened > a span::after {
-      -webkit-transform: rotate(90deg);
-      transform: rotate(90deg); }
+    width: 100vw; }
+    .menu-overlay #cssmenu ul li {
+      width: calc(100vw - 2em);
+      max-width: 400px; }
+      .menu-overlay #cssmenu ul li .menu_arrow_holder {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        position: absolute;
+        top: -1px;
+        right: 10px;
+        cursor: pointer; }
+        .menu-overlay #cssmenu ul li .menu_arrow_holder svg {
+          width: 6px;
+          height: 11px;
+          fill: rgba(255, 255, 255, 0.5);
+          position: relative;
+          top: -3px;
+          left: 11px; }
+        .menu-overlay #cssmenu ul li .menu_arrow_holder:hover {
+          border: 2px solid white; }
+          .menu-overlay #cssmenu ul li .menu_arrow_holder:hover svg {
+            fill: white; }
     .menu-overlay #cssmenu > ul > li {
       margin-bottom: 1em; }
       .menu-overlay #cssmenu > ul > li > ul {
@@ -293,7 +293,7 @@ body {
           .menu-overlay #cssmenu > ul > li > ul > li:first-child {
             margin-top: 0.8em; }
   .menu-overlay .mobile {
-    width: 100%;
+    width: 100vw;
     margin-left: 20%;
     margin-top: 4em; }
     @media screen and (max-width: 640px) {

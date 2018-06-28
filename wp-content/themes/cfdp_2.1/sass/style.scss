@@ -2014,6 +2014,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         margin-left: 5em;
         ul{
             li{
+                position: relative;
                 a{
                     position: relative;
                     color: rgba(255,255,255,0.5);
@@ -2022,32 +2023,9 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                         color: rgba(255,255,255,1);
                     }
                 }
-                &.menu-item-has-children{
-                    > a span::after{
-                        position: absolute;
-                        top: 14px;
-                        right: -35px;
-                        content: "";
-                        display: block;
-                        width: 11px;
-                        height: 19px;
-                        background: url('img/menu-arrow.svg') no-repeat;
-                        background-size: 11px 19px;
-                        opacity: .5;
-                        -webkit-transform: rotate(0deg);
-                        transform: rotate(0deg);
-                        -webkit-transition: all .2s ease-in-out;
-                           -moz-transition: all .2s ease-in-out;
-                            -ms-transition: all .2s ease-in-out;
-                             -o-transition: all .2s ease-in-out;
-                                transition: all .2s ease-in-out;
-                    }
-                    > a:hover span::after{
-                        opacity: 1;
-                    }
-                }
+                
                 &.menu-item-has-children.opened{
-                    > a span::after{
+                    > .menu_arrow_holder{
                         -webkit-transform: rotate(90deg);
                         transform: rotate(90deg);
                     }
@@ -2064,10 +2042,52 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                             }
                         }
                     }
+                    .menu_arrow_holder{
+                        border: 2px solid rgba(255, 255, 255, 1);
+                        svg{
+                            fill: rgba(255,255,255,1);  
+                        }
+                    }
                 }
                 &.current-menu-item{
                     a{
                         color: rgba(255,255,255,1);
+                    }
+                    ul{
+                        display: block;
+                        a{
+                            color: rgba(255,255,255,0.5);
+                        }
+                    }
+                    .menu_arrow_holder{
+                        border: 2px solid rgba(255, 255, 255, 1);
+                        svg{
+                            fill: rgba(255,255,255,1);  
+                        }
+                    }
+                }
+                .menu_arrow_holder{
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 100%;
+                    border: 2px solid rgba(255, 255, 255, 0.5);
+                    position: absolute;
+                    top: 4px;
+                    right: -60px;
+                    cursor: pointer;
+                    svg{
+                        width:8px;
+                        height:15px;
+                        fill: rgba(255,255,255,.5);  
+                        position: relative;
+                        top: -10px;
+                        left: 12px;
+                    }
+                    &:hover{
+                        border: 2px solid rgba(255, 255, 255, 1);
+                        svg{
+                            fill: rgba(255,255,255,1);  
+                        } 
                     }
                 }
             }

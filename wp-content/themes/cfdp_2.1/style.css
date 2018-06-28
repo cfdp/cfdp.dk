@@ -1779,43 +1779,57 @@ p#personal-info-disclaimer {
     padding-bottom: .5em;
     width: fit-content;
     margin-left: 5em; }
-    .menu-overlay #cssmenu ul li a {
-      position: relative;
-      color: rgba(255, 255, 255, 0.5); }
-      .menu-overlay #cssmenu ul li a:hover {
-        text-decoration: none;
+    .menu-overlay #cssmenu ul li {
+      position: relative; }
+      .menu-overlay #cssmenu ul li a {
+        position: relative;
+        color: rgba(255, 255, 255, 0.5); }
+        .menu-overlay #cssmenu ul li a:hover {
+          text-decoration: none;
+          color: white; }
+      .menu-overlay #cssmenu ul li.menu-item-has-children.opened > .menu_arrow_holder {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg); }
+      .menu-overlay #cssmenu ul li > ul {
+        display: none; }
+      .menu-overlay #cssmenu ul li.current-menu-parent ul {
+        display: block; }
+        .menu-overlay #cssmenu ul li.current-menu-parent ul .current-menu-item a {
+          color: white; }
+      .menu-overlay #cssmenu ul li.current-menu-parent .menu_arrow_holder {
+        border: 2px solid white; }
+        .menu-overlay #cssmenu ul li.current-menu-parent .menu_arrow_holder svg {
+          fill: white; }
+      .menu-overlay #cssmenu ul li.current-menu-item a {
         color: white; }
-    .menu-overlay #cssmenu ul li.menu-item-has-children > a span::after {
-      position: absolute;
-      top: 14px;
-      right: -35px;
-      content: "";
-      display: block;
-      width: 11px;
-      height: 19px;
-      background: url("img/menu-arrow.svg") no-repeat;
-      background-size: 11px 19px;
-      opacity: .5;
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-      -webkit-transition: all .2s ease-in-out;
-      -moz-transition: all .2s ease-in-out;
-      -ms-transition: all .2s ease-in-out;
-      -o-transition: all .2s ease-in-out;
-      transition: all .2s ease-in-out; }
-    .menu-overlay #cssmenu ul li.menu-item-has-children > a:hover span::after {
-      opacity: 1; }
-    .menu-overlay #cssmenu ul li.menu-item-has-children.opened > a span::after {
-      -webkit-transform: rotate(90deg);
-      transform: rotate(90deg); }
-    .menu-overlay #cssmenu ul li > ul {
-      display: none; }
-    .menu-overlay #cssmenu ul li.current-menu-parent ul {
-      display: block; }
-      .menu-overlay #cssmenu ul li.current-menu-parent ul .current-menu-item a {
-        color: white; }
-    .menu-overlay #cssmenu ul li.current-menu-item a {
-      color: white; }
+      .menu-overlay #cssmenu ul li.current-menu-item ul {
+        display: block; }
+        .menu-overlay #cssmenu ul li.current-menu-item ul a {
+          color: rgba(255, 255, 255, 0.5); }
+      .menu-overlay #cssmenu ul li.current-menu-item .menu_arrow_holder {
+        border: 2px solid white; }
+        .menu-overlay #cssmenu ul li.current-menu-item .menu_arrow_holder svg {
+          fill: white; }
+      .menu-overlay #cssmenu ul li .menu_arrow_holder {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        position: absolute;
+        top: 4px;
+        right: -60px;
+        cursor: pointer; }
+        .menu-overlay #cssmenu ul li .menu_arrow_holder svg {
+          width: 8px;
+          height: 15px;
+          fill: rgba(255, 255, 255, 0.5);
+          position: relative;
+          top: -10px;
+          left: 12px; }
+        .menu-overlay #cssmenu ul li .menu_arrow_holder:hover {
+          border: 2px solid white; }
+          .menu-overlay #cssmenu ul li .menu_arrow_holder:hover svg {
+            fill: white; }
     .menu-overlay #cssmenu > ul > li {
       margin-bottom: 1em; }
       .menu-overlay #cssmenu > ul > li > ul {
