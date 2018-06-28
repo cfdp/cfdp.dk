@@ -3,35 +3,7 @@
 		<?php if (have_posts()) : ?>
 		<div class="archive content grid_12 clearfix">
 
- 			<?php $post = $posts[0]; // Hack. Set $post so that the_date() works. ?>
-
-			<?php /* If this is a category archive */ if (is_category()) { ?>
-			<p class="sub-titel">Kategori:</p>	
-            <h2 class="thumbHeading grid_12 alpha clearfix"><?php single_cat_title(); ?></h2>
-
-			<?php /* If this is a tag archive */ } elseif( is_tag() ) { ?>
-                <p class="sub-titel">Kategori:</p>	
-                <h2 class="thumbHeading grid_12 alpha clearfix"><?php single_tag_title(); ?></h2>
-
-			<?php /* If this is a daily archive */ } elseif (is_day()) { ?>
-                <p class="sub-titel">Arkiv for:</p>	
-                <h2 class="thumbHeading grid_12 alpha clearfix"><?php the_time('j. F Y'); ?></h2>
-
-			<?php /* If this is a monthly archive */ } elseif (is_month()) { ?>
-				<p class="sub-titel">Arkiv for:</p>	
-                <h2 class="thumbHeading grid_12 alpha clearfix"><?php the_time('F, Y'); ?></h2>
-
-			<?php /* If this is a yearly archive */ } elseif (is_year()) { ?>
-				<p class="sub-titel">Arkiv for:</p>	
-                <h2 class="thumbHeading grid_12 alpha clearfix"><?php the_time('Y'); ?></h2>
-
-			<?php /* If this is an author archive */ } elseif (is_author()) { ?>	
-                <h2 class="thumbHeading grid_12 alpha clearfix">Fofatter Arkiv</h2>
-
-			<?php /* If this is a paged archive */ } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
-				<h2 class="thumbHeading grid_12 alpha clearfix">Arkiv</h2>
-
-			<?php } ?>
+ 			
             
             <div class="results widget_siteorigin-panels-postloop">
 

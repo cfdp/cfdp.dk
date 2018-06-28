@@ -183,6 +183,30 @@
                     }
                           echo "</select>"; ?>
                 </div>
+                    <?php $post = $posts[0]; // Hack. Set $post so that the_date() works. ?>
+
+			<?php /* If this is a category archive */ if (is_category()) { ?>
+			<p class="sub-titel"><?php single_cat_title(); ?></p>	
+
+			<?php /* If this is a tag archive */ } elseif( is_tag() ) { ?>
+                <p class="sub-titel"><?php single_cat_title(); ?></p>
+
+			<?php /* If this is a daily archive */ } elseif (is_day()) { ?>
+                <p class="sub-titel"><?php the_time('j. F Y'); ?></p>
+
+			<?php /* If this is a monthly archive */ } elseif (is_month()) { ?>
+				<p class="sub-titel"><?php the_time('F, Y'); ?></p>
+
+			<?php /* If this is a yearly archive */ } elseif (is_year()) { ?>
+				<p class="sub-titel"><?php the_time('Y'); ?></p>
+
+			<?php /* If this is an author archive */ } elseif (is_author()) { ?>	
+                <p class="sub-titel">Fofatter Arkiv</p>
+
+			<?php /* If this is a paged archive */ } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
+				<p class="sub-titel">Arkiv</p>
+
+			<?php } ?>
                 </div>
             </div>
 

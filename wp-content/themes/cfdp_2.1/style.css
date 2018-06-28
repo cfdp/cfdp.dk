@@ -303,6 +303,8 @@ h4 {
   margin-top: 0; }
 
 .nav {
+  position: relative;
+  z-index: 999;
   padding: 3em 2em;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1598,8 +1600,7 @@ p#personal-info-disclaimer {
   margin-bottom: 0;
   max-height: 590px;
   margin-bottom: -90px;
-  top: -90px;
-  z-index: -1; }
+  top: -90px; }
   #big-banner .img-container {
     background-repeat: no-repeat;
     -webkit-background-size: cover;
@@ -1645,6 +1646,11 @@ p#personal-info-disclaimer {
         @media (max-width: 1024px) {
           #big-banner .img-container .img-overlay p {
             font-size: 1.1em; } }
+      #big-banner .img-container .img-overlay .sub-titel {
+        font-family: 'Montserrat', Sans-Serif;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 20px; }
 
 .post-tags {
   display: block;
@@ -1672,7 +1678,8 @@ p#personal-info-disclaimer {
   .widget_siteorigin-panels-postloop .post .post-image {
     padding-top: 56.25%; }
   .widget_siteorigin-panels-postloop .post h3 {
-    padding-top: 10px; }
+    padding-top: 10px;
+    word-break: break-word; }
 
 #blogposts .widget_siteorigin-panels-postloop .post, .archive .widget_siteorigin-panels-postloop .post, .related-content .widget_siteorigin-panels-postloop .post, .page-template-page_lecture .widget_siteorigin-panels-postloop .post, .page-template-default .widget_siteorigin-panels-postloop .post {
   width: calc(1/3 * 99.99% - (40px / 3)); }
@@ -1700,7 +1707,8 @@ p#personal-info-disclaimer {
   position: relative;
   width: 250px;
   left: 50%;
-  margin-left: -125px; }
+  margin-left: -125px;
+  margin-bottom: 35px; }
   .tag-filter select {
     border: 0 !important;
     -moz-appearance: none;

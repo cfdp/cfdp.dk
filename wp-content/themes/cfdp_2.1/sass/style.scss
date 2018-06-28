@@ -355,6 +355,8 @@ h4 {
 }
 
 .nav{
+     position: relative;
+    z-index: 999;
     padding: 3em 2em;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1781,7 +1783,6 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     max-height: 590px;
     margin-bottom: -90px;
     top: -90px;
-    z-index: -1;
     .img-container{
         background-repeat: no-repeat;
         -webkit-background-size: cover;
@@ -1829,6 +1830,12 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                    font-size: 1.1em;
                 }
             }
+            .sub-titel{
+                font-family: 'Montserrat', Sans-Serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 20px;
+            }
         }
     }
 }
@@ -1870,6 +1877,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         }
         h3{
             padding-top: 10px;
+            word-break: break-word;
         }
     }
 }
@@ -1920,6 +1928,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     width: 250px;
     left: 50%;
     margin-left: -125px;
+    margin-bottom: 35px;
     select {
         border: 0 !important;
         -moz-appearance: none;
