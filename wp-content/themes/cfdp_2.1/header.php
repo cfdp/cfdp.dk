@@ -152,6 +152,7 @@
                     }
                           echo "</select>"; ?>
                 </div>
+                    <p class="sub-titel"><?php the_title(); ?></p>
                 </div>
             </div>
 
