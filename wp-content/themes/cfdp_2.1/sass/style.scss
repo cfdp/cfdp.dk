@@ -280,7 +280,7 @@ h4 {
         color: #fff;
         font-size: 1.5em;
         font-family: 'Montserrat', Sans-Serif;
-        font-weight: 300;
+        font-weight: 400;
         &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
             color: rgba(255,255,255,0.4);
         }
@@ -380,7 +380,7 @@ h4 {
             display: block;
             height: 25px;
             width: 33px;
-            margin-top: 10px;
+            margin-top: 5px;
             .line{
                 fill: #414141;
             }
@@ -394,7 +394,7 @@ h4 {
             margin-left: 1em;
             a{
                 position: relative;
-                top: 5px;
+                top: 3px;
             }
         }
     }
@@ -413,7 +413,7 @@ h4 {
                 a{
                     font-family: 'Montserrat', Sans-Serif;
                     font-size: 0.9em;
-                    font-weight: 300;
+                    font-weight: 400;
                     color: #414141;
                     line-height: 1em;
                     &:hover{
@@ -597,7 +597,7 @@ h4 {
             font-family: 'Montserrat', Sans-Serif;
             font-size: 0.9em;
             letter-spacing: 1px;
-            font-weight: 300;
+            font-weight: 400;
             text-transform: uppercase;
             &:hover{
                 background: darken(#2980b9, 5%);
@@ -661,15 +661,16 @@ h4 {
     #filters{
         margin-bottom: 40px;
         border-bottom: 1px solid #efefef;
-        padding-bottom: 40px;
+        padding-bottom: 20px;
         li{
             float: left;
             margin-right: 20px;
+            margin-bottom: 20px;
             a{
                 font-family: 'Montserrat', Sans-Serif;
                 font-size: 0.9em;
                 letter-spacing: 1px;
-                font-weight: 300;
+                font-weight: 400;
                 text-transform: uppercase;
                 border: 1px solid #006cb6;
                 color: #006cb6 !important;
@@ -718,6 +719,7 @@ h4 {
                 top: -34px;
                 font-family: 'Montserrat', Sans-Serif;
                 font-size: 0.9em;
+                font-weight: 400;
             }
             h3{
                 padding-top: 10px;
@@ -726,7 +728,7 @@ h4 {
     }
 }
 
-.single-lecture{
+.single-foredrag{
     .post-intro {
 		width: 100%;
 		max-width: 720px;
@@ -753,13 +755,13 @@ h4 {
                 position: relative;
                 a{
                     color: #414141;
-                    font-weight: 300;
+                    font-weight: 400;
                     padding: 0;
                     &.blue_button{
                         font-family: 'Montserrat', Sans-Serif;
                         font-size: 0.9em;
                         letter-spacing: 1px;
-                        font-weight: 300;
+                        font-weight: 400;
                         text-transform: uppercase;
                         background: #2980b9;
                         color: white !important;
@@ -799,13 +801,24 @@ h4 {
 		max-width: 640px;
 		margin: 0 auto;
 		margin-bottom: 50px;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
         #lecture-contact{
             border-top: 1px solid #D8D8D8;  
             margin-top: 1em;
             padding-top: 1em;
         }
         .shareaholic-canvas{
-            display: none;
+            -webkit-box-ordinal-group: 1;
+            -moz-box-ordinal-group: 2;
+            -ms-flex-order: 1;
+            -webkit-order: 1;
+            order: 1;
         }
 	}
 }
@@ -887,7 +900,7 @@ h4 {
                 font-family: 'Montserrat', Sans-Serif;
                 font-size: 0.9em;
                 letter-spacing: 1px;
-                font-weight: 300;
+                font-weight: 400;
                 text-transform: uppercase;
                 &:hover{
                     background: darken(#ED6367, 5%);
@@ -1040,7 +1053,7 @@ a#contactTab:hover{
             font-family: 'Montserrat', Sans-Serif;
             font-size: 0.9em;
             letter-spacing: 1px;
-            font-weight: 300;
+            font-weight: 400;
             text-transform: uppercase;
             border: 1px solid #414141;
             color: #414141 !important;
@@ -1175,7 +1188,7 @@ a#contactTab:hover{
                 display: block;
                 font-family: 'Montserrat', Sans-Serif;
                 font-size: 13px;
-                font-weight: 300;
+                font-weight: 400;
                 color: #414141;
                 text-transform: uppercase;
                 margin-top: 15px;
@@ -1239,7 +1252,7 @@ a.green_button{
 	font-family: 'Montserrat', Sans-Serif;
     font-size: 0.9em;
     letter-spacing: 1px;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
 	background: #27ae60;
 	color: white !important;
@@ -1258,7 +1271,7 @@ a.red_button{
 	font-family: 'Montserrat', Sans-Serif;
     font-size: 0.9em;
     letter-spacing: 1px;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
 	background: #c0392b;
 	color: white !important;
@@ -1276,7 +1289,7 @@ a.red_button{
 	font-family: 'Montserrat', Sans-Serif;
     font-size: 0.9em;
     letter-spacing: 1px;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
 	background: #2980b9;
 	color: white !important;
@@ -1295,7 +1308,7 @@ a.blue-ghost_button{
 	font-family: 'Montserrat', Sans-Serif;
     font-size: 0.9em;
     letter-spacing: 1px;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
 	border: 1px solid #2980b9 !important;
 	color: #2980b9 !important;
@@ -1315,7 +1328,7 @@ a.yellow_button{
 	font-family: 'Montserrat', Sans-Serif;
     font-size: 0.9em;
     letter-spacing: 1px;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
 	background: #f1c40f;
 	color: white !important;
@@ -1658,7 +1671,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
             font-family: 'Montserrat', Sans-Serif;
             font-size: 0.9em;
             letter-spacing: 1px;
-            font-weight: 300;
+            font-weight: 400;
             text-transform: uppercase;
             border: 1px solid #414141;
             color: #414141 !important;
@@ -1844,7 +1857,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     display: block;
     font-family: 'Montserrat', Sans-Serif;
     font-size: 13px;
-    font-weight: 300;
+    font-weight: 400;
     color: #414141;
     text-transform: uppercase;
     margin-top: 15px;
@@ -1944,7 +1957,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         outline:none;
         padding-left: 1.5em;
         letter-spacing: 1px;
-        font-weight: 300;
+        font-weight: 400;
         border-radius: 0;
     }
 
@@ -2187,7 +2200,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
             font-family: 'Montserrat', Sans-Serif;
             font-size: 0.9em;
             letter-spacing: 1px;
-            font-weight: 300;
+            font-weight: 400;
             text-transform: uppercase;
             width: 120px;
             color: #fff;
@@ -2266,7 +2279,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         font-family: 'Montserrat', Sans-Serif;
         font-size: 0.9em;
         letter-spacing: 1px;
-        font-weight: 300!important;
+        font-weight: 400!important;
         text-transform: uppercase;
         color: #fff!important;
         border-radius: 0!important;
@@ -2336,7 +2349,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         font-family: 'Montserrat', Sans-Serif;
         font-size: 0.9em;
         letter-spacing: 1px;
-        font-weight: 300;
+        font-weight: 400;
         text-transform: uppercase;
         width: 120px;
         color: #fff;
@@ -2401,7 +2414,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         font-family: 'Montserrat', Sans-Serif;
         font-size: 0.9em;
         letter-spacing: 1px;
-        font-weight: 300;
+        font-weight: 400;
         text-transform: uppercase;
         &:hover{
             background: darken(#ED6367, 5%);

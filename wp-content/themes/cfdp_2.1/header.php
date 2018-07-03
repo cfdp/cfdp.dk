@@ -152,6 +152,7 @@
                     }
                           echo "</select>"; ?>
                 </div>
+                    <p class="sub-titel"><?php the_title(); ?></p>
                 </div>
             </div>
 
@@ -166,7 +167,7 @@
         <?php } elseif ( is_archive() ) { ?>
             <div class="img-container" style="background-image: url('<?php bloginfo('template_url'); ?>/img/fallback.png');">
                 <div class="img-overlay">
-                <?php the_field('archive_banner_content', 1204); ?> 
+                <?php the_field('archive_banner_content', 21182); ?> 
                 <div class="tag-filter">
                     <?php
                     $taxonomy = 'category';

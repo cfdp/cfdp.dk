@@ -123,11 +123,14 @@ body {
         display: -webkit-inline-flex;
         display: -ms-inline-flexbox;
         display: inline-flex;
+        .burger{
+            margin-top: 5px;
+        }
         .logo{
             margin-left: 1em;
             a{
                 position: relative;
-                top: 5px;
+                top: 3px;
                 img{
                     width: 115px;
                 }
@@ -549,7 +552,6 @@ div#respond textarea#comment {
         
 }
 
-
 .single-lecture{
     .post-intro {
         .intro-box{
@@ -568,4 +570,26 @@ div#respond textarea#comment {
 
 .error404 .container input[type="text"] {
     height: 50px;
+}
+
+@media screen and (max-width: 640px) {
+    .page-template-page_lectures{
+        // lectures posts loop
+        .lectures{
+            .lecture-item{
+                width: calc(100% );
+                margin-right: 0;
+                &:nth-child(3n + 5), &:nth-child(2){
+                    margin-right: 0;
+                }
+                &:nth-child(3n){
+                    margin-right: 0;
+                    float: left;
+                }
+                &:nth-child(3n + 1){
+                    float: left;
+                }
+            }
+        }
+    }
 }

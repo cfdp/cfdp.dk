@@ -11,8 +11,6 @@ Template Name: Oversigt alle indlæg
 	<div class="content clearfix">
 
 		<div id="post-<?php the_ID(); ?>" class="archive">
-            <?php echo '<p class="sub-titel">Kategori:</p>' ?>    
-			<?php echo '<h2 class="heading alpha grid_12 clearfix">' . get_the_title() . '</h2>'; ?>
 
 			<div class="grid_12">
 

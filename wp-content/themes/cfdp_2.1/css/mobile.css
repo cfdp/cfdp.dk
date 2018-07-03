@@ -175,11 +175,13 @@ body {
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
     display: inline-flex; }
+    .nav .left .burger {
+      margin-top: 5px; }
     .nav .left .logo {
       margin-left: 1em; }
       .nav .left .logo a {
         position: relative;
-        top: 5px; }
+        top: 3px; }
         .nav .left .logo a img {
           width: 115px; }
   .nav .right {
@@ -466,3 +468,15 @@ div#respond textarea#comment {
 
 .error404 .container input[type="text"] {
   height: 50px; }
+
+@media screen and (max-width: 640px) {
+  .page-template-page_lectures .lectures .lecture-item {
+    width: calc(100%);
+    margin-right: 0; }
+    .page-template-page_lectures .lectures .lecture-item:nth-child(3n + 5), .page-template-page_lectures .lectures .lecture-item:nth-child(2) {
+      margin-right: 0; }
+    .page-template-page_lectures .lectures .lecture-item:nth-child(3n) {
+      margin-right: 0;
+      float: left; }
+    .page-template-page_lectures .lectures .lecture-item:nth-child(3n + 1) {
+      float: left; } }

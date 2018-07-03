@@ -240,7 +240,7 @@ h4 {
     color: #fff;
     font-size: 1.5em;
     font-family: 'Montserrat', Sans-Serif;
-    font-weight: 300; }
+    font-weight: 400; }
     .search-form .search-input::-webkit-input-placeholder {
       /* Chrome/Opera/Safari */
       color: rgba(255, 255, 255, 0.4); }
@@ -328,7 +328,7 @@ h4 {
       display: block;
       height: 25px;
       width: 33px;
-      margin-top: 10px; }
+      margin-top: 5px; }
       .nav .left .burger .line {
         fill: #414141; }
       .nav .left .burger:hover .line {
@@ -337,7 +337,7 @@ h4 {
       margin-left: 1em; }
       .nav .left .logo a {
         position: relative;
-        top: 5px; }
+        top: 3px; }
   .nav .right {
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
@@ -352,7 +352,7 @@ h4 {
       .nav .right .second-menu li a {
         font-family: 'Montserrat', Sans-Serif;
         font-size: 0.9em;
-        font-weight: 300;
+        font-weight: 400;
         color: #414141;
         line-height: 1em; }
         .nav .right .second-menu li a:hover {
@@ -500,7 +500,7 @@ h4 {
       font-family: 'Montserrat', Sans-Serif;
       font-size: 0.9em;
       letter-spacing: 1px;
-      font-weight: 300;
+      font-weight: 400;
       text-transform: uppercase; }
       .comments #respond input[type="submit"]:hover {
         background: #2472a4; }
@@ -544,15 +544,16 @@ h4 {
 .page-template-page_lectures #filters {
   margin-bottom: 40px;
   border-bottom: 1px solid #efefef;
-  padding-bottom: 40px; }
+  padding-bottom: 20px; }
   .page-template-page_lectures #filters li {
     float: left;
-    margin-right: 20px; }
+    margin-right: 20px;
+    margin-bottom: 20px; }
     .page-template-page_lectures #filters li a {
       font-family: 'Montserrat', Sans-Serif;
       font-size: 0.9em;
       letter-spacing: 1px;
-      font-weight: 300;
+      font-weight: 400;
       text-transform: uppercase;
       border: 1px solid #006cb6;
       color: #006cb6 !important;
@@ -591,18 +592,19 @@ h4 {
       position: relative;
       top: -34px;
       font-family: 'Montserrat', Sans-Serif;
-      font-size: 0.9em; }
+      font-size: 0.9em;
+      font-weight: 400; }
     .page-template-page_lectures .lectures .lecture-item h3 {
       padding-top: 10px; }
 
-.single-lecture .post-intro {
+.single-foredrag .post-intro {
   width: 100%;
   max-width: 720px;
   margin: 0 auto; }
-  .single-lecture .post-intro .text-intro {
+  .single-foredrag .post-intro .text-intro {
     padding-bottom: 2em;
     border-bottom: 1px solid #D8D8D8; }
-  .single-lecture .post-intro .intro-box {
+  .single-foredrag .post-intro .intro-box {
     background: #F5F5F5;
     padding: 2em 3em;
     margin-bottom: 2em;
@@ -611,22 +613,22 @@ h4 {
     font-family: 'Montserrat', Sans-Serif;
     font-size: 18px; }
     @media (max-width: 1024px) {
-      .single-lecture .post-intro .intro-box {
+      .single-foredrag .post-intro .intro-box {
         padding: 1.5em; } }
-    .single-lecture .post-intro .intro-box .post-tags {
+    .single-foredrag .post-intro .intro-box .post-tags {
       margin: 0;
       text-transform: none;
       font-size: 18px;
       position: relative; }
-      .single-lecture .post-intro .intro-box .post-tags a {
+      .single-foredrag .post-intro .intro-box .post-tags a {
         color: #414141;
-        font-weight: 300;
+        font-weight: 400;
         padding: 0; }
-        .single-lecture .post-intro .intro-box .post-tags a.blue_button, .single-lecture .post-intro .intro-box .post-tags .comments .comment a.comment-reply-link, .comments .comment .single-lecture .post-intro .intro-box .post-tags a.comment-reply-link {
+        .single-foredrag .post-intro .intro-box .post-tags a.blue_button, .single-foredrag .post-intro .intro-box .post-tags .comments .comment a.comment-reply-link, .comments .comment .single-foredrag .post-intro .intro-box .post-tags a.comment-reply-link {
           font-family: 'Montserrat', Sans-Serif;
           font-size: 0.9em;
           letter-spacing: 1px;
-          font-weight: 300;
+          font-weight: 400;
           text-transform: uppercase;
           background: #2980b9;
           color: white !important;
@@ -634,16 +636,16 @@ h4 {
           padding: 12px 30px;
           border-radius: 0px;
           border: none; }
-          .single-lecture .post-intro .intro-box .post-tags a.blue_button:hover, .single-lecture .post-intro .intro-box .post-tags .comments .comment a.comment-reply-link:hover, .comments .comment .single-lecture .post-intro .intro-box .post-tags a.comment-reply-link:hover {
+          .single-foredrag .post-intro .intro-box .post-tags a.blue_button:hover, .single-foredrag .post-intro .intro-box .post-tags .comments .comment a.comment-reply-link:hover, .comments .comment .single-foredrag .post-intro .intro-box .post-tags a.comment-reply-link:hover {
             text-decoration: none;
             background: #2472a4; }
-      .single-lecture .post-intro .intro-box .post-tags p {
+      .single-foredrag .post-intro .intro-box .post-tags p {
         padding-bottom: 10px; }
-      .single-lecture .post-intro .intro-box .post-tags p:last-child {
+      .single-foredrag .post-intro .intro-box .post-tags p:last-child {
         padding-bottom: 0; }
-      .single-lecture .post-intro .intro-box .post-tags .left {
+      .single-foredrag .post-intro .intro-box .post-tags .left {
         float: left; }
-      .single-lecture .post-intro .intro-box .post-tags .right {
+      .single-foredrag .post-intro .intro-box .post-tags .right {
         float: right;
         position: absolute;
         top: 50%;
@@ -651,17 +653,28 @@ h4 {
         margin-top: -25px;
         right: 0; }
 
-.single-lecture .entry {
+.single-foredrag .entry {
   width: 100%;
   max-width: 640px;
   margin: 0 auto;
-  margin-bottom: 50px; }
-  .single-lecture .entry #lecture-contact {
+  margin-bottom: 50px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+  .single-foredrag .entry #lecture-contact {
     border-top: 1px solid #D8D8D8;
     margin-top: 1em;
     padding-top: 1em; }
-  .single-lecture .entry .shareaholic-canvas {
-    display: none; }
+  .single-foredrag .entry .shareaholic-canvas {
+    -webkit-box-ordinal-group: 1;
+    -moz-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    -webkit-order: 1;
+    order: 1; }
 
 .newsletter .panel-grid-cell:nth-child(1) .so-panel {
   margin-bottom: 0 !important; }
@@ -735,7 +748,7 @@ h4 {
       font-family: 'Montserrat', Sans-Serif;
       font-size: 0.9em;
       letter-spacing: 1px;
-      font-weight: 300;
+      font-weight: 400;
       text-transform: uppercase; }
       .newsletter #module--newsletter div:nth-child(2) input[type="submit"]:hover {
         background: #ea4c51; }
@@ -846,7 +859,7 @@ a#contactTab:hover {
       font-family: 'Montserrat', Sans-Serif;
       font-size: 0.9em;
       letter-spacing: 1px;
-      font-weight: 300;
+      font-weight: 400;
       text-transform: uppercase;
       border: 1px solid #414141;
       color: #414141 !important;
@@ -959,7 +972,7 @@ a#contactTab:hover {
       display: block;
       font-family: 'Montserrat', Sans-Serif;
       font-size: 13px;
-      font-weight: 300;
+      font-weight: 400;
       color: #414141;
       text-transform: uppercase;
       margin-top: 15px; }
@@ -1000,7 +1013,7 @@ a.green_button {
   font-family: 'Montserrat', Sans-Serif;
   font-size: 0.9em;
   letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 400;
   text-transform: uppercase;
   background: #27ae60;
   color: white !important;
@@ -1016,7 +1029,7 @@ a.red_button {
   font-family: 'Montserrat', Sans-Serif;
   font-size: 0.9em;
   letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 400;
   text-transform: uppercase;
   background: #c0392b;
   color: white !important;
@@ -1032,7 +1045,7 @@ a.red_button {
   font-family: 'Montserrat', Sans-Serif;
   font-size: 0.9em;
   letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 400;
   text-transform: uppercase;
   background: #2980b9;
   color: white !important;
@@ -1048,7 +1061,7 @@ a.blue-ghost_button {
   font-family: 'Montserrat', Sans-Serif;
   font-size: 0.9em;
   letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 400;
   text-transform: uppercase;
   border: 1px solid #2980b9 !important;
   color: #2980b9 !important;
@@ -1065,7 +1078,7 @@ a.yellow_button {
   font-family: 'Montserrat', Sans-Serif;
   font-size: 0.9em;
   letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 400;
   text-transform: uppercase;
   background: #f1c40f;
   color: white !important;
@@ -1496,7 +1509,7 @@ p#personal-info-disclaimer {
       font-family: 'Montserrat', Sans-Serif;
       font-size: 0.9em;
       letter-spacing: 1px;
-      font-weight: 300;
+      font-weight: 400;
       text-transform: uppercase;
       border: 1px solid #414141;
       color: #414141 !important;
@@ -1656,7 +1669,7 @@ p#personal-info-disclaimer {
   display: block;
   font-family: 'Montserrat', Sans-Serif;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   color: #414141;
   text-transform: uppercase;
   margin-top: 15px; }
@@ -1724,7 +1737,7 @@ p#personal-info-disclaimer {
     outline: none;
     padding-left: 1.5em;
     letter-spacing: 1px;
-    font-weight: 300;
+    font-weight: 400;
     border-radius: 0; }
   .tag-filter select:-moz-focusring {
     color: transparent;
@@ -1907,7 +1920,7 @@ p#personal-info-disclaimer {
     font-family: 'Montserrat', Sans-Serif;
     font-size: 0.9em;
     letter-spacing: 1px;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
     width: 120px;
     color: #fff;
@@ -1992,7 +2005,7 @@ p#personal-info-disclaimer {
   font-family: 'Montserrat', Sans-Serif;
   font-size: 0.9em;
   letter-spacing: 1px;
-  font-weight: 300 !important;
+  font-weight: 400 !important;
   text-transform: uppercase;
   color: #fff !important;
   border-radius: 0 !important;
@@ -2055,7 +2068,7 @@ p#personal-info-disclaimer {
   font-family: 'Montserrat', Sans-Serif;
   font-size: 0.9em;
   letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 400;
   text-transform: uppercase;
   width: 120px;
   color: #fff;
@@ -2121,7 +2134,7 @@ p#personal-info-disclaimer {
   font-family: 'Montserrat', Sans-Serif;
   font-size: 0.9em;
   letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 400;
   text-transform: uppercase; }
   .widget_mc4wp_form_widget input[type="submit"]:hover {
     background: #ea4c51; }
