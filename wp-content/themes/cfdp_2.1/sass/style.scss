@@ -740,7 +740,7 @@ h4 {
         .intro-box{
             background: #F5F5F5;
             padding: 2em 3em;
-            @media (max-width: 1024px) {
+            @media (max-width: 640px) {
                padding: 1.5em;
             }
             margin-bottom: 2em;
@@ -784,14 +784,27 @@ h4 {
                 }
                 .left{
                     float: left;
+                    p{
+                        margin-bottom: 0;
+                    }
+                    @media (max-width: 640px) {
+                        width: 100%;
+                    }
                 }
                 .right{
                     float: right;
                     position: absolute;
                     top: 50%;
-                    height: 144px;
-                    margin-top: -25px;
+                    height: 44px;
+                    margin-top: -22px;
                     right: 0;
+                    @media (max-width: 640px) {
+                        float: left;
+                        position: inherit;
+                        height: auto;
+                        margin: 0;
+                        margin-top: 20px;
+                    }
                 }
             }
         }
@@ -1824,6 +1837,9 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
             position: relative;
             z-index: 99;
             width: 65%;
+            @media (max-width: 740px) {
+               width: 90%;
+            }
             margin: 0 auto;
             position: relative;
             top: calc(50% + 45px);
@@ -1995,17 +2011,22 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     top: 0;
     left: 0;
     height: 100vh;
-    width: 100%;
+    width: 33%;
+    min-width: 320px;
+    max-width: 450px;
     overflow: hidden;
     background: #4D79C1;
+    -webkit-box-shadow: 0 0 0 100vw rgba(0,0,0,0.5);
+    box-shadow: 0 0 0 100vw rgba(0,0,0,0.5);
     z-index: 999999;
     opacity: 0;
 	visibility: hidden;
-    -webkit-transition: opacity .2s ease-in-out;
-       -moz-transition: opacity .2s ease-in-out;
-        -ms-transition: opacity .2s ease-in-out;
-         -o-transition: opacity .2s ease-in-out;
-            transition: opacity .2s ease-in-out;
+    left: -33%;
+    -webkit-transition: all .15s ease-in-out;
+       -moz-transition: all .15s ease-in-out;
+        -ms-transition: all .15s ease-in-out;
+         -o-transition: all .15s ease-in-out;
+            transition: all .15s ease-in-out;
     .close-menu{
         position: absolute;
         top: 2.1em;
@@ -2027,13 +2048,12 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     #cssmenu{
         font-family: 'Montserrat', Sans-Serif;
         display: block;
-        font-size: 35px;
+        font-size: 25px;
         font-weight: 600;
         line-height: 1.2em;
-        padding-top: .8em;
-        padding-bottom: .5em;
-        width: fit-content;
-        margin-left: 5em;
+        width: calc(65% + 10px);
+        position: relative;
+        left: 30px;
         ul{
             li{
                 position: relative;
@@ -2089,21 +2109,21 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                     }
                 }
                 .menu_arrow_holder{
-                    width: 30px;
-                    height: 30px;
+                    width: 25px;
+                    height: 25px;
                     border-radius: 100%;
                     border: 2px solid rgba(255, 255, 255, 0.5);
                     position: absolute;
                     top: 4px;
-                    right: -60px;
+                    right: -40px;
                     cursor: pointer;
                     svg{
-                        width:8px;
-                        height:15px;
+                        width:6px;
+                        height:10px;
                         fill: rgba(255,255,255,.5);  
                         position: relative;
-                        top: -10px;
-                        left: 12px;
+                        top: -6px;
+                        left: 10px;
                     }
                     &:hover{
                         border: 2px solid rgba(255, 255, 255, 1);
@@ -2118,8 +2138,8 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
             > li {
                 margin-bottom: 1em;
                 > ul{
-                    margin-left: 20px;  
-                    font-size: 20px;
+                    margin-left: 10px;  
+                    font-size: 16px;
                     line-height: 1.3em;
                     > li {
                         margin-bottom: 0.5em;
@@ -2139,6 +2159,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 .menu-overlay.open{
     opacity: 1;
 	visibility: visible;
+    left: 0;
 }
 
 // 404 page
