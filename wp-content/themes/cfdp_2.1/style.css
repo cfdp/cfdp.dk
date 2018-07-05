@@ -1886,7 +1886,7 @@ p#personal-info-disclaimer {
     display: none; }
 
 .menu-overlay.open {
-  opacity: 1;
+  opacity: 0.98;
   visibility: visible;
   left: 0; }
 

@@ -93,7 +93,7 @@ $('#cssmenu > ul > li > .menu_arrow_holder').click(function() {
     
 $(window).scroll(function() {
   var scrolledY = $(window).scrollTop();
-    if ($(window).width() < 1500) {
+    if ($(window).width() > 640 && $(window).width() < 1500 ) {
        $('.img-container').css('background-position', 'center ' + ((scrolledY)) + 'px');
     }
 });
