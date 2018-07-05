@@ -253,10 +253,18 @@ body {
   justify-content: center;
   flex-direction: column;
   width: 100%; }
+  @media screen and (max-width: 640px) {
+    .menu-overlay {
+      display: block; } }
   .menu-overlay #cssmenu {
     left: -30px;
     padding: 0;
     width: 230px; }
+    @media screen and (max-width: 640px) {
+      .menu-overlay #cssmenu {
+        position: initial;
+        margin-left: 30px;
+        margin-top: 80px; } }
     .menu-overlay #cssmenu ul li .menu_arrow_holder {
       width: 26px;
       height: 26px;
@@ -266,6 +274,9 @@ body {
       top: 4px;
       right: -40px;
       cursor: pointer; }
+      @media screen and (max-width: 640px) {
+        .menu-overlay #cssmenu ul li .menu_arrow_holder {
+          top: 2px; } }
       .menu-overlay #cssmenu ul li .menu_arrow_holder svg {
         width: 6px;
         height: 10px;
@@ -273,26 +284,32 @@ body {
         position: relative;
         top: -8px;
         left: 9px; }
+        @media screen and (max-width: 640px) {
+          .menu-overlay #cssmenu ul li .menu_arrow_holder svg {
+            top: -6px; } }
       .menu-overlay #cssmenu ul li .menu_arrow_holder:hover {
         border: 2px solid white; }
         .menu-overlay #cssmenu ul li .menu_arrow_holder:hover svg {
           fill: white; }
-    .menu-overlay #cssmenu > ul > li {
-      margin-bottom: 1em; }
-      .menu-overlay #cssmenu > ul > li > ul {
-        margin-left: 10px;
-        font-size: 16px;
-        line-height: 1.3em; }
-        .menu-overlay #cssmenu > ul > li > ul > li {
-          margin-bottom: 0.5em; }
-          .menu-overlay #cssmenu > ul > li > ul > li:first-child {
-            margin-top: 0.8em; }
+    @media screen and (max-width: 640px) {
+      .menu-overlay #cssmenu > ul > li {
+        margin-bottom: 0.5em;
+        font-size: 20px; } }
+    .menu-overlay #cssmenu > ul > li > ul {
+      margin-left: 10px;
+      font-size: 14px;
+      line-height: 1.3em; }
+      .menu-overlay #cssmenu > ul > li > ul > li {
+        margin-bottom: 0.8em; }
+        .menu-overlay #cssmenu > ul > li > ul > li:first-child {
+          margin-top: 0.8em; }
   .menu-overlay .mobile {
     width: 290px;
-    margin-top: 4em; }
+    margin-top: 3em; }
     @media screen and (max-width: 640px) {
       .menu-overlay .mobile {
-        display: block; } }
+        display: block;
+        margin-left: 30px; } }
     .menu-overlay .mobile a {
       color: rgba(255, 255, 255, 0.5); }
       .menu-overlay .mobile a:hover {
