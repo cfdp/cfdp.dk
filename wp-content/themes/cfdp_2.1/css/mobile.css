@@ -480,8 +480,7 @@ div#respond textarea#comment {
 
 @media screen and (max-width: 640px) {
   .page-template-page_lectures .lectures .lecture-item {
-    width: calc(100%);
-    margin-right: 0; }
+    width: calc(100% - 20px); }
     .page-template-page_lectures .lectures .lecture-item:nth-child(3n + 5), .page-template-page_lectures .lectures .lecture-item:nth-child(2) {
       margin-right: 0; }
     .page-template-page_lectures .lectures .lecture-item:nth-child(3n) {

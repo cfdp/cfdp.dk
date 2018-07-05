@@ -590,8 +590,7 @@ div#respond textarea#comment {
         // lectures posts loop
         .lectures{
             .lecture-item{
-                width: calc(100% );
-                margin-right: 0;
+                width: calc(100% - 20px);
                 &:nth-child(3n + 5), &:nth-child(2){
                     margin-right: 0;
                 }
