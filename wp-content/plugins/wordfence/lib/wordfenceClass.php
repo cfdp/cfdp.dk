@@ -62,7 +62,6 @@ class wordfence {
 	private static $hitID = 0;
 	private static $debugOn = null;
 	private static $runInstallCalled = false;
-	public static $commentSpamItems = array();
 	public static function installPlugin(){
 		self::runInstall();
 		
@@ -110,7 +109,7 @@ class wordfence {
 			wfConfig::updateTableExists(false);
 			$schema = new wfSchema();
 			$schema->dropAll();
-			foreach(array('wordfence_version', 'wordfenceActivated') as $opt){
+			foreach(array('wordfence_version', 'wordfenceActivated', wfSchema::TABLE_CASE_OPTION) as $opt) {
 				if (is_multisite() && function_exists('delete_network_option')) {
 					delete_network_option(null, $opt);
 				}
@@ -139,9 +138,6 @@ class wordfence {
 		$wfdb = new wfDB();
 
 		if(wfConfig::get('other_WFNet')){
-			$table_wfNet404s = wfDB::networkTable('wfNet404s');
-			$wfdb->truncate($table_wfNet404s);
-			
 			$table_wfVulnScanners = wfDB::networkTable('wfVulnScanners');
 			$q2 = $wfdb->querySelect("select IP from {$table_wfVulnScanners} where ctime > unix_timestamp() - 3600");
 			$scanCont = "";
@@ -182,7 +178,7 @@ class wordfence {
 		wfVersionCheckController::shared()->checkVersionsAndWarn();
 	}
 	private static function keyAlert($msg){
-		self::alert($msg, $msg . " To ensure uninterrupted Premium Wordfence protection on your site,\nplease renew your API key by visiting http://www.wordfence.com/ Sign in, go to your dashboard,\nselect the key about to expire and click the button to renew that API key.", false);
+		self::alert($msg, $msg . " To ensure uninterrupted Premium Wordfence protection on your site,\nplease renew your license by visiting http://www.wordfence.com/ Sign in, go to your dashboard,\nselect the license about to expire and click the button to renew that license.", false);
 	}
 	public static function dailyCron() {
 		$lastDailyCron = (int) wfConfig::get('lastDailyCron', 0);
@@ -191,6 +187,10 @@ class wordfence {
 		}
 		
 		wfConfig::set('lastDailyCron', time());
+		
+		global $wpdb;
+		$version = $wpdb->get_var("SELECT VERSION()");
+		wfConfig::set('dbVersion', $version);
 		
 		$api = new wfAPI(wfConfig::get('apiKey'), wfUtils::getWPVersion());
 		try {
@@ -209,8 +209,8 @@ class wordfence {
 						wfConfig::set('keyAutoRenew10Sent', '');
 					} else if ($keyExpDays <= 12 && $keyExpDays > 0 && !wfConfig::get('keyAutoRenew10Sent')) {
 						wfConfig::set('keyAutoRenew10Sent', 1);
-						$email = "Your Premium Wordfence API Key is set to auto-renew in 10 days.";
-						self::alert($email, "$email To update your API key settings please visit http://www.wordfence.com/zz9/dashboard", false);
+						$email = "Your Premium Wordfence License is set to auto-renew in 10 days.";
+						self::alert($email, "$email To update your license settings please visit http://www.wordfence.com/zz9/dashboard", false);
 					}
 				} else {
 					if($keyExpDays > 15){
@@ -222,20 +222,20 @@ class wordfence {
 					} else if($keyExpDays <= 15 && $keyExpDays > 0){
 						if($keyExpDays <= 15 && $keyExpDays >= 11 && (! wfConfig::get('keyExp15Sent'))){
 							wfConfig::set('keyExp15Sent', 1);
-							self::keyAlert("Your Premium Wordfence API Key expires in less than 2 weeks.");
+							self::keyAlert("Your Premium Wordfence License expires in less than 2 weeks.");
 						} else if($keyExpDays <= 7 && $keyExpDays >= 4 && (! wfConfig::get('keyExp7Sent'))){
 							wfConfig::set('keyExp7Sent', 1);
-							self::keyAlert("Your Premium Wordfence API Key expires in less than a week.");
+							self::keyAlert("Your Premium Wordfence License expires in less than a week.");
 						} else if($keyExpDays == 2 && (! wfConfig::get('keyExp2Sent'))){
 							wfConfig::set('keyExp2Sent', 1);
-							self::keyAlert("Your Premium Wordfence API Key expires in 2 days.");
+							self::keyAlert("Your Premium Wordfence License expires in 2 days.");
 						} else if($keyExpDays == 1 && (! wfConfig::get('keyExp1Sent'))){
 							wfConfig::set('keyExp1Sent', 1);
-							self::keyAlert("Your Premium Wordfence API Key expires in 1 day.");
+							self::keyAlert("Your Premium Wordfence License expires in 1 day.");
 						}
 					} else if($keyIsExpired && (! wfConfig::get('keyExpFinalSent')) ){
 						wfConfig::set('keyExpFinalSent', 1);
-						self::keyAlert("Your Wordfence Premium API Key has Expired!");
+						self::keyAlert("Your Wordfence Premium License has Expired!");
 					}
 				}
 			}
@@ -257,9 +257,12 @@ class wordfence {
 			wfConfig::set('keyType', $keyType);
 		}
 		catch(Exception $e){
-			wordfence::status(4, 'error', "Could not verify Wordfence API Key: " . $e->getMessage());
+			wordfence::status(4, 'error', "Could not verify Wordfence License: " . $e->getMessage());
 			wfConfig::set('useNoc3Secure', false);
 		}
+		
+		$allowMySQLi = wfConfig::testDB();
+		wfConfig::set('allowMySQLi', $allowMySQLi);
 
 		$wfdb = new wfDB();
 		try {
@@ -397,7 +400,7 @@ class wordfence {
 				$message .= $items[$i];
 			}
 			
-			new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, '<a href="' . network_admin_url('update-core.php') . '">' . $message . '</a>', 'wfplugin_updates');
+			new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, '<a href="' . wfUtils::wpAdminURL('update-core.php') . '">' . $message . '</a>', 'wfplugin_updates');
 		}
 		else {
 			$n = wfNotification::getNotificationForCategory('wfplugin_updates');
@@ -439,6 +442,7 @@ class wordfence {
 		//Remove old legacy cron job if exists
 		wp_clear_scheduled_hook('wordfence_scheduled_scan');
 
+		wfSchema::updateTableCase();
 		$schema = new wfSchema();
 		$schema->createAll(); //if not exists
 		wfConfig::updateTableExists(true);
@@ -479,12 +483,13 @@ SQL
 				if($keyData['ok'] && $keyData['apiKey']){
 					wfConfig::set('apiKey', $keyData['apiKey']);
 					wfConfig::set('keyType', wfAPI::KEY_TYPE_FREE);
+					wfConfig::set('touppPromptNeeded', true);
 					$freshAPIKey = true;
 				} else {
-					throw new Exception("Could not understand the response we received from the Wordfence servers when applying for a free API key.");
+					throw new Exception("Could not understand the response we received from the Wordfence servers when applying for a free license key.");
 				}
 			} catch(Exception $e){
-				error_log("Could not fetch free API key from Wordfence: " . $e->getMessage());
+				error_log("Could not fetch free license key from Wordfence: " . $e->getMessage());
 				return;
 			}
 		}
@@ -548,35 +553,7 @@ SQL
 ))");
 		}
 
-		// Fix the data in the country column.
-		$previousVersionHash = wfConfig::get('geoIPVersionHash', '');
-		$geoIPVersion = wfUtils::geoIPVersion();
-		$geoIPVersionHash = hash('sha256', implode(',', $geoIPVersion));
-		if ($previousVersionHash != $geoIPVersionHash) {
-			$table_wfBlockedIPLog = wfDB::networkTable('wfBlockedIPLog');
-			$ip_results = $wpdb->get_results("SELECT countryCode, IP FROM `{$table_wfBlockedIPLog}` GROUP BY IP");
-			if ($ip_results) {
-				foreach ($ip_results as $ip_row) {
-					$country = wfUtils::IP2Country(wfUtils::inet_ntop($ip_row->IP));
-					if ($country != $ip_row->countryCode) {
-						$wpdb->query($wpdb->prepare("UPDATE `{$table_wfBlockedIPLog}` SET countryCode = %s WHERE IP = %s", $country, $ip_row->IP));
-					}
-				}
-			}
-			
-			$table_wfBlockedCommentLog = wfDB::networkTable('wfBlockedCommentLog');
-			$ip_results = $wpdb->get_results("SELECT countryCode, IP FROM `{$table_wfBlockedCommentLog}` GROUP BY IP");
-			if ($ip_results) {
-				foreach ($ip_results as $ip_row) {
-					$country = wfUtils::IP2Country(wfUtils::inet_ntop($ip_row->IP));
-					if ($country != $ip_row->countryCode) {
-						$wpdb->query($wpdb->prepare("UPDATE `{$table_wfBlockedCommentLog}` SET countryCode = %s WHERE IP = %s", $country, $ip_row->IP));
-					}
-				}
-			}
-			
-			wfConfig::set('geoIPVersionHash', $geoIPVersionHash);
-		}
+		//Country reassignment moved to the GeoIP file sync segment
 
 		if (wfConfig::get('other_hideWPVersion')) {
 			wfUtils::hideReadme();
@@ -698,7 +675,7 @@ SQL
 		}
 		
 		//6.3.5
-		$fileModsTable = wfDB::networkPrefix() . 'wfFileMods';
+		$fileModsTable = wfDB::networkTable('wfFileMods');
 		$hasStoppedOn = $wpdb->get_col($wpdb->prepare(<<<SQL
 SELECT * FROM information_schema.COLUMNS
 WHERE TABLE_SCHEMA=DATABASE()
@@ -711,7 +688,7 @@ SQL
 			$wpdb->query("ALTER TABLE {$fileModsTable} ADD COLUMN stoppedOnPosition INT UNSIGNED NOT NULL DEFAULT '0'");
 		}
 		
-		$blockedIPLogTable = wfDB::networkPrefix() . 'wfBlockedIPLog';
+		$blockedIPLogTable = wfDB::networkTable('wfBlockedIPLog');
 		$hasType = $wpdb->get_col($wpdb->prepare(<<<SQL
 SELECT * FROM information_schema.COLUMNS
 WHERE TABLE_SCHEMA=DATABASE()
@@ -734,7 +711,7 @@ SQL
 			wfConfig::set('migration636_email_summary_excluded_directories', 1, wfConfig::DONT_AUTOLOAD);
 		}
     
-		$fileModsTable = wfDB::networkPrefix() . 'wfFileMods';
+		$fileModsTable = wfDB::networkTable('wfFileMods');
 		$hasSHAC = $wpdb->get_col($wpdb->prepare(<<<SQL
 SELECT * FROM information_schema.COLUMNS
 WHERE TABLE_SCHEMA=DATABASE()
@@ -748,7 +725,7 @@ SQL
 		}
 		
 		//6.3.7
-		$hooverTable = wfDB::networkPrefix() . 'wfHoover';
+		$hooverTable = wfDB::networkTable('wfHoover');
 		$hostKeySize = $wpdb->get_var($wpdb->prepare(<<<SQL
 SELECT CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS
 WHERE TABLE_SCHEMA=DATABASE()
@@ -808,7 +785,7 @@ SQL
 		}
 		
 		//---- wfBlocks migration
-		$oldBlocksTable = wfDB::networkPrefix() . 'wfBlocks';
+		$oldBlocksTable = wfDB::networkTable('wfBlocks');
 		$blocksTable = wfBlock::blocksTable();
 		$oldBlocksExist = $wpdb->get_col($wpdb->prepare(<<<SQL
 SELECT TABLE_NAME FROM information_schema.TABLES
@@ -830,7 +807,7 @@ END AS `expiration` FROM `{$oldBlocksTable}`", wfBlock::TYPE_WFSN_TEMPORARY, wfB
 			$wpdb->query($query);
 			
 			//wfBlocksAdv migration
-			$advancedBlocksTable = wfDB::networkPrefix() . 'wfBlocksAdv';
+			$advancedBlocksTable = wfDB::networkTable('wfBlocksAdv');
 			$advancedBlocks = $wpdb->get_results("SELECT * FROM {$advancedBlocksTable}", ARRAY_A);
 			foreach ($advancedBlocks as $b) {
 				$blockType = $b['blockType']; //unused
@@ -846,7 +823,7 @@ END AS `expiration` FROM `{$oldBlocksTable}`", wfBlock::TYPE_WFSN_TEMPORARY, wfB
 			}
 			
 			//throttle migration
-			$throttleTable = wfDB::networkPrefix() . 'wfThrottleLog';
+			$throttleTable = wfDB::networkTable('wfThrottleLog');
 			$throttles = $wpdb->get_results("SELECT * FROM {$throttleTable}", ARRAY_A);
 			foreach ($throttles as $t) {
 				$ip = wfUtils::inet_ntop($t['IP']);
@@ -859,7 +836,7 @@ END AS `expiration` FROM `{$oldBlocksTable}`", wfBlock::TYPE_WFSN_TEMPORARY, wfB
 			}
 			
 			//lockout migration
-			$lockoutTable = wfDB::networkPrefix() . 'wfLockedOut';
+			$lockoutTable = wfDB::networkTable('wfLockedOut');
 			$lockouts = $wpdb->get_results("SELECT * FROM {$lockoutTable}", ARRAY_A);
 			foreach ($lockouts as $l) {
 				$ip = wfUtils::inet_ntop($l['IP']);
@@ -882,8 +859,8 @@ END AS `expiration` FROM `{$oldBlocksTable}`", wfBlock::TYPE_WFSN_TEMPORARY, wfB
 		}
 		
 		//---- wfIssues/wfPendingIssues Schema Change
-		$issuesTable = wfDB::networkPrefix() . 'wfIssues';
-		$pendingIssuesTable = wfDB::networkPrefix() . 'wfPendingIssues';
+		$issuesTable = wfDB::networkTable('wfIssues');
+		$pendingIssuesTable = wfDB::networkTable('wfPendingIssues');
 		$hasLastUpdated = $wpdb->get_col($wpdb->prepare(<<<SQL
 SELECT * FROM information_schema.COLUMNS
 WHERE TABLE_SCHEMA=DATABASE()
@@ -1022,6 +999,26 @@ SQL
 <p><a href="javascript:WFAD.enableAllOptionsPage();" class="wf-btn wf-btn-primary wf-btn-callout-subtle">Enable "All Options" Page</a></p>', 'wfplugin_devalloptions');
 			wfConfig::set('generateAllOptionsNotification', 1);
 		}*/
+		
+		//7.1.9
+		if (wfConfig::get('loginSec_maxFailures') == 1) {
+			wfConfig::set('loginSec_maxFailures', 2);
+		}
+		
+		$blocksTable = wfBlock::blocksTable();
+		$patternBlocks = wfBlock::patternBlocks();
+		foreach ($patternBlocks as $b) {
+			if (!empty($b->ipRange) && preg_match('/^\d+\-\d+$/', $b->ipRange)) { //Old-style range block using long2ip
+				$ipRange = new wfUserIPRange($b->ipRange);
+				$ipRange = $ipRange->getIPString();
+				
+				$parameters = $b->parameters;
+				$parameters['ipRange'] = $ipRange;
+				$wpdb->query($wpdb->prepare("UPDATE `{$blocksTable}` SET `parameters` = %s WHERE `id` = %d", json_encode($parameters), $b->id));
+			}
+		}
+		
+		wfConfig::set('needsGeoIPSync', true, wfConfig::DONT_AUTOLOAD);
 		
 		//Check the How does Wordfence get IPs setting
 		wfUtils::requestDetectProxyCallback();
@@ -1176,7 +1173,7 @@ SQL
 		//add_filter( 'cron_schedules', 'wordfence::cronAddSchedules' );
 
 		add_filter('wp_redirect', 'wordfence::wpRedirectFilter', 99, 2);
-		add_filter('pre_comment_approved', 'wordfence::preCommentApprovedFilter', '99', 2);
+		add_filter('wp_redirect_status', 'wordfence::wpRedirectStatusFilter', 99, 2);
 		//html|xhtml|atom|rss2|rdf|comment|export
 		if(wfConfig::get('other_hideWPVersion')){
 			add_filter('style_loader_src', 'wordfence::replaceVersion');
@@ -1192,6 +1189,7 @@ SQL
 		add_filter('get_the_generator_comment', 'wordfence::genFilter', 99, 2);
 		add_filter('get_the_generator_export', 'wordfence::genFilter', 99, 2);
 		add_filter('registration_errors', 'wordfence::registrationFilter', 99, 3);
+		add_filter('woocommerce_new_customer_data', 'wordfence::wooRegistrationFilter', 99, 1);
 		
 		if (wfConfig::get('loginSec_disableAuthorScan')) {
 			add_filter('oembed_response_data', 'wordfence::oembedAuthorFilter', 99, 4);
@@ -1235,7 +1233,7 @@ SQL
 			wfConfig::set_ser('adminUserList', false);
 		}
 
-		if (!self::getLog()->getCurrentRequest()->jsRun && wfConfig::liveTrafficEnabled()) {
+		if (wfConfig::liveTrafficEnabled()) {
 			add_action('wp_head', 'wordfence::wfLogHumanHeader');
 			add_action('login_head', 'wordfence::wfLogHumanHeader');
 		}
@@ -1245,6 +1243,7 @@ SQL
 			ignore_user_abort(true);
 			update_site_option('wordfence_syncingAttackData', time());
 			header('Content-Type: text/javascript');
+			define('WORDFENCE_SYNCING_ATTACK_DATA', true);
 			add_action('init', 'wordfence::syncAttackData', 10, 0);
 			add_filter('woocommerce_unforce_ssl_checkout', '__return_false');
 		}
@@ -1285,8 +1284,16 @@ SQL
 		}
 		return $from_email;
 	}
-	public static function wpRedirectFilter($URL, $status){
-		return $URL;
+	public static function wpRedirectFilter($location, $status) {
+		self::getLog()->initLogRequest();
+		self::getLog()->getCurrentRequest()->statusCode = $status;
+		return $location;
+	}
+	public static function wpRedirectStatusFilter($status, $location) {
+		self::getLog()->initLogRequest();
+		self::getLog()->getCurrentRequest()->statusCode = $status;
+		self::getLog()->logHit();
+		return $status;
 	}
 	public static function enqueueAJAXWatcher() {
 		$wafDisabled = !WFWAF_ENABLED || (class_exists('wfWAFConfig') && wfWAFConfig::isDisabled());
@@ -1316,7 +1323,7 @@ SQL
 		self::$wordfence_wp_version = false;
 		if (!defined('DONOTCACHEDB')) { define('DONOTCACHEDB', true); }
 		//This is messy, but not sure of a better way to do this without guaranteeing we get $wp_version
-		require(ABSPATH . 'wp-includes/version.php');
+		require(ABSPATH . 'wp-includes/version.php'); /** @var string $wp_version */
 		self::$wordfence_wp_version = $wp_version;
 		require_once('wfScan.php');
 		wfScan::wfScanMain();
@@ -1325,7 +1332,7 @@ SQL
 	public static function ajax_lh_callback(){
 		self::getLog()->canLogHit = false;
 		$UA = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-		$isCrawler = false;
+		$isCrawler = empty($UA);
 		if ($UA) {
 			if (wfCrawl::isCrawler($UA) || wfCrawl::isGoogleCrawler()) {
 				$isCrawler = true;
@@ -1471,6 +1478,7 @@ SQL
 		$lockout = wfBlock::lockoutForIP(wfUtils::getIP());
 		if ($lockout !== false) {
 			$lockout->recordBlock();
+			$customText = wpautop(wp_strip_all_tags(wfConfig::get('blockCustomText', '')));
 			require('wfLockedOut.php');
 		}
 		
@@ -1496,6 +1504,7 @@ SQL
 			}
 			if($forgotAttempts >= wfConfig::get('loginSec_maxForgotPasswd')){
 				self::lockOutIP($IP, "Exceeded the maximum number of tries to recover their password which is set at: " . wfConfig::get('loginSec_maxForgotPasswd') . ". The last username or email they entered before getting locked out was: '" . $_POST['user_login'] . "'");
+				$customText = wpautop(wp_strip_all_tags(wfConfig::get('blockCustomText', '')));
 				require('wfLockedOut.php');
 			}
 			set_transient($tKey, $forgotAttempts, wfConfig::get('loginSec_countFailMins') * 60);
@@ -1617,11 +1626,241 @@ SQL
 			}
 			exit();
 		}
+		else if ($wfFunc == 'removeAlertEmail') {
+			wfUtils::doNotCache();
+			
+			$payloadStatus = false;
+			$jwt = (isset($_GET['jwt']) && is_string($_GET['jwt'])) ? $_GET['jwt'] : '';
+			if (!empty($jwt)) {
+				$payload = wfUtils::decodeJWT($jwt);
+				if ($payload && isset($payload['email'])) {
+					$payloadStatus = true;
+				}
+			}
+			
+			if (isset($_POST['resend'])) {
+				$email = trim(@$_POST['email']);
+				$found = false;
+				$alertEmails = wfConfig::getAlertEmails();
+				foreach ($alertEmails as $e) {
+					if ($e == $email) {
+						$found = true;
+						break;
+					}
+				}
+					
+				if ($found) {
+					$content = wfUtils::tmpl('email_unsubscribeRequest.php', array(
+						'siteName' => get_bloginfo('name', 'raw'),
+						'siteURL' => wfUtils::getSiteBaseURL(),
+						'IP' => wfUtils::getIP(),
+						'jwt' => wfUtils::generateJWT(array('email' => $email)),
+					));
+					wp_mail($email, "Unsubscribe Requested", $content, "Content-Type: text/html");
+				}
+				
+				echo wfView::create('common/unsubscribe', array(
+					'state' => 'resent',
+				))->render();
+				exit();
+			}
+			else if (!$payloadStatus) {
+				echo wfView::create('common/unsubscribe', array(
+					'state' => 'bad',
+				))->render();
+				exit();
+			}
+			else if (isset($_POST['confirm'])) {
+				$confirm = wfUtils::truthyToBoolean($_POST['confirm']);
+				if ($confirm) {
+					$found = false;
+					$alertEmails = wfConfig::getAlertEmails();
+					$updatedAlertEmails = array();
+					foreach ($alertEmails as $alertEmail) {
+						if ($alertEmail == $payload['email']) {
+							$found = true;
+						}
+						else {
+							$updatedAlertEmails[] = $alertEmail;
+						}
+					}
+					
+					if ($found) {
+						wfConfig::set('alertEmails', implode(',', $updatedAlertEmails));
+					}
+					
+					echo wfView::create('common/unsubscribe', array(
+						'jwt' => $_GET['jwt'],
+						'email' => $payload['email'],
+						'state' => 'unsubscribed',
+					))->render();
+					exit();
+				}
+			}
+			
+			echo wfView::create('common/unsubscribe', array(
+				'jwt' => $_GET['jwt'],
+				'email' => $payload['email'],
+				'state' => 'prompt',
+			))->render();
+			exit();
+		}
+		else if ($wfFunc == 'installLicense') {
+			if (wfUtils::isAdmin()) {
+				wfUtils::doNotCache();
+				
+				if (isset($_POST['license'])) {
+					$nonceValid = wp_verify_nonce(@$_POST['nonce'], 'wf-form');
+					if (!$nonceValid) {
+						die(__('Sorry but your browser sent an invalid security token when trying to use this form.', 'wordfence'));
+					}
+					
+					$changes = array('apiKey' => $_POST['license']);
+					$errors = wfConfig::validate($changes);
+					if ($errors !== true) {
+						$error = __('An error occurred while saving the license.', 'wordfence');
+						if (count($errors) == 1) {
+							$error = sprintf(__('An error occurred while saving the license: %s', 'wordfence'), $errors[0]['error']);
+						}
+						
+						echo wfView::create('common/license', array(
+							'state' => 'bad',
+							'error' => $error,
+						))->render();
+						exit();
+					}
+					
+					try {
+						wfConfig::save($changes);
+						echo wfView::create('common/license', array(
+							'state' => 'installed',
+						))->render();
+						exit();
+					}
+					catch (Exception $e) {
+						echo wfView::create('common/license', array(
+							'state' => 'bad',
+							'error' => sprintf(__('An error occurred while saving the license: %s', 'wordfence'), $e->getMessage()),
+						))->render();
+						exit();
+					}
+				}
+				
+				echo wfView::create('common/license', array(
+					'state' => 'prompt',
+				))->render();
+				exit();
+			}
+		}
 
 		// Sync the WAF data with the database.
+		$updateCountries = false;
 		if (!WFWAF_SUBDIRECTORY_INSTALL && $waf = wfWAF::getInstance()) {
 			$homeurl = wfUtils::wpHomeURL();
 			$siteurl = wfUtils::wpSiteURL();
+			
+			//Sync the GeoIP database if needed
+			$destination = WFWAF_LOG_PATH . '/GeoLite2-Country.mmdb';
+			if (!file_exists($destination) || wfConfig::get('needsGeoIPSync')) {
+				$allowSync = false;
+				if (wfConfig::createLock('wfSyncGeoIP')) {
+					$status = get_transient('wfSyncGeoIPActive');
+					if (!$status) {
+						$allowSync = true;
+						set_transient('wfSyncGeoIPActive', true, 3600);
+					}
+					wfConfig::releaseLock('wfSyncGeoIP');
+				}
+				
+				if ($allowSync) {
+					if (version_compare(phpversion(), '5.4.0', '>=')) {
+						if (!class_exists('wfGeoIP2')) {
+							require_once(dirname(__FILE__) . '/../models/common/wfGeoIP2.php');
+						}
+						
+						$wflogsGeoIP = wfGeoIP2::shared(wfGeoIP2::DB_WFLOGS);
+						$bundledGeoIP = wfGeoIP2::shared(wfGeoIP2::DB_BUNDLED);
+						
+						if ($wflogsGeoIP === false || $wflogsGeoIP->version() != $bundledGeoIP->version()) {
+							$source = dirname(__FILE__) . '/GeoLite2-Country.mmdb';
+							if (copy($source, $destination)) {
+								$shash = '';
+								$dhash = '';
+								
+								$sp = @fopen($source, "rb");
+								if ($sp) {
+									$scontext = hash_init('sha256');
+									while (!feof($sp)) {
+										$data = fread($sp, 65536);
+										if ($data === false) {
+											$scontext = false;
+											break;
+										}
+										hash_update($scontext, $data);
+									}
+									fclose($sp);
+									if ($scontext !== false) {
+										$shash = hash_final($scontext, false);
+									}
+								}
+								
+								$dp = @fopen($destination, "rb");
+								if ($dp) {
+									$dcontext = hash_init('sha256');
+									while (!feof($dp)) {
+										$data = fread($dp, 65536);
+										if ($data === false) {
+											$dcontext = false;
+											break;
+										}
+										hash_update($dcontext, $data);
+									}
+									fclose($dp);
+									if ($scontext !== false) {
+										$dhash = hash_final($dcontext, false);
+									}
+								}
+								
+								if (hash_equals($shash, $dhash)) {
+									$updateCountries = true;
+									wfConfig::remove('needsGeoIPSync');
+									delete_transient('wfSyncGeoIPActive');
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			if (!$updateCountries && version_compare(phpversion(), '5.4.0', '>=')) {
+				$previousVersionHash = wfConfig::get('geoIPVersionHash', '');
+				$geoIPVersion = wfUtils::geoIPVersion();
+				if (is_array($geoIPVersion)) {
+					$geoIPVersion = implode(',', $geoIPVersion);
+				}
+				$geoIPVersionHash = hash('sha256', $geoIPVersion);
+				$updateCountries = ($geoIPVersion !== null && $previousVersionHash != $geoIPVersionHash);
+			}
+			
+			if ($updateCountries) { // Fix the data in the country column
+				$table_wfBlockedIPLog = wfDB::networkTable('wfBlockedIPLog');
+				$ip_results = $wpdb->get_results("SELECT countryCode, IP FROM `{$table_wfBlockedIPLog}` GROUP BY IP");
+				if ($ip_results) {
+					foreach ($ip_results as $ip_row) {
+						$country = wfUtils::IP2Country(wfUtils::inet_ntop($ip_row->IP));
+						if ($country != $ip_row->countryCode) {
+							$wpdb->query($wpdb->prepare("UPDATE `{$table_wfBlockedIPLog}` SET countryCode = %s WHERE IP = %s", $country, $ip_row->IP));
+						}
+					}
+				}
+				
+				$geoIPVersion = wfUtils::geoIPVersion();
+				if (is_array($geoIPVersion)) {
+					$geoIPVersion = implode(',', $geoIPVersion);
+				}
+				$geoIPVersionHash = hash('sha256', $geoIPVersion);
+				wfConfig::set('geoIPVersionHash', $geoIPVersionHash);
+			}
 			
 			try {
 				$configDefaults = array(
@@ -1634,20 +1873,37 @@ SQL
 					'howGetIPs_trusted_proxies' => wfConfig::get('howGetIPs_trusted_proxies', ''),
 					'other_WFNet'    => !!wfConfig::get('other_WFNet', true), 
 					'pluginABSPATH'	 => ABSPATH,
+					'serverIPs'		 => json_encode(wfUtils::serverIPs()),
+					'blockCustomText' => wpautop(wp_strip_all_tags(wfConfig::get('blockCustomText', ''))),
+					'betaThreatDefenseFeed' => !!wfConfig::get('betaThreatDefenseFeed'),
+					'disableWAFIPBlocking' => wfConfig::get('disableWAFIPBlocking'),
 				);
 				foreach ($configDefaults as $key => $value) {
-					$waf->getStorageEngine()->setConfig($key, $value);
+					$waf->getStorageEngine()->setConfig($key, $value, 'synced');
 				}
 				
 				if (wfConfig::get('timeoffset_wf') !== false) {
-					$waf->getStorageEngine()->setConfig('timeoffset_wf', wfConfig::get('timeoffset_wf'));
+					$waf->getStorageEngine()->setConfig('timeoffset_wf', wfConfig::get('timeoffset_wf'), 'synced');
 				}
 				else {
-					$waf->getStorageEngine()->unsetConfig('timeoffset_wf');
+					$waf->getStorageEngine()->unsetConfig('timeoffset_wf', 'synced');
 				}
 				
 				if (class_exists('wfWAFIPBlocksController')) {
 					wfWAFIPBlocksController::setNeedsSynchronizeConfigSettings();
+				}
+				
+				if (wfUtils::isAdmin()) {
+					if ($waf->getStorageEngine()->getConfig('wafStatus', '') == 'learning-mode') {
+						if ($waf->getStorageEngine()->getConfig('learningModeGracePeriodEnabled', false)) {
+							if ($waf->getStorageEngine()->getConfig('learningModeGracePeriod', 0) <= time()) {
+								// Reached the end of the grace period, activate the WAF.
+								$waf->getStorageEngine()->setConfig('wafStatus', 'enabled');
+								$waf->getStorageEngine()->setConfig('learningModeGracePeriodEnabled', 0);
+								$waf->getStorageEngine()->unsetConfig('learningModeGracePeriod');
+							}
+						}
+					}
 				}
 
 				if (empty($_GET['wordfence_syncAttackData'])) {
@@ -1813,11 +2069,37 @@ SQL
 			wfUtils::setcookie($cookiename, $cookievalue, time() + (86400 * 365), '/', null, wfUtils::isFullSSL(), true);
 		}
 	}
-	public static function registrationFilter($errors, $santizedLogin, $userEmail){
-		if(wfConfig::get('loginSec_blockAdminReg') && $santizedLogin == 'admin'){
-			$errors->add('user_login_error', '<strong>ERROR</strong>: You can\'t register using that username');
+	public static function registrationFilter($errors, $sanitizedLogin, $userEmail) {
+		if (wfConfig::get('loginSec_blockAdminReg') && $sanitizedLogin == 'admin') {
+			$errors->add('user_login_error', __('<strong>ERROR</strong>: You can\'t register using that username', 'wordfence'));
 		}
 		return $errors;
+	}
+	public static function wooRegistrationFilter($wooCustomerData) {
+		/*
+		   $wooCustomerData matches:
+		   array(
+				'user_login' => $username,
+				'user_pass'  => $password,
+				'user_email' => $email,
+				'role'       => 'customer',
+			)
+		 */
+		if (wfConfig::get('loginSec_blockAdminReg') && is_array($wooCustomerData) && isset($wooCustomerData['user_login']) && isset($wooCustomerData['user_email']) && preg_match('/^admin\d*$/i', $wooCustomerData['user_login'])) {
+			//Converts a username of `admin` generated from something like `admin@example.com` to `adminexample`
+			$emailComponents = explode('@', $wooCustomerData['user_email']);
+			if (strpos(wfUtils::array_last($emailComponents), '.') === false) { //e.g., admin@localhost 
+				$wooCustomerData['user_login'] .= wfUtils::array_last($emailComponents); 
+			}
+			else { //e.g., admin@example.com
+				$hostComponents = explode('.', wfUtils::array_last($emailComponents));
+				array_pop($hostComponents);
+				$wooCustomerData['user_login'] .= wfUtils::array_last($hostComponents);
+			}
+			
+			//If it's still `admin` at this point, it will fall through and get blocked by wordfence::blacklistedUsernames
+		}
+		return $wooCustomerData;
 	}
 	public static function oembedAuthorFilter($data, $post, $width, $height) {
 		unset($data['author_name']);
@@ -2354,6 +2636,7 @@ SQL
 						self::lockOutIP($IP, "Used an invalid username '" . $username . "' to try to sign in.");
 						self::getLog()->logLogin('loginFailInvalidUsername', true, $username);
 					}
+					$customText = wpautop(wp_strip_all_tags(wfConfig::get('blockCustomText', '')));
 					require('wfLockedOut.php');
 				}
 			}
@@ -2367,6 +2650,7 @@ SQL
 				}
 				if($tries >= wfConfig::get('loginSec_maxFailures')){
 					self::lockOutIP($IP, "Exceeded the maximum number of login failures which is: " . wfConfig::get('loginSec_maxFailures') . ". The last username they tried to sign in with was: '" . $username . "'");
+					$customText = wpautop(wp_strip_all_tags(wfConfig::get('blockCustomText', '')));
 					require('wfLockedOut.php');
 				}
 				set_transient($tKey, $tries, wfConfig::get('loginSec_countFailMins') * 60);
@@ -2604,6 +2888,7 @@ SQL
 		$lockout = wfBlock::lockoutForIP(wfUtils::getIP());
 		if ($lockout !== false) {
 			$lockout->recordBlock();
+			$customText = wpautop(wp_strip_all_tags(wfConfig::get('blockCustomText', '')));
 			require('wfLockedOut.php');
 		}
 		
@@ -2613,6 +2898,7 @@ SQL
 		$lockout = wfBlock::lockoutForIP(wfUtils::getIP());
 		if ($lockout !== false) {
 			$lockout->recordBlock();
+			$customText = wpautop(wp_strip_all_tags(wfConfig::get('blockCustomText', '')));
 			require('wfLockedOut.php');
 		}
 		
@@ -2646,6 +2932,7 @@ SQL
 		$lockout = wfBlock::lockoutForIP(wfUtils::getIP());
 		if ($lockout !== false) {
 			$lockout->recordBlock();
+			$customText = wpautop(wp_strip_all_tags(wfConfig::get('blockCustomText', '')));
 			require('wfLockedOut.php');
 		}
 		
@@ -3062,7 +3349,7 @@ SQL
 		return array('ok' => 1);
 	}
 	public static function ajax_sendActivityLog_callback(){
-		$content = "SITE: " . site_url() . "\nPLUGIN VERSION: " . WORDFENCE_VERSION . "\nWP VERSION: " . wfUtils::getWPVersion() . "\nAPI KEY: " . wfConfig::get('apiKey') . "\nADMIN EMAIL: " . get_option('admin_email') . "\nLOG:\n\n";
+		$content = "SITE: " . site_url() . "\nPLUGIN VERSION: " . WORDFENCE_VERSION . "\nWP VERSION: " . wfUtils::getWPVersion() . "\nLICENSE KEY: " . wfConfig::get('apiKey') . "\nADMIN EMAIL: " . get_option('admin_email') . "\nLOG:\n\n";
 		$wfdb = new wfDB();
 		$table_wfStatus = wfDB::networkTable('wfStatus');
 		$q = $wfdb->querySelect("select ctime, level, type, msg from {$table_wfStatus} order by ctime desc limit 10000");
@@ -3166,15 +3453,21 @@ SQL
 				wfConfig::set('keyType', wfAPI::KEY_TYPE_FREE);
 				//When downgrading we must disable all two factor authentication because it can lock an admin out if we don't.
 				wfConfig::set_ser('twoFactorUsers', array());
+				wfConfig::remove('premiumAutoRenew');
+				wfConfig::remove('premiumNextRenew');
+				wfConfig::remove('premiumPaymentExpiring');
+				wfConfig::remove('premiumPaymentExpired');
+				wfConfig::remove('premiumPaymentMissing');
+				wfConfig::remove('premiumPaymentHold');
 				self::licenseStatusChanged();
 				if (method_exists(wfWAF::getInstance()->getStorageEngine(), 'purgeIPBlocks')) {
 					wfWAF::getInstance()->getStorageEngine()->purgeIPBlocks(wfWAFStorageInterface::IP_BLOCKS_BLACKLIST);
 				}
 			} else {
-				throw new Exception("Could not understand the response we received from the Wordfence servers when applying for a free API key.");
+				throw new Exception("Could not understand the response we received from the Wordfence servers when applying for a free license key.");
 			}
 		} catch(Exception $e){
-			return array('errorMsg' => "Could not fetch free API key from Wordfence: " . wp_kses($e->getMessage(), array()));
+			return array('errorMsg' => "Could not fetch free license key from Wordfence: " . wp_kses($e->getMessage(), array()));
 		}
 		return array('ok' => 1);
 	}
@@ -3588,6 +3881,19 @@ SQL
 			'success' => 1,
 		);
 	}
+	public static function ajax_mailingSignup_callback() {
+		if (isset($_POST['emails'])) {
+			$emails = @json_decode(stripslashes($_POST['emails']), true);
+			if (is_array($emails) && count($emails)) {
+				$api = new wfAPI(wfConfig::get('apiKey'), wfUtils::getWPVersion());
+				$result = $api->call('mailing_signup', array(), array('signup' => json_encode(array('emails' => $emails))));
+			}
+		}
+		
+		return array(
+			'success' => 1,
+		);
+	}
 	public static function ajax_enableAllOptionsPage_callback() {
 		wfConfig::set('displayTopLevelOptions', 1);
 		$n = wfNotification::getNotificationForCategory('wfplugin_devalloptions');
@@ -3838,6 +4144,17 @@ HTACCESS;
 		wfActivityReport::logBlockedIP($IP, null, 'manual');
 		return array('ok' => 1);
 	}
+	public static function ajax_avatarLookup_callback() {
+		$ids = explode(',', $_POST['ids']);
+		$res = array();
+		foreach ($ids as $id) {
+			$avatar = get_avatar($id, 16);
+			if ($avatar) {
+				$res[$id] = $avatar;
+			}
+		}
+		return array('ok' => 1, 'avatars' => $res);
+	}
 	public static function ajax_reverseLookup_callback(){
 		$ips = explode(',', $_POST['ips']);
 		$res = array();
@@ -3956,7 +4273,7 @@ HTACCESS;
 	}
 	public static function ajax_activityLogUpdate_callback() {
 		global $wpdb;
-		$statusTable = wfDB::networkPrefix() . 'wfStatus';
+		$statusTable = wfDB::networkTable('wfStatus');
 		$row = $wpdb->get_row("SELECT ctime, msg FROM {$statusTable} WHERE level < 3 AND ctime > (UNIX_TIMESTAMP() - 3600) ORDER BY ctime DESC LIMIT 1", ARRAY_A);
 		$lastMessage = __('Idle', 'wordfence');
 		
@@ -4454,7 +4771,7 @@ HTACCESS;
 			$hresults = $hooverResults[1];
 			$count = count($hresults);
 			if ($count > 0) {
-				new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, "Page contains {$count} malware URL" . ($count == 1 ? '' : 's') . ': ' . esc_html($pageURL), 'wfplugin_malwareurl_' . md5($pageURL), null, array(array('link' => network_admin_url('admin.php?page=WordfenceScan'), 'label' => 'Run a Scan')));
+				new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, "Page contains {$count} malware URL" . ($count == 1 ? '' : 's') . ': ' . esc_html($pageURL), 'wfplugin_malwareurl_' . md5($pageURL), null, array(array('link' => wfUtils::wpAdminURL('admin.php?page=WordfenceScan'), 'label' => 'Run a Scan')));
 				return array('bad' => $count);
 			}
 		}
@@ -4700,6 +5017,8 @@ EOL;
 	};
 	var evts = 'contextmenu dblclick drag dragend dragenter dragleave dragover dragstart drop keydown keypress keyup mousedown mousemove mouseout mouseover mouseup mousewheel scroll'.split(' ');
 	var logHuman = function() {
+		if (window.wfLogHumanRan) { return; }
+		window.wfLogHumanRan = true;
 		var wfscr = document.createElement('script');
 		wfscr.type = 'text/javascript';
 		wfscr.async = true;
@@ -4744,11 +5063,24 @@ HTML;
 		$reverseLookup = wfUtils::reverseLookup($ip);
 		$wfLog = wfLog::shared();
 		$results = array_merge(
-			$wfLog->getHits('hits', 'hit', 0, 10000, $ip),
-			$wfLog->getHits('hits', '404', 0, 10000, $ip)
+			$wfLog->getHits('hits', '404', 0, 10000, $ip),
+			$wfLog->getHits('hits', 'hit', 0, 10000, $ip)
 		);
 		usort($results, 'wordfence::iptrafsort');
-		for($i = 0; $i < sizeof($results); $i++){
+		
+		$ids = array();
+		foreach ($results as $k => $r) {
+			if (isset($ids[$r['id']])) {
+				unset($results[$k]);
+			}
+			else {
+				$ids[$r['id']] = 1;
+			}
+		}
+		
+		$results = array_values($results);
+		
+		for ($i = 0; $i < count($results); $i++){
 			if(array_key_exists($i + 1, $results)){
 				$results[$i]['timeSinceLastHit'] = sprintf('%.4f', $results[$i]['ctime'] - $results[$i + 1]['ctime']);
 			} else {
@@ -4995,7 +5327,7 @@ HTML;
 			'activate', 'scan', 'updateAlertEmail', 'sendActivityLog', 'restoreFile',
 			'exportSettings', 'importSettings', 'bulkOperation', 'deleteFile', 'deleteDatabaseOption', 'removeExclusion',
 			'activityLogUpdate', 'ticker', 'loadIssues', 'updateIssueStatus', 'deleteIssue', 'updateAllIssues',
-			'reverseLookup', 'unlockOutIP', 'unblockRange', 'whois', 'recentTraffic', 'unblockIP',
+			'avatarLookup', 'reverseLookup', 'unlockOutIP', 'unblockRange', 'whois', 'recentTraffic', 'unblockIP',
 			'blockIP', 'permBlockIP', 'loadStaticPanel', 'updateIPPreview', 'downloadHtaccess', 'downloadLogFile', 'checkHtaccess',
 			'updateConfig', 'autoUpdateChoice', 'misconfiguredHowGetIPsChoice', 'dismissAdminNotice',
 			'killScan', 'saveCountryBlocking', 'tourClosed',
@@ -5009,7 +5341,7 @@ HTML;
 			'dismissNotification', 'utilityScanForBlacklisted', 'dashboardShowMore',
 			'saveOptions', 'restoreDefaults', 'enableAllOptionsPage', 'createBlock', 'deleteBlocks', 'makePermanentBlocks', 'getBlocks',
 			'installAutoPrepend', 'uninstallAutoPrepend',
-			'installLicense', 'recordTOUPP',
+			'installLicense', 'recordTOUPP', 'mailingSignup',
 		) as $func){
 			add_action('wp_ajax_wordfence_' . $func, 'wordfence::ajaxReceiver');
 		}
@@ -5017,7 +5349,7 @@ HTML;
 		if(isset($_GET['page']) && preg_match('/^Wordfence/', @$_GET['page']) ){
 			wp_enqueue_style('wp-pointer');
 			wp_enqueue_script('wp-pointer');
-			wp_enqueue_style('wordfence-font', 'https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i', '', WORDFENCE_VERSION);
+			wp_enqueue_style('wordfence-font', wfUtils::getBaseURL() . wfUtils::versionedAsset('css/wf-roboto-font.css'), '', WORDFENCE_VERSION);
 			wp_enqueue_style('wordfence-font-awesome-style', wfUtils::getBaseURL() . wfUtils::versionedAsset('css/wf-font-awesome.css'), '', WORDFENCE_VERSION); 
 			wp_enqueue_style('wordfence-main-style', wfUtils::getBaseURL() . wfUtils::versionedAsset('css/main.css'), '', WORDFENCE_VERSION);
 			wp_enqueue_style('wordfence-ionicons-style', wfUtils::getBaseURL() . wfUtils::versionedAsset('css/wf-ionicons.css'), '', WORDFENCE_VERSION);
@@ -5035,6 +5367,10 @@ HTML;
 			wp_enqueue_script('wordfenceAdminExtjs', wfUtils::getBaseURL() . wfUtils::versionedAsset('js/wfglobal.js'), array('jquery'), WORDFENCE_VERSION);
 			wp_enqueue_script('wordfenceDropdownjs', wfUtils::getBaseURL() . wfUtils::versionedAsset('js/wfdropdown.js'), array('jquery'), WORDFENCE_VERSION);
 			self::setupAdminVars();
+			
+			if (wfConfig::get('touppPromptNeeded')) {
+				add_filter('admin_body_class', 'wordfence::showTOUPPOverlay', 99, 1);
+			}
 		} else {
 			wp_enqueue_style('wp-pointer');
 			wp_enqueue_script('wp-pointer');
@@ -5100,6 +5436,9 @@ HTML;
 			'modalHTMLTemplate' => wfView::create('common/modal-prompt', array('title' => '${title}', 'message' => '{{html message}}', 'primaryButton' => array('id' => 'wf-generic-modal-close', 'label' => __('Close', 'wordfence'), 'link' => '#')))->render(),
 			));
 	}
+	public static function showTOUPPOverlay($classList) {
+		return trim($classList . ' wf-toupp-required');
+	}
 	public static function activation_warning(){
 		$activationError = get_option('wf_plugin_act_error', '');
 		if(strlen($activationError) > 400){
@@ -5124,10 +5463,10 @@ HTML;
 			'waf-nonce' => wp_create_nonce('wafconfigrebuild'),
 		), $wafMenuURL);
 		
-		echo '<div id="wafConfigInaccessibleNotice" class="fade error"><p><strong>The Wordfence Web Application Firewall cannot run.</strong> The configuration files are corrupt or inaccessible by the web server, which is preventing the WAF from functioning. Please verify the web server has permission to access the configuration files. You may also try to rebuild the configuration file by <a href="' . $wafMenuURL . '">clicking here</a>. It will automatically resume normal operation when it is fixed. <a class="wfhelp" target="_blank" rel="noopener noreferrer" href="' . wfSupportController::esc_supportURL(wfSupportController::ITEM_NOTICE_WAF_INACCESSIBLE_CONFIG) . '"></a></p></div>';
+		echo '<div id="wafConfigInaccessibleNotice" class="fade error"><p><strong>' . __('The Wordfence Web Application Firewall cannot run.', 'wordfence') . '</strong> ' . sprintf('The configuration files are corrupt or inaccessible by the web server, which is preventing the WAF from functioning. Please verify the web server has permission to access the configuration files. You may also try to rebuild the configuration file by <a href="%s">clicking here</a>. It will automatically resume normal operation when it is fixed. <a class="wfhelp" target="_blank" rel="noopener noreferrer" href="%s"></a>', $wafMenuURL, wfSupportController::esc_supportURL(wfSupportController::ITEM_NOTICE_WAF_INACCESSIBLE_CONFIG)) . '</p></div>';
 	}
 	public static function wafReadOnlyNotice() {
-		echo '<div id="wordfenceWAFReadOnlyNotice" class="fade error"><p><strong>The Wordfence Web Application Firewall is in read-only mode.</strong> PHP is currently running as a command line user and to avoid file permission issues, the WAF is running in read-only mode. It will automatically resume normal operation when run normally by a web server. <a class="wfhelp" target="_blank" rel="noopener noreferrer" href="' . wfSupportController::esc_supportURL(wfSupportController::ITEM_NOTICE_WAF_READ_ONLY_WARNING) . '"></a></p></div>';
+		echo '<div id="wordfenceWAFReadOnlyNotice" class="fade error"><p><strong>' . __('The Wordfence Web Application Firewall is in read-only mode.', 'wordfence') . '</strong> ' . sprintf('PHP is currently running as a command line user and to avoid file permission issues, the WAF is running in read-only mode. It will automatically resume normal operation when run normally by a web server. <a class="wfhelp" target="_blank" rel="noopener noreferrer" href="%s"></a>', wfSupportController::esc_supportURL(wfSupportController::ITEM_NOTICE_WAF_READ_ONLY_WARNING)) . '</p></div>';
 	}
 	public static function misconfiguredHowGetIPsNotice() {
 		$url = network_admin_url('admin.php?page=Wordfence&subpage=global_options');
@@ -5245,17 +5584,15 @@ HTML;
 			check_admin_referer('wafconfigrebuild', 'waf-nonce');
 
 			$storage = wfWAF::getInstance()->getStorageEngine();
-			if ($storage instanceof wfWAFStorageFile) {
-				$configFile = $storage->getConfigFile();
-				if (@unlink($configFile)) {
-					if (function_exists('network_admin_url') && is_multisite()) {
-						$wafMenuURL = network_admin_url('admin.php?page=WordfenceWAF');
-					} else {
-						$wafMenuURL = admin_url('admin.php?page=WordfenceWAF');
-					}
-					wp_redirect($wafMenuURL);
-					exit;
+			if ($storage instanceof wfWAFStorageFile && method_exists($storage, 'removeConfigFiles')) {
+				$storage->removeConfigFiles();
+				if (function_exists('network_admin_url') && is_multisite()) {
+					$wafMenuURL = network_admin_url('admin.php?page=WordfenceWAF');
+				} else {
+					$wafMenuURL = admin_url('admin.php?page=WordfenceWAF');
 				}
+				wp_redirect($wafMenuURL);
+				exit;
 			}
 		}
 		
@@ -5387,9 +5724,9 @@ JQUERY;
 				$content = ob_get_clean();
 				break;
 
-			case 'commentspam':
+			case 'importexport':
 				ob_start();
-				require 'menu_tools_commentSpam.php';
+				require 'menu_tools_importExport.php';
 				$content = ob_get_clean();
 				break;
 
@@ -5420,7 +5757,13 @@ JQUERY;
 		}
 		catch (wfWAFStorageFileConfigException $e) {
 			// We don't have anywhere to write files in this scenario. Let's notify the user to update the permissions.
-			$wafData = array();
+			$wafData = array(
+				'learningMode' => false,
+				'rules' => array(),
+				'whitelistedURLParams' => array(),
+				'disabledRules' => array(),
+				'isPaid' => (bool) wfConfig::get('isPaid', 0),
+			);
 			$logPath = str_replace(ABSPATH, '~/', WFWAF_LOG_PATH);
 			if (function_exists('network_admin_url') && is_multisite()) {
 				$wafMenuURL = network_admin_url('admin.php?page=WordfenceWAF&wafconfigrebuild=1');
@@ -5433,7 +5776,13 @@ JQUERY;
 			$storageExceptionMessage = $e->getMessage() . ' <a href="' . esc_url($wafMenuURL) . '">Click here</a> to rebuild the configuration file.';
 		} catch (wfWAFStorageFileException $e) {
 			// We don't have anywhere to write files in this scenario. Let's notify the user to update the permissions.
-			$wafData = array();
+			$wafData = array(
+				'learningMode' => false,
+				'rules' => array(),
+				'whitelistedURLParams' => array(),
+				'disabledRules' => array(),
+				'isPaid' => (bool) wfConfig::get('isPaid', 0),
+			);
 			$logPath = str_replace(ABSPATH, '~/', WFWAF_LOG_PATH);
 			$storageExceptionMessage = 'We were unable to write to ' . $logPath . ' which the WAF uses for storage. Please
 			update permissions on the parent directory so the web server can write to it.';
@@ -5461,7 +5810,14 @@ JQUERY;
 			$wafData = self::_getWAFData();
 		} catch (wfWAFStorageFileConfigException $e) {
 			// We don't have anywhere to write files in this scenario. Let's notify the user to update the permissions.
-			$wafData = array();
+			$wafData = array(
+				'learningMode' => false,
+				'rules' => array(),
+				'whitelistedURLParams' => array(),
+				'disabledRules' => array(),
+				'isPaid' => (bool) wfConfig::get('isPaid', 0),
+			);
+			
 			$logPath = str_replace(ABSPATH, '~/', WFWAF_LOG_PATH);
 			if (function_exists('network_admin_url') && is_multisite()) {
 				$wafMenuURL = network_admin_url('admin.php?page=WordfenceWAF&wafconfigrebuild=1');
@@ -5474,7 +5830,13 @@ JQUERY;
 			$storageExceptionMessage = $e->getMessage() . ' <a href="' . esc_url($wafMenuURL) . '">Click here</a> to rebuild the configuration file.';
 		} catch (wfWAFStorageFileException $e) {
 			// We don't have anywhere to write files in this scenario. Let's notify the user to update the permissions.
-			$wafData = array();
+			$wafData = array(
+				'learningMode' => false,
+				'rules' => array(),
+				'whitelistedURLParams' => array(),
+				'disabledRules' => array(),
+				'isPaid' => (bool) wfConfig::get('isPaid', 0),
+			);
 			$logPath = str_replace(ABSPATH, '~/', WFWAF_LOG_PATH);
 			$storageExceptionMessage = 'We were unable to write to ' . $logPath . ' which the WAF uses for storage. Please
 			update permissions on the parent directory so the web server can write to it.';
@@ -5629,72 +5991,11 @@ HTML
 			return $gen;
 		}
 	}
-	public static function pushCommentSpamIP($m){
-		if(wfUtils::isValidIP($m[1]) && strpos($m[1], '127.0.0') !== 0 ){
-			self::$commentSpamItems[] = trim($m[1]);
-		}
-	}
-	public static function pushCommentSpamHost($m){
-		self::$commentSpamItems[] = trim($m[1]);
-	}
-	public static function preCommentApprovedFilter($approved, $cData){
-		if( $approved == 1 && (! is_user_logged_in()) && wfConfig::get('other_noAnonMemberComments') ){
-			$user = get_user_by('email', trim($cData['comment_author_email']));
-			if($user){
-				wfConfig::inc('totalSpamStopped');
-				wfActivityReport::logBlockedComment(wfUtils::getIP(), 'anon');
-				return 0; //hold for moderation if the user is not signed in but used a members email
-			}
-		}
-
-		if(($approved == 1 || $approved == 0) && wfConfig::get('other_scanComments')){
-			$wf = new wfScanEngine();
-			try {
-				if($wf->isBadComment($cData['comment_author'], $cData['comment_author_email'], $cData['comment_author_url'],  $cData['comment_author_IP'], $cData['comment_content'])){
-					wfConfig::inc('totalSpamStopped');
-					wfActivityReport::logBlockedComment(wfUtils::getIP(), 'gsb');
-					return 'spam';
-				}
-			} catch(Exception $e){
-				//This will most likely be an API exception because we can't contact the API, so we ignore it and let the normal comment mechanisms run.
-			}
-		}
-		if(wfConfig::get('isPaid') && ($approved == 1 || $approved == 0) && wfConfig::get('advancedCommentScanning')){
-			self::$commentSpamItems = array();
-			preg_replace_callback('/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/', 'wordfence::pushCommentSpamIP', $cData['comment_content']);
-			$IPs =  self::$commentSpamItems;
-			self::$commentSpamItems = array();
-			preg_replace_callback('/https?:\/\/([a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+[a-zA-Z0-9])/i', 'wordfence::pushCommentSpamHost', $cData['comment_content']);
-			$hosts = self::$commentSpamItems;
-			self::$commentSpamItems = array();
-			try {
-				$api = new wfAPI(wfConfig::get('apiKey'), wfUtils::getWPVersion());
-				$res = $api->call('advanced_comment_scan', array(), array(
-					'author' => $cData['comment_author'],
-					'email' =>  $cData['comment_author_email'],
-					'URL' => $cData['comment_author_url'],
-					'commentIP' => $cData['comment_author_IP'],
-					'wfIP' => wfUtils::getIP(),
-					'hosts' => (sizeof($hosts) > 0 ? implode(',', $hosts) : ''),
-					'IPs' => (sizeof($IPs) > 0 ? implode(',', $IPs) : '')
-					));
-				if(is_array($res) && isset($res['spam']) && $res['spam'] == 1){
-					wfConfig::inc('totalSpamStopped');
-					wfActivityReport::logBlockedComment(wfUtils::getIP(), 'reputation');
-					return 'spam';
-				}
-			} catch(Exception $e){
-				//API server is probably down
-			}
-		}
-		wfConfig::inc('totalCommentsFiltered');
-		return $approved;
-	}
 	public static function getMyHomeURL(){
-		return network_admin_url('admin.php?page=Wordfence', 'http');
+		return wfUtils::wpAdminURL('admin.php?page=Wordfence');
 	}
 	public static function getMyOptionsURL(){
-		return network_admin_url('admin.php?page=Wordfence&subpage=global_options', 'http');
+		return wfUtils::wpAdminURL('admin.php?page=Wordfence&subpage=global_options');
 	}
 
 	public static function alert($subject, $alertMsg, $IP){
@@ -5718,6 +6019,7 @@ HTML
 				$IPMsg .= $userLoc['countryName'] . "\n";
 			}
 		}
+		
 		$content = wfUtils::tmpl('email_genericAlert.php', array(
 			'isPaid' => wfConfig::get('isPaid'),
 			'subject' => $subject,
@@ -5761,8 +6063,9 @@ HTML
 			}
 		}
 		wfConfig::set('lastEmailHash', time() . ':' . $hash);
-		if (count($emails)) {
-			wp_mail(implode(',', $emails), $subject, $content);
+		foreach ($emails as $email) {
+			$uniqueContent = $content . "\n\n" . sprintf(__('No longer an administrator for this site? Click here to stop receiving security alerts: %s', 'wordfence'), wfUtils::getSiteBaseURL() . '?_wfsf=removeAlertEmail&jwt=' . wfUtils::generateJWT(array('email' => $email)));
+			wp_mail($email, $subject, $uniqueContent);
 		}
 	}
 	public static function getLog(){
@@ -6072,7 +6375,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 			
 			switch ($_POST['wafConfigAction']) {
 				case 'config':
-					if (!empty($_POST['wafStatus'])) {
+					if (!empty($_POST['wafStatus']) && in_array($_POST['wafStatus'], array(wfFirewall::FIREWALL_MODE_DISABLED, wfFirewall::FIREWALL_MODE_LEARNING, wfFirewall::FIREWALL_MODE_ENABLED))) {
 						if ($_POST['wafStatus'] == 'learning-mode' && !empty($_POST['learningModeGracePeriodEnabled'])) {
 							$gracePeriodEnd = strtotime(isset($_POST['learningModeGracePeriod']) ? $_POST['learningModeGracePeriod'] : '');
 							if ($gracePeriodEnd > time()) {
@@ -6124,7 +6427,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 						$newWhitelistedPath = stripslashes($_POST['newWhitelistedPath']);
 						$newWhitelistedParam = stripslashes($_POST['newWhitelistedParam']);
 
-						$savedWhitelistedURLParams = (array) wfWAF::getInstance()->getStorageEngine()->getConfig('whitelistedURLParams');
+						$savedWhitelistedURLParams = (array) wfWAF::getInstance()->getStorageEngine()->getConfig('whitelistedURLParams', null, 'livewaf');
 						// These are already base64'd
 						$oldKey = $oldWhitelistedPath . '|' . $oldWhitelistedParam;
 						$newKey = base64_encode($newWhitelistedPath) . '|' . base64_encode($newWhitelistedParam);
@@ -6133,7 +6436,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 						} catch (Exception $e) {
 							error_log("Caught exception from 'wfUtils::arrayReplaceKey' with message: " . $e->getMessage());
 						}
-						wfWAF::getInstance()->getStorageEngine()->setConfig('whitelistedURLParams', $savedWhitelistedURLParams);
+						wfWAF::getInstance()->getStorageEngine()->setConfig('whitelistedURLParams', $savedWhitelistedURLParams, 'livewaf');
 					}
 					break;
 
@@ -6144,10 +6447,10 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 					) {
 						$deletedWhitelistedPath = stripslashes($_POST['deletedWhitelistedPath']);
 						$deletedWhitelistedParam = stripslashes($_POST['deletedWhitelistedParam']);
-						$savedWhitelistedURLParams = (array) wfWAF::getInstance()->getStorageEngine()->getConfig('whitelistedURLParams');
+						$savedWhitelistedURLParams = (array) wfWAF::getInstance()->getStorageEngine()->getConfig('whitelistedURLParams', null, 'livewaf');
 						$key = $deletedWhitelistedPath . '|' . $deletedWhitelistedParam;
 						unset($savedWhitelistedURLParams[$key]);
-						wfWAF::getInstance()->getStorageEngine()->setConfig('whitelistedURLParams', $savedWhitelistedURLParams);
+						wfWAF::getInstance()->getStorageEngine()->setConfig('whitelistedURLParams', $savedWhitelistedURLParams, 'livewaf');
 					}
 					break;
 
@@ -6160,14 +6463,14 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 						}
 						$enabled = !empty($_POST['whitelistedEnabled']);
 
-						$savedWhitelistedURLParams = (array) wfWAF::getInstance()->getStorageEngine()->getConfig('whitelistedURLParams');
+						$savedWhitelistedURLParams = (array) wfWAF::getInstance()->getStorageEngine()->getConfig('whitelistedURLParams', null, 'livewaf');
 						$key = $path . '|' . $paramKey;
 						if (array_key_exists($key, $savedWhitelistedURLParams) && is_array($savedWhitelistedURLParams[$key])) {
 							foreach ($savedWhitelistedURLParams[$key] as $ruleID => $data) {
 								$savedWhitelistedURLParams[$key][$ruleID]['disabled'] = !$enabled;
 							}
 						}
-						wfWAF::getInstance()->getStorageEngine()->setConfig('whitelistedURLParams', $savedWhitelistedURLParams);
+						wfWAF::getInstance()->getStorageEngine()->setConfig('whitelistedURLParams', $savedWhitelistedURLParams, 'livewaf');
 					}
 					break;
 
@@ -6203,11 +6506,24 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 	}
 
 	public static function ajax_updateWAFRules_callback() {
-		$event = new wfWAFCronFetchRulesEvent(time() - 2);
-		$event->setWaf(wfWAF::getInstance());
-		$success = $event->fire();
-
-		return self::_getWAFData($success);
+		try {
+			$event = new wfWAFCronFetchRulesEvent(time() - 2);
+			$event->setWaf(wfWAF::getInstance());
+			$success = $event->fire();
+			
+			return self::_getWAFData($success);
+		}
+		catch (Exception $e) {
+			$wafData = array(
+				'learningMode' => false,
+				'rules' => array(),
+				'whitelistedURLParams' => array(),
+				'disabledRules' => array(),
+				'isPaid' => (bool) wfConfig::get('isPaid', 0),
+			);
+			
+			return $wafData;
+		}
 	}
 
 	public static function ajax_loadLiveTraffic_callback() {
@@ -6380,7 +6696,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 	public static function ajax_whitelistBulkDelete_callback() {
 		if (class_exists('wfWAF') && $waf = wfWAF::getInstance()) {
 			if (!empty($_POST['items']) && ($items = json_decode(stripslashes($_POST['items']), true)) !== false) {
-				$whitelist = $waf->getStorageEngine()->getConfig('whitelistedURLParams');
+				$whitelist = (array) $waf->getStorageEngine()->getConfig('whitelistedURLParams', null, 'livewaf');
 				if (!is_array($whitelist)) {
 					$whitelist = array();
 				}
@@ -6391,7 +6707,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 						unset($whitelist[$whitelistKey]);
 					}
 				}
-				$waf->getStorageEngine()->setConfig('whitelistedURLParams', $whitelist);
+				$waf->getStorageEngine()->setConfig('whitelistedURLParams', $whitelist, 'livewaf');
 				return array(
 					'data'    => self::_getWAFData(),
 					'success' => true,
@@ -6429,7 +6745,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 
 	private static function _whitelistBulkToggle($items, $enabled) {
 		$waf = wfWAF::getInstance();
-		$whitelist = $waf->getStorageEngine()->getConfig('whitelistedURLParams');
+		$whitelist = (array) $waf->getStorageEngine()->getConfig('whitelistedURLParams', null, 'livewaf');
 		if (!is_array($whitelist)) {
 			$whitelist = array();
 		}
@@ -6442,7 +6758,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 				}
 			}
 		}
-		$waf->getStorageEngine()->setConfig('whitelistedURLParams', $whitelist);
+		$waf->getStorageEngine()->setConfig('whitelistedURLParams', $whitelist, 'livewaf');
 	}
 
 	private static function _getWAFData($updated = null) {
@@ -6453,7 +6769,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 			$data['rules'][$ruleID] = $rule->toArray();
 		}
 
-		$whitelistedURLParams = wfWAF::getInstance()->getStorageEngine()->getConfig('whitelistedURLParams', array());
+		$whitelistedURLParams = (array) wfWAF::getInstance()->getStorageEngine()->getConfig('whitelistedURLParams', array(), 'livewaf');
 		$data['whitelistedURLParams'] = array();
 		foreach ($whitelistedURLParams as $urlParamKey => $rules) {
 			list($path, $paramKey) = explode('|', $urlParamKey);
@@ -6485,7 +6801,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 		}
 
 		$data['disabledRules'] = (array) wfWAF::getInstance()->getStorageEngine()->getConfig('disabledRules');
-		if ($lastUpdated = wfWAF::getInstance()->getStorageEngine()->getConfig('rulesLastUpdated')) {
+		if ($lastUpdated = wfWAF::getInstance()->getStorageEngine()->getConfig('rulesLastUpdated', null, 'transient')) {
 			$data['rulesLastUpdated'] = $lastUpdated;
 		}
 		$data['isPaid'] = (bool) wfConfig::get('isPaid', 0);
@@ -6670,12 +6986,15 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 		}
 		
 		try {
-			if ($helper->usesUserIni() && (!isset($_POST['iniModified']) || (isset($_POST['iniModified']) && !$_POST['iniModified']))) { //Uses .user.ini but not yet modified
+			if ((!isset($_POST['iniModified']) || (isset($_POST['iniModified']) && !$_POST['iniModified']))) { //Uses .user.ini but not yet modified
 				$hasPreviousAutoPrepend = $helper->performIniRemoval($wp_filesystem);
 				
 				$iniTTL = intval(ini_get('user_ini.cache_ttl'));
 				if ($iniTTL == 0) {
 					$iniTTL = 300; //The PHP default
+				}
+				if (!$helper->usesUserIni()) {
+					$iniTTL = 0; //.htaccess
 				}
 				$timeout = max(30, $iniTTL);
 				$timeoutString = wfUtils::makeDuration($timeout);
@@ -6707,19 +7026,33 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 				}
 				return $response;
 			}
-			else { //.user.ini modified if applicable and waiting period elapsed or otherwise ready to advance to next step
-				if ($helper->usesUserIni() && WFWAF_AUTO_PREPEND) { //.user.ini modified, but the WAF is still enabled
-					$userIniError = '<p class="wf-error">' . __('Extended Protection Mode has not been disabled. This may be because <code>auto_prepend_file</code> is configured somewhere else or the value is still cached by PHP.', 'wordfence') . '</p>';
+			else { //.user.ini and .htaccess modified if applicable and waiting period elapsed or otherwise ready to advance to next step
+				if (WFWAF_AUTO_PREPEND && !WFWAF_SUBDIRECTORY_INSTALL) { //.user.ini modified, but the WAF is still enabled
+					$retryAttempted = (isset($_POST['retryAttempted']) && $_POST['retryAttempted']);
+					$userIniError = '<p class="wf-error">';
+					$userIniError .= __('Extended Protection Mode has not been disabled. This may be because <code>auto_prepend_file</code> is configured somewhere else or the value is still cached by PHP.', 'wordfence');
+					if ($retryAttempted) {
+						$userIniError .= ' <strong>' . __('Retrying Failed.', 'wordfence') . '</strong>';
+					}
+					$userIniError .= ' <a href="#" class="wf-waf-uninstall-try-again">' . __('Try Again', 'wordfence') . '</a>';
+					$userIniError .= '</p>';
 					$html = wfView::create('waf/waf-modal-wrapper', array(
 						'title' => __('Unable to Uninstall', 'wordfence'),
 						'html' => $userIniError,
 						'helpHTML' => sprintf(__('If you cannot complete the uninstall process, <a target="_blank" rel="noopener noreferrer" href="%s">click here for help</a>', 'wordfence'), wfSupportController::esc_supportURL(wfSupportController::ITEM_FIREWALL_WAF_REMOVE_MANUALLY)),
 						'footerButtonTitle' => __('Cancel', 'wordfence'),
 					))->render();
-					return array('uninstallationFailed' => 1, 'html' => $html);
-				}
-				else if (!$helper->usesUserIni()) {
-					$helper->performIniRemoval($wp_filesystem); //Do .htaccess here
+					
+					$response = array('uninstallationFailed' => 1, 'html' => $html, 'serverConfiguration' => $_POST['serverConfiguration']);
+					if (isset($credentials) && is_array($credentials)) {
+						$salt = wp_salt('logged_in');
+						$json = json_encode($credentials);
+						$encrypted = wfUtils::encrypt($json);
+						$signature = hash_hmac('sha256', $encrypted, $salt);
+						$response['credentials'] = $encrypted;
+						$response['credentialsSignature'] = $signature;
+					}
+					return $response;
 				}
 				
 				$helper->performAutoPrependFileRemoval($wp_filesystem);
@@ -6792,6 +7125,12 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 		else if ($lastAggregation < (time() - 86400)) {
 			self::_aggregateBlockStats($lastAggregation);
 		}
+		
+		$maxAge = wfConfig::get('liveTraf_maxAge', 30);
+		if ($maxAge <= 0 || $maxAge > 30) {
+			$maxAge = 30;
+		}
+		$wfdb->queryWrite("DELETE FROM {$table_wfHits} WHERE ctime < %d", time() - ($maxAge * 86400));
 	}
 	
 	private static function _aggregateBlockStats($since = false) {
@@ -6805,7 +7144,7 @@ to your httpd.conf if using Apache, or find documentation on how to disable dire
 			$since = wfConfig::get('lastBlockAggregation', 0);
 		}
 		
-		$hitsTable = wfDB::networkPrefix() . 'wfHits';
+		$hitsTable = wfDB::networkTable('wfHits');
 		$query = $wpdb->prepare("SELECT COUNT(*) AS cnt, CASE WHEN (jsRun = 1 OR userID > 0) THEN 1 ELSE 0 END AS isHuman, statusCode FROM {$hitsTable} WHERE ctime > %d GROUP BY isHuman, statusCode", $since);
 		$rows = $wpdb->get_results($query, ARRAY_A);
 		if (count($rows)) {
@@ -6993,7 +7332,7 @@ LIMIT %d", sprintf('%.6f', $lastSendTime), $limit));
 					$installType = wfUtils::wafInstallationType();
 					$response = wp_remote_post(WFWAF_API_URL_SEC . "?" . http_build_query(array(
 							'action' => 'send_waf_attack_data',
-							'k'      => $waf->getStorageEngine()->getConfig('apiKey'),
+							'k'      => $waf->getStorageEngine()->getConfig('apiKey', null, 'synced'),
 							's'      => $siteurl,
 							'h'		 => $homeurl,
 							't'		 => microtime(true),
@@ -7023,7 +7362,7 @@ LIMIT %d", sprintf('%.6f', $lastSendTime), $limit));
 							}
 							
 							if (array_key_exists('data', $jsonData) && array_key_exists('watchedIPList', $jsonData['data'])) {
-								$waf->getStorageEngine()->setConfig('watchedIPs', $jsonData['data']['watchedIPList']);
+								$waf->getStorageEngine()->setConfig('watchedIPs', $jsonData['data']['watchedIPList'], 'transient');
 							}
 						}
 					}
@@ -7395,7 +7734,7 @@ if (file_exists(%1$s)) {
 		$event->fire();
 		
 		//Update the WAF cron
-		$cron = wfWAF::getInstance()->getStorageEngine()->getConfig('cron');
+		$cron = (array) wfWAF::getInstance()->getStorageEngine()->getConfig('cron', null, 'livewaf');
 		if (is_array($cron)) {
 			/** @var wfWAFCronEvent $event */
 			foreach ($cron as $index => $event) {
@@ -7410,7 +7749,7 @@ if (file_exists(%1$s)) {
 				}
 			}
 		}
-		wfWAF::getInstance()->getStorageEngine()->setConfig('cron', $cron);
+		wfWAF::getInstance()->getStorageEngine()->setConfig('cron', $cron, 'livewaf');
 	}
 
 	/**

@@ -10,10 +10,6 @@ class MC4WP_API_v3 {
 	 */
 	protected $client;
 
-	/**
-	 * @var bool Are we able to talk to the MailChimp API?
-	 */
-	protected $connected;
 
 	/**
 	 * Constructor
@@ -36,18 +32,13 @@ class MC4WP_API_v3 {
 	/**
 	 * Pings the MailChimp API to see if we're connected
 	 *
-	 * The result is cached to ensure a maximum of 1 API call per page load
-	 *
 	 * @return boolean
+	 * @throws MC4WP_API_Exception
 	 */
 	public function is_connected() {
-
-		if( is_null( $this->connected ) ) {
-			$data = $this->client->get( '/' );
-			$this->connected = is_object( $data ) && isset( $data->account_id );
-		}
-
-		return $this->connected;
+		$data = $this->client->get( '/', array( 'fields' => 'account_id' ) );
+		$connected = is_object( $data ) && isset( $data->account_id );
+		return $connected;
 	}
 
 	/**
@@ -68,6 +59,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return array
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_list_activity( $list_id, array $args = array() ) {
 		$resource = sprintf( '/lists/%s/activity', $list_id );
@@ -89,6 +81,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return array
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_list_interest_categories( $list_id, array $args = array() ) {
 		$resource = sprintf( '/lists/%s/interest-categories', $list_id );
@@ -109,6 +102,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return array
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_list_interest_category_interests( $list_id, $interest_category_id, array $args = array() ) {
 		$resource = sprintf( '/lists/%s/interest-categories/%s/interests', $list_id, $interest_category_id );
@@ -130,6 +124,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return array
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_list_merge_fields( $list_id, array $args = array() ) {
 		$resource = sprintf( '/lists/%s/merge-fields', $list_id );
@@ -149,6 +144,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_list( $list_id, array $args = array() ) {
 		$resource = sprintf( '/lists/%s', $list_id );
@@ -162,6 +158,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return array
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_lists( $args = array() ) {
 		$resource = '/lists';
@@ -182,6 +179,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_list_member( $list_id, $email_address, array $args = array() ) {
 		$subscriber_hash = $this->get_subscriber_hash( $email_address );
@@ -198,6 +196,7 @@ class MC4WP_API_v3 {
 	 * @param string $list_id
 	 * @param array $args
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_list_members( $list_id, array $args ) {
 		$resource = sprintf( '/lists/%s', $list_id );
@@ -213,6 +212,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_list_member( $list_id, array $args ) {
 		$subscriber_hash = $this->get_subscriber_hash( $args['email_address'] );
@@ -240,6 +240,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_list_member( $list_id, $email_address, array $args ) {
 		$subscriber_hash = $this->get_subscriber_hash( $email_address );
@@ -265,6 +266,7 @@ class MC4WP_API_v3 {
 	 * @param string $email_address
 	 *
 	 * @return bool
+	 * @throws MC4WP_API_Exception
 	 */
 	public function delete_list_member( $list_id, $email_address ) {
 		$subscriber_hash = $this->get_subscriber_hash( $email_address );
@@ -279,6 +281,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_stores( array $args = array() ) {
 		$resource = '/ecommerce/stores';
@@ -292,6 +295,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store( $store_id, array $args = array() ) {
 		$resource =  sprintf( '/ecommerce/stores/%s', $store_id );
@@ -304,6 +308,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_ecommerce_store( array $args ) {
 		$resource = '/ecommerce/stores';
@@ -317,6 +322,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_ecommerce_store( $store_id, array $args ) {
 		$resource =  sprintf( '/ecommerce/stores/%s', $store_id );
@@ -329,6 +335,7 @@ class MC4WP_API_v3 {
 	 * @param string $store_id
 	 *
 	 * @return boolean
+	 * @throws MC4WP_API_Exception
 	 */
 	public function delete_ecommerce_store( $store_id ) {
 		$resource = sprintf( '/ecommerce/stores/%s', $store_id );
@@ -342,6 +349,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_customers( $store_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/customers', $store_id );
@@ -356,6 +364,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_customer( $store_id, $customer_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/customers/%s', $store_id, $customer_id );
@@ -371,6 +380,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_ecommerce_store_customer( $store_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/customers/%s', $store_id, $args['id'] );
@@ -385,6 +395,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_ecommerce_store_customer( $store_id, $customer_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/customers/%s', $store_id, $customer_id );
@@ -398,6 +409,7 @@ class MC4WP_API_v3 {
 	 * @param string $customer_id
 	 *
 	 * @return bool
+	 * @throws MC4WP_API_Exception
 	 */
 	public function delete_ecommerce_store_customer( $store_id, $customer_id ) {
 		$resource = sprintf( '/ecommerce/stores/%s/customers/%s', $store_id, $customer_id );
@@ -411,6 +423,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_products( $store_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products', $store_id );
@@ -425,6 +438,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_product( $store_id, $product_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products/%s', $store_id, $product_id );
@@ -440,6 +454,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_ecommerce_store_product( $store_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products', $store_id );
@@ -454,6 +469,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_ecommerce_store_product( $store_id, $product_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products/%s', $store_id, $product_id );
@@ -467,6 +483,7 @@ class MC4WP_API_v3 {
 	 * @param string $product_id
 	 *
 	 * @return boolean
+	 * @throws MC4WP_API_Exception
 	 */
 	public function delete_ecommerce_store_product( $store_id, $product_id ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products/%s', $store_id, $product_id );
@@ -481,6 +498,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_product_variants( $store_id, $product_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products/%s/variants', $store_id, $product_id );
@@ -496,6 +514,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_product_variant( $store_id, $product_id, $variant_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products/%s/variants/%s', $store_id, $product_id, $variant_id );
@@ -512,6 +531,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_ecommerce_store_product_variant( $store_id, $product_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products/%s/variants/%s', $store_id, $product_id, $args['id'] );
@@ -527,6 +547,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_ecommerce_store_product_variant( $store_id, $product_id, $variant_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products/%s/variants/%s', $store_id, $product_id, $variant_id );
@@ -541,6 +562,7 @@ class MC4WP_API_v3 {
 	 * @param string $variant_id
 	 *
 	 * @return boolean
+	 * @throws MC4WP_API_Exception
 	 */
 	public function delete_ecommerce_store_product_variant( $store_id, $product_id, $variant_id ) {
 		$resource = sprintf( '/ecommerce/stores/%s/products/%s/variants/%s', $store_id, $product_id, $variant_id );
@@ -554,6 +576,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_orders( $store_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/orders', $store_id );
@@ -568,6 +591,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_order( $store_id, $order_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/orders/%s', $store_id, $order_id );
@@ -581,6 +605,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_ecommerce_store_order( $store_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/orders', $store_id );
@@ -595,6 +620,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_ecommerce_store_order( $store_id, $order_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/orders/%s', $store_id, $order_id );
@@ -608,6 +634,7 @@ class MC4WP_API_v3 {
 	 * @param string $order_id
 	 *
 	 * @return bool
+	 * @throws MC4WP_API_Exception
 	 */
 	public function delete_ecommerce_store_order( $store_id, $order_id ) {
 		return !! $this->client->delete( sprintf( '/ecommerce/stores/%s/orders/%s', $store_id, $order_id ) );
@@ -621,6 +648,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_ecommerce_store_order_line( $store_id, $order_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/orders/%s/lines', $store_id, $order_id );
@@ -636,6 +664,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_order_lines( $store_id, $order_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/orders/%s/lines', $store_id, $order_id );
@@ -651,6 +680,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_order_line( $store_id, $order_id, $line_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/orders/%s/lines/%s', $store_id, $order_id, $line_id );
@@ -666,6 +696,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_ecommerce_store_order_line( $store_id, $order_id, $line_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/orders/%s/lines/%s', $store_id, $order_id, $line_id );
@@ -680,6 +711,7 @@ class MC4WP_API_v3 {
 	 * @param string $line_id
 	 *
 	 * @return bool
+	 * @throws MC4WP_API_Exception
 	 */
 	public function delete_ecommerce_store_order_line( $store_id, $order_id, $line_id ) {
 		$resource = sprintf( '/ecommerce/stores/%s/orders/%s/lines/%s', $store_id, $order_id, $line_id );
@@ -693,6 +725,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_carts( $store_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/carts', $store_id );
@@ -707,6 +740,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_cart( $store_id, $cart_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/carts/%s', $store_id, $cart_id );
@@ -720,6 +754,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_ecommerce_store_cart( $store_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/carts', $store_id );
@@ -734,6 +769,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_ecommerce_store_cart( $store_id, $cart_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/carts/%s', $store_id, $cart_id );
@@ -760,6 +796,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_cart_lines( $store_id, $cart_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/carts/%/lines', $store_id, $cart_id);
@@ -775,6 +812,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_ecommerce_store_cart_line( $store_id, $cart_id, $line_id, array $args = array() ) {
 		$resource = sprintf( '/ecommerce/stores/%s/carts/%s/lines/%s', $store_id, $cart_id, $line_id );
@@ -789,6 +827,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_ecommerce_store_cart_line( $store_id, $cart_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/carts/%s/lines', $store_id, $cart_id );
@@ -804,6 +843,7 @@ class MC4WP_API_v3 {
 	 * @param array $args
 	 *
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_ecommerce_store_cart_line( $store_id, $cart_id, $line_id, array $args ) {
 		$resource = sprintf( '/ecommerce/stores/%s/carts/%s/lines/%s', $store_id, $cart_id, $line_id );
@@ -818,6 +858,7 @@ class MC4WP_API_v3 {
 	 * @param string $line_id
 	 *
 	 * @return bool
+	 * @throws MC4WP_API_Exception
 	 */
 	public function delete_ecommerce_store_cart_line( $store_id, $cart_id, $line_id ) {
 		$resource = sprintf( '/ecommerce/stores/%s/carts/%s/lines/%s', $store_id, $cart_id, $line_id );
@@ -825,11 +866,157 @@ class MC4WP_API_v3 {
 	}
 
 	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/#create-post_ecommerce_stores_store_id_promo_rules
+	 *
+	 * @param string $store_id
+	 * @param array $args
+	 *
+	 * @return object
+	 * @throws MC4WP_API_Exception
+	 */
+	public function add_ecommerce_store_promo_rule( $store_id, array $args ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules', $store_id );
+		return $this->client->post( $resource, $args );
+	}
+
+	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/#read-get_ecommerce_stores_store_id_promo_rules
+	 *
+	 * @param string $store_id
+	 * @param array $args
+	 *
+	 * @return object
+	 * @throws MC4WP_API_Exception
+	 */
+	public function get_ecommerce_store_promo_rules( $store_id, array $args = array() ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules', $store_id );
+		return $this->client->get( $resource, $args );
+	}
+
+	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/#read-get_ecommerce_stores_store_id_promo_rules_promo_rule_id
+	 *
+	 * @param string $store_id
+	 * @param string $promo_rule_id
+	 * @param array $args
+	 *
+	 * @return object
+	 * @throws MC4WP_API_Exception
+	 */
+	public function get_ecommerce_store_promo_rule( $store_id, $promo_rule_id, array $args = array() ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules/%s', $store_id, $promo_rule_id );
+		return $this->client->get( $resource, $args );
+	}
+
+	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/#edit-patch_ecommerce_stores_store_id_promo_rules_promo_rule_id
+	 *
+	 * @param string $store_id
+	 * @param string $promo_rule_id
+	 * @param array $args
+	 *
+	 * @return object
+	 * @throws MC4WP_API_Exception
+	 */
+	public function update_ecommerce_store_promo_rule( $store_id, $promo_rule_id, array $args ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules/%s', $store_id, $promo_rule_id );
+		return $this->client->patch( $resource, $args );
+	}
+
+	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/#delete-delete_ecommerce_stores_store_id_promo_rules_promo_rule_id
+	 *
+	 * @param string $store_id
+	 * @param string $promo_rule_id
+	 *
+	 * @return boolean
+	 * @throws MC4WP_API_Exception
+	 */
+	public function delete_ecommerce_store_promo_rule( $store_id, $promo_rule_id ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules/%s', $store_id, $promo_rule_id );
+		return !! $this->client->delete( $resource );
+	}
+
+	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/promo-codes/#create-post_ecommerce_stores_store_id_promo_rules_promo_rule_id_promo_codes
+	 *
+	 * @param string $store_id
+	 * @param array $args
+	 *
+	 * @return object
+	 * @throws MC4WP_API_Exception
+	 */
+	public function add_ecommerce_store_promo_rule_promo_code( $store_id, $promo_rule_id, array $args ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules/%s/promo-codes', $store_id, $promo_rule_id );
+		return $this->client->post( $resource, $args );
+	}
+
+	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/promo-codes/#read-get_ecommerce_stores_store_id_promo_rules_promo_rule_id_promo_codes
+	 *
+	 * @param string $store_id
+	 * @param array $args
+	 *
+	 * @return object
+	 * @throws MC4WP_API_Exception
+	 */
+	public function get_ecommerce_store_promo_rule_promo_codes( $store_id, $promo_rule_id, array $args = array() ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules/%s/promo-codes', $store_id, $promo_rule_id );
+		return $this->client->get( $resource, $args );
+	}
+
+	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/promo-codes/#read-get_ecommerce_stores_store_id_promo_rules_promo_rule_id_promo_codes_promo_code_id
+	 *
+	 * @param string $store_id
+	 * @param string $promo_rule_id
+	 * @param array $args
+	 *
+	 * @return object
+	 * @throws MC4WP_API_Exception
+	 */
+	public function get_ecommerce_store_promo_rule_promo_code( $store_id, $promo_rule_id, $promo_code_id, array $args = array() ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules/%s/promo-codes/%s', $store_id, $promo_rule_id, $promo_code_id );
+		return $this->client->get( $resource, $args );
+	}
+
+	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/promo-codes/#edit-patch_ecommerce_stores_store_id_promo_rules_promo_rule_id_promo_codes_promo_code_id
+	 *
+	 * @param string $store_id
+	 * @param string $promo_rule_id
+	 * @param array $args
+	 *
+	 * @return object
+	 * @throws MC4WP_API_Exception
+	 */
+	public function update_ecommerce_store_promo_rule_promo_code( $store_id, $promo_rule_id, $promo_code_id, array $args ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules/%s/promo-codes/%s', $store_id, $promo_rule_id, $promo_code_id );
+		return $this->client->patch( $resource, $args );
+	}
+
+	/**
+	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/ecommerce/stores/promo-rules/promo-codes/#delete-delete_ecommerce_stores_store_id_promo_rules_promo_rule_id_promo_codes_promo_code_id
+	 *
+	 * @param string $store_id
+	 * @param string $promo_rule_id
+	 *
+	 * @return boolean
+	 * @throws MC4WP_API_Exception
+	 */
+	public function delete_ecommerce_store_promo_rule_promo_code( $store_id, $promo_rule_id, $promo_code_id ) {
+		$resource = sprintf( '/ecommerce/stores/%s/promo-rules/%s/promo-codes/%s', $store_id, $promo_rule_id, $promo_code_id );
+		return !! $this->client->delete( $resource );
+	}
+
+
+	/**
 	 * Get a list of an account's available templates
 	 *
 	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/templates/#read-get_templates
 	 * @param array $args
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_templates( array $args = array() ) {
 		$resource = '/templates';
@@ -842,6 +1029,7 @@ class MC4WP_API_v3 {
 	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/templates/#read-get_templates_template_id
 	 * @param string $template_id
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_template( $template_id, array $args = array() ) {
 		$resource = sprintf( '/templates/%s', $template_id );
@@ -852,6 +1040,7 @@ class MC4WP_API_v3 {
 	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/templates/default-content/
 	 * @param string $template_id
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_template_default_content( $template_id, array $args = array() ) {
 		$resource = sprintf( '/templates/%s/default-content', $template_id );
@@ -864,6 +1053,7 @@ class MC4WP_API_v3 {
 	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/campaigns/#create-post_campaigns
 	 * @param array $args
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function add_campaign( array $args ) {
 		$resource = '/campaigns';
@@ -876,6 +1066,7 @@ class MC4WP_API_v3 {
 	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/campaigns/#read-get_campaigns
 	 * @param array $args
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_campaigns( array $args = array() ) {
 		$resource = '/campaigns';
@@ -889,6 +1080,7 @@ class MC4WP_API_v3 {
 	 * @param string $campaign_id
 	 * @param array $args
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_campaign( $campaign_id, array $args = array() ) {
 		$resource = sprintf( '/campaigns/%s', $campaign_id );
@@ -902,6 +1094,7 @@ class MC4WP_API_v3 {
 	 * @param string $campaign_id
 	 * @param array $args
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_campaign( $campaign_id, array $args ) {
 		$resource = sprintf( '/campaigns/%s', $campaign_id );
@@ -914,6 +1107,7 @@ class MC4WP_API_v3 {
 	 * @link https://developer.mailchimp.com/documentation/mailchimp/reference/campaigns/#delete-delete_campaigns_campaign_id
 	 * @param string $campaign_id
 	 * @return bool
+	 * @throws MC4WP_API_Exception
 	 */
 	public function delete_campaign( $campaign_id ) {
 		$resource = sprintf( '/campaigns/%s', $campaign_id );
@@ -929,6 +1123,7 @@ class MC4WP_API_v3 {
 	 * @param string $action
 	 * @param array $args
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function campaign_action( $campaign_id, $action, array $args = array() ) {
 		$resource = sprintf( '/campaigns/%s/actions/%s', $campaign_id, $action );
@@ -942,6 +1137,7 @@ class MC4WP_API_v3 {
 	 * @param string $campaign_id
 	 * @param array $args
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function get_campaign_content( $campaign_id, array $args = array() ) {
 		$resource = sprintf( '/campaigns/%s/content', $campaign_id );
@@ -955,6 +1151,7 @@ class MC4WP_API_v3 {
 	 * @param string $campaign_id
 	 * @param array $args
 	 * @return object
+	 * @throws MC4WP_API_Exception
 	 */
 	public function update_campaign_content( $campaign_id, array $args ) {
 		$resource = sprintf( '/campaigns/%s/content', $campaign_id );

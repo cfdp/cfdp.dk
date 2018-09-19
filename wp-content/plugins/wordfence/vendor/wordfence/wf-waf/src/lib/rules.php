@@ -982,8 +982,8 @@ class wfWAFRuleComparison implements wfWAFRuleInterface {
 		}
 		
 		$guessSiteURL = sprintf('%s://%s/', wfWAF::getInstance()->getRequest()->getProtocol(), wfWAF::getInstance()->getRequest()->getHost());
-		$siteURL = wfWAF::getInstance()->getStorageEngine()->getConfig('siteURL') ? wfWAF::getInstance()->getStorageEngine()->getConfig('siteURL') : $guessSiteURL;
-		$homeURL = wfWAF::getInstance()->getStorageEngine()->getConfig('homeURL') ? wfWAF::getInstance()->getStorageEngine()->getConfig('homeURL') : $guessSiteURL;
+		$siteURL = wfWAF::getInstance()->getStorageEngine()->getConfig('siteURL', null, 'synced') ? wfWAF::getInstance()->getStorageEngine()->getConfig('siteURL', null, 'synced') : $guessSiteURL;
+		$homeURL = wfWAF::getInstance()->getStorageEngine()->getConfig('homeURL', null, 'synced') ? wfWAF::getInstance()->getStorageEngine()->getConfig('homeURL', null, 'synced') : $guessSiteURL;
 		
 		$siteHost = wfWAFUtils::parse_url($siteURL, PHP_URL_HOST);
 		$homeHost = wfWAFUtils::parse_url($homeURL, PHP_URL_HOST);

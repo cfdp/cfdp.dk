@@ -31,10 +31,12 @@ if (!wfUtils::isAdmin()) {
 		<?php } ?>
 		<tr>
 			<th>Type:</th>
-			<td><?php if ($v['type'] == 'hit') {
-					echo 'Normal request';
-				} else if ($v['type'] == '404') {
+			<td><?php
+                if ($v['statusCode'] == '404') {
 					echo '<span style="color: #F00;">Page not found</span>';
+				}
+				else if ($v['type'] == 'hit') {
+					echo 'Normal request';
 				} ?></td>
 		</tr>
 		<?php if ($v['referer']) { ?>
@@ -45,7 +47,7 @@ if (!wfUtils::isAdmin()) {
 			</td></tr><?php } ?>
 		<tr>
 			<th>Full Browser ID:</th>
-			<td><?php echo wp_kses($v['UA'], array()); ?></td>
+			<td><?php echo esc_html($v['UA'], array()); ?></td>
 		</tr>
 		<?php if ($v['user']) { ?>
 			<tr>

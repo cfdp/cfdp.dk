@@ -54,13 +54,22 @@ class SiteOrigin_Panels_Admin {
 		add_action( 'wp_ajax_so_panels_builder_content', array( $this, 'action_builder_content' ) );
 		add_action( 'wp_ajax_so_panels_widget_form', array( $this, 'action_widget_form' ) );
 		add_action( 'wp_ajax_so_panels_live_editor_preview', array( $this, 'action_live_editor_preview' ) );
+		add_action( 'wp_ajax_so_panels_gutenberg_preview', array( $this, 'gutenberg_preview' ) );
 
 		// Initialize the additional admin classes.
 		SiteOrigin_Panels_Admin_Widget_Dialog::single();
 		SiteOrigin_Panels_Admin_Widgets_Bundle::single();
 		SiteOrigin_Panels_Admin_Layouts::single();
 
+		// Check to make sure we have all the correct markup
+		SiteOrigin_Panels_Admin_Dashboard::single();
+
 		$this->in_save_post = false;
+
+
+        // Enqueue Yoast compatibility
+        add_action( 'admin_print_scripts-post-new.php', array( $this, 'enqueue_yoast_compat' ), 100 );
+        add_action( 'admin_print_scripts-post.php', array( $this, 'enqueue_yoast_compat' ), 100 );
 
 		add_filter( 'gutenberg_can_edit_post_type', array( $this, 'disable_gutenberg_for_panels_posts' ), 10, 2 );
 		add_filter( 'filter_gutenberg_meta_boxes', array( $this, 'disable_panels_for_gutenberg_posts' ) );
@@ -88,13 +97,6 @@ class SiteOrigin_Panels_Admin {
 					add_action( 'manage_' . $post_type . 's_custom_column' , array( $this, 'display_custom_column' ), 10, 2 );
 				}
 			}
-		}
-
-		if( self::is_admin() ) {
-			// Setup everything for Page Builder learning as long as we're viewing a Page Builder page
-			SiteOrigin_Learn_Dialog::single();
-			add_filter( 'siteorigin_learn_lessons', array( $this, 'filter_learn_lessons' ) );
-			add_filter( 'siteorigin_learn_strings', array( $this, 'filter_learn_strings' ), 99 );
 		}
 	}
 
@@ -124,8 +126,7 @@ class SiteOrigin_Panels_Admin {
 		
 		unset( $links['edit'] );
 		$links[] = '<a href="http://siteorigin.com/threads/plugin-page-builder/">' . __( 'Support Forum', 'siteorigin-panels' ) . '</a>';
-		$links[] = '<a href="http://siteorigin.com/page-builder/#newsletter">' . __( 'Newsletter', 'siteorigin-panels' ) . '</a>';
-		
+
 		if( SiteOrigin_Panels::display_premium_teaser() ) {
 			$links[] = '<a href="' . esc_url( SiteOrigin_Panels::premium_url() ) . '" style="color: #3db634" target="_blank" rel="noopener noreferrer">' . __('Addons', 'siteorigin-panels') . '</a>';
 		}
@@ -163,7 +164,6 @@ class SiteOrigin_Panels_Admin {
 	 * Save the panels data
 	 *
 	 * @param $post_id
-	 * @param $post
 	 *
 	 * @action save_post
 	 */
@@ -199,10 +199,13 @@ class SiteOrigin_Panels_Admin {
 
 			if( siteorigin_panels_setting( 'copy-content' ) ) {
 				// Store a version of the HTML in post_content
+				$post_parent_id = wp_is_post_revision( $post_id );
+				$layout_id = ( ! empty( $post_parent_id ) ) ? $post_parent_id : $post_id;
+				
 				SiteOrigin_Panels_Post_Content_Filters::add_filters();
 				$GLOBALS[ 'SITEORIGIN_PANELS_POST_CONTENT_RENDER' ] = true;
-				$post_content = SiteOrigin_Panels::renderer()->render( $post_id, false, $panels_data );
-				$post_css = SiteOrigin_Panels::renderer()->generate_css( $post_id, $panels_data );
+				$post_content = SiteOrigin_Panels::renderer()->render( $layout_id, false, $panels_data );
+				$post_css = SiteOrigin_Panels::renderer()->generate_css( $layout_id, $panels_data );
 				SiteOrigin_Panels_Post_Content_Filters::remove_filters();
 				unset( $GLOBALS[ 'SITEORIGIN_PANELS_POST_CONTENT_RENDER' ] );
 
@@ -210,7 +213,7 @@ class SiteOrigin_Panels_Admin {
 				$post->post_content = $post_content;
 				if( siteorigin_panels_setting( 'copy-styles' ) ) {
 					$post->post_content .= "\n\n";
-					$post->post_content .= '<style type="text/css" class="panels-style" data-panels-style-for-post="' . intval( $post_id ) . '">';
+					$post->post_content .= '<style type="text/css" class="panels-style" data-panels-style-for-post="' . intval( $layout_id ) . '">';
 					$post->post_content .= '@import url(' . SiteOrigin_Panels::front_css_url() . '); ';
 					$post->post_content .= $post_css;
 					$post->post_content .= '</style>';
@@ -287,6 +290,7 @@ class SiteOrigin_Panels_Admin {
 				'directory_enabled'         => ! empty( $directory_enabled ),
 				'copy_content'              => siteorigin_panels_setting( 'copy-content' ),
 				'cache'						=> array(),
+				'instant_open'              => siteorigin_panels_setting( 'instant-open-widgets' ),
 
 				// Settings for the contextual menu
 				'contextual'                => array(
@@ -471,6 +475,18 @@ class SiteOrigin_Panels_Admin {
 				do_action( 'sidebar_admin_setup' );
 			}
 		}
+	}
+
+	public function enqueue_yoast_compat(){
+        if( self::is_admin() && defined( 'WPSEO_FILE' ) && wp_script_is( 'yoast-seo-metabox' ) ) {
+            wp_enqueue_script(
+                'so-panels-yoast-compat',
+                siteorigin_panels_url( 'js/yoast-compat' . SITEORIGIN_PANELS_JS_SUFFIX . '.js' ),
+                array('jquery', 'yoast-seo-metabox' ),
+                SITEORIGIN_PANELS_VERSION,
+                true
+            );
+        }
 	}
 
 	/**
@@ -1038,6 +1054,37 @@ class SiteOrigin_Panels_Admin {
 	}
 
 	/**
+	 * Preview in the gutenberg editor.
+	 */
+	public function gutenberg_preview() {
+		
+		if ( empty( $_REQUEST['_panelsnonce'] ) || ! wp_verify_nonce( $_REQUEST['_panelsnonce'], 'gutenberg-preview' ) ) {
+			wp_die();
+		}
+		
+		$panels_data = json_decode( wp_unslash( $_POST['panelsData'] ), true );
+		$builder_id = 'gbp' . uniqid();
+		$panels_data['widgets'] = SiteOrigin_Panels_Admin::single()->process_raw_widgets( $panels_data['widgets'], false, true );
+		$panels_data = SiteOrigin_Panels_Styles_Admin::single()->sanitize_all( $panels_data );
+		$sowb_active = class_exists( 'SiteOrigin_Widgets_Bundle' );
+		if ( $sowb_active ) {
+			// We need this to get our widgets bundle to add it's styles inline for previews.
+			add_filter( 'siteorigin_widgets_is_preview', '__return_true' );
+		}
+		$rendered_layout = SiteOrigin_Panels::renderer()->render( $builder_id, true, $panels_data, $layout_data, true );
+		
+		// Need to explicitly call `siteorigin_widget_print_styles` because Gutenberg previews don't render a full version of the front end,
+		// so neither the `wp_head` nor the `wp_footer` actions are called, which usually trigger `siteorigin_widget_print_styles`.
+		if ( $sowb_active ) {
+			ob_start();
+			siteorigin_widget_print_styles();
+			$rendered_layout .= ob_get_clean();
+		}
+		
+		wp_send_json( array( 'html' => $rendered_layout ) );
+	}
+
+	/**
 	 * Add a column that indicates if a column is powered by Page Builder
 	 *
 	 * @param $columns
@@ -1105,58 +1152,6 @@ class SiteOrigin_Panels_Admin {
 	}
 
 	/**
-	 * Add all the courses to the learning dialog
-	 *
-	 * @param $lessons
-	 *
-	 * @return mixed
-	 */
-	public function filter_learn_lessons( $lessons ) {
-		$lessons['page-builder-tips'] = array(
-			'title'            => __( '12 Page Builder Tips', 'siteorigin-panels' ),
-			'video'            => '212380146',
-			'poster'           => siteorigin_panels_url( 'posters/page-builder-tips.svg' ),
-			'description'      => __( "Sign up to our newsletter and we'll send you this free Page Builder video course.", 'siteorigin-panels' ) . ' ' .
-								  __( "12 tips that'll help you get the most out of Page Builder.", 'siteorigin-panels' ) . ' ' .
-								  __( "Watch the video to find out more, then sign up below to get started.", 'siteorigin-panels' ),
-			'form_description' => __( "We'll email you a confirmation. You can unsubscribe at any time.", 'siteorigin-panels' ),
-		);
-
-		$lessons['page-builder-animations'] = array(
-			'title'            => __( 'Free Page Builder Addons', 'siteorigin-panels' ),
-			'video'            => '212380210',
-			'poster'           => siteorigin_panels_url( 'posters/addons.svg' ),
-			'description'      => __( "The free animations addon allows you to add beautiful animations to Page Builder elements.", 'siteorigin-panels' ) . ' ' .
-								  __( "Sign up to our newsletter and we'll send you the addon as a free gift.", 'siteorigin-panels' ) . ' ' .
-								  __( "Plus, we'll send you even more powerful addons, for as long as you're subscribed.", 'siteorigin-panels' ),
-			'form_description' => __( "We'll email you a confirmation. You can unsubscribe at any time.", 'siteorigin-panels' ),
-		);
-
-		return $lessons;
-	}
-
-	/**
-	 * Filter the translation strings for SiteOrigin learning dialogs
-	 *
-	 * @param $strings
-	 *
-	 * @return array
-	 */
-	public function filter_learn_strings( $strings ){
-		$strings = array(
-			'watch_video' => __( 'Watch Intro Video', 'siteorigin-panels' ),
-			'loaded_from_vimeo' => __( 'Loaded from Vimeo Servers', 'siteorigin-panels' ),
-			'valid_email' => __( 'Please enter a valid email address.', 'siteorigin-panels' ),
-
-			'your_name' => __( 'Your Name', 'siteorigin-panels' ),
-			'your_email' => __( 'Your Email', 'siteorigin-panels' ),
-			'sign_up' => __( 'Sign Up', 'siteorigin-panels' ),
-			'close' => __( 'Close', 'siteorigin-panels' ),
-		);
-		return $strings;
-	}
-
-	/**
 	 * Display links for various SiteOrigin addons
 	 */
 	public static function display_footer_premium_link(){
@@ -1213,7 +1208,6 @@ class SiteOrigin_Panels_Admin {
 			foreach ( $locations as &$priorities ) {
 				foreach ( $priorities as &$boxes ) {
 					unset( $boxes['so-panels-panels'] );
-					unset( $boxes['siteorigin_page_settings'] );
 
 				}
 			}
