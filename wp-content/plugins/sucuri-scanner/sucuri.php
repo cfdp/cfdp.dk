@@ -6,7 +6,7 @@
  * Plugin URI: https://wordpress.sucuri.net/
  * Author URI: https://sucuri.net/
  * Author: Sucuri Inc.
- * Version: 1.8.11
+ * Version: 1.8.18
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -83,7 +83,12 @@ define('SUCURISCAN', 'sucuriscan');
 /**
  * Current version of the plugin's code.
  */
-define('SUCURISCAN_VERSION', '1.8.11');
+define('SUCURISCAN_VERSION', '1.8.18');
+
+/**
+ * Defines the human readable name of the plugin.
+ */
+define('SUCURISCAN_PLUGIN_NAME', 'Sucuri Security - Auditing, Malware Scanner and Hardening');
 
 /**
  * The name of the folder where the plugin's files will be located.
@@ -189,7 +194,7 @@ if (!array_key_exists('SERVER_NAME', $_SERVER)) {
 }
 
 /* Load all classes before anything else. */
-require_once 'src/sucuriscan.lib.php';
+require_once 'src/base.lib.php';
 require_once 'src/request.lib.php';
 require_once 'src/fileinfo.lib.php';
 require_once 'src/cache.lib.php';
@@ -216,7 +221,6 @@ require_once 'src/pagehandler.php';
 require_once 'src/lastlogins.php';
 require_once 'src/lastlogins-loggedin.php';
 require_once 'src/lastlogins-failed.php';
-require_once 'src/lastlogins-blocked.php';
 
 /* Load handlers for main pages (settings). */
 require_once 'src/settings.php';
@@ -232,19 +236,37 @@ require_once 'src/settings-webinfo.php';
 /* Load global variables and triggers */
 require_once 'src/globals.php';
 
+/* Load WP-CLI command */
+if (defined('WP_CLI') && WP_CLI) {
+    include_once 'src/cli.lib.php';
+}
+
 /**
- * Uninstalls the plugin, its settings and reverts the hardening.
+ * Deactivated the plugin
  *
- * When the user decides to deactivate and/or uninstall the plugin it will call
- * this method to delete all traces of data inserted into the database by older
- * versions of the code, will remove the scheduled task, will delte the options
- * inserted into the sub-database associated to a multi-site installation, will
- * revert the hardening applied to the core directories, and will delete all the
- * security logs, cache and additional data stored in the storage directory.
+ * Remove the scheduled task, but don't clear other things yet until the plugin is uninstalled.
  *
  * @return void
  */
 function sucuriscanResetAndDeactivate()
+{
+    /* Delete scheduled task from the system */
+    wp_clear_scheduled_hook('sucuriscan_scheduled_scan');
+}
+
+/**
+ * Uninstalled the plugin
+ *
+ * When the user decides to uninstall the plugin it will call this method to
+ * delete all traces of data inserted into the database by older versions of the
+ * code, will delete the options inserted into the sub-database associated to a
+ * multi-site installation, will revert the hardening applied to the core
+ * directories, and will delete all the logs, cache and additional data stored
+ * in the storage directory.
+ *
+ * @return void
+ */
+function sucuriscanUninstall()
 {
     if (array_key_exists('wpdb', $GLOBALS)) {
         /* Delete all plugin related options from the database */
@@ -258,9 +280,6 @@ function sucuriscanResetAndDeactivate()
             delete_option($option->option_name);
         }
     }
-
-    /* Delete scheduled task from the system */
-    wp_clear_scheduled_hook('sucuriscan_scheduled_scan');
 
     /* Delete settings from the database if they exist */
     $options = SucuriScanOption::getDefaultOptionNames();
@@ -287,3 +306,5 @@ function sucuriscanResetAndDeactivate()
 }
 
 register_deactivation_hook(__FILE__, 'sucuriscanResetAndDeactivate');
+
+register_uninstall_hook(__FILE__, 'sucuriscanUninstall');

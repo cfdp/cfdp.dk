@@ -1,0 +1,330 @@
+# Translation of Plugins - Cookie Notice by dFactory - Stable (latest release) in Danish
+# This file is distributed under the same license as the Plugins - Cookie Notice by dFactory - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2016-08-16 12:24:34+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.3.0-alpha\n"
+"Language: da_DK\n"
+"Project-Id-Version: Plugins - Cookie Notice by dFactory - Stable (latest release)\n"
+
+#. Author URI of the plugin/theme
+msgid "http://www.dfactory.eu/"
+msgstr "http://www.dfactory.eu/"
+
+#. Author of the plugin/theme
+msgid "dFactory"
+msgstr "dFactory"
+
+#. Description of the plugin/theme
+msgid "Cookie Notice allows you to elegantly inform users that your site uses cookies and to comply with the EU cookie law regulations."
+msgstr "Cookie Notice lader dig informere brugere, på en elegant måde, om at din hjemmeside anvender cookies og overholder EUs cookie-regulativer og bekendtgørelser"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.dfactory.eu/plugins/cookie-notice/"
+msgstr "http://www.dfactory.eu/plugins/cookie-notice/"
+
+#: cookie-notice.php:811
+msgid "Are you sure you want to reset these settings to defaults?"
+msgstr "Er du sikker på, at du ønsker at nulstille disse indstillinger?"
+
+#: cookie-notice.php:777
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: cookie-notice.php:758
+msgid "Support"
+msgstr "Support"
+
+#: cookie-notice.php:657
+msgid "Settings restored to defaults."
+msgstr "Indstillinger nulstillet"
+
+#: cookie-notice.php:553
+msgid "Choose buttons style."
+msgstr "Vælg knappernes stil."
+
+#: cookie-notice.php:533
+msgid "Number of pixels user has to scroll to accept the usage of the cookies and make the notification disappear."
+msgstr "Antal pixels som brugeren skal rulle for at acceptere cookies og få notifikationen til at forsvinde"
+
+#: cookie-notice.php:529
+msgid "Enable cookie notice acceptance when users scroll."
+msgstr "Aktiver cookie-accept når brugeren ruller vinduet"
+
+#: cookie-notice.php:519
+msgid "Cookie notice acceptance animation."
+msgstr "Animation ved godkendelse af cookie-meddelelsen."
+
+#: cookie-notice.php:500
+msgid "Select location for your cookie notice."
+msgstr "Vælg hvor din cookie-meddelelse skal placeres."
+
+#: cookie-notice.php:482
+msgid "Select where all the plugin scripts should be placed."
+msgstr "Vælg hvor alle plugin scripts skal placeres"
+
+#: cookie-notice.php:468
+msgid "The ammount of time that cookie should be stored for."
+msgstr "Det tidsrum cookien skal gemmes i."
+
+#: cookie-notice.php:448
+msgid "Select the link target for more info page."
+msgstr "Vælg link-destinationen for \"mere info\"-siden"
+
+#: cookie-notice.php:428
+msgid "Enter the full URL starting with http://"
+msgstr "Angiv en fulde webadresse, som begynder med http://"
+
+#: cookie-notice.php:424
+msgid "Select from one of your site's pages"
+msgstr "Vælg mellem en af dine sider på sitet."
+
+#: cookie-notice.php:413
+msgid "-- select page --"
+msgstr "-- vælg side --"
+
+#: cookie-notice.php:410
+msgid "Select where to redirect user for more information about cookies."
+msgstr "Vælg hvor brugeren skal omdirigeres til for at få mere at vide om cookies."
+
+#: cookie-notice.php:396
+msgid "The text of the more info button."
+msgstr "Teksten for \"Mere info\"-knappen"
+
+#: cookie-notice.php:389
+msgid "Enable Read more link."
+msgstr "Aktiver \"Læs mere\"-link"
+
+#: cookie-notice.php:363
+msgid "Enter non functional cookies Javascript code here (for e.g. Google Analitycs). It will be used after cookies are accepted."
+msgstr "Indsæt JavaScript kode for ikke-funktionelle cookies her (fx Google Analytics). Den vil blive brugt efter brug af cookies er accepteret"
+
+#: cookie-notice.php:358
+msgid "The text of the option to refuse the usage of the cookies. To get the cookie notice status use <code>cn_cookies_accepted()</code> function."
+msgstr "Teksten af den valgmulighed der afviser brug af cookies. For at få cookie status for cookie-notifikationen, brug <code>cn_cookies_accepted()</code> funktionen."
+
+#: cookie-notice.php:353
+msgid "Give to the user the possibility to refuse third party non functional cookies."
+msgstr "Giv brugeren mulighed for at nægte tredieparts ikke-funktionelle cookies."
+
+#: cookie-notice.php:343
+msgid "The text of the option to accept the usage of the cookies and make the notification disappear."
+msgstr "Teksten af det valg der accepterer brug af cookies og får notifikationen til at forsvinde"
+
+#: cookie-notice.php:332
+msgid "Enter the cookie notice message."
+msgstr "Angiv cookie-meddelelsen."
+
+#: cookie-notice.php:322
+msgid "Enable if you want all plugin data to be deleted on deactivation."
+msgstr "Aktivér hvis du ønsker at alle plugin-data slettes ved deaktivering."
+
+#: cookie-notice.php:308
+msgid "Colors"
+msgstr "Farver"
+
+#: cookie-notice.php:307
+msgid "Button style"
+msgstr "Knapstil"
+
+#: cookie-notice.php:306
+msgid "Animation"
+msgstr "Animation"
+
+#: cookie-notice.php:305
+msgid "Position"
+msgstr "Position"
+
+#: cookie-notice.php:304
+msgid "Design"
+msgstr "Design"
+
+#: cookie-notice.php:301
+msgid "Deactivation"
+msgstr "Deaktivering"
+
+#: cookie-notice.php:300
+msgid "Script placement"
+msgstr "Placering af script"
+
+#: cookie-notice.php:299
+msgid "Cookie expiry"
+msgstr "Udløb af cookie"
+
+#: cookie-notice.php:298
+msgid "On scroll"
+msgstr "Når der rulles"
+
+#: cookie-notice.php:297
+msgid "Refuse button"
+msgstr "Afvis knap"
+
+#: cookie-notice.php:296
+msgid "Link target"
+msgstr "Link destination"
+
+#: cookie-notice.php:295
+msgid "More info link"
+msgstr "Link til mere information"
+
+#: cookie-notice.php:294
+msgid "Button text"
+msgstr "Knaptekst"
+
+#: cookie-notice.php:293
+msgid "Message"
+msgstr "Meddelelse"
+
+#: cookie-notice.php:292
+msgid "Configuration"
+msgstr "Konfiguration"
+
+#: cookie-notice.php:276
+msgid "Reset to defaults"
+msgstr "Nulstil til standardindstillinger"
+
+#: cookie-notice.php:261
+msgid "WordPress plugins"
+msgstr "WordPress plugins"
+
+#: cookie-notice.php:261
+msgid "Check out our other"
+msgstr "Se vores andre"
+
+#: cookie-notice.php:260
+msgid "plugin page"
+msgstr "plugin-siden"
+
+#: cookie-notice.php:260
+msgid "Blog about it & link to the"
+msgstr "Blog om det og link til"
+
+#: cookie-notice.php:259
+msgid "on WordPress.org"
+msgstr "på WordPress.org"
+
+#: cookie-notice.php:259
+msgid "Rate it 5"
+msgstr "Giv den 5:a"
+
+#: cookie-notice.php:258
+msgid "Do you like this plugin?"
+msgstr "Kan du lide denne plugin?"
+
+#: cookie-notice.php:256
+msgid "Support forum"
+msgstr "Supportforum"
+
+#: cookie-notice.php:256
+msgid "If you are having problems with this plugin, please talk about them in the"
+msgstr "Hvis du har problemer med dette plugin, kan du besøge vores"
+
+#: cookie-notice.php:255
+msgid "Need support?"
+msgstr "Har du brug for hjælp?"
+
+#. #-#-#-#-#  tmp-cookie-notice.pot (Cookie Notice 1.2.37)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: cookie-notice.php:238 cookie-notice.php:250 cookie-notice.php:253
+msgid "Cookie Notice"
+msgstr "Cookie-meddelelse"
+
+#: cookie-notice.php:178
+msgid "Read more"
+msgstr "Læs mere"
+
+#: cookie-notice.php:177
+msgid "No"
+msgstr "Nej"
+
+#: cookie-notice.php:176
+msgid "Ok"
+msgstr "Ok"
+
+#: cookie-notice.php:175
+msgid "We use cookies to ensure that we give you the best experience on our website. If you continue to use this site we will assume that you are happy with it."
+msgstr "Vi anvender cookies for at sikre at vi giver dig den bedst mulige oplevelse af vores website. Hvis du fortsætter med at bruge dette site vil vi antage at du er indforstået med det."
+
+#: cookie-notice.php:169
+msgid "Footer"
+msgstr "Sidefod"
+
+#: cookie-notice.php:168
+msgid "Header"
+msgstr "Overskrift"
+
+#: cookie-notice.php:164
+msgid "Slide"
+msgstr "Glid"
+
+#: cookie-notice.php:163
+msgid "Fade"
+msgstr "Fade"
+
+#: cookie-notice.php:158
+msgid "infinity"
+msgstr "uendeligt"
+
+#: cookie-notice.php:157
+msgid "1 year"
+msgstr "1 år"
+
+#: cookie-notice.php:156
+msgid "6 months"
+msgstr "6 måneder"
+
+#: cookie-notice.php:155
+msgid "3 months"
+msgstr "3 måneder"
+
+#: cookie-notice.php:154
+msgid "1 month"
+msgstr "1 måned"
+
+#: cookie-notice.php:153
+msgid "1 week"
+msgstr "1 uge"
+
+#: cookie-notice.php:152
+msgid "1 day"
+msgstr "1 dag"
+
+#: cookie-notice.php:148
+msgid "Bar color"
+msgstr "Bjælkefarve"
+
+#: cookie-notice.php:147
+msgid "Text color"
+msgstr "Tekstfarve"
+
+#: cookie-notice.php:138
+msgid "Page link"
+msgstr "Sidelink"
+
+#: cookie-notice.php:137
+msgid "Custom link"
+msgstr "Tilpasset link"
+
+#: cookie-notice.php:133
+msgid "Bootstrap"
+msgstr "Bootstrap"
+
+#: cookie-notice.php:132
+msgid "WordPress"
+msgstr "WordPress"
+
+#: cookie-notice.php:131 cookie-notice.php:162
+msgid "None"
+msgstr "Ingen"
+
+#: cookie-notice.php:127
+msgid "Bottom"
+msgstr "Bund"
+
+#: cookie-notice.php:126
+msgid "Top"
+msgstr "Top"

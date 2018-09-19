@@ -1,9 +1,9 @@
 === SiteOrigin Widgets Bundle ===
 Tags: bundle, widget, button, slider, image, carousel, price table, google maps, tinymce, social links
 Requires at least: 4.2
-Tested up to: 4.8.1
-Stable tag: 1.9.10
-Build time: 2017-09-14T08:47:54+02:00
+Tested up to: 4.9.1
+Stable tag: 1.12.1
+Build time: 2018-07-17T11:59:12+02:00
 License: GPLv3 or later
 Contributors: gpriday, braam-genis
 Donate link: https://siteorigin.com/downloads/contribution/
@@ -31,12 +31,23 @@ The collection is growing, but here’s what we have so far.
 * Video Widget to get your videos out there.
 * Headline Widget to get you noticed.
 * Social Links Widget to show you're active.
+* Accordion Widget to compress your content.
+* Contact Form Widget to let people know you care.
+* Editor Widget let's you richly edit text anywhere.
+* Hero Widget that'll save your site design.
+* Icon Widget for when only icons will do.
+* Image Grid Widget that'll let you add images everywhere... in a grid.
+* Layout Slider Widget lets you build layouts on slides using SiteOrigin Page Builder.
+* Masonry Widget to add images in a masonry layout.
+* Tabs Widget that'll let you group content into tabbed sections.
+* Taxonomy Widget to display a post's taxonomies.
+* Testimonials Widget to show people what your users/customers think of you.
 
 Once you enable a widget, you'll be able to use it anywhere standard widgets are used. You can manage your widgets by going to Plugins > SiteOrigin Widgets in your WordPress admin.
 
 == Documentation ==
 
-[Documentation](https://siteorigin.com/css/getting-started/) is available on SiteOrigin.
+[Documentation](https://siteorigin.com/widgets-bundle/getting-started/) is available on SiteOrigin.
 
 == Support ==
 
@@ -53,6 +64,149 @@ The SiteOrigin Widgets Bundle is the perfect platform to build widgets for your 
 3. An example of the button widget.
 
 == Changelog ==
+
+= 1.12.1 - 17 July 2018 =
+* Contact: Allow non-string values in required field validation.
+* Initialize CTA, Price Table and Video JS widgets correctly when in accordion/tabs widgets.
+
+= 1.12.0 - 11 July 2018 =
+* Contact: Add dedicated textarea height.
+* Social Media Buttons: Adds WhatsApp social network.
+* Features: Allow icon size to use a different unit of measurement.
+* Repeater field: Update editor id in media buttons when duplicating item with TinyMCE editor.
+* Posts field: taxonomy description.
+* Price Table: Disable equalized row heights on mobile.
+* Beaver Builder: Force icon fonts.
+* Slider widgets: Added autoplay option for background videos.
+* Maps: Renamed Google maps script to more sensible `sow.google-map.js`
+* Editor: Prevent errors when visual editing is disabled for a user.
+* Optimized images.
+* Accordion/tabs: Trigger 'setup_widgets' to ensure any widgets in panels are initialized correctly.
+* Contact: Use 'From' email address if there is no email field in the form.
+* Hero: Filter out the align field in the button sub-widget form.
+* Testimonials: Switch mobile and tablet resolution width field descriptions.
+* Posts field: Allow clearing dates.
+* Font field: Use correct value for 'Helvetica Neue' and added 'Arial' option.
+* TA: Additional setting to allow clearing the default background colors.
+* Contact: Allow a value of '0' for required fields and subject values.
+
+= 1.11.8 - 12 April 2018 =
+* Added action just before rendering widget previews.
+* Editor: Removed `unwpautop`.
+* Editor: Ensure TinyMCE field knows whether to apply `autop` or not.
+* Editor: Only apply `autop` on display when using HTML editor.
+* Editor: Prevent `widget_text` filters from running `do_shortcode`.
+
+= 1.11.7 - 23 March 2018 =
+* Image: Add title alignment setting.
+* Button: Add max-width to ensure buttons are responsive.
+* Hero: New filter for frame content 'siteorigin_hero_frame_content'
+* Features: Don't set margin for one column left/right feature.
+* Updated widget icons.
+* Updated google web fonts.
+
+= 1.11.6 - 14 March 2018 =
+* Hero: Add responsive height settings.
+* Added pikaday jQuery plugin and register pikaday scripts for front end too.
+* Features: item float clearing and padding mobile specific.
+
+= 1.11.5 - 13 March 2018 =
+* Features: Better feature padding removal on row ends.
+* Sliders: WCAG 2.4.4 compliance.
+* Tabs: Hide widget title when no title is set.
+* TinyMCE field: Added setting for `wpautop` processing which is on by default.
+* Contact: When Gradient disabled, set basic background.
+* Beaver Builder compat: Only set SOWB widget form values when editing a SOWB widget.
+* Contact: Option to log submitter's IP address.
+* Add random number and set `more_entropy` to increase chance of unique form ids.
+* Contact: Added 'tel' field type which should show numeric keyboard on mobile.
+* Media field: Trigger change event when removing selected image.
+* Renamed the PHP LESS parser to `SiteOrigin_LessC` to avoid conflicts.
+* Date range field: Prevent initializing date range fields multiple times and ensure date format consistent.
+* Register pikaday as common script and enqueue as needed in fields.
+* Google Map: Show satellite map type.
+* Translation: Add context to From strings.
+* Add missing semicolons to Ionicons codes.
+
+= 1.11.4 - 7 February 2018 =
+* Slider: Add playsinline for Video backgrounds for iOS.
+* Repeater field: Trigger change events for repeater when adding, removing or duplicating items.
+* TinyMCE field: Removed special handling for TinyMCE fields when retrieving data. Just use field value directly.
+* Fixed build overwriting some CSS files.
+
+= 1.11.3 - 10 January 2018 =
+* Hero: Add margin-top to so-widget-sow-button for spacing.
+* Accordion: Added overflow to prevent Image overlap.
+* Google Maps: Always register Google Maps script.
+* Social Buttons: Mobile Alignment global widget settings
+* Contact Form: Ability to control the width of the submit button.
+* Contact Form: Add alignment options for submit button.
+* Contact Form: Setting submit button gradient intensity to 0 removes gradient.
+* Contact Form: Add success and error hooks.
+* Accordion: Don't output widget title if not set.
+* Accordion: Icon title collapse fix.
+* Contact Form: Add placeholder for field type input.
+* Button: Icon placement setting.
+* Hero: Adjustable Paragraph text shadow.
+* Hero: Add font family setting for paragraphs.
+* Hero: Add link color picker.
+* Slider field: allow float values and allow specifying step size.
+* Contact Form: Add ability to set onclick and id for submit button.
+* Features: Add ability to control responsive breakpoint.
+* Global Settings: Add support for global settings added by themes.
+* Beaver Builder Compat: Don't enqueue assets when all widgets are deactivated.
+* Hero: Text font empty check.
+* Contact Form: Preserve existing location hash when contact form is submitted.
+* Post Selector: Only include current post id in exclusion if singular.
+* Copy correct radio values when duplicating repeater items.
+* Checkbox field: Parse string value 'false' in checkbox field sanitization.
+
+= 1.11.2 - 27 November 2017 =
+* Fix compatibility with Beaver Builder Lite.
+* Tabs: Recalculate height on resize.
+
+= 1.11.1 - 24 November 2017 =
+* Hero: Allow for shortcodes to work.
+* Fix posts field not displaying selected values when multiple selected.
+* Widgets Page: Fix missing icon issue on windows.
+* Trigger 'hide' and 'show' events in Accordion and Tabs widgets when toggling content.
+* Fix Google Maps widget not displaying when map is initially hidden.
+* Fix Beaver Builder compatibility.
+* Builder field: Pass builder type when setting up builder fields.
+* Tabs: Use correct variable for tab anchor.
+* Repeater field: Prevent radio inputs values being cleared in repeaters when sorting.
+* Accordion: Added title field.
+* Fix PHP version compatibility checker errors.
+
+= 1.11.0 - 7 November 2017 =
+* New Tabs widget!
+* Contact: mention it's possible to send to multiple emails.
+* Features: Fixes margin causing extended page.
+* Presets field.
+* Accordion: Add Repeater Label Title.
+* Hero: ability to select an image size.
+* TinyMCE field: Remember last selected editor.
+* Add rel="noopener noreferrer" for all 3rd party/unknown links.
+* Social Media Buttons Widget: comply WCAG 2.4.4
+
+= 1.10.2 - 20 October 2017 =
+* Fix for links sometimes not working in slider widgets.
+* Fix multi-measurement field labels.
+
+= 1.10.1 - 13 October 2017 =
+* Fix subwidget fields initializion when not contained in a section.
+* TinyMCE field: fix initialization in repeaters.
+
+= 1.10.0 - 11 October 2017 =
+* New Accordion widget!
+* Prevent multiple initialization of media field.
+* Use correct path for widget banner when defined in a theme.
+* Video: Added option to show/hide related YouTube videos at end of video.
+* Slider: Handle links inside slider frames first and then allow processing of frame background clicks.
+* Give repeated fields in widget fields unique ids for state handling.
+* New multi-measurement field.
+* Widget Manager Path Comparison fix. (allows for settings to work)
+* Button: Use `esc_js` instead of `esc_attr` for onclick.
 
 = 1.9.10 - 14 September 2017 =
 * TinyMCE field: fixed issue with filter for TinyMCE plugins.

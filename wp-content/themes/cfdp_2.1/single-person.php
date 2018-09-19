@@ -37,13 +37,13 @@
       ?>
       <h1 class="name"><?php the_title(); ?></h1>
       <?php
-        if ( !empty( $meta_titel ) ) { echo '<span class="title">' . $meta_titel . '</span>'; }
+        if ( !empty( $meta_titel ) ) { echo '<p class="title">' . $meta_titel . '</p>'; }
       ?>
       <div class="person__info">
         <?php
           if ( !empty( $meta_phone ) ) { echo '<div class="item"><span class="heading">Telefon</span><span class="item__content"><a href="tel:' . $meta_phone . '">' . $meta_phone . '</a></span></div>'; }
           if ( !empty( $meta_mail ) ) { echo '<div class="item"><span class="heading">Email</span><span class="item__content"><a href="mailto:' . $meta_mail . '">' . $meta_mail . '</a></span></div>'; }
-          if ( !empty( $meta_linkedin ) ) { echo '<div class="item"><span class="heading">Linkedin</span><span class="item__content"><a href="http://' . $meta_linkedin . '">Se profil</a></span></div>'; }
+          if ( !empty( $meta_linkedin ) ) { echo '<div class="item"><span class="heading">Linkedin</span><span class="item__content"><a href="http://' . $meta_linkedin . '" target="_blank">Se profil</a></span></div>'; }
           // if ( !empty( $meta_type ) ) { echo '<div class="item"><span class="heading">Rolle</span><span class="item__content">' . $meta_type . '</span></div>'; }
         ?>
       </div>
@@ -59,7 +59,7 @@
             'post_type'=>'post',
             'post_status'=>'publish',
             'author'=>$meta_user,
-            'posts_per_page'=>5,
+            'posts_per_page'=>3,
             'paged'  => $paged
           )
         );
@@ -69,35 +69,64 @@
         ?>
             <?php if ( $query->have_posts() ) : ?>
               <div class="divider"></div>
-              <section class="blog-posts">
-              <?php if($current_page == 0){
-              echo '<h2 class="clearfix">Seneste indlæg</h2>';
-              } else {
-                echo '<h2 class="clearfix">Indlæg af ' . get_the_title() . ' (side ' . $current_page . ' af ' . $max_pages . ')</h2>';
-              }
-              ?>
+              <section class="grid_12">
+              <?php echo '<h2 class="clearfix blogs-header">Seneste indlæg</h2>'; ?>
 
-                <div class="clearfix">
+                <div class="clearfix widget_siteorigin-panels-postloop">
                   <!-- the loop -->
                   <?php while ( $query->have_posts() ) : $query->the_post(); ?>
 
-              <div class="post">
-                <?php if(has_post_thumbnail()) { ?>
-                <a class="image" href="<?php the_permalink(); ?>">
-                  <?php the_post_thumbnail('large'); ?>
-                </a>
-                <?php } ?>
-                <a href="<?php the_permalink(); ?>">
-                  <h3><?php the_title(); ?></h3>
-                </a>
-                <span class="postInfo">
-                  <?php echo get_the_author(); ?>  skrev for
-                  <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
-                </span>
-                  <p class="text">
-                    <?php truncate( get_the_excerpt(), 350); ?> <a href="<?php the_permalink() ?>" class="more">Læs&nbsp;indlæg</a>
-                  </p>
-              </div>
+
+                    
+                    
+                    
+                <div class="post">
+                    <a class="image" href="<?php the_permalink(); ?>">
+                    <div class="post-image" style="background: url('<?php the_post_thumbnail_url(); ?>');background-position: 50% 50%;
+                        background-color: #F5F5F5;
+                        background-repeat: no-repeat;
+                        -webkit-background-size: cover;
+                        -moz-background-size: cover;
+                        -o-background-size: cover;
+                        background-size: cover;"></div>            
+                    </a>
+                    <span class="post-tags">Kategorier:
+                        <?php 
+                            $taxonomy = 'category';
+
+                            // get the term IDs assigned to post.
+                            $post_terms = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) );
+                            // separator between links
+                            $separator = ' · ';
+                            $categories = get_the_category();
+                            $parentid = $categories[0]->category_parent;
+
+                            if ( !empty( $post_terms ) && !is_wp_error( $post_terms ) ) {
+
+                                $term_ids = implode( ',' , $post_terms );
+                                $terms = wp_list_categories( 'title_li=&style=none&echo=0&child_of=' . $parentid . '&taxonomy=' . $taxonomy . '&include=' . $term_ids );
+                                $terms = rtrim( trim( str_replace( '<br />',  $separator, $terms ) ), $separator );
+
+                                // display post categories
+                                echo  $terms;
+                            }
+                        ?>
+                    </span>
+                    <a href="<?php the_permalink(); ?>">
+                        <h3>
+                            <?php the_title(); ?>
+                        </h3>
+                    </a>
+
+                    <p class="text">
+                        <?php truncate( get_the_excerpt(), 180); ?>
+                    </p>
+                </div>    
+                    
+                    
+                    
+                    
+                    
               <?php endwhile; ?>
               <?php
 
@@ -128,16 +157,18 @@
               ?>
 
               <div class="pagination--custom">
+                  <div class="wp-pagenavi">
 
-                <?php
-                  if($current_page > 1){
-                    echo '<a class="blue_button" href="' . $url_without_pagination . ($current_page-1) . '"><span class="meta-nav">&larr;</span> Nyere indlæg</a>';
-                  }
+                        <?php
+                          if($current_page > 1){
+                            echo '<a class="previouspostslink" href="' . $url_without_pagination . ($current_page-1) . '">Nyere indlæg</a>';
+                          }
 
-                  if($current_page < $max_pages){
-                    echo '<a class="blue_button" href="' . $url_without_pagination . ($current_page+1) . '">Tidligere indlæg <span class="meta-nav">&rarr;</span></a>';
-                  }
-                ?>
+                          if($current_page < $max_pages){
+                            echo '<a class="nextpostslink" href="' . $url_without_pagination . ($current_page+1) . '">Ældre indlæg</a>';
+                          }
+                        ?>
+                  </div>
               </div>
 
 

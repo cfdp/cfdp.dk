@@ -8,23 +8,45 @@
   }
 ?>
 
-<div class="post">
-  <?php if(has_post_thumbnail()) { ?>
-  <a class="image" href="<?php the_permalink(); ?>">
-    <?php the_post_thumbnail('large'); ?>
-  </a>
-  <?php } ?>
-  <a href="<?php the_permalink(); ?>">
-    <h3><?php the_title(); ?></h3>
-  </a>
+    <div class="post">
+        <a class="image" href="<?php the_permalink(); ?>">
+        <div class="post-image" style="background: url('<?php the_post_thumbnail_url(); ?>');background-position: 50% 50%;
+            background-color: #F5F5F5;
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;"></div>            
+        </a>
+        <span class="post-tags">Kategorier:
+            <?php 
+                $taxonomy = 'category';
 
-  <span class="postInfo">
-    Indlæg af <?php echo $custom_author_link ?> for
-    <?php echo human_time_diff(get_the_time('U'), current_time('timestamp')) . ' siden'; ?>
-  </span>
-    <p class="text">
+                // get the term IDs assigned to post.
+                $post_terms = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) );
+                // separator between links
+                $separator = ' · ';
+                $categories = get_the_category();
+                $parentid = $categories[0]->category_parent;
 
-      <?php truncate( $post_teaser, 350); ?>
-      <a href="<?php the_permalink() ?>" class="more">Læs&nbsp;indlæg</a>
-    </p>
-</div>
+                if ( !empty( $post_terms ) && !is_wp_error( $post_terms ) ) {
+
+                    $term_ids = implode( ',' , $post_terms );
+                    $terms = wp_list_categories( 'title_li=&style=none&echo=0&child_of=' . $parentid . '&taxonomy=' . $taxonomy . '&include=' . $term_ids );
+                    $terms = rtrim( trim( str_replace( '<br />',  $separator, $terms ) ), $separator );
+
+                    // display post categories
+                    echo  $terms;
+                }
+            ?>
+        </span>
+        <a href="<?php the_permalink(); ?>">
+            <h3>
+                <?php the_title(); ?>
+            </h3>
+        </a>
+
+        <p class="text">
+            <?php truncate( $post_teaser, 180); ?>
+        </p>
+    </div>

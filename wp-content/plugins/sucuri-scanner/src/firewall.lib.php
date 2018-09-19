@@ -9,7 +9,7 @@
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -29,7 +29,7 @@ if (!defined('SUCURISCAN_INIT') || SUCURISCAN_INIT !== true) {
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -691,7 +691,7 @@ class SucuriScanFirewall extends SucuriScanAPI
 
         $params['FirewallAutoClearCache'] = 'data-status="disabled"';
 
-        if (SucuriScanOption::isEnabled(':auto_clear_cache')) {
+        if (self::shouldAutoClearCache()) {
             $params['FirewallAutoClearCache'] = 'checked="checked"';
         }
 
@@ -711,7 +711,7 @@ class SucuriScanFirewall extends SucuriScanAPI
      */
     public static function clearCacheHook()
     {
-        if (SucuriScanOption::isEnabled(':auto_clear_cache')) {
+        if (self::shouldAutoClearCache()) {
             ob_start();
             self::clearCache();
             $error = ob_get_clean();
@@ -775,5 +775,18 @@ class SucuriScanFirewall extends SucuriScanAPI
         }
 
         wp_send_json($response, 200);
+    }
+
+    /**
+     * Returns true if the plugin should flush the firewall cache.
+     *
+     * @return bool True if the plugin should flush the firewall cache.
+     */
+    private static function shouldAutoClearCache()
+    {
+        return (bool) (
+            defined('SUCURI_CLEAR_CACHE_ON_PUBLISH')
+            || SucuriScanOption::isEnabled(':auto_clear_cache')
+        );
     }
 }

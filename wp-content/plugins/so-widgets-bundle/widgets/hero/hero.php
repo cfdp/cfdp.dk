@@ -75,6 +75,7 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 								'type' => 'widget',
 								'class' => 'SiteOrigin_Widget_Button_Widget',
 								'label' => __('Button', 'so-widgets-bundle'),
+								'form_filter' => array( $this, 'filter_button_widget_form' ),
 								'collapsible' => false,
 							)
 						)
@@ -89,6 +90,11 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 								'label' => __( 'Background image', 'so-widgets-bundle' ),
 								'library' => 'image',
 								'fallback' => true,
+							),
+
+							'size' => array(
+								'type' => 'image-size',
+								'label' => __('Image size', 'so-widgets-bundle'),
 							),
 
 							'image_type' => array(
@@ -154,6 +160,12 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 					'height' => array(
 						'type' => 'measurement',
 						'label' => __( 'Height', 'so-widgets-bundle' ),
+						'default' => 'default',
+					),
+
+					'height_responsive' => array(
+						'type' => 'measurement',
+						'label' => __( 'Responsive Height', 'so-widgets-bundle' ),
 						'default' => 'default',
 					),
 
@@ -227,27 +239,56 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 
 					'heading_shadow' => array(
 						'type' => 'slider',
-						'label' => __('Heading shadow intensity', 'so-widgets-bundle'),
+						'label' => __( 'Heading shadow intensity', 'so-widgets-bundle' ),
 						'max' => 100,
 						'min' => 0,
 						'default' => 50,
 					),
 
-					'text_size' => array(
-						'type' => 'measurement',
-						'label' => __('Text size', 'so-widgets-bundle'),
-						'default' => '16px',
-					),
-
 					'text_color' => array(
 						'type' => 'color',
-						'label' => __('Text color', 'so-widgets-bundle'),
+						'label' => __( 'Text color', 'so-widgets-bundle' ),
 						'default' => '#F6F6F6',
+					),
+					'text_size' => array(
+						'type' => 'measurement',
+						'label' => __( 'Text size', 'so-widgets-bundle' ),
+						'default' => '16px',
+					),
+					'text_font' => array(
+						'type' => 'font',
+						'label' => __( 'Text font', 'so-widgets-bundle' ),
+						'default' => '',
+					),
+					'text_shadow' => array(
+						'type' => 'slider',
+						'label' => __( 'Text shadow intensity', 'so-widgets-bundle' ),
+						'max' => 1,
+						'min' => 0,
+						'step' => 0.01,
+						'default' => 0.25,
+					),
+
+					'link_color' => array(
+						'type' => 'color',
+						'label' => __( 'Link color', 'so-widgets-bundle' )
+					),
+
+					'link_color_hover' => array(
+						'type' => 'color',
+						'label' => __( 'Link Hover Color', 'so-widgets-bundle' )
 					),
 
 				)
 			),
 		);
+	}
+	
+	function filter_button_widget_form( $form_fields ) {
+		
+		unset( $form_fields['design']['fields']['align'] );
+		
+		return $form_fields;
 	}
 
 	/**
@@ -258,10 +299,10 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 	 *
 	 * @return array
 	 */
-	function get_frame_background( $i, $frame ){
+	function get_frame_background( $i, $frame ) {
 		$background_image = siteorigin_widgets_get_attachment_image_src(
 			$frame['background']['image'],
-			'full',
+			!empty( $frame['background']['size'] ) ? $frame['background']['size'] : 'full',
 			!empty( $frame['background']['image_fallback'] ) ? $frame['background']['image_fallback'] : ''
 		);
 
@@ -313,7 +354,11 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 		// Add in the button code
 		$san_content = wp_kses_post($content);
 		$content = preg_replace('/(?:<(?:p|h\d|em|strong|li|blockquote) *([^>]*)> *)?\[ *buttons *\](:? *<\/(?:p|h\d|em|strong|li|blockquote)>)?/i', '<div class="sow-hero-buttons" $1>' . $button_code . '</div>', $san_content );
-		return $content;
+		
+		// Process normal shortcodes
+		$content = do_shortcode( shortcode_unautop( $content ) );
+		
+		return apply_filters( 'siteorigin_hero_frame_content', $content, $frame );
 	}
 
 	/**
@@ -338,7 +383,9 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 		$meas_options['slide_padding_sides'] = $instance['design']['padding_sides'];
 		$meas_options['slide_width'] = $instance['design']['width'];
 		$meas_options['slide_height'] = $instance['design']['height'];
-
+		if ( ! empty( $instance['design']['height_responsive'] ) ) {
+			$meas_options['slide_height_responsive'] = $instance['design']['height_responsive'];
+		}
 		$meas_options['heading_size'] = $instance['design']['heading_size'];
 		$meas_options['text_size'] = $instance['design']['text_size'];
 
@@ -347,17 +394,47 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 		}
 
 		$less['heading_shadow'] = intval( $instance['design']['heading_shadow'] );
-
 		$less['heading_color'] = $instance['design']['heading_color'];
+		$less['text_shadow'] = isset( $instance['design']['text_shadow'] ) ? floatval( $instance['design']['text_shadow'] ) : 0.25;
 		$less['text_color'] = $instance['design']['text_color'];
 
-		$font = siteorigin_widget_get_font( $instance['design']['heading_font'] );
-		$less['heading_font'] = $font['family'];
-		if ( ! empty( $font['weight'] ) ) {
-			$less['heading_font_weight'] = $font['weight'];
+
+		$less['link_color'] = ! empty( $instance['design']['link_color'] ) ? $instance['design']['link_color'] : '';
+		$less['link_color_hover'] = ! empty( $instance['design']['link_color_hover'] ) ? $instance['design']['link_color_hover'] : '';
+
+
+		$heading_font = siteorigin_widget_get_font( $instance['design']['heading_font'] );
+		$less['heading_font'] = $heading_font['family'];
+		if ( ! empty( $heading_font['weight'] ) ) {
+			$less['heading_font_weight'] = $heading_font['weight'];
+		}
+		
+		if ( ! empty( $instance['design']['text_font'] ) ) {
+			$text_font = siteorigin_widget_get_font( $instance['design']['text_font'] );
+			$less['text_font'] = $text_font['family'];
+			if ( ! empty( $text_font['weight'] ) ) {
+				$less['text_font_weight'] = $text_font['weight'];
+			}
+		}
+
+		$global_settings = $this->get_global_settings();
+
+		if ( ! empty( $global_settings['responsive_breakpoint'] ) ) {
+			$less_vars['responsive_breakpoint'] = $global_settings['responsive_breakpoint'];
 		}
 
 		return $less;
+	}
+
+	function get_settings_form() {
+		return array(
+			'responsive_breakpoint' => array(
+				'type'        => 'measurement',
+				'label'       => __( 'Responsive Breakpoint', 'so-widgets-bundle' ),
+				'default'     => '780px',
+				'description' => __( 'This setting controls when the Hero widget will switch to the responsive height for slides. This breakpoint will only be used if a responsive height is set in the hero settings. The default value is 780px', 'so-widgets-bundle' )
+			)
+		);
 	}
 
 	function add_default_measurement_unit($val) {
@@ -377,19 +454,17 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 	 *
 	 * @return string
 	 */
-	function less_import_google_font($instance, $args) {
-		if( empty( $instance ) ) return;
-
-		$font_import = siteorigin_widget_get_font( $instance['design']['heading_font'] );
-		if( !empty( $font_import['css_import'] ) ) {
-			return  $font_import['css_import'];
-		}
+	function get_google_font_fields( $instance ) {
+		return array(
+			$instance['design']['heading_font'],
+			! empty( $instance['design']['text_font'] ) ? $instance['design']['text_font'] : '',
+		);
 	}
 
 	function wrapper_class_filter( $classes, $instance ){
 		if( ! empty( $instance['design']['fittext'] ) ) {
 			$classes[] = 'so-widget-fittext-wrapper';
-			wp_enqueue_script( 'sow-fittext' );
+			wp_enqueue_script( 'sowb-fittext' );
 		}
 		return $classes;
 	}

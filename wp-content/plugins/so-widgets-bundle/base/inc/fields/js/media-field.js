@@ -7,6 +7,10 @@
 		var $media = $field.find('> .media-field-wrapper');
 		var $inputField = $field.find( '.siteorigin-widget-input' ).not('.media-fallback-external');
 
+		if ( $media.data( 'initialized' ) ) {
+			return;
+		}
+
 		// Handle the media uploader
 		$media.find( '.media-upload-button' ).click(function(e){
 			e.preventDefault();
@@ -94,12 +98,13 @@
 				e.preventDefault();
 				$field.find('.current .title' ).html('');
 				$inputField.val('');
+				$inputField.trigger( 'change', { silent: true } );
 				$field.find('.current .thumbnail' ).fadeOut('fast');
 				$(this).addClass('remove-hide');
 			} );
 
 		// Everything for the dialog
-		var dialog = false;
+		var dialog;
 
 		var reflowDialog = function() {
 			if( ! dialog ) return;
@@ -398,6 +403,7 @@
 			}
 		} );
 
+		$media.data( 'initialized', true );
 	});
 
 } )( jQuery );

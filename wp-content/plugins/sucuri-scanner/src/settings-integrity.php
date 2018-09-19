@@ -9,7 +9,7 @@
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -28,14 +28,14 @@ if (!defined('SUCURISCAN_INIT') || SUCURISCAN_INIT !== true) {
  * Generates the HTML code to display a list of options in the settings page to
  * allow the website owner to configure the functionality of the WordPress core
  * integrity scanner and the optional Unix diff utility. This also includes some
- * options to configure the website installation language and the false/positive
+ * options to configure the website installation language and the false positive
  * cache file.
  *
  * @category   Library
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -101,7 +101,7 @@ class SucuriScanSettingsIntegrity extends SucuriScanSettings
             $deletedFiles = array();
             $files = SucuriScanRequest::post(':corefile_path', '_array');
 
-            foreach ($files as $path) {
+            foreach ((array) $files as $path) {
                 if ($cache->delete(md5($path))) {
                     $deletedFiles[] = $path;
                 }

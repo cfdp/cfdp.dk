@@ -1,17 +1,17 @@
-# Translation of Plugins - Akismet - Stable (latest release) in Danish
-# This file is distributed under the same license as the Plugins - Akismet - Stable (latest release) package.
+# Translation of Plugins - Akismet Anti-Spam - Stable (latest release) in Danish
+# This file is distributed under the same license as the Plugins - Akismet Anti-Spam - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2016-11-04 05:59:28+0000\n"
+"PO-Revision-Date: 2018-01-01 14:22:38+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: da_DK\n"
-"Project-Id-Version: Plugins - Akismet - Stable (latest release)\n"
+"Project-Id-Version: Plugins - Akismet Anti-Spam - Stable (latest release)\n"
 
-#: class.akismet.php:451
+#: class.akismet.php:492
 msgid "Comment not found."
 msgstr "Kommentar ikke fundet"
 
@@ -128,10 +128,6 @@ msgstr "URL fjernet"
 #: class.akismet-admin.php:128
 msgid "Removing..."
 msgstr "Fjerner..."
-
-#: class.akismet-admin.php:95 class.akismet-admin.php:98
-msgid "Akismet"
-msgstr "Akismet"
 
 #: class.akismet-admin.php:88 class.akismet-admin.php:220
 #: class.akismet-admin.php:633 views/config.php:60
@@ -320,7 +316,7 @@ msgstr "Historie"
 msgid "View comment history"
 msgstr "Se kommentarhistorie"
 
-#: class.akismet-admin.php:818
+#: class.akismet-admin.php:832
 msgid "Please check your <a href=\"%s\">Akismet configuration</a> and contact your web host if problems persist."
 msgstr "Se venligst i din <a href=\"%s\">Akismet-konfiguration</a> og kontakt din webudbyder, hvis problemet fortsætter."
 
@@ -328,7 +324,7 @@ msgstr "Se venligst i din <a href=\"%s\">Akismet-konfiguration</a> og kontakt di
 msgid "%s ago"
 msgstr "%s siden"
 
-#: class.akismet-admin.php:925
+#: class.akismet-admin.php:939
 msgid "Cleaning up spam takes time."
 msgstr "At rense for spam tager tid."
 
@@ -386,11 +382,11 @@ msgstr "Akismet fangede denne kommentar som spam ved et automatisk ekstra tjek."
 msgid "Akismet cleared this comment during an automatic retry."
 msgstr "Ved et automatisk ekstra tjek af denne kommentar, blev den godkendt af Akismet."
 
-#: class.akismet.php:1176
+#: class.akismet.php:1248
 msgid "Please <a href=\"%1$s\">upgrade WordPress</a> to a current version, or <a href=\"%2$s\">downgrade to version 2.4 of the Akismet plugin</a>."
 msgstr "Du skal venligst <a href=\"%1$s\">opgradere WordPress</a> til den nuværende version, eller <a href=\"%2$s\">nedgradere til version 2.4 af Akismet pluginet</a>."
 
-#: class.akismet.php:1176
+#: class.akismet.php:1248
 msgid "Akismet %s requires WordPress %s or higher."
 msgstr "Akismet %s kræver WordPress %s eller højere."
 
@@ -508,6 +504,10 @@ msgstr "Din webudbyder eller server-administrator har deaktiveret PHPʼs <code>g
 msgid "Network functions are disabled."
 msgstr "Netværksfunktioner er deaktiverede."
 
+#: views/notice.php:50
+msgid "Your firewall may be blocking Akismet from connecting to its API. Please contact your host and refer to <a href=\"%s\" target=\"_blank\">our guide about firewalls</a>."
+msgstr "Din firewall blokerer måske Akismet. Kontakt venligst din udbyder og henvis dem til <a href=\"%s\" target=\"_blank\">vores vejledning om firewalls</a>."
+
 #: views/notice.php:60
 msgid "Please visit your <a href=\"%s\" target=\"_blank\">Akismet account page</a> to reactivate your subscription."
 msgstr "Besøg venligst <a href=\"%s\" target=\"_blank\">din konto hos Akismet</a> for at genaktivere dit abonnement."
@@ -544,6 +544,14 @@ msgstr "Forbundet gennem Jetpack"
 msgid "Reactivate Akismet"
 msgstr "Genaktiver Akisment"
 
+#: views/start.php:43
+msgid "Your subscription for %s is cancelled."
+msgstr "Dit abonnement for %s er annulleret"
+
+#: views/start.php:48
+msgid "Your subscription for %s is suspended."
+msgstr "Dit abonnement for %s er sat i bero."
+
 #: views/start.php:49
 msgid "No worries! Get in touch and we&#8217;ll sort this out."
 msgstr "Ingen grund til bekymringer. Kontakt os og vi vil hjælpe dig med at udrede problemerne."
@@ -559,6 +567,14 @@ msgstr "Aktiver Akismet"
 #: views/start.php:77
 msgid "Get your API key"
 msgstr "Få din API-nøgle"
+
+#. Plugin URI of the plugin/theme
+msgid "https://akismet.com/"
+msgstr "https://akismet.com/"
+
+#. Author URI of the plugin/theme
+msgid "https://automattic.com/wordpress-plugins/"
+msgstr "https://automattic.com/wordpress-plugins/"
 
 #. Author of the plugin/theme
 msgid "Automattic"

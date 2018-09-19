@@ -66,11 +66,11 @@
 		<?php else : ?>
 
 			<div>
-				<input type="text" name="author" id="author" placeholder="👤 &nbsp;Navn" value="<?php echo esc_attr($comment_author); ?>" size="22" tabindex="1" <?php if ($req) echo "aria-required='true'"; ?> />
+				<input type="text" name="author" id="author" placeholder="Navn" value="<?php echo esc_attr($comment_author); ?>" size="22" tabindex="1" <?php if ($req) echo "aria-required='true'"; ?> />
 			</div>
 
 			<div>
-				<input type="text" name="email" id="email" placeholder="✉️ &nbsp;E-mail" value="<?php echo esc_attr($comment_author_email); ?>" size="22" tabindex="2" <?php if ($req) echo "aria-required='true'"; ?> />
+				<input type="text" name="email" id="email" placeholder="E-mail" value="<?php echo esc_attr($comment_author_email); ?>" size="22" tabindex="2" <?php if ($req) echo "aria-required='true'"; ?> />
 				<label for="email">Vi passer godt på din e-mail</label>
 			</div>
 
@@ -79,7 +79,7 @@
 		<!--<p>You can use these tags: <code><?php echo allowed_tags(); ?></code></p>-->
 
 		<div>
-			<textarea name="comment" id="comment" cols="58" rows="10" tabindex="4" placeholder="✍ &nbsp;Skriv som du vil skrive til en ven :)"></textarea>
+			<textarea name="comment" id="comment" cols="58" rows="10" tabindex="4" placeholder="Skriv som du vil skrive til en ven :)"></textarea>
 		</div>
 
 		<div>

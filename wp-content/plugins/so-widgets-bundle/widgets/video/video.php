@@ -108,7 +108,17 @@ class SiteOrigin_Widget_Video_Widget extends SiteOrigin_Widget {
 							'video_type[external]' => array( 'show' ),
 							'video_type[self]'     => array( 'hide' ),
 						)
-					)
+					),
+					'related_videos' => array(
+						'type'          => 'checkbox',
+						'default'       => true,
+						'label'         => __( 'Show related videos.', 'so-widgets-bundle' ),
+						'description'   => __( 'If the external host supports it.', 'so-widgets-bundle' ),
+						'state_handler' => array(
+							'video_type[external]' => array( 'show' ),
+							'video_type[self]'     => array( 'hide' ),
+						)
+					),
 				),
 			),
 		);
@@ -195,6 +205,7 @@ class SiteOrigin_Widget_Video_Widget extends SiteOrigin_Widget {
 			'is_skinnable_video_host' => $this->is_skinnable_video_host( $video_host ),
 			'poster'                  => $poster,
 			'autoplay'                => ! empty( $instance['playback']['autoplay'] ),
+			'related_videos'          => ! empty( $instance['playback']['related_videos'] ),
 			'skin_class'              => 'default'
 		);
 
@@ -209,54 +220,6 @@ class SiteOrigin_Widget_Video_Widget extends SiteOrigin_Widget {
 	function get_style_name( $instance ) {
 		// For now, we'll only use the default style
 		return '';
-	}
-
-	/**
-	 * Gets a video source embed
-	 */
-	function get_video_oembed( $src, $autoplay = false ) {
-		if ( empty( $src ) ) {
-			return '';
-		}
-
-		global $content_width;
-
-		$video_width = ! empty( $content_width ) ? $content_width : 640;
-
-		$hash = md5( serialize( array(
-			'src'      => $src,
-			'width'    => $video_width,
-			'autoplay' => $autoplay,
-		) ) );
-
-		$html = get_transient( 'sow-vid-embed[' . $hash . ']' );
-		if ( empty( $html ) ) {
-			$html = wp_oembed_get( $src, array( 'width' => $video_width ) );
-
-			if ( $autoplay ) {
-				$html = preg_replace_callback( '/src=["\'](http[^"\']*)["\']/', array(
-					$this,
-					'autoplay_callback'
-				), $html );
-			}
-
-			if ( ! empty( $html ) ) {
-				set_transient( 'sow-vid-embed[' . $hash . ']', $html, 30 * 86400 );
-			}
-		}
-
-		return $html;
-	}
-
-	/**
-	 * The preg_replace callback that adds autoplay.
-	 *
-	 * @param $match
-	 *
-	 * @return mixed
-	 */
-	function autoplay_callback( $match ) {
-		return str_replace( $match[1], add_query_arg( 'autoplay', 1, $match[1] ), $match[0] );
 	}
 
 	/**

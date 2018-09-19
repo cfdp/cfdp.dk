@@ -5,7 +5,7 @@ Plugin URI: http://sivel.net/wordpress/display-name-author-permalink/
 Description: Replaces the username for author permalinks with the users display name.  Returns a 404 if the author permalink using the actual username is used.
 Author: hallsofmontezuma, Matt Martz
 Author URI: http://sivel.net
-Version: 1.1
+Version: 1.1.1
 
         Copyright (c) 2009 Matt Martz (http://sivel.net)
         Display Name Author Permalink is released under the GNU General Public License (GPL)

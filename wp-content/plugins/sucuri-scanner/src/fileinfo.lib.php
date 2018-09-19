@@ -9,7 +9,7 @@
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -34,7 +34,7 @@ if (!defined('SUCURISCAN_INIT') || SUCURISCAN_INIT !== true) {
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -235,23 +235,27 @@ class SucuriScanFileInfo extends SucuriScan
                     continue;
                 }
 
-                /* check only files */
-                if ($fifo->isFile()
-                    && $filterby === 'file'
-                    && !$this->ignoreFile($filepath)
-                    && !$this->ignoreFolder($filepath)
-                ) {
-                    $files[] = $filepath;
-                    continue;
-                }
+                try {
+                    /* check only files */
+                    if ($fifo->isFile()
+                        && $filterby === 'file'
+                        && !$this->ignoreFile($filepath)
+                        && !$this->ignoreFolder($filepath)
+                    ) {
+                        $files[] = $filepath;
+                        continue;
+                    }
 
-                /* check only directories */
-                if ($fifo->isDir()
-                    && $filterby === 'directory'
-                    && !$this->ignoreFolder($filepath)
-                ) {
-                    $files[] = $filepath;
-                    continue;
+                    /* check only directories */
+                    if ($fifo->isDir()
+                        && $filterby === 'directory'
+                        && !$this->ignoreFolder($filepath)
+                    ) {
+                        $files[] = $filepath;
+                        continue;
+                    }
+                } catch (RuntimeException $e) {
+                    SucuriScanEvent::reportCriticalEvent($e->getMessage());
                 }
             }
 
@@ -293,7 +297,13 @@ class SucuriScanFileInfo extends SucuriScan
             $filesize = @filesize($filepath);
 
             if ($as_array) {
-                $basename = str_replace($abspath . '/', '', $filepath);
+                $basename = $filepath;
+
+                if (strlen($abspath . '/') > 1) {
+                    /* convert absolute path into relative path */
+                    $basename = str_replace($abspath . '/', '', $filepath);
+                }
+
                 $signatures[$basename] = array(
                     'filepath' => $filepath,
                     'checksum' => $file_checksum,

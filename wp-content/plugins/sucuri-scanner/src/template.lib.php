@@ -9,7 +9,7 @@
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -39,7 +39,7 @@ if (!defined('SUCURISCAN_INIT') || SUCURISCAN_INIT !== true) {
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -267,7 +267,7 @@ class SucuriScanTemplate extends SucuriScanRequest
 
         $output = ''; /* initialize response */
         $_page = self::get('page', '_page');
-        $params['SucuriURL'] = SUCURISCAN_URL;
+        $params['PluginURL'] = SUCURISCAN_URL;
         $trailing = $_page ? 'admin.php?page=' . $_page : '';
         $params['CurrentURL'] = SucuriScan::adminURL($trailing);
 

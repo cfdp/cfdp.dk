@@ -9,7 +9,7 @@
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -34,7 +34,7 @@ if (!defined('SUCURISCAN_INIT') || SUCURISCAN_INIT !== true) {
  * @package    Sucuri
  * @subpackage SucuriScanner
  * @author     Daniel Cid <dcid@sucuri.net>
- * @copyright  2010-2017 Sucuri Inc.
+ * @copyright  2010-2018 Sucuri Inc.
  * @license    https://www.gnu.org/licenses/gpl-2.0.txt GPL2
  * @link       https://wordpress.org/plugins/sucuri-scanner
  */
@@ -586,6 +586,10 @@ class SucuriScanIntegrity
             }
         }
 
+        sort($output['added']);
+        sort($output['removed']);
+        sort($output['modified']);
+
         return $output;
     }
 
@@ -662,6 +666,8 @@ class SucuriScanIntegrity
             '^wp-content\/(themes|plugins)\/.+',
             '^google[0-9a-z]{16}\.html$',
             '^pinterest-[0-9a-z]{5}\.html$',
+            '^wp-content\/languages\/.+\.mo$',
+            '^wp-content\/languages\/.+\.po$',
             '\.ico$',
         );
 

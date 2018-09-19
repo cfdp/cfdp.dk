@@ -75,6 +75,18 @@ class SiteOrigin_Widget_Button_Widget extends SiteOrigin_Widget {
 						'label' => __('Image icon', 'so-widgets-bundle'),
 						'description' => __('Replaces the icon with your own image icon.', 'so-widgets-bundle'),
 					),
+
+					'icon_placement' => array(
+						'type' => 'select',
+						'label' => __( 'Icon Placement', 'so-widgets-bundle' ),
+						'default' => 'left',
+						'options' => array(
+							'top'    => __( 'Top', 'so-widgets-bundle' ),
+							'right'  => __( 'Right', 'so-widgets-bundle' ),
+							'bottom' => __( 'Bottom', 'so-widgets-bundle' ),
+							'left'   => __( 'Left', 'so-widgets-bundle' ),
+						),
+					),
 				),
 			),
 
@@ -232,16 +244,23 @@ class SiteOrigin_Widget_Button_Widget extends SiteOrigin_Widget {
 		$attributes = $instance['attributes'];
 
 		$classes = ! empty( $attributes['classes'] ) ? $attributes['classes'] : '';
-		if( !empty($instance['design']['hover']) ) {
+		if ( ! empty( $classes ) ) {
+			$classes .= ' ';
+		}
+		$classes .= 'ow-icon-placement-'. $instance['button_icon']['icon_placement'];
+		if ( ! empty( $instance['design']['hover'] ) ) {
 			$classes .= ' ow-button-hover';
 		}
 
-		if( ! empty( $classes ) ) {
-			$button_attributes['class'] = $classes;
-		}
+		$button_attributes['class'] = implode( ' ',
+			array_map( 'sanitize_html_class',
+				explode( ' ', $classes )
+			)
+		);
 
 		if ( ! empty( $instance['new_window'] ) ) {
 			$button_attributes['target'] = '_blank';
+			$button_attributes['rel'] = 'noopener noreferrer';
 		}
 
 		if ( ! empty( $attributes['id'] ) ) {
@@ -250,11 +269,12 @@ class SiteOrigin_Widget_Button_Widget extends SiteOrigin_Widget {
 		if ( ! empty( $attributes['title'] ) ) {
 			$button_attributes['title'] = $attributes['title'];
 		}
-		if ( ! empty( $attributes['onclick'] ) ) {
-			$button_attributes['onclick'] = $attributes['onclick'];
-		}
 		if ( ! empty( $attributes['rel'] ) ) {
-			$button_attributes['rel'] = $attributes['rel'];
+			if ( isset ( $button_attributes['rel'] ) ) {
+				$button_attributes['rel'] .= " $attributes[rel]";
+			} else {
+				$button_attributes['rel'] = $attributes['rel'];
+			}
 		}
 
 		$icon_image_url = '';
@@ -269,6 +289,7 @@ class SiteOrigin_Widget_Button_Widget extends SiteOrigin_Widget {
 		return array(
 			'button_attributes' => $button_attributes,
 			'href' => !empty( $instance['url'] ) ? $instance['url'] : '#',
+			'onclick' => ! empty( $attributes['onclick'] ) ? $attributes['onclick'] : '',
 			'align' => $instance['design']['align'],
 			'icon_image_url' => $icon_image_url,
 			'icon' => $instance['button_icon']['icon_selected'],
