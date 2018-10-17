@@ -124,7 +124,7 @@ h4 {
 		width: 100%;
 		max-width: 740px;
 		margin: 0 auto;
-	}    
+	}
 	.entry {
 		width: 100%;
 		max-width: 640px;
@@ -156,7 +156,7 @@ h4 {
             span{
                 color: #A1A1A1;
                 font-style: italic;
-            }    
+            }
         }
         div{
             float: left;
@@ -197,7 +197,7 @@ h4 {
                     span{
                         color: #A1A1A1;
                         font-style: italic;
-                    }    
+                    }
                 }
             }
             h3{
@@ -293,8 +293,8 @@ h4 {
         &:-moz-placeholder { /* Firefox 18- */
             color: rgba(255,255,255,0.4);
         }
-        
-        
+
+
         &:focus::-webkit-input-placeholder { /* Chrome/Opera/Safari */
             color: rgba(255,255,255,0);
         }
@@ -351,7 +351,7 @@ h4 {
     }
 }
 .search-form.open{
-   margin-top: 0; 
+   margin-top: 0;
 }
 
 .nav{
@@ -370,7 +370,7 @@ h4 {
     background: #fff;
     box-shadow: 0 1px 0 0 rgba(0,0,0,0.066);
     box-sizing: border-box;
-    height: 80px;    
+    height: 80px;
     .left{
         display: -webkit-inline-flex;
         display: -ms-inline-flexbox;
@@ -387,7 +387,7 @@ h4 {
             &:hover{
                 .line{
                     fill: lighten(#414141, 50%);
-                }    
+                }
             }
         }
         .logo{
@@ -423,7 +423,7 @@ h4 {
                 }
             }
         }
-        
+
         .search-icon {
             cursor: pointer;
             margin-left: 10px;
@@ -436,10 +436,10 @@ h4 {
                 &:hover{
                     .search-svg{
                         fill: lighten(#414141, 50%);
-                    }    
+                    }
                 }
             }
-        }   
+        }
     }
 }
 
@@ -617,7 +617,7 @@ h4 {
 		margin-bottom: 1em;
 
 		a {
-			
+
 		}
 	}
 
@@ -682,7 +682,7 @@ h4 {
                     color: #ffffff !important;
                     text-decoration: none;
                 }
-                
+
             }
         }
     }
@@ -805,7 +805,7 @@ h4 {
                 }
             }
         }
-	} 
+	}
     .entry {
 		width: 100%;
 		max-width: 640px;
@@ -819,7 +819,7 @@ h4 {
         -ms-flex-direction: column;
         flex-direction: column;
         #lecture-contact{
-            border-top: 1px solid #D8D8D8;  
+            border-top: 1px solid #D8D8D8;
             margin-top: 1em;
             padding-top: 1em;
         }
@@ -858,7 +858,7 @@ h4 {
             }
             h3{
                 width: 90%;
-                max-width: 350px; 
+                max-width: 350px;
                 margin-bottom: 1em;
             }
             input[type="text"],
@@ -915,10 +915,10 @@ h4 {
                 &:hover{
                     background: darken(#ED6367, 5%);
                 }
-            }  
+            }
             p{
                 width: 90%;
-                max-width: 350px; 
+                max-width: 350px;
             }
             .panel-last-child{
                 position: absolute;
@@ -949,7 +949,7 @@ h4 {
         .footer{
             text-align: left;
             @media (max-width: 780px) {
-                text-align: center;    
+                text-align: center;
             }
             h3 {
                 font-size: 20px;
@@ -998,7 +998,7 @@ h4 {
 
 
 @media (max-width: 780px) {
-    // newsletter signup    
+    // newsletter signup
     .newsletter {
         #module--newsletter{
             div:nth-child(1){
@@ -1017,20 +1017,20 @@ h4 {
                     margin: 0 auto 3em auto;
                 }
                 .panel-first-child{
-                    padding-top: 3em;   
+                    padding-top: 3em;
                 }
                 .panel-last-child{
                     position: absolute;
                     top: 1em;
-                    left: 2em;    
+                    left: 2em;
                 }
                 input[type="submit"] {
                     width: 90%;
                     max-width: 350px;
-                } 
+                }
             }
         }
-    } 
+    }
 }
 
 /*Contact Tab at left*/
@@ -1443,7 +1443,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 // Persons
 .page-template-persons{
     .wrap{
-        
+
     }
 }
 .persons {
@@ -1742,7 +1742,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     overflow: hidden;
     height: 40vw;
     min-height: 500px;
-    margin-bottom: 0;  
+    margin-bottom: 0;
     background: #414141;
     .video-overlay{
         color: #fff;
@@ -1783,7 +1783,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         background-size: cover;
     }
     &::before{
-        background: rgba(0,0,0,0.6);  
+        background: rgba(0,0,0,0.6);
         content: "";
         position: absolute;
         top: 0;
@@ -1802,7 +1802,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
     height: 40vw;
     min-height: 490px;
     max-height: 500px;
-    margin-bottom: 0; 
+    margin-bottom: 0;
     max-height: 590px;
     margin-bottom: -90px;
     top: -90px;
@@ -1812,7 +1812,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        background-position: center top; 
+        background-position: center top;
         color: #fff;
         text-align: center;
         z-index: 99;
@@ -1889,10 +1889,10 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         margin-right: 20px;
         &:nth-child(1),
         &:nth-child(2){
-            width: calc(1/2 * 99.99% - (20px / 2);     
+            width: calc(1/2 * 99.99% - (20px / 2);
         }
         &:nth-child(3n){
-            clear: left;     
+            clear: left;
         }
         &:nth-child(2),
         &:nth-child(3n+5){
@@ -1998,8 +1998,8 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 }
 
 .menu-overlay{
-    
-    
+
+
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -2068,7 +2068,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                         color: rgba(255,255,255,1);
                     }
                 }
-                
+
                 &.menu-item-has-children.opened{
                     > .menu_arrow_holder{
                         -webkit-transform: rotate(90deg);
@@ -2076,11 +2076,11 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                     }
                 }
                 > ul{
-                    display: none;
+                    display: block;
                 }
                 &.current-menu-parent{
                     ul{
-                        display: block; 
+                        display: block;
                         .current-menu-item{
                             a{
                                 color: rgba(255,255,255,1);
@@ -2090,7 +2090,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                     .menu_arrow_holder{
                         border: 2px solid rgba(255, 255, 255, 1);
                         svg{
-                            fill: rgba(255,255,255,1);  
+                            fill: rgba(255,255,255,1);
                         }
                     }
                 }
@@ -2107,11 +2107,12 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                     .menu_arrow_holder{
                         border: 2px solid rgba(255, 255, 255, 1);
                         svg{
-                            fill: rgba(255,255,255,1);  
+                            fill: rgba(255,255,255,1);
                         }
                     }
                 }
                 .menu_arrow_holder{
+                    display: none;
                     width: 25px;
                     height: 25px;
                     border-radius: 100%;
@@ -2123,7 +2124,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                     svg{
                         width:6px;
                         height:10px;
-                        fill: rgba(255,255,255,.5);  
+                        fill: rgba(255,255,255,.5);
                         position: relative;
                         top: -6px;
                         left: 10px;
@@ -2131,8 +2132,8 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                     &:hover{
                         border: 2px solid rgba(255, 255, 255, 1);
                         svg{
-                            fill: rgba(255,255,255,1);  
-                        } 
+                            fill: rgba(255,255,255,1);
+                        }
                     }
                 }
             }
@@ -2141,7 +2142,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
             > li {
                 margin-bottom: 1em;
                 > ul{
-                    margin-left: 10px;  
+                    margin-left: 10px;
                     font-size: 16px;
                     line-height: 1.3em;
                     > li {
@@ -2173,7 +2174,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         .close-search{
             display: none;
         }
-    
+
         input[type="text"] {
             outline:0;
             background: #F5F5F5;
@@ -2318,7 +2319,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 }
 
 .post-password-form{
-    
+
     label{
         display: block;
         float: left;
@@ -2384,8 +2385,8 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         &:hover{
             background: darken(#2980b9, 5%);
         }
-    } 
-    
+    }
+
 }
 
 .widget_mc4wp_form_widget{
@@ -2443,7 +2444,7 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
         &:hover{
             background: darken(#ED6367, 5%);
         }
-    } 
+    }
 }
 
 .single-faq{
@@ -2476,10 +2477,10 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
                 span{
                     color: #A1A1A1;
                     font-style: italic;
-                }    
+                }
             }
         }
-	} 
+	}
     .entry {
 		width: 100%;
 		max-width: 640px;
@@ -2490,4 +2491,4 @@ p#personal-info-disclaimer {color: #555; font-size: 9px; font-style: italic; lin
 
 input[type="submit"] {
      -webkit-appearance: none;
-} 
+}
