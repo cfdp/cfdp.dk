@@ -123,7 +123,14 @@ h4 {
     .post-intro {
 		width: 100%;
 		max-width: 740px;
-		margin: 0 auto;
+        margin: 0 auto;
+        .back-to-blog-overview{
+            font-family: 'Montserrat',Sans-Serif;
+            font-size: 13px;
+            font-weight: 400;
+            text-transform: uppercase;
+            color: #006cb6;
+        }
 	}
 	.entry {
 		width: 100%;

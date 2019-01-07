@@ -131,6 +131,14 @@ h4 {
   margin: 0 auto;
 }
 
+.single-post .post-intro .back-to-blog-overview {
+  font-family: 'Montserrat',Sans-Serif;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #006cb6;
+}
+
 .single-post .entry {
   width: 100%;
   max-width: 640px;
