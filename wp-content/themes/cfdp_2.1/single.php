@@ -12,6 +12,7 @@
 <div class="content grid_12 clearfix">
 	<div <?php post_class() ?> id="post-<?php the_ID(); ?>">
         <div class="post-intro">
+            <span class="back-to-blog-overview"><a href="/blog-2">Tilbage til oversigten</a></span>
             <span class="post-tags">
                 <?php
                     $taxonomy = 'category';
