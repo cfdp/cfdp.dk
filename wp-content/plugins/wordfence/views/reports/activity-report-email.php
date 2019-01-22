@@ -334,7 +334,7 @@ $title = sprintf(__('Wordfence Activity for the week of %s', 'wordfence'), wfUti
 				</table>
 
 				<p>
-					<a class="button" href="<?php echo network_admin_url('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked IPs', 'wordfence'); ?></a>
+					<a class="button" href="<?php echo wfUtils::wpAdminURL('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked IPs', 'wordfence'); ?></a>
 				</p>
 
 				<?php wfHelperString::cycle(); ?>
@@ -369,7 +369,7 @@ $title = sprintf(__('Wordfence Activity for the week of %s', 'wordfence'), wfUti
 				</table>
 
 				<p>
-					<a class="button" href="<?php echo network_admin_url('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked Countries', 'wordfence'); ?></a>
+					<a class="button" href="<?php echo wfUtils::wpAdminURL('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked Countries', 'wordfence'); ?></a>
 				</p>
 
 				<?php wfHelperString::cycle(); ?>
@@ -396,7 +396,7 @@ $title = sprintf(__('Wordfence Activity for the week of %s', 'wordfence'), wfUti
 				</table>
 
 				<p>
-					<a class="button" href="<?php echo network_admin_url('admin.php?page=WordfenceWAF&subpage=waf_options#waf-options-bruteforce') ?>"><?php _e('Update Login Security Options', 'wordfence'); ?></a>
+					<a class="button" href="<?php echo wfUtils::wpAdminURL('admin.php?page=WordfenceWAF&subpage=waf_options#waf-options-bruteforce') ?>"><?php _e('Update Login Security Options', 'wordfence'); ?></a>
 				</p>
 
 				<?php wfHelperString::cycle(); ?>

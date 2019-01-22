@@ -113,12 +113,7 @@ class wfLog {
 			$this->currentRequest->UA = (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
 			$this->currentRequest->jsRun = 0;
 			
-			if (!function_exists('wp_verify_nonce')) {
-				add_action('plugins_loaded', array($this, 'actionSetRequestJSEnabled'));
-			} else {
-				$this->actionSetRequestJSEnabled();
-			}
-
+			add_action('wp_loaded', array($this, 'actionSetRequestJSEnabled'));
 			add_action('init', array($this, 'actionSetRequestOnInit'), 9999);
 
 			if (function_exists('register_shutdown_function')) {
@@ -277,10 +272,6 @@ class wfLog {
 				$this->takeBlockingAction('maxGlobalRequests', "Exceeded the maximum global requests per minute for crawlers or humans.");
 			}
 			if($type == '404'){
-				if(wfConfig::get('other_WFNet')){
-					$table_wfNet404s = wfDB::networkTable('wfNet404s');
-					$this->getDB()->queryWrite("insert IGNORE into {$table_wfNet404s} (sig, ctime, URI) values (UNHEX(MD5('%s')), unix_timestamp(), '%s')", $_SERVER['REQUEST_URI'], $_SERVER['REQUEST_URI']);
-				}
 				$pat = wfConfig::get('vulnRegex');
 				if($pat){
 					$URL = wfUtils::getRequestedURL();
@@ -299,7 +290,7 @@ class wfLog {
 					}
 				}
 			}
-			if(isset($_SERVER['HTTP_USER_AGENT']) && wfCrawl::isCrawler($_SERVER['HTTP_USER_AGENT'])){
+			if((isset($_SERVER['HTTP_USER_AGENT']) && wfCrawl::isCrawler($_SERVER['HTTP_USER_AGENT'])) || empty($_SERVER['HTTP_USER_AGENT'])){
 				if($type == 'hit' && wfConfig::get('maxRequestsCrawlers') != 'DISABLED' && $hitsPerMinute > wfConfig::getInt('maxRequestsCrawlers')){
 					$this->takeBlockingAction('maxRequestsCrawlers', "Exceeded the maximum number of requests per minute for crawlers."); //may not exit
 				} else if($type == '404' && wfConfig::get('max404Crawlers') != 'DISABLED' && $hitsPerMinute > wfConfig::getInt('max404Crawlers')){
@@ -387,7 +378,6 @@ class wfLog {
 						'display_name' => $ud->display_name,
 						'ID' => $res['userID']
 						);
-					$res['user']['avatar'] = get_avatar($res['userID'], 16);
 				}
 			} else {
 				$res['user'] = false;
@@ -550,7 +540,6 @@ class wfLog {
 						'display_name' => $res['display_name'],
 						'ID' => $res['userID']
 					);
-					$res['user']['avatar'] = get_avatar($res['userID'], 16);
 				}
 			} else {
 				$res['user'] = false;
@@ -764,6 +753,7 @@ class wfLog {
 		if($secsToGo){
 			header('Retry-After: ' . $secsToGo);
 		}
+		$customText = wpautop(wp_strip_all_tags(wfConfig::get('blockCustomText', '')));
 		require_once('wf503.php');
 		exit();
 	}
@@ -1282,7 +1272,22 @@ class wfAdminUserMonitor {
 }
 
 /**
- *
+ * Represents a request record
+ * 
+ * @property int $id
+ * @property float $attackLogTime
+ * @property float $ctime
+ * @property string $IP
+ * @property bool $jsRun
+ * @property int $statusCode
+ * @property bool $isGoogle
+ * @property int $userID
+ * @property string $URL
+ * @property string $referer
+ * @property string $UA
+ * @property string $action
+ * @property string $actionDescription
+ * @property string $actionData
  */
 class wfRequestModel extends wfModel {
 

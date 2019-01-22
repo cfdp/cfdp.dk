@@ -12,8 +12,9 @@
 <div class="content grid_12 clearfix">
 	<div <?php post_class() ?> id="post-<?php the_ID(); ?>">
         <div class="post-intro">
+            <span class="back-to-blog-overview"><a href="/blog-2">Tilbage til oversigten</a></span>
             <span class="post-tags">
-                <?php 
+                <?php
                     $taxonomy = 'category';
 
                     // get the term IDs assigned to post.
@@ -61,21 +62,21 @@
                     ?>
                 </div>
                 <div>
-                    <p>Indlæg af: <?php echo $custom_author_link; ?>&nbsp;·&nbsp;<span>for <?php echo human_time_diff(get_the_modified_time('U'), current_time('timestamp')); ?> siden</span></p>
+                    <p>Indlæg af: <?php echo $custom_author_link; ?>&nbsp;·&nbsp;<span>Sidst opdateret for <?php echo human_time_diff(get_the_modified_time('U'), current_time('timestamp')); ?> siden</span></p>
                 </div>
             </div>
             <?php } ?>
         </div>
-        
+
 		<div class="entry <?php if ( !empty( $meta_teaser ) ){ echo 'entry--with-teaser';} ?>">
 			<?php the_content(); ?>
-            <?php 
+            <?php
                 if( comments_open() ) {
                     comments_template();
                 }
             ?>
 		</div>
-        
+
         <?php if ( has_tag() ) { ?>
 		<div class="related-content">
 			<?php // Show sidebar based on which cate the post is in.

@@ -46,7 +46,7 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 </table>
 
 <p>
-	<a class="button button-primary" href="<?php echo network_admin_url('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked IPs', 'wordfence'); ?></a>
+	<a class="button button-primary" href="<?php echo wfUtils::wpAdminURL('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked IPs', 'wordfence'); ?></a>
 </p>
 
 <?php wfHelperString::cycle(); ?>
@@ -89,7 +89,7 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 </table>
 
 <p>
-	<a class="button button-primary" href="<?php echo network_admin_url('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked Countries', 'wordfence'); ?></a>
+	<a class="button button-primary" href="<?php echo wfUtils::wpAdminURL('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked Countries', 'wordfence'); ?></a>
 </p>
 
 <?php wfHelperString::cycle(); ?>
@@ -108,7 +108,7 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 		<?php if ($top_failed_logins): ?>
 			<?php foreach ($top_failed_logins as $row): ?>
 				<tr class="<?php echo wfHelperString::cycle('odd', 'even') ?>">
-					<td><?php echo esc_html($row->username) ?></td>
+					<td class="wf-split-word"><?php echo esc_html($row->username) ?></td>
 					<td><?php echo esc_html($row->fail_count) ?></td>
 					<td class="<?php echo sanitize_html_class($row->is_valid_user ? 'loginFailValidUsername' : 'loginFailInvalidUsername') ?>"><?php echo $row->is_valid_user ? __('Yes', 'wordfence') : __('No', 'wordfence') ?></td>
 				</tr>
@@ -124,7 +124,7 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 </table>
 
 <p>
-	<a class="button button-primary" href="<?php echo network_admin_url('admin.php?page=WordfenceWAF&subpage=waf_options#waf-options-bruteforce') ?>"><?php _e('Update Login Security Options', 'wordfence'); ?></a>
+	<a class="button button-primary" href="<?php echo wfUtils::wpAdminURL('admin.php?page=WordfenceWAF&subpage=waf_options#waf-options-bruteforce') ?>"><?php _e('Update Login Security Options', 'wordfence'); ?></a>
 </p>
 
 <?php wfHelperString::cycle(); ?>
@@ -193,7 +193,7 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 <?php endif ?>
 
 <?php if ($updates_needed['core'] || $updates_needed['plugins'] || $updates_needed['themes']): ?>
-	<p><a class="button button-primary" href="<?php echo esc_attr(network_admin_url('update-core.php')) ?>"><?php _e('Update Now', 'wordfence'); ?></a></p>
+	<p><a class="button button-primary" href="<?php echo esc_attr(wfUtils::wpAdminURL('update-core.php')) ?>"><?php _e('Update Now', 'wordfence'); ?></a></p>
 <?php else: ?>
 	<p><?php _e('No updates are available at this time.', 'wordfence'); ?></p>
 <?php endif ?>

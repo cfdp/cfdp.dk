@@ -111,9 +111,14 @@ if (isset($backLabel) && !isset($backLabelHTML)) {
 								scrollTop: el.offset().top - 100
 							}, 750);
 						}
+						else if (el.is('input[type="hidden"]')) {
+							$('html, body').animate({
+								scrollTop: el.parent().offset().top - 100
+							}, 750);
+						}
 						else {
 							var block = el.closest('.wf-block[data-persistence-key]');
-							if (!block.hasClass('wf-active')) {
+							if (!block.hasClass('wf-active') && !block.hasClass('wf-always-active')) {
 								block.find('.wf-block-content').slideDown({
 									always: function() {
 										block.addClass('wf-active');

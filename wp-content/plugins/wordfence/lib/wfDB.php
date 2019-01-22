@@ -16,10 +16,14 @@ class wfDB {
    * Returns the table with the site (single site installations) or network (multisite) prefix added.
    *
    * @param string $table
+   * @param bool $applyCaseConversion Whether or not to convert the table case to what is actually in use.
    * @return string
    */
-	public static function networkTable($table) {
-	  return self::networkPrefix() . $table;
+	public static function networkTable($table, $applyCaseConversion = true) {
+		if (wfSchema::usingLowercase() && $applyCaseConversion) {
+			$table = strtolower($table);
+		}
+		return self::networkPrefix() . $table;
 	}
   
   /**
@@ -37,14 +41,16 @@ class wfDB {
    * Returns the table with the site (single site installations) or blog-specific (multisite) prefix added.
    *
    * @param string $table
+   * @param bool $applyCaseConversion Whether or not to convert the table case to what is actually in use.
    * @return string
    */
-	public static function blogTable($table, $blogID) {
-	  return self::blogPrefix($blogID) . $table;
+	public static function blogTable($table, $blogID, $applyCaseConversion = true) {
+		if (wfSchema::usingLowercase() && $applyCaseConversion) {
+			$table = strtolower($table);
+		}
+	  	return self::blogPrefix($blogID) . $table;
 	}
 	
-	public function __construct(){
-	}
 	public function querySingle(){
 		global $wpdb;
 		if(func_num_args() > 1){

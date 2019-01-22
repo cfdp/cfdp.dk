@@ -108,7 +108,7 @@ class wfScanEngine {
 		else if ($message == 'ok') {
 			$issueCount = $issuesInstance->getIssueCount();
 			if ($issueCount) {
-				new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, "<a href=\"" . network_admin_url('admin.php?page=WordfenceScan') . "\">{$issueCount} issue" . ($issueCount == 1 ? '' : 's') . ' found in most recent scan</a>', 'wfplugin_scan');
+				new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, "<a href=\"" . wfUtils::wpAdminURL('admin.php?page=WordfenceScan') . "\">{$issueCount} issue" . ($issueCount == 1 ? '' : 's') . ' found in most recent scan</a>', 'wfplugin_scan');
 			}
 			else {
 				$n = wfNotification::getNotificationForCategory('wfplugin_scan');
@@ -120,14 +120,14 @@ class wfScanEngine {
 		else {
 			$failureType = wfConfig::get('lastScanFailureType');
 			if ($failureType == 'duration') {
-				new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, '<a href="' . network_admin_url('admin.php?page=WordfenceScan') . '">Scan aborted due to duration limit</a>', 'wfplugin_scan');
+				new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, '<a href="' . wfUtils::wpAdminURL('admin.php?page=WordfenceScan') . '">Scan aborted due to duration limit</a>', 'wfplugin_scan');
 			}
 			else if ($failureType == 'versionchange') {
 				//No need to create a notification
 			}
 			else {
 				$trimmedError = substr($message, 0, 100) . (strlen($message) > 100 ? '...' : '');
-				new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, '<a href="' . network_admin_url('admin.php?page=WordfenceScan') . '">Scan failed: ' . esc_html($trimmedError) . '</a>', 'wfplugin_scan');
+				new wfNotification(null, wfNotification::PRIORITY_HIGH_WARNING, '<a href="' . wfUtils::wpAdminURL('admin.php?page=WordfenceScan') . '">Scan failed: ' . esc_html($trimmedError) . '</a>', 'wfplugin_scan');
 			}
 		}
 	}
@@ -1247,7 +1247,7 @@ class wfScanEngine {
 		$counter = 0;
 		$query = "select ID from " . $wpdb->users;
 		$dbh = $wpdb->dbh;
-		$useMySQLi = (is_object($dbh) && $wpdb->use_mysqli);
+		$useMySQLi = (is_object($dbh) && $wpdb->use_mysqli && wfConfig::get('allowMySQLi', true) && WORDFENCE_ALLOW_DIRECT_MYSQLI);
 		if ($useMySQLi) { //If direct-access MySQLi is available, we use it to minimize the memory footprint instead of letting it fetch everything into an array first
 			$result = $dbh->query($query);
 			if (!is_object($result)) {
@@ -1900,7 +1900,7 @@ class wfScanEngine {
 		
 		if (version_compare(phpversion(), '5.4') < 0 && wfConfig::get('isPaid') && wfBlock::hasCountryBlock()) {
 			$shortMsg = __('PHP Update Needed for Country Blocking', 'wordfence');
-			$longMsg = sprintf(__('The GeoIP database that is required for country blocking is being updated to a new format in April 2018. This new format requires sites to run PHP 5.4 or newer, and this site is on PHP %s. To ensure country blocking continues functioning, please update PHP prior to that date.', 'wordfence'), wfUtils::cleanPHPVersion());
+			$longMsg = sprintf(__('The GeoIP database that is required for country blocking has been updated to a new format. This new format requires sites to run PHP 5.4 or newer, and this site is on PHP %s. To ensure country blocking continues functioning, please update PHP.', 'wordfence'), wfUtils::cleanPHPVersion());
 			
 			$longMsg .= ' <a href="' . wfSupportController::esc_supportURL(wfSupportController::ITEM_SCAN_RESULT_GEOIP_UPDATE) . '" target="_blank" rel="noopener noreferrer">Get more information.</a>';
 			

@@ -6,13 +6,13 @@
  * to the server error log.
  */
 class wfWAFConfig {
-	public static function set($key, $val, $waf = null) {
+	public static function set($key, $val, $waf = null, $category = '') {
 		if (!($waf instanceof wfWAF)) {
 			$waf = wfWAF::getInstance();
 		}
 		
 		try {
-			$waf->getStorageEngine()->setConfig($key, $val);
+			$waf->getStorageEngine()->setConfig($key, $val, $category);
 		}
 		catch (Exception $e) {
 			if (WFWAF_DEBUG) {
@@ -21,13 +21,13 @@ class wfWAFConfig {
 		}
 	}
 	
-	public static function get($key, $default = null, $waf = null) {
+	public static function get($key, $default = null, $waf = null, $category = '') {
 		if (!($waf instanceof wfWAF)) {
 			$waf = wfWAF::getInstance();
 		}
 		
 		try {
-			return $waf->getStorageEngine()->getConfig($key, $default);
+			return $waf->getStorageEngine()->getConfig($key, $default, $category);
 		}
 		catch (Exception $e) {
 			if (WFWAF_DEBUG) {
@@ -37,13 +37,13 @@ class wfWAFConfig {
 		return $default;
 	}
 	
-	public static function unsetKey($key, $waf = null) {
+	public static function unsetKey($key, $waf = null, $category = '') {
 		if (!($waf instanceof wfWAF)) {
 			$waf = wfWAF::getInstance();
 		}
 		
 		try {
-			$waf->getStorageEngine()->unsetConfig($key);
+			$waf->getStorageEngine()->unsetConfig($key, $category);
 		}
 		catch (Exception $e) {
 			if (WFWAF_DEBUG) {

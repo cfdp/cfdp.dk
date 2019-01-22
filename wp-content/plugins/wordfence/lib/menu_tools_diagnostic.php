@@ -78,8 +78,7 @@ if (!isset($sendingDiagnosticEmail)) {
 			</div>
 		</div>
 	<?php endif; ?>
-
-	<form id="wfConfigForm" style="overflow-x: auto;">
+	<div class="wf-diagnostics-wrapper">
 		<?php foreach ($diagnostic->getResults() as $title => $tests):
 			$key = sanitize_key('wf-diagnostics-' . $title);
 			$hasFailingTest = false;
@@ -137,7 +136,7 @@ if (!isset($sendingDiagnosticEmail)) {
 								<span class="wf-text-small"><?php echo esc_html($tests['description']) ?></span>
 							</div>
 							<div class="wf-block-header-action">
-								<div class="wf-block-header-action-disclosure"></div>
+								<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive($key) ? 'true' : 'false'); ?>" tabindex="0"></div>
 							</div>
 						</div>
 					</div>
@@ -200,7 +199,7 @@ if (!isset($sendingDiagnosticEmail)) {
 						<span class="wf-text-small"><?php _e('Methods of detecting a visitor\'s IP address.', 'wordfence') ?></span>
 					</div>
 					<div class="wf-block-header-action">
-						<div class="wf-block-header-action-disclosure"></div>
+						<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-client-ip') ? 'true' : 'false'); ?>" tabindex="0"></div>
 					</div>
 				</div>
 			</div>
@@ -288,7 +287,7 @@ if (!isset($sendingDiagnosticEmail)) {
 						<span class="wf-text-small"><?php _e('WordPress version and internal settings/constants.', 'wordfence') ?></span>
 					</div>
 					<div class="wf-block-header-action">
-						<div class="wf-block-header-action-disclosure"></div>
+						<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-wordpress-constants') ? 'true' : 'false'); ?>" tabindex="0"></div>
 					</div>
 				</div>
 			</div>
@@ -395,7 +394,7 @@ if (!isset($sendingDiagnosticEmail)) {
 						<span class="wf-text-small"><?php _e('Status of installed plugins.', 'wordfence') ?></span>
 					</div>
 					<div class="wf-block-header-action">
-						<div class="wf-block-header-action-disclosure"></div>
+						<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-wordpress-plugins') ? 'true' : 'false'); ?>" tabindex="0"></div>
 					</div>
 				</div>
 			</div>
@@ -440,7 +439,7 @@ if (!isset($sendingDiagnosticEmail)) {
 						<span class="wf-text-small"><?php _e('WordPress "mu-plugins" that are always active, including those provided by hosts.', 'wordfence') ?></span>
 					</div>
 					<div class="wf-block-header-action">
-						<div class="wf-block-header-action-disclosure"></div>
+						<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-mu-wordpress-plugins') ? 'true' : 'false'); ?>" tabindex="0"></div>
 					</div>
 				</div>
 			</div>
@@ -488,7 +487,7 @@ if (!isset($sendingDiagnosticEmail)) {
 						<span class="wf-text-small"><?php _e('WordPress "drop-in" plugins that are active.', 'wordfence') ?></span>
 					</div>
 					<div class="wf-block-header-action">
-						<div class="wf-block-header-action-disclosure"></div>
+						<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-dropin-wordpress-plugins') ? 'true' : 'false'); ?>" tabindex="0"></div>
 					</div>
 				</div>
 			</div>
@@ -537,7 +536,7 @@ if (!isset($sendingDiagnosticEmail)) {
 						<span class="wf-text-small"><?php _e('Status of installed themes.', 'wordfence') ?></span>
 					</div>
 					<div class="wf-block-header-action">
-						<div class="wf-block-header-action-disclosure"></div>
+						<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-wordpress-themes') ? 'true' : 'false'); ?>" tabindex="0"></div>
 					</div>
 				</div>
 			</div>
@@ -588,7 +587,7 @@ if (!isset($sendingDiagnosticEmail)) {
 						<span class="wf-text-small"><?php _e('List of WordPress cron jobs scheduled by WordPress, plugins, or themes.', 'wordfence') ?></span>
 					</div>
 					<div class="wf-block-header-action">
-						<div class="wf-block-header-action-disclosure"></div>
+						<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-wordpress-cron-jobs') ? 'true' : 'false'); ?>" tabindex="0"></div>
 					</div>
 				</div>
 			</div>
@@ -640,19 +639,60 @@ if (!isset($sendingDiagnosticEmail)) {
 							<span class="wf-text-small"><?php _e('Database table names, sizes, timestamps, and other metadata.', 'wordfence') ?></span>
 						</div>
 						<div class="wf-block-header-action">
-							<div class="wf-block-header-action-disclosure"></div>
+							<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-database-tables') ? 'true' : 'false'); ?>" tabindex="0"></div>
 						</div>
 					</div>
 				</div>
 				<div class="wf-block-content wf-clearfix wf-padding-no-left wf-padding-no-right">
-					<div style="max-width: 100%; overflow: auto; padding: 1px;">
+					<ul class="wf-block-list wf-padding-add-left-large wf-padding-add-right-large">
+						<li style="border-bottom: 1px solid #e2e2e2;">
+							<div style="width: 75%; min-width: 300px;" colspan="<?php echo $cols - 1 ?>"><?php _e('Wordfence Table Check', 'wordfence'); ?></div>
+							<div class="wf-right">
+								<?php if ($total > 250): ?>
+									<div class="wf-result-info"><?php _e('Unable to verify - table count too high', 'wordfence'); ?></div>
+								<?php else:
+									$hasAll = true;
+									$schemaTables = wfSchema::tableList();
+									$existingTables = wfUtils::array_column($q, 'Name');
+									$missingTables = array();
+									foreach ($schemaTables as $t) {
+										$table = wfDB::networkTable($t);
+										if (!in_array($table, $existingTables)) {
+											$hasAll = false;
+											$missingTables[] = $t;
+										}
+									}
+									
+									if ($hasAll): ?>
+									<div class="wf-result-success"><?php _e('All Tables Exist', 'wordfence'); ?></div>
+									<?php else: ?>
+									<div class="wf-result-error"><?php printf(__('Tables missing (prefix %s, %s): %s', 'wordfence'), wfDB::networkPrefix(), wfSchema::usingLowercase() ? __('lowercase', 'wordfence') : __('regular case', 'wordfence'), implode(', ', $missingTables)); ?></div>
+									<?php endif; ?>
+								<?php endif; ?>
+							</div>
+						</li>
+					</ul>
+					<div class="wf-add-top-large" style="max-width: 100%; overflow: auto; padding: 1px;">
 						<table class="wf-striped-table"<?php echo !empty($inEmail) ? ' border=1' : '' ?>>
 							<tbody class="thead thead-subhead" style="font-size: 85%">
 							<?php
 							$val = wfUtils::array_first($q);
+							$actualKeyOrder = array_keys($val);
+							$preferredKeyOrder = array('Name', 'Comment', 'Engine', 'Rows', 'Avg_row_length', 'Data_length', 'Index_length', 'Auto_increment', 'Create_time', 'Row_format', 'Collation', 'Version', 'Max_data_length', 'Data_free', 'Update_time', 'Check_time', 'Checksum', 'Create_options');
+							$leftoverKeys = array();
+							$displayKeyOrder = array();
+							foreach ($preferredKeyOrder as $k) {
+								if (in_array($k, $actualKeyOrder)) {
+									$displayKeyOrder[] = $k;
+								}
+							}
+							
+							$diff = array_diff($actualKeyOrder, $preferredKeyOrder);
+							$displayKeyOrder = array_merge($displayKeyOrder, $diff);
+							
 							?>
 							<tr>
-								<?php foreach ($val as $tkey => $tval): ?>
+								<?php foreach ($displayKeyOrder as $tkey): ?>
 									<th><?php echo esc_html($tkey) ?></th>
 								<?php endforeach; ?>
 							</tr>
@@ -663,13 +703,13 @@ if (!isset($sendingDiagnosticEmail)) {
 							foreach ($q as $val) {
 								?>
 								<tr>
-									<?php foreach ($val as $tkey => $tval): ?>
-										<td><?php echo esc_html($tval) ?></td>
-									<?php endforeach; ?>
+								<?php foreach ($displayKeyOrder as $tkey): ?>
+									<td><?php if (isset($val[$tkey])) { echo esc_html($val[$tkey]); } ?></td>
+								<?php endforeach; ?>
 								</tr>
 								<?php
 								$count++;
-								if ($count >= 250) {
+								if ($count >= 250 && $total > $count) {
 									?>
 									<tr>
 										<td colspan="<?php echo $databaseCols; ?>"><?php printf(__('and %d more', 'wordfence'), $total - $count); ?></td>
@@ -695,7 +735,7 @@ if (!isset($sendingDiagnosticEmail)) {
 						<span class="wf-text-small"><?php _e('PHP error logs generated by your site, if enabled by your host.', 'wordfence') ?></span>
 					</div>
 					<div class="wf-block-header-action">
-						<div class="wf-block-header-action-disclosure"></div>
+						<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-log-files') ? 'true' : 'false'); ?>" tabindex="0"></div>
 					</div>
 				</div>
 			</div>
@@ -754,7 +794,40 @@ if (!isset($sendingDiagnosticEmail)) {
 				</div>
 			</div>
 		</div>
-	</form>
+	</div>
+	
+	<?php
+	if (!empty($inEmail)) {
+		echo '<h1>' . __('Scan Issues', 'wordfence') . "</h1>\n";
+		$issues = wfIssues::shared()->getIssues(0, 50, 0, 50);
+		$issueCounts = array_merge(array('new' => 0, 'ignoreP' => 0, 'ignoreC' => 0), wfIssues::shared()->getIssueCounts());
+		$issueTypes = wfIssues::validIssueTypes();
+		
+		echo '<h2>' . sprintf(__('New Issues (%d total)', 'wordfence'), $issueCounts['new']) . "</h2>\n";
+		if (isset($issues['new']) && count($issues['new'])) {
+			foreach ($issues['new'] as $i) {
+				if (!in_array($i['type'], $issueTypes)) {
+					continue;
+				}
+				
+				$viewContent = '';
+				try {
+					$viewContent = wfView::create('scanner/issue-' . $i['type'], array('textOutput' => $i))->render();
+				}
+				catch (wfViewNotFoundException $e) {
+					//Ignore -- should never happen since we validate the type
+				}
+				
+				if (!empty($viewContent)) {
+					echo nl2br($viewContent) . "<br><br>\n";
+				}
+			}
+		}
+		else {
+			echo '<h1>' . __('No New Issues', 'wordfence') . "</h1>\n";
+		}
+	}
+	?>
 
 	<?php if (!empty($inEmail)): ?>
 		<?php phpinfo(); ?>
@@ -770,7 +843,7 @@ if (!isset($sendingDiagnosticEmail)) {
 							<span class="wf-text-small"><?php _e('System configuration, memory test, send test email from this server.', 'wordfence') ?></span>
 						</div>
 						<div class="wf-block-header-action">
-							<div class="wf-block-header-action-disclosure"></div>
+							<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-other-tests') ? 'true' : 'false'); ?>" tabindex="0"></div>
 						</div>
 					</div>
 				</div>
@@ -814,7 +887,7 @@ if (!isset($sendingDiagnosticEmail)) {
 							<strong><?php _e('Debugging Options', 'wordfence') ?></strong>
 						</div>
 						<div class="wf-block-header-action">
-							<div class="wf-block-header-action-disclosure"></div>
+							<div class="wf-block-header-action-disclosure" role="checkbox" aria-checked="<?php echo (wfPersistenceController::shared()->isActive('wf-diagnostics-debugging-options') ? 'true' : 'false'); ?>" tabindex="0"></div>
 						</div>
 					</div>
 				</div>
@@ -854,6 +927,18 @@ if (!isset($sendingDiagnosticEmail)) {
 									'value'         => $w->get('ssl_verify') ? 1 : 0,
 									'title'         => __('Enable SSL Verification (Disable this if you are consistently unable to connect to the Wordfence servers.)', 'wordfence'),
 									'helpLink'      => wfSupportController::supportURL(wfSupportController::ITEM_DIAGNOSTICS_OPTION_SSL_VERIFICATION),
+								))->render();
+								?>
+							</li>
+							<li>
+								<?php
+								echo wfView::create('options/option-toggled', array(
+									'optionName'    => 'avoid_php_input',
+									'enabledValue'  => 1,
+									'disabledValue' => 0,
+									'value'         => wfWAF::getInstance()->getStorageEngine()->getConfig('avoid_php_input', false) ? 1 : 0,
+									'title'         => __('Disable reading of php://input', 'wordfence'),
+									'helpLink'      => wfSupportController::supportURL(wfSupportController::ITEM_DIAGNOSTICS_OPTION_DISABLE_PHP_INPUT),
 								))->render();
 								?>
 							</li>

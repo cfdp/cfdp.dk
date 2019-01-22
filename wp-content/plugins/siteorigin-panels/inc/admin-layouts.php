@@ -7,7 +7,7 @@
  */
 class SiteOrigin_Panels_Admin_Layouts {
 	
-	const LAYOUT_URL = 'http://layouts.siteorigin.com/';
+	const LAYOUT_URL = 'https://layouts.siteorigin.com/';
 	
 	function __construct() {
 		// Filter all the available external layout directories.
@@ -83,6 +83,7 @@ class SiteOrigin_Panels_Admin_Layouts {
 		
 		$layouts = array();
 		foreach ( $layout_folders as $folder ) {
+			$folder = realpath($folder);
 			if ( file_exists( $folder ) && is_dir( $folder ) ) {
 				$files = list_files( $folder, 1 );
 				if ( empty( $files ) ) {
@@ -391,6 +392,12 @@ class SiteOrigin_Panels_Admin_Layouts {
 
 		} elseif ( current_user_can( 'edit_post', $_REQUEST['lid'] ) ) {
 			$panels_data = get_post_meta( $_REQUEST['lid'], 'panels_data', true );
+			
+			// Clear id and timestamp for SO widgets to prevent 'newer content version' notification in widget forms.
+			foreach ( $panels_data['widgets'] as &$widget ) {
+				unset( $widget['_sow_form_id'] );
+				unset( $widget['_sow_form_timestamp'] );
+			}
 		}
 
 		if( $raw_panels_data ) {
@@ -413,6 +420,10 @@ class SiteOrigin_Panels_Admin_Layouts {
 		if ( ! empty( $_FILES['panels_import_data']['tmp_name'] ) ) {
 			header( 'content-type:application/json' );
 			$json = file_get_contents( $_FILES['panels_import_data']['tmp_name'] );
+			$panels_data = json_decode( $json, true );
+			$panels_data = apply_filters( 'siteorigin_panels_data', $panels_data, false );
+			$panels_data['widgets'] = SiteOrigin_Panels_Admin::single()->process_raw_widgets( $panels_data['widgets'], array(), true, true );
+			$json = json_encode( $panels_data );
 			@unlink( $_FILES['panels_import_data']['tmp_name'] );
 			echo $json;
 		}
