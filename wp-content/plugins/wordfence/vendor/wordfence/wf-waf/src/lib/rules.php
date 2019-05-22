@@ -1,4 +1,5 @@
 <?php
+if (defined('WFWAF_VERSION') && !defined('WFWAF_RUN_COMPLETE')) {
 
 interface wfWAFRuleInterface {
 
@@ -1682,4 +1683,5 @@ class wfWAFRuleComparisonSubject {
 	public function setWAF($waf) {
 		$this->waf = $waf;
 	}
+}
 }

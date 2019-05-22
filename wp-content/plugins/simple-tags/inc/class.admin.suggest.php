@@ -1,12 +1,16 @@
 <?php
 
 class SimpleTags_Admin_Suggest {
+
 	// Application entrypoint -> https://github.com/herewithme/simple-tags/wiki/
 	const yahoo_id = 'h4c6gyLV34Fs7nHCrHUew7XDAU8YeQ_PpZVrzgAGih2mU12F0cI.ezr6e7FMvskR7Vu.AA--';
 
+	/**
+	 * SimpleTags_Admin_Suggest constructor.
+	 */
 	public function __construct() {
 		// Ajax action, JS Helper and admin action
-		add_action( 'wp_ajax_' . 'simpletags', array( __CLASS__, 'ajax_check' ) );
+		add_action( 'wp_ajax_simpletags', array( __CLASS__, 'ajax_check' ) );
 
 		// Box for post/page
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ), 1 );
@@ -87,9 +91,9 @@ class SimpleTags_Admin_Suggest {
 	 **/
 	public static function metabox() {
 		?>
-		<span class="container_clicktags">
+        <span class="container_clicktags">
 			<?php echo SimpleTags_Admin::getDefaultContentBox(); ?>
-			<div class="clear"></div>
+            <div class="clear"></div>
 		</span>
 		<?php
 	}
@@ -155,10 +159,10 @@ class SimpleTags_Admin_Suggest {
 			'timeout' => 30,
 			'headers' => array(
 				'X-AG-Access-Token' => SimpleTags_Plugin::get_option_value( 'opencalais_key' ),
-                'Content-Type' => 'text/html',
-                'outputFormat' => 'application/json'
+				'Content-Type'      => 'text/html',
+				'outputFormat'      => 'application/json'
 			),
-			'body' => $content
+			'body'    => $content
 		) );
 
 		if ( ! is_wp_error( $response ) && $response != null ) {
@@ -225,6 +229,7 @@ class SimpleTags_Admin_Suggest {
 			)
 		) );
 
+		$data = false;
 		if ( ! is_wp_error( $response ) && $response != null ) {
 			if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
 				$data = wp_remote_retrieve_body( $response );
@@ -281,6 +286,8 @@ class SimpleTags_Admin_Suggest {
 				'return_images'    => 0
 			)
 		) );
+
+		$data = false;
 		if ( ! is_wp_error( $response ) && $response != null ) {
 			if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
 				$data = wp_remote_retrieve_body( $response );
@@ -343,7 +350,7 @@ class SimpleTags_Admin_Suggest {
 			}
 
 			$request_ws_args['$app_key'] = SimpleTags_Plugin::get_option_value( 'datatxt_key' );
-			$request_ws_args['$app_id'] = SimpleTags_Plugin::get_option_value( 'datatxt_id' );
+			$request_ws_args['$app_id']  = SimpleTags_Plugin::get_option_value( 'datatxt_id' );
 		} else {
 			$request_ws_args['token'] = SimpleTags_Plugin::get_option_value( 'datatxt_access_token' );
 		}
@@ -354,6 +361,7 @@ class SimpleTags_Admin_Suggest {
 			'body'       => $request_ws_args
 		) );
 
+		$data = false;
 		if ( ! is_wp_error( $response ) && $response != null ) {
 			if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
 				$data = wp_remote_retrieve_body( $response );
@@ -413,6 +421,7 @@ class SimpleTags_Admin_Suggest {
 			)
 		) );
 
+		$data = false;
 		if ( ! is_wp_error( $response ) && $response != null ) {
 			if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
 				$data = wp_remote_retrieve_body( $response );
@@ -463,9 +472,6 @@ class SimpleTags_Admin_Suggest {
 		// Build params
 		$param = 'appid=' . self::yahoo_id; // Yahoo ID
 		$param .= '&q=select%20*%20from%20contentanalysis.analyze%20where%20context%3D%22' . urlencode( $content ) . '%22'; //.; // Post content
-		if ( ! empty( $_POST['tags'] ) ) {
-			//$param .= '&query='.urlencode(stripslashes($_POST['tags'])); // Existing tags
-		}
 		$param .= '&format=json'; // Get json data !
 
 		$data     = array();
@@ -506,7 +512,7 @@ class SimpleTags_Admin_Suggest {
 		status_header( 200 );
 		header( "Content-Type: text/html; charset=" . get_bloginfo( 'charset' ) );
 
-		if ( ( (int) wp_count_terms( 'post_tag', 'ignore_empty=false' ) ) == 0 ) { // No tags to suggest
+		if ( ( (int) wp_count_terms( 'post_tag', array( 'hide_empty' => false ) ) ) == 0 ) { // No tags to suggest
 			echo '<p>' . __( 'No terms in your WordPress database.', 'simpletags' ) . '</p>';
 			exit();
 		}
@@ -578,6 +584,7 @@ class SimpleTags_Admin_Suggest {
 			'timeout' => 15
 		) );
 
+		$data = false;
 		if ( ! is_wp_error( $response ) && $response != null ) {
 			$data = wp_remote_retrieve_body( $response );
 		}

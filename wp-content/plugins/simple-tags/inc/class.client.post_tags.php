@@ -1,9 +1,13 @@
 <?php
 
 class SimpleTags_Client_PostTags {
+
+	/**
+	 * SimpleTags_Client_PostTags constructor.
+	 */
 	public function __construct() {
 		// Add adv post tags in post ( all / feedonly / blogonly / homeonly / singularonly / singleonly / pageonly /no )
-		if ( SimpleTags_Plugin::get_option_value( 'tt_embedded' ) != 'no' || SimpleTags_Plugin::get_option_value( 'tt_feed' ) == 1 ) {
+		if ( 'no' !== SimpleTags_Plugin::get_option_value( 'tt_embedded' ) || 1 === (int) SimpleTags_Plugin::get_option_value( 'tt_feed' ) ) {
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 999992 );
 		}
 
@@ -19,7 +23,8 @@ class SimpleTags_Client_PostTags {
 	 * @return string
 	 */
 	public static function shortcode( $atts ) {
-		extract( shortcode_atts( array( 'param' => '' ), $atts ) );
+		$atts = shortcode_atts( array( 'param' => '' ), $atts );
+		extract( $atts );
 
 		$param = html_entity_decode( $param );
 		$param = trim( $param );
@@ -28,7 +33,7 @@ class SimpleTags_Client_PostTags {
 			$param = 'title=';
 		}
 
-		return SimpleTags_Client_PostTags::extendedPostTags( $param );
+		return self::extendedPostTags( $param );
 	}
 
 	/**
@@ -39,40 +44,45 @@ class SimpleTags_Client_PostTags {
 	 * @return string
 	 */
 	public static function the_content( $content = '' ) {
+		// Hook already executed ? Check if HTML class exists
+		if ( strpos( $content, 'st-post-tags' ) !== false ) {
+			return $content;
+		}
+
 		// Get option
 		$tt_embedded = SimpleTags_Plugin::get_option_value( 'tt_embedded' );
 
 		$marker = false;
-		if ( is_feed() && (int) SimpleTags_Plugin::get_option_value( 'tt_feed' ) == 1 ) {
+		if ( is_feed() && 1 === (int) SimpleTags_Plugin::get_option_value( 'tt_feed' ) ) {
 			$marker = true;
 		} elseif ( ! empty( $tt_embedded ) ) {
 			switch ( $tt_embedded ) {
-				case 'blogonly' :
+				case 'blogonly':
 					$marker = ( is_feed() ) ? false : true;
 					break;
-				case 'homeonly' :
+				case 'homeonly':
 					$marker = ( is_home() ) ? true : false;
 					break;
-				case 'singularonly' :
+				case 'singularonly':
 					$marker = ( is_singular() ) ? true : false;
 					break;
-				case 'singleonly' :
+				case 'singleonly':
 					$marker = ( is_single() ) ? true : false;
 					break;
-				case 'pageonly' :
+				case 'pageonly':
 					$marker = ( is_page() ) ? true : false;
 					break;
-				case 'all' :
+				case 'all':
 					$marker = true;
 					break;
-				case 'no' :
+				case 'no':
 				default:
 					$marker = false;
 					break;
 			}
 		}
 
-		if ( $marker === true ) {
+		if ( true === $marker ) {
 			return ( $content . self::extendedPostTags( '', false ) );
 		}
 
@@ -83,8 +93,9 @@ class SimpleTags_Client_PostTags {
 	 * Generate current post tags
 	 *
 	 * @param string $args
+	 * @param bool $copyright
 	 *
-	 * @return string
+	 * @return string|array|boolean
 	 */
 	public static function extendedPostTags( $args = '', $copyright = true ) {
 		// Get options
@@ -100,7 +111,7 @@ class SimpleTags_Client_PostTags {
 			'xformat'   => __( '<a href="%tag_link%" title="%tag_name_attribute%" %tag_rel%>%tag_name%</a>', 'simpletags' ),
 			'notagtext' => __( 'No tag for this post.', 'simpletags' ),
 			'number'    => 0,
-			'format'    => ''
+			'format'    => '',
 		);
 
 		// Get values in DB
@@ -124,22 +135,19 @@ class SimpleTags_Client_PostTags {
 			$xformat = $defaults['xformat'];
 		}
 
-		// Clean memory
-		$args     = array();
-		$defaults = array();
-
 		// Choose post ID
 		$object_id = (int) $post_id;
-		if ( $object_id == 0 ) {
+		if ( 0 === $object_id ) {
 			global $post;
-			$object_id = (int) $post->ID;
-			if ( $object_id == 0 ) {
+			if ( ! isset( $post->ID ) || 0 === (int) $post->ID ) {
 				return false;
 			}
+
+			$object_id = (int) $post->ID;
 		}
 
 		// Get categories ?
-		$taxonomies = ( (int) $inc_cats == 0 ) ? 'post_tag' : array( 'post_tag', 'category' );
+		$taxonomies = ( 0 === (int) $inc_cats ) ? 'post_tag' : array( 'post_tag', 'category' );
 
 		// Get terms
 		// According to codex https://developer.wordpress.org/reference/functions/get_object_term_cache/, $taxonomy must be a string
@@ -164,13 +172,13 @@ class SimpleTags_Client_PostTags {
 
 		// Limit to max quantity if set
 		$number = (int) $number;
-		if ( $number != 0 ) {
+		if ( 0 !== $number ) {
 			shuffle( $terms ); // Randomize terms
 			$terms = array_slice( $terms, 0, $number );
 		}
 
 		// Return for object format
-		if ( $format == 'object' ) {
+		if ( 'object' === $format ) {
 			return $terms;
 		}
 
@@ -190,11 +198,6 @@ class SimpleTags_Client_PostTags {
 
 			$output[] = SimpleTags_Client::format_internal_tag( $xformat, $term, $rel, null );
 		}
-
-		// Clean memory
-		$terms = array();
-		unset( $terms, $term );
-
 
 		// Array to string
 		if ( is_array( $output ) && ! empty( $output ) ) {

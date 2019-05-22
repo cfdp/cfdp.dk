@@ -1,4 +1,5 @@
 <?php
+if (defined('WFWAF_VERSION') && !defined('WFWAF_RUN_COMPLETE')) {
 
 /**
  * Class wfWAFConfig provides a convenience interface for accessing the WAF's configuration
@@ -83,4 +84,5 @@ class wfWAFConfig {
 		}
 		return true;
 	}
+}
 }

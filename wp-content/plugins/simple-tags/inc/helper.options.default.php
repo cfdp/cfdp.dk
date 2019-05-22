@@ -9,6 +9,7 @@ return array(
 	'allow_embed_tcloud'     => 0,
 	'use_click_tags'         => 1,
 	'use_suggested_tags'     => 1,
+	'use_tracking'           => 0,
 	'use_autocompletion'     => 1,
 	// Auto link
 	'auto_link_tags'         => 0,
@@ -23,10 +24,11 @@ return array(
 	'auto_link_title'        => __( 'Posts tagged with %s', 'simpletags' ),
 	// Administration
 	'order_click_tags'       => 'name-asc',
+	'visibility_click_tags'  => 'hide',
 	'opencalais_key'         => '',
 	'datatxt_key'            => '',
 	'datatxt_id'             => '',
-	'datatxt_access_token'	 => '',
+	'datatxt_access_token'   => '',
 	'datatxt_min_confidence' => '0.6',
 	'alchemy_api'            => '',
 	'zemanta_key'            => '',
@@ -73,5 +75,5 @@ return array(
 	'cloud_max_size'         => 22,
 	'cloud_min_size'         => 8,
 	'cloud_unit'             => 'pt',
-	'cloud_adv_usage'        => ''
+	'cloud_adv_usage'        => '',
 );

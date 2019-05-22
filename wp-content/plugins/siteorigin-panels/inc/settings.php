@@ -114,13 +114,16 @@ class SiteOrigin_Panels_Settings {
 		$defaults['display-teaser']    = true;
 		$defaults['display-learn']     = true;
 		$defaults['load-on-attach']    = false;
+		$defaults['use-classic']       = true;
 
 		// The general fields
 		$defaults['post-types']             = array( 'page', 'post' );
 		$defaults['live-editor-quick-link'] = true;
+		$defaults['admin-post-state']       = true;
 		$defaults['admin-widget-count']     = false;
 		$defaults['parallax-motion']        = '';
 		$defaults['sidebars-emulator']      = true;
+		$defaults['layout-block-default-mode'] = 'preview';
 
 		// Widgets fields
 		$defaults['title-html']           = '<h3 class="widget-title">{{title}}</h3>';
@@ -244,13 +247,29 @@ class SiteOrigin_Panels_Settings {
 			'type'        => 'select_multi',
 			'label'       => __( 'Post Types', 'siteorigin-panels' ),
 			'options'     => $this->get_post_types(),
-			'description' => __( 'The post types to use Page Builder on.', 'siteorigin-panels' ),
+			'description' => __( 'The post types on which to use Page Builder.', 'siteorigin-panels' ),
+		);
+		
+		$fields['general']['fields']['use-classic'] = array(
+			'type' => 'checkbox',
+			'label' => __( 'Use Classic Editor for new posts', 'siteorigin-panels' ),
+			'description' => __( 'New posts of the above Post Types will be created using the Classic Editor.', 'siteorigin-panels' )
 		);
 
 		$fields['general']['fields']['live-editor-quick-link'] = array(
 			'type'        => 'checkbox',
 			'label'       => __( 'Live Editor Quick Link', 'siteorigin-panels' ),
 			'description' => __( 'Display a Live Editor button in the admin bar.', 'siteorigin-panels' ),
+		);
+
+		$fields['general']['fields']['admin-post-state'] = array(
+			'type'        => 'checkbox',
+			'label'       => __( 'Display Post State', 'siteorigin-panels' ),
+			'description' => sprintf(
+				__( "Display a %sSiteOrigin Page Builder%s post state in the admin lists of posts/pages to indicate Page Builder is active.", 'siteorigin-panels' ),
+				'<strong>',
+				'</strong>'
+			),
 		);
 
 		$fields['general']['fields']['admin-widget-count'] = array(
@@ -284,7 +303,21 @@ class SiteOrigin_Panels_Settings {
 		$fields['general']['fields']['load-on-attach'] = array(
 			'type' => 'checkbox',
 			'label' => __( 'Default To Page Builder Interface', 'siteorigin-panels' ),
-			'description' => __( 'New posts/pages that you create will start with the Page Builder loaded.', 'siteorigin-panels' )
+			'description' => sprintf(
+				__( 'New Classic Editor posts/pages that you create will start with the Page Builder loaded. The %s"Use Classic Editor for new posts"%s setting must be enabled.', 'siteorigin-panels' ),
+				'<strong>',
+				'</strong>'
+			)
+		);
+
+		$fields['general']['fields']['layout-block-default-mode'] = array(
+			'label' => __( 'Layout Block Default Mode', 'siteorigin-panels' ),
+			'type'        => 'select',
+			'options'     => array(
+				'edit' => __( 'Edit', 'siteorigin-panels' ),
+				'preview' => __( 'Preview', 'siteorigin-panels' ),
+			),
+			'description' => __( 'Whether to display layout blocks in edit mode or preview mode in the block editor.', 'siteorigin-panels' ),
 		);
 
 		// The widgets fields

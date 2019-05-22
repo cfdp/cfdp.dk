@@ -1,0 +1,38 @@
+{
+  "name": "patrickposner/passster",
+  "description": "the pro version of passster",
+  "type": "wordpress-plugin",
+  "require": {
+    "rych/phpass": "v2.0.1",
+    "gregwar/captcha": "^1.1",
+    "recaptcha/php5": "v2.0.0",
+    "ericmann/sessionz": "^0.3.1"
+  },
+  "license": "gpl",
+  "authors": [
+    {
+      "name": "Patrick Posner",
+      "email": "hello@patrickposner.de"
+    }
+  ],
+  "autoload": {
+    "classmap": [],
+    "files": [
+      "src/admin/class-ps-settings.php",
+      "src/admin/class-ps-admin.php",
+      "src/admin/class-ps-customizer.php",
+      "src/class-ps-activation.php",
+      "src/class-ps-helper.php",
+      "src/class-ps-shortcode.php",
+      "src/class-ps-form.php",
+      "src/addons/passwords/class-ps-list-table.php",
+      "src/addons/passwords/class-ps-password-lists.php",
+      "src/addons/class-ps-captcha.php",
+      "src/addons/class-ps-link.php",
+      "src/sessions/SessionHandler.php",
+      "src/sessions/DatabaseHandler.php",
+      "src/class-ps-session.php",
+      "src/class-ps-conditional.php"
+    ]
+  }
+}

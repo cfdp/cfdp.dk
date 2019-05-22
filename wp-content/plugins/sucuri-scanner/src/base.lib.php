@@ -57,7 +57,7 @@ class SucuriScan
             $code = ($type === 'error' ? 157 : 333);
             $message = str_replace(
                 SUCURISCAN_ADMIN_NOTICE_PREFIX,
-                ($type === 'error' ? 'Error:' : 'Info:'),
+                ($type === 'error' ? __('Error:', 'sucuri-scanner') : __('Info:', 'sucuri-scanner')),
                 $message
             );
 
@@ -273,13 +273,7 @@ class SucuriScan
      */
     public static function dataStorePath($path = '')
     {
-        if (defined('WP_CONTENT_DIR')) {
-            $content_dir = rtrim(WP_CONTENT_DIR, '/');
-        } else {
-            $content_dir = ABSPATH . '/wp-content';
-        }
-
-        $folder = $content_dir . '/uploads/sucuri';
+        $folder = WP_CONTENT_DIR . '/uploads/sucuri';
 
         /* custom path no matter its existence */
         if (defined('SUCURI_DATA_STORAGE')) {
@@ -877,6 +871,10 @@ class SucuriScan
      */
     public static function implode($separator = '', $list = array())
     {
+        if (!is_array($list)) {
+            return 'INVALID_ARGS';
+        }
+
         if (self::isMultiList($list)) {
             $pieces = array();
 

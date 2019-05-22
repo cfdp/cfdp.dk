@@ -1,9 +1,13 @@
 <?php
 
 class SimpleTags_Client_TagCloud {
+	/**
+	 * Init Embedded tag cloud
+	 *
+	 * SimpleTags_Client_TagCloud constructor.
+	 */
 	public function __construct() {
-		// Embedded tag cloud
-		if ( (int) SimpleTags_Plugin::get_option_value( 'allow_embed_tcloud' ) == 1 ) {
+		if ( 1 === (int) SimpleTags_Plugin::get_option_value( 'allow_embed_tcloud' ) ) {
 			add_shortcode( 'st_tag_cloud', array( __CLASS__, 'shortcode' ) );
 			add_shortcode( 'st-tag-cloud', array( __CLASS__, 'shortcode' ) );
 		}
@@ -17,7 +21,8 @@ class SimpleTags_Client_TagCloud {
 	 * @return string
 	 */
 	public static function shortcode( $atts ) {
-		extract( shortcode_atts( array( 'param' => '' ), $atts ) );
+		$atts = shortcode_atts( array( 'param' => '' ), $atts );
+		extract( $atts );
 
 		$param = html_entity_decode( $param );
 		$param = trim( $param );
@@ -37,7 +42,7 @@ class SimpleTags_Client_TagCloud {
 	 *
 	 * @return boolean
 	 */
-	public static function uksortByName( $a = '', $b = '' ) {
+	public static function uksort_by_name( $a = '', $b = '' ) {
 		return strnatcasecmp( remove_accents( $a ), remove_accents( $b ) );
 	}
 
@@ -140,11 +145,6 @@ class SimpleTags_Client_TagCloud {
 			$xformat = $defaults['xformat'];
 		}
 
-		// Clean memory
-		$args     = array();
-		$defaults = array();
-		unset( $args, $defaults );
-
 		if ( empty( $terms ) ) {
 			return SimpleTags_Client::output_content( 'st-tag-cloud', $format, $title, $notagstext, $copyright );
 		}
@@ -204,7 +204,7 @@ class SimpleTags_Client_TagCloud {
 		if ( $orderby == 'count' ) {
 			asort( $counts );
 		} elseif ( $orderby == 'name' ) {
-			uksort( $counts, array( __CLASS__, 'uksortByName' ) );
+			uksort( $counts, array( __CLASS__, 'uksort_by_name' ) );
 		} else { // rand
 			SimpleTags_Client::random_array( $counts );
 		}
@@ -225,11 +225,6 @@ class SimpleTags_Client_TagCloud {
 			$output[]     = SimpleTags_Client::format_internal_tag( $xformat, $term, $rel, $scale_result, $scale_max, $scale_min, $largest, $smallest, $unit, $maxcolor, $mincolor );
 		}
 
-		// Remove unused variables
-		$counts = array();
-		$terms  = array();
-		unset( $counts, $terms, $term );
-
 		return SimpleTags_Client::output_content( 'st-tag-cloud', $format, $title, $output, $copyright );
 	}
 
@@ -245,11 +240,9 @@ class SimpleTags_Client_TagCloud {
 	public static function _get_current_taxonomy( $taxonomies, $force_single = false ) {
 		if ( is_array( $taxonomies ) ) {
 			foreach ( $taxonomies as $key => $value ) {
-				if ( ! taxonomy_exists( $value ) ) // Remove from array is taxonomy not exist !
-				{
+				if ( ! taxonomy_exists( $value ) ) { // Remove from array is taxonomy not exist !
 					unset( $taxonomies[ $key ] );
-				} elseif ( $force_single == true ) // Force single instead array ?
-				{
+				} elseif ( true === $force_single ) {// Force single instead array ?
 					return $value;
 				}
 			}
@@ -265,7 +258,8 @@ class SimpleTags_Client_TagCloud {
 	/**
 	 * Extended get_tags public static function that use getTerms function
 	 *
-	 * @param string $args
+	 * @param string|array $args
+	 * @param string|array $taxonomy
 	 *
 	 * @return array
 	 */
@@ -341,7 +335,7 @@ class SimpleTags_Client_TagCloud {
 	 * @param string|array $taxonomies
 	 * @param string $args
 	 *
-	 * @return array
+	 * @return array|WP_Error
 	 */
 	public static function getTerms( $taxonomies, $args = '' ) {
 		global $wpdb;
@@ -522,7 +516,7 @@ class SimpleTags_Client_TagCloud {
 			$exclusions .= ')';
 		}
 		$exclusions = apply_filters( 'list_terms_exclusions', $exclusions, $args );
-		$where .= $exclusions;
+		$where      .= $exclusions;
 
 		// ST Features : Restrict category
 		if ( $category != 0 ) {
@@ -554,7 +548,7 @@ class SimpleTags_Client_TagCloud {
 		}
 
 		if ( ! empty( $slug ) ) {
-			$slug = sanitize_title( $slug );
+			$slug  = sanitize_title( $slug );
 			$where .= " AND t.slug = '$slug'";
 		}
 
@@ -564,7 +558,7 @@ class SimpleTags_Client_TagCloud {
 
 		if ( '' !== $parent ) {
 			$parent = (int) $parent;
-			$where .= " AND tt.parent = '$parent'";
+			$where  .= " AND tt.parent = '$parent'";
 		}
 
 		// ST Features : Another way to search
@@ -598,7 +592,7 @@ class SimpleTags_Client_TagCloud {
 		}
 
 		// don't limit the query results when we have to descend the family tree
-		if ( ! empty( $number ) && ! $hierarchical && empty( $child_of ) && '' === $parent ) {
+		if ( ! empty( $number ) && ! $hierarchical && empty( $child_of ) && '' == $parent ) {
 			if ( $offset ) {
 				$limit = 'LIMIT ' . $offset . ',' . $number;
 			} else {
@@ -610,7 +604,7 @@ class SimpleTags_Client_TagCloud {
 
 		if ( ! empty( $search ) ) {
 			$search = like_escape( $search );
-			$where .= " AND (t.name LIKE '%$search%')";
+			$where  .= " AND (t.name LIKE '%$search%')";
 		}
 
 		$selects = array();

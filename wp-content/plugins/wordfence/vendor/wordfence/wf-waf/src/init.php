@@ -1,4 +1,5 @@
 <?php
+if (defined('WFWAF_VERSION')) { exit(); }
 
 define('WFWAF_VERSION', '1.0.4');
 define('WFWAF_PATH', dirname(__FILE__) . '/');

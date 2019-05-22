@@ -1,6 +1,14 @@
 <?php
 class wfDB {
 	public $errorMsg = false;
+	
+	public static function shared() {
+		static $_shared = null;
+		if ($_shared === null) {
+			$_shared = new wfDB();
+		}
+		return $_shared;
+	}
   
   /**
    * Returns the table prefix for the main site on multisites and the site itself on single site installations.
