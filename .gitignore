@@ -10,6 +10,8 @@ wp-config.php
 robots.txt
 wp-content/wflogs
 wordfence-waf.php
+*.sql
+*.sql.gz
 
 # Hidden system files
 *.DS_Store
