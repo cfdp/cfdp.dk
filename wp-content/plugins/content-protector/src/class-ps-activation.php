@@ -2,16 +2,16 @@
 namespace passster;
 class PS_Activation {
 	/**
-	 * initialize activation
+	 * Initialize activation
 	 */
 	public static function init() {
 		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
 		add_filter( 'plugin_action_links_' . PASSSTER_PLUGIN_BASENAME, array( __CLASS__, 'plugin_action_links' ) );
 	}
 	/**
-	 * add plugin actions links for settings page
+	 * Add plugin actions links for settings page
 	 *
-	 * @param $links
+	 * @param array $links admin links.
 	 *
 	 * @return array
 	 */
@@ -22,7 +22,7 @@ class PS_Activation {
 		return array_merge( $action_links, $links );
 	}
 	/**
-	 * check conditions before activate
+	 * Check conditions before activate
 	 */
 	public function activate() {
 		global $wp_version;

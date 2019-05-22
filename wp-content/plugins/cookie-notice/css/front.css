@@ -23,6 +23,9 @@
 	padding: 10px;
 	text-align: center;
 	width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .cookie-notice-revoke-container {
@@ -31,6 +34,9 @@
 	width: 100%;
 	z-index: 1;
 	visibility: hidden;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .cn-top .cookie-notice-revoke-container {
@@ -131,4 +137,15 @@
 	-moz-transition: background-position 0.1s linear;
 	-o-transition: background-position 0.1s linear;
 	transition: background-position 0.1s linear;
+}
+
+@media all and (max-width: 900px) {
+	.cookie-notice-container #cn-notice-text {
+		display: block;
+		margin-bottom: 5px;
+	}
+	#cookie-notice .cn-button {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
 }

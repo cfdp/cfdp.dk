@@ -1,4 +1,5 @@
 <?php
+if (defined('WORDFENCE_VERSION')) {
 
 class wfActivityReport {
 	const BLOCK_TYPE_COMPLEX = 'complex';
@@ -300,8 +301,7 @@ SQL
 		$table_wfBlockedIPLog = wfDB::networkTable('wfBlockedIPLog');
 		$results = $this->db->get_results($this->db->prepare(<<<SQL
 SELECT *, COUNT(IP) as totalIPs, SUM(blockCount) as totalBlockCount
-FROM {$table_wfBlockedIPLog}
-WHERE unixday >= {$interval}
+FROM (SELECT * FROM {$table_wfBlockedIPLog} WHERE unixday >= {$interval} GROUP BY IP) t
 GROUP BY countryCode
 ORDER BY totalBlockCount DESC
 LIMIT %d
@@ -750,4 +750,5 @@ class wfActivityReportView extends wfView {
 		$country = wfUtils::countryCode2Name(wfUtils::IP2Country($readableIP));
 		return "{$readableIP} (" . ($country ? $country : 'Unknown') . ")"; 
 	}
+}
 }

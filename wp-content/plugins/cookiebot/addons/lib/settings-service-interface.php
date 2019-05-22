@@ -49,6 +49,17 @@ Interface Settings_Service_Interface {
 	public function is_addon_activated( $addon );
 
 	/**
+	 * Returns the addon version
+	 *
+	 * @param $addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version( $addon );
+
+	/**
 	 * Returns all cookie type for given addon
 	 *
 	 * @param $addon    string  option name
@@ -95,28 +106,6 @@ Interface Settings_Service_Interface {
 	 */
 	public function get_placeholder( $option_key, $default_placeholder, $cookies );
 
-	/**
-	 * returns true if the "remove tag" option is enabled
-	 *
-	 * @param $option_key
-	 *
-	 * @return bool
-	 *
-	 * @since 2.1.0
-	 */
-	public function is_remove_tag_enabled( $option_key );
-
-	/**
-	 * returns true if the "remove tag" option is enabled
-	 *
-	 * @param $option_key
-	 * @param $widget_key
-	 *
-	 * @return bool
-	 *
-	 * @since 2.1.0
-	 */
-	public function is_widget_remove_tag_enabled( $option_key, $widget_key );
 
 	/**
 	 * Check if the previous version is active
@@ -141,4 +130,12 @@ Interface Settings_Service_Interface {
 	 * @since 2.1.3
 	 */
 	public function is_latest_plugin_version( $addon );
+
+	/**
+	 * The cookiebot plugin is deactivated
+	 * so run this function to cleanup the addons.
+	 *
+	 * @since 2.2.0
+	 */
+	public function cookiebot_deactivated();
 }

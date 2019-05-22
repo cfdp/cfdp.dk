@@ -2,6 +2,9 @@
 
 class SimpleTags_Admin_Mass {
 
+	/**
+	 * SimpleTags_Admin_Mass constructor.
+	 */
 	public function __construct() {
 		// Ajax action, JS Helper and admin action
 		add_action( 'admin_init', array( __CLASS__, 'admin_init' ) );
@@ -10,7 +13,7 @@ class SimpleTags_Admin_Mass {
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
 
 		// Register taxo, parent method...
-		SimpleTags_Admin::registerDetermineTaxonomy();
+		SimpleTags_Admin::register_taxonomy();
 	}
 
 	/**
@@ -29,7 +32,6 @@ class SimpleTags_Admin_Mass {
 	/**
 	 * Control POST data for mass edit tags
 	 *
-	 * @param string $type
 	 */
 	public static function admin_init() {
 		if ( ! current_user_can( 'simple_tags' ) ) {
@@ -281,9 +283,9 @@ class SimpleTags_Admin_Mass {
 	/**
 	 * Clone the core WP function, add the possibility to manage the post type
 	 *
-	 * @param string $q
+	 * @param bool $q
 	 *
-	 * @return void
+	 * @return array
 	 * @author Amaury Balmer
 	 */
 	public static function edit_data_query( $q = false ) {

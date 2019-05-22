@@ -1,5 +1,5 @@
 <div class="passster-form" [PASSSTER_ID]>  
-  <form id="password-form" action="" method="post" autocomplete="off">
+  <form id="password-form" method="post" autocomplete="off" action-xhr="[PASSSTER_CURRENT_URL]" target="_top">
     <h4>[PASSSTER_FORM_HEADLINE]</h4>
     <p>[PASSSTER_FORM_INSTRUCTIONS]</p>
     <fieldset>

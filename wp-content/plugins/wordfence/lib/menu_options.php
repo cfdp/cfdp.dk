@@ -75,7 +75,6 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-howGetIPs-trusted-proxies' => __('Trusted Proxies', 'wordfence'),
 				'wf-option-other-hideWPVersion' => __('Hide WordPress version', 'wordfence'),
 				'wf-option-disableCodeExecutionUploads' => __('Disable Code Execution for Uploads directory', 'wordfence'),
-				'wf-option-disableCookies' => __('Disable Wordfence Cookies', 'wordfence'),
 				'wf-option-liveActivityPauseEnabled' => __('Pause live updates when window loses focus', 'wordfence'),
 				'wf-option-actUpdateInterval' => __('Update interval in seconds', 'wordfence'),
 				'wf-option-other-bypassLitespeedNoabort' => __('Bypass the LiteSpeed "noabort" check', 'wordfence'),
@@ -88,8 +87,8 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-notification-scanStatus' => __('Scan Status', 'wordfence'),
 				'wf-option-alertOn-update' => __('Email me when Wordfence is automatically updated', 'wordfence'),
 				'wf-option-alertOn-wordfenceDeactivated' => __('Email me if Wordfence is deactivated', 'wordfence'),
-				'wf-option-alertOn-critical' => __('Alert on critical problems', 'wordfence'),
-				'wf-option-alertOn-warnings' => __('Alert on warnings', 'wordfence'),
+				'wf-option-alertOn-wafDeactivated' => __('Email me if the Wordfence Web Application Firewall is turned off', 'wordfence'),
+				'wf-option-alertOn-scanIssues' => __('Alert me with scan results of this severity level or greater', 'wordfence'),
 				'wf-option-alertOn-block' => __('Alert when an IP address is blocked', 'wordfence'),
 				'wf-option-alertOn-loginLockout' => __('Alert when someone is locked out from login', 'wordfence'),
 				'wf-option-alertOn-lostPasswdForm' => __('Alert when the "lost password" form is used for a valid user', 'wordfence'),
@@ -107,6 +106,7 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-disableWAFBlacklistBlocking' => __('Real-Time IP Blacklist', 'wordfence'),
 				'wf-option-disableWAFIPBlocking' => __('Delay IP and Country blocking until after WordPress and plugins have loaded (only process firewall rules early)', 'wordfence'),
 				'wf-option-whitelisted' => __('Whitelisted IP addresses that bypass all rules', 'wordfence'),
+				'wf-option-whitelistedServices' => __('Whitelisted services', 'wordfence'),
 				'wf-option-bannedURLs' => __('Immediately block IPs that access these URLs', 'wordfence'),
 				'wf-option-wafAlertWhitelist' => __('Ignored IP addresses for Wordfence Web Application Firewall alerting', 'wordfence'),
 				'wf-option-wafRules' => __('Web Application Firewall Rules', 'wordfence'),
@@ -134,7 +134,6 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-max404Crawlers' => __('If a crawler\'s pages not found (404s) exceed', 'wordfence'),
 				'wf-option-maxRequestsHumans' => __('If a human\'s page views exceed', 'wordfence'),
 				'wf-option-max404Humans' => __('If a human\'s pages not found (404s) exceed', 'wordfence'),
-				'wf-option-maxScanHits' => __('If 404s for known vulnerable URLs exceed', 'wordfence'),
 				'wf-option-blockedTime' => __('How long is an IP address blocked when it breaks a rule', 'wordfence'),
 				'wf-option-allowed404s' => __('Whitelisted 404 URLs', 'wordfence'),
 				'wf-option-wafWhitelist' => __('Web Application Firewall Whitelisted URLs', 'wordfence'),
@@ -167,6 +166,7 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-scansEnabled-suspiciousAdminUsers' => __('Scan for admin users created outside of WordPress', 'wordfence'),
 				'wf-option-scansEnabled-passwds' => __('Check the strength of passwords', 'wordfence'),
 				'wf-option-scansEnabled-diskSpace' => __('Monitor disk space', 'wordfence'),
+				'wf-option-scansEnabled-wafStatus' => __('Monitor Web Application Firewall status', 'wordfence'),
 				'wf-option-scansEnabled-dns' => __('Scan for unauthorized DNS changes', 'wordfence'),
 				'wf-option-other-scanOutside' => __('Scan files outside your WordPress installation', 'wordfence'),
 				'wf-option-scansEnabled-scanImages' => __('Scan images, binary, and other files as if they were executable', 'wordfence'),
@@ -178,9 +178,7 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-maxExecutionTime' => __('Maximum execution time for each scan stage', 'wordfence'),
 				'wf-option-scan-exclude' => __('Exclude files from scan that match these wildcard patterns', 'wordfence'),
 				'wf-option-scan-include-extra' => __('Additional scan signatures', 'wordfence'),
-				'wf-option-loginSec-requireAdminTwoFactor' => __('Require Cellphone Sign-in for all Administrators', 'wordfence'),
-				'wf-option-loginSec-enableSeparateTwoFactor' => __('Enable Separate Prompt for Two Factor Code', 'wordfence'),
-				'wf-option-liveTrafficEnabled' => __('Enable live traffic logging', 'wordfence'),
+				'wf-option-liveTrafficEnabled' => __('Traffic logging mode (Live Traffic)', 'wordfence'),
 				'wf-option-liveTraf-ignorePublishers' => __('Don\'t log signed-in users with publishing access', 'wordfence'),
 				'wf-option-liveTraf-ignoreUsers' => __('List of comma separated usernames to ignore', 'wordfence'),
 				'wf-option-liveTraf-ignoreIPs' => __('List of comma separated IP addresses to ignore', 'wordfence'),
@@ -190,6 +188,13 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-exportOptions' => __('Export this site\'s Wordfence options for import on another site', 'wordfence'),
 				'wf-option-importOptions' => __('Import Wordfence options from another site using a token', 'wordfence'),
 			);
+			
+			if (wfCredentialsController::useLegacy2FA()) {
+				$indexOptions['wf-option-loginSec-requireAdminTwoFactor'] = __('Require Cellphone Sign-in for all Administrators', 'wordfence');
+				$indexOptions['wf-option-loginSec-enableSeparateTwoFactor'] = __('Enable Separate Prompt for Two Factor Code', 'wordfence');
+			}
+			
+			$indexOptions = array_merge($indexOptions, wfModuleController::shared()->optionIndexes);
 			
 			echo wfView::create('options/block-all-options-controls', array(
 				'showIcon' => false,
@@ -381,9 +386,11 @@ else if (wfConfig::get('touppPromptNeeded')) {
 						'showIcon' => false,
 					))->render();
 					
-					echo wfView::create('tools/options-group-2fa', array(
-						'stateKey' => 'wf-unified-2fa-options',
-					))->render();
+					if (wfCredentialsController::useLegacy2FA()) {
+						echo wfView::create('tools/options-group-2fa', array(
+							'stateKey' => 'wf-unified-2fa-options',
+						))->render();
+					}
 					
 					echo wfView::create('tools/options-group-live-traffic', array(
 						'stateKey' => 'wf-unified-live-traffic-options',
@@ -418,6 +425,12 @@ else if (wfConfig::get('touppPromptNeeded')) {
 							</div>
 						</div>
 					</div> <!-- end import options -->
+					<?php
+					$moduleOptionBlocks = wfModuleController::shared()->optionBlocks;
+					foreach ($moduleOptionBlocks as $b) {
+						echo $b;
+					}
+					?>
 				</div> <!-- end options block -->
 			</div> <!-- end content block -->
 		</div> <!-- end row -->

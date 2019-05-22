@@ -26,6 +26,9 @@
   "Custom_Facebook_Feed": {
     "class": "cookiebot_addons\\controller\\addons\\custom_facebook_feed\\Custom_Facebook_Feed"
   },
+  "Custom_Facebook_Feed_Pro": {
+    "class": "cookiebot_addons\\controller\\addons\\custom_facebook_feed_pro\\Custom_Facebook_Feed_Pro"
+  },
   "Embed_Autocorrect": {
     "class": "cookiebot_addons\\controller\\addons\\embed_autocorrect\\Embed_Autocorrect"
   },
@@ -58,5 +61,14 @@
   },
   "Optinmonster": {
     "class": "cookiebot_addons\\controller\\addons\\optinmonster\\Optinmonster"
+  },
+  "Wpforms": {
+    "class": "cookiebot_addons\\controller\\addons\\wpforms\\Wpforms"
+  },
+  "Gadwp": {
+    "class": "cookiebot_addons\\controller\\addons\\gadwp\\Gadwp"
+  },
+  "Addthis": {
+    "class": "cookiebot_addons\\controller\\addons\\addthis\\Addthis"
   }
 }

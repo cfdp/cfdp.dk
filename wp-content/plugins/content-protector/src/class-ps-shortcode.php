@@ -5,6 +5,9 @@ namespace passster;
 use  Phpass\Hash ;
 class PS_Shortcode
 {
+    /**
+     * Constructor for PS_Shortcode
+     */
     public function __construct()
     {
         add_shortcode( 'content_protector', array( $this, 'render_shortcode' ) );
@@ -12,11 +15,24 @@ class PS_Shortcode
         add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts' ) );
     }
     
+    /**
+     * Get instance of PS_Shortcode
+     *
+     * @return object
+     */
     public static function get_instance()
     {
-        new PS_Shortcode();
+        $shortcode = new PS_Shortcode();
+        return $shortcode;
     }
     
+    /**
+     * Render the passster shortcode
+     *
+     * @param array  $atts array of attributes.
+     * @param string $content current page content.
+     * @return string
+     */
     public function render_shortcode( $atts, $content = null )
     {
         /* user input */
@@ -50,33 +66,42 @@ class PS_Shortcode
             } else {
                 $output = str_replace( '[PASSSTER_ERROR_MESSAGE]', '', $output );
             }
+            
+            
+            if ( isset( $atts['auth'] ) ) {
+                PS_Helper::set_amp_headers( $atts['auth'], $atts['password'] );
+            } else {
+                PS_Helper::set_amp_headers( 'passster_password', $atts['password'] );
+            }
         
         }
         
         /* captcha */
-        
-        if ( isset( $atts['captcha'] ) && 'captcha' == $atts['captcha'] ) {
+        if ( true === PS_Helper::is_addon_active( 'captcha' ) ) {
             
-            if ( isset( $atts['auth'] ) ) {
-                $output = str_replace( 'passster_captcha', $atts['auth'], $output );
-                $auth = $atts['auth'];
-            } else {
-                $auth = 'passster_captcha';
-            }
-            
-            $captcha = new PS_Captcha();
-            $output = $content;
-            if ( false === PS_Helper::is_user_valid( $atts ) ) {
+            if ( isset( $atts['captcha'] ) && 'captcha' == $atts['captcha'] ) {
                 
-                if ( !isset( $_POST[$auth] ) || sanitize_text_field( $_POST[$auth] ) !== $_SESSION['phrase'] ) {
-                    $_SESSION['phrase'] = $captcha->captcha->getPhrase();
-                    $form = PS_Form::get_captcha_form( $captcha->captcha_img );
-                    $output = $this->check_atts( $atts, $output, $form );
+                if ( isset( $atts['auth'] ) ) {
+                    $output = str_replace( 'passster_captcha', $atts['auth'], $output );
+                    $auth = $atts['auth'];
+                } else {
+                    $auth = 'passster_captcha';
                 }
-            
+                
+                $captcha = new PS_Captcha();
+                $output = $content;
+                if ( false === PS_Helper::is_user_valid( $atts ) ) {
+                    
+                    if ( !isset( $_POST[$auth] ) || sanitize_text_field( $_POST[$auth] ) !== $_SESSION['phrase'] ) {
+                        $_SESSION['phrase'] = $captcha->captcha->getPhrase();
+                        $form = PS_Form::get_captcha_form( $captcha->captcha_img );
+                        $output = $this->check_atts( $atts, $output, $form );
+                    }
+                
+                }
             }
-        }
         
+        }
         if ( strpos( $output, 'passster-form' ) === false ) {
             $output = apply_filters( 'the_content', $output );
         }
@@ -84,44 +109,57 @@ class PS_Shortcode
     }
     
     /**
-     * check attributes and modify placeholders based on arguments
+     * Check attributes and modify placeholders based on arguments
      *
-     * @param array  $atts
-     * @param string $output
-     * @param string $form
-     * @return void
+     * @param array  $atts array of attributes.
+     * @param string $output output content.
+     * @param string $form current form.
+     * @return string
      */
     public function check_atts( $atts, $output, $form )
     {
         
         if ( isset( $atts['placeholder'] ) ) {
-            $output = str_replace( '[PASSSTER_PLACEHOLDER]', $atts['placeholder'], $form );
+            $form = str_replace( '[PASSSTER_PLACEHOLDER]', $atts['placeholder'], $form );
         } else {
-            $output = str_replace( '[PASSSTER_PLACEHOLDER]', __( 'Password', 'content-protector' ), $form );
+            
+            if ( isset( $atts['captcha'] ) ) {
+                $form = str_replace( '[PASSSTER_PLACEHOLDER]', __( 'Captcha Code', 'content-protector' ), $form );
+            } else {
+                $form = str_replace( '[PASSSTER_PLACEHOLDER]', __( 'Password', 'content-protector' ), $form );
+            }
+        
         }
         
         
         if ( isset( $atts['id'] ) ) {
             $id = 'id="' . $atts['id'] . '"';
-            $output = str_replace( '[PASSSTER_ID]', $id, $output );
+            $form = str_replace( '[PASSSTER_ID]', $id, $form );
         } else {
-            $output = str_replace( '[PASSSTER_ID]', '', $output );
+            $form = str_replace( '[PASSSTER_ID]', '', $form );
         }
         
         if ( isset( $atts['button'] ) ) {
-            $output = str_replace( get_theme_mod( 'passster_form_button_label', __( 'Submit', 'content-protector' ) ), $atts['button'], $output );
+            $form = str_replace( get_theme_mod( 'passster_form_button_label', __( 'Submit', 'content-protector' ) ), $atts['button'], $form );
         }
         if ( isset( $atts['headline'] ) ) {
-            $output = str_replace( get_theme_mod( 'passster_form_instructions_headline', __( 'Protected Area', 'content-protector' ) ), $atts['headline'], $output );
+            $form = str_replace( get_theme_mod( 'passster_form_instructions_headline', __( 'Protected Area', 'content-protector' ) ), $atts['headline'], $form );
         }
         if ( isset( $atts['instruction'] ) ) {
-            $output = str_replace( get_theme_mod( 'passster_form_instructions_text', __( 'This content is password-protected. Please verify with a password to unlock the content.', 'content-protector' ) ), $atts['instruction'], $output );
+            $form = str_replace( get_theme_mod( 'passster_form_instructions_text', __( 'This content is password-protected. Please verify with a password to unlock the content.', 'content-protector' ) ), $atts['instruction'], $form );
         }
-        return $output;
+        
+        if ( isset( $atts['hide'] ) && true == $atts['hide'] ) {
+            $form = str_replace( '[PASSSTER_HIDE]', ' passster-hide', $form );
+        } else {
+            $form = str_replace( '[PASSSTER_HIDE]', '', $form );
+        }
+        
+        return $form;
     }
     
     /**
-     * enqueue scripts for shortcode
+     * Enqueue scripts for shortcode
      *
      * @return void
      */
@@ -129,20 +167,56 @@ class PS_Shortcode
     {
         $suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min' );
         if ( !is_admin() ) {
-            wp_enqueue_style( 'passster-css', PASSSTER_URL . '/assets/public/passster' . $suffix . '.css' );
+            wp_enqueue_style(
+                'passster-css',
+                PASSSTER_URL . '/assets/public/passster' . $suffix . '.css',
+                '3.2',
+                'all'
+            );
         }
         $cookie_options = get_option( 'passster_advanced_settings' );
         
         if ( !empty($cookie_options) && 'on' == $cookie_options['toggle_cookie'] ) {
-            wp_enqueue_script( 'cookie', PASSSTER_URL . '/assets/public/cookie' . $suffix . '.js', array( 'jquery' ) );
-            wp_enqueue_script( 'passster-cookie', PASSSTER_URL . '/assets/public/passster-cookie' . $suffix . '.js', array( 'jquery', 'cookie' ) );
+            wp_enqueue_script(
+                'cookie',
+                PASSSTER_URL . '/assets/public/cookie' . $suffix . '.js',
+                array( 'jquery' ),
+                '3.2',
+                false
+            );
+            wp_enqueue_script(
+                'passster-cookie',
+                PASSSTER_URL . '/assets/public/passster-cookie' . $suffix . '.js',
+                array( 'jquery', 'cookie' ),
+                '3.2',
+                false
+            );
             wp_localize_script( 'passster-cookie', 'passster_cookie', array(
                 'url'        => admin_url() . 'admin-ajax.php',
                 'days'       => intval( $cookie_options['passster_cookie_duration'] ),
                 'use_cookie' => $cookie_options['toggle_cookie'],
             ) );
         }
-    
+        
+        if ( isset( $cookie_options['toggle_amp'] ) && 'on' == $cookie_options['toggle_amp'] ) {
+            wp_enqueue_script(
+                'passster-amp',
+                'https://cdn.ampproject.org/v0/amp-form-0.1.js',
+                array( 'jquery' ),
+                '3.2',
+                false
+            );
+        }
+        $password_typing = get_theme_mod( 'passster_form_instructions_password_typing' );
+        if ( isset( $password_typing ) && true === $password_typing ) {
+            wp_enqueue_script(
+                'password-typing',
+                PASSSTER_URL . '/assets/public/password-typing' . $suffix . '.js',
+                array( 'jquery' ),
+                '3.2',
+                false
+            );
+        }
     }
 
 }

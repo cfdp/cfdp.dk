@@ -1,3 +1,6 @@
+<?php
+if (!defined('WFWAF_VIEW_RENDERING')) { exit; }
+?>
 <!DOCTYPE html>
 <html>
 <head>

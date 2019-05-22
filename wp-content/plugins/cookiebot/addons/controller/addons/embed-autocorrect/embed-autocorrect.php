@@ -29,7 +29,7 @@ class Embed_Autocorrect implements Cookiebot_Addons_Interface {
 	 *
 	 * @since 1.3.0
 	 */
-	protected $cookie_consent;
+	public $cookie_consent;
 
 	/**
 	 * @var Buffer_Output_Interface
@@ -74,16 +74,7 @@ class Embed_Autocorrect implements Cookiebot_Addons_Interface {
 	 * @since 1.3.0
 	 */
 	public function cookiebot_addon_embed_autocorrect() {
-		// Check if Cookiebot is activated and active.
-		if ( ! function_exists( 'cookiebot_active' ) || ! cookiebot_active() ) {
-			return;
-		}
-
-		// consent is given
-		if ( $this->cookie_consent->are_cookie_states_accepted( $this->get_cookie_types() ) ) {
-			return;
-		}
-
+		
 		//add filters to handle autocorrection in content
 		add_filter( 'the_content', array(
 			$this,
@@ -175,10 +166,10 @@ class Embed_Autocorrect implements Cookiebot_Addons_Interface {
 		}
 		unset( $matches );
 
-		preg_match_all( '|<blockquote[^>]*class=\"twitter-tweet\"[^>]*>.*?</script></p>|si', $content, $matches );
+		preg_match_all( '|<blockquote[^>]*class=\"twitter-tweet\"[^>]*>.*?</script>|si', $content, $matches );
 		foreach ( $matches[0] as $match ) {
 			//Find src.
-			preg_match( '|<a href=\"([^\"]*)\">([^<]*)</a></p></blockquote>|', $match, $matchSrc );
+			preg_match( '|<a href=\"([^\"]*)\">([^<]*)</a></blockquote>|', $match, $matchSrc );
 			$src = $matchSrc[1];
 
 			//Replace - and add cookie consent notice.
@@ -205,24 +196,25 @@ class Embed_Autocorrect implements Cookiebot_Addons_Interface {
 		unset( $matches );
 
 
-		//Match all youtube, vimeo and facebook iframes.
-		preg_match_all( '/<iframe[^>]* src=("|\')[^("|\')](facebook\.com|youtu\.be|youtube\.com|youtube-nocookie\.com|player\.vimeo\.com)*[^>]*>.*?<\/iframe>/mi', $content, $matches );
+		//Match all speakerdeck, slideshare, screencast, reverbnation, mixcloud, kickstarter,
+		// dailymoition, collegehumor, cloudup, animoto, videopress, youtube, vimeo and facebook iframes.
+		preg_match_all( '/<iframe[^>]* src=("|\').*(facebook\.com|youtu\.be|youtube\.com|youtube-nocookie\.com|player\.vimeo\.com).*[^>].*>.*?<\/iframe>/mi', $content, $matches );
 
 		foreach ( $matches[0] as $x=>$match ) {
-			/**
-			 * Get the source attribute value
-			 */
+			/** Get the source attribute value */
 			$start = strpos( $match, ' src=' ) + 6;
 			$end   = strpos( $match, $matches[1][$x], $start );
 			$src   = substr( $match, $start, $end - $start );
 
+			/** Skip the matched iframe if the data-cookieconsent attribute exists */
+			if( strpos($match, 'data-cookieconsent') !== false ) {
+			    continue;
+            }
 
-			//Replace - and add cookie consent notice.
+			/**  Replace - and add cookie consent notice. */
 			$adjusted = str_replace( ' src=', ' data-cookieconsent="' . cookiebot_addons_output_cookie_types( $this->get_cookie_types() ) . '" data-src=', $match );
 
-			/**
-			 * Generate placeholder
-			 */
+			/** Generate placeholder */
 			$placeholder = $this->generate_placeholder_with_src( apply_filters( 'cookiebot_addons_embed_source', $src ) );
 
 			/**
@@ -238,7 +230,27 @@ class Embed_Autocorrect implements Cookiebot_Addons_Interface {
 			$content  = str_replace( $match, $adjusted, $content );
 		}
 
-
+		unset( $matches );
+		preg_match_all( '/<script.*(instagram|issuu|imgur|polldaddy|tumblr)+.*<\/script>/mi', $content, $matches );
+		foreach ( $matches[0] as $x => $match ) {
+			//Replace - and add cookie consent notice.
+			$adjusted = str_replace( ' src=', ' data-cookieconsent="' . cookiebot_addons_output_cookie_types( $this->get_cookie_types() ) . '" data-src=', $match );
+			/**
+			 * Generate placeholder
+			 */
+			$placeholder = $this->generate_placeholder_with_src( apply_filters( 'cookiebot_addons_embed_source', $src ) );
+			/**
+			 * Modify placeholder by Filter
+			 *
+			 * @param   $placeholder    string  Current placeholder text
+			 * @param   $src            string  Source attribute from the embedded video
+			 * @param   $this           array   Array of required cookie types
+			 */
+			$placeholder = apply_filters( 'cookiebot_addons_embed_placeholder', $placeholder, $src, $this->get_cookie_types() );
+			$adjusted .= $placeholder;
+			$content  = str_replace( $match, $adjusted, $content );
+		}
+		unset( $matches );
 
 
 
@@ -374,6 +386,17 @@ class Embed_Autocorrect implements Cookiebot_Addons_Interface {
 	}
 
 	/**
+	 * Retrieves current installed version of the addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version() {
+		return false;
+	}
+
+	/**
 	 * Default placeholder content
 	 *
 	 * @return string
@@ -467,28 +490,6 @@ class Embed_Autocorrect implements Cookiebot_Addons_Interface {
 	}
 
 	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return false;
-	}
-
-	/**
-	 * Return true if the remove tag option is enabled
-	 *
-	 * @return mixed
-	 *
-	 * @since 2.1.0
-	 */
-	public function is_remove_tag_enabled() {
-		return $this->settings->is_remove_tag_enabled( $this->get_option_name() );
-	}
-
-	/**
 	 * Returns parent class or false
 	 *
 	 * @return string|bool
@@ -497,5 +498,23 @@ class Embed_Autocorrect implements Cookiebot_Addons_Interface {
 	 */
 	public function get_parent_class() {
 		return get_parent_class( $this );
+	}
+
+	/**
+	 * Action after enabling the addon on the settings page
+	 *
+	 * @since 2.2.0
+	 */
+	public function post_hook_after_enabling() {
+		//do nothing
+	}
+
+	/**
+	 * Cookiebot plugin is deactivated
+	 *
+	 * @since 2.2.0
+	 */
+	public function plugin_deactivated() {
+		//do nothing
 	}
 }

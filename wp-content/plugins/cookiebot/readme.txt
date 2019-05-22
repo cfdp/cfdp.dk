@@ -2,8 +2,8 @@
 * Contributors: cookiebot,phpgeekdk,aytac
 * Tags: cookie, compliance, eu, gdpr, europe, cookie consent, consent
 * Requires at least: 4.4
-* Tested up to: 4.9
-* Stable tag: 2.1.3
+* Tested up to: 5.1
+* Stable tag: 2.4.3
 * Requires PHP: 5.4
 * License: GPLv2 or later
 
@@ -151,26 +151,60 @@ Cookiebot works with GTM, however you need to enable the "Hide Cookie Popup" opt
 
 ## Changelog ##
 
-### 2.1.3 - 2019-11-18 ###
+### 2.4.3 - 2019-05-16 ###
+* Fix bug in Embed Autocorrect addon.
+
+### 2.4.2 - 2019-05-15 ###
+* Adding addthis addon
+* Disable default autoupgrade
+* Minor fixes
+
+### 2.4.1 - 2019-03-19 ###
+* Fix jetpack related warning 
+
+### 2.4.0 - 2019-03-19 ###
+* Fixed bug resulting in some tags where not tagged
+* Change Piwik addon to use output buffering
+* Clean up redundant code in addons 
+
+### 2.3.0 - 2019-03-13 ###
+* Added GADWP addon
+* Changes in file structure of plugin
+
+### 2.2.2 - 2019-02-12 ###
+* Fix warning non-static call to get_cbid
+
+### 2.2.1 - 2019-02-12 ###
+* Adding support for WPForms
+* Add plugin deactivation hook for addons
+
+### 2.2.0 - 2019-02-11 ###
+* Adding support for network wide settings on Multisite Wordpress setups.
+
+### 2.1.5 - 2019-01-17 ###
+* New addon: Custom Facebook Feed Pro
+* Adding support for setting none, defer or async to Cookiebot script tags
+
+### 2.1.3 - 2018-11-18 ###
 * New addon: Popups by OptinMonster
 * Added support for grouping addons for different versions of same plugin
 
-### 2.1.2 - 2019-11-06 ###
+### 2.1.2 - 2018-11-06 ###
 * Auto correct addon added support for single quotes in iframe embeds
 
-### 2.1.1 - 2019-11-02 ###
+### 2.1.1 - 2018-11-02 ###
 * Updated addons with new tests and better plugin integration
 
-### 2.1.0 - 2019-10-05 ###
+### 2.1.0 - 2018-10-05 ###
 * Updated addons improved handling of tags
 * Adding Basque as language option
 * Remove .git files in addons
 
-### 2.0.6 - 2019-09-26 ###
+### 2.0.6 - 2018-09-26 ###
 * Updated addons to support newest version of CAOS
 * Minor bugfixes and text adjustments
 
-### 2.0.5 - 2019-09-21 ###
+### 2.0.5 - 2018-09-21 ###
 * Added "Leave a review" admin notice
 
 ### 2.0.4 - 2018-09-18 ###

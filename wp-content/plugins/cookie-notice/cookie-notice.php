@@ -2,7 +2,7 @@
 /*
 Plugin Name: Cookie Notice
 Description: Cookie Notice allows you to elegantly inform users that your site uses cookies and to comply with the EU cookie law GDPR regulations.
-Version: 1.2.44
+Version: 1.2.46
 Author: dFactory
 Author URI: http://www.dfactory.eu/
 Plugin URI: http://www.dfactory.eu/plugins/cookie-notice/
@@ -12,7 +12,7 @@ Text Domain: cookie-notice
 Domain Path: /languages
 
 Cookie Notice
-Copyright (C) 2013-2018, Digital Factory - info@digitalfactory.pl
+Copyright (C) 2013-2019, Digital Factory - info@digitalfactory.pl
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -34,7 +34,7 @@ include_once( plugin_dir_path( __FILE__ ) . 'includes/upgrade.php' );
  * Cookie Notice class.
  *
  * @class Cookie_Notice
- * @version	1.2.44
+ * @version	1.2.46
  */
 class Cookie_Notice {
 
@@ -77,7 +77,7 @@ class Cookie_Notice {
 			'translate'						=> true,
 			'deactivation_delete'			=> 'no'
 		),
-		'version'							=> '1.2.44'
+		'version'							=> '1.2.46'
 	);
 	private $positions 			= array();
 	private $styles 			= array();
@@ -107,6 +107,7 @@ class Cookie_Notice {
 
 		// actions
 		add_action( 'init', array( $this, 'register_shortcode' ) );
+		add_action( 'init', array( $this, 'wpsc_add_cookie' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu_options' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
@@ -634,7 +635,7 @@ class Cookie_Notice {
 
 		echo '
 				</select>
-				<p class="description">' . __( 'The ammount of time that cookie should be stored for.', 'cookie-notice' ) . '</p>
+				<p class="description">' . __( 'The amount of time that cookie should be stored for.', 'cookie-notice' ) . '</p>
 			</div>
 		</fieldset>';
 	}
@@ -953,7 +954,21 @@ class Cookie_Notice {
 	public function cookies_set() {
 		return apply_filters( 'cn_is_cookie_set', isset( $_COOKIE['cookie_notice_accepted'] ) );
 	}
-
+	
+	/**
+	 * Add WP Super Cache cookie.
+	 */
+	public function wpsc_add_cookie() {
+		do_action( 'wpsc_add_cookie', 'cookie_notice_accepted' );
+	}
+	
+	/**
+	 * Delete WP Super Cache cookie.
+	 */
+	public function wpsc_delete_cookie() {
+		do_action( 'wpsc_delete_cookie', 'cookie_notice_accepted' );
+	}
+		
 	/**
      * Get default settings.
      */
@@ -1007,8 +1022,13 @@ class Cookie_Notice {
 	 * Deactivate the plugin.
 	 */
 	public function deactivation() {
-		if ( $this->options['general']['deactivation_delete'] === 'yes' )
+		if ( $this->options['general']['deactivation_delete'] === 'yes' ) {
 			delete_option( 'cookie_notice_options' );
+			delete_option( 'cookie_notice_version' );
+		}
+		
+		// remove WP Super Cache cookie
+		$this->wpsc_delete_cookie();
 	}
 
 	/**

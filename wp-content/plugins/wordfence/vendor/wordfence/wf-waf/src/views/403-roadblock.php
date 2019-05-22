@@ -1,4 +1,5 @@
 <?php
+if (!defined('WFWAF_VIEW_RENDERING')) { exit; }
 
 /** @var wfWAF $waf */
 /** @var wfWAFView $this */

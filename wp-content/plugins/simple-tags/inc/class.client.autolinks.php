@@ -2,8 +2,8 @@
 
 class SimpleTags_Client_Autolinks {
 
-	static $posts = array();
-	static $link_tags = array();
+	public static $posts = array();
+	public static $link_tags = array();
 
 	/**
 	 * Constructor
@@ -13,14 +13,14 @@ class SimpleTags_Client_Autolinks {
 	 */
 	public function __construct() {
 		$auto_link_priority = SimpleTags_Plugin::get_option_value( 'auto_link_priority' );
-		if ( (int) $auto_link_priority == 0 ) {
+		if ( 0 === (int) $auto_link_priority ) {
 			$auto_link_priority = 12;
 		}
 
 		// Auto link tags
-		add_filter( 'the_posts', array( __CLASS__, 'the_posts' ), 10, 2 );
+		add_filter( 'the_posts', array( __CLASS__, 'the_posts' ), 10 );
 
-		if ( SimpleTags_Plugin::get_option_value( 'auto_link_views' ) != 'no' ) {
+		if ( 'no' !== SimpleTags_Plugin::get_option_value( 'auto_link_views' ) ) {
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), $auto_link_priority );
 		}
 	}
@@ -33,7 +33,7 @@ class SimpleTags_Client_Autolinks {
 	 *
 	 * @return array
 	 */
-	public static function the_posts( $posts, $query ) {
+	public static function the_posts( $posts ) {
 		if ( ! empty( $posts ) && is_array( $posts ) ) {
 			foreach ( (array) $posts as $post ) {
 				self::$posts[] = (int) $post->ID;
@@ -48,7 +48,7 @@ class SimpleTags_Client_Autolinks {
 	/**
 	 * Get tags from current post views
 	 *
-	 * @return boolean
+	 * @return array
 	 */
 	public static function get_tags_from_current_posts() {
 		if ( is_array( self::$posts ) && count( self::$posts ) > 0 ) {
@@ -62,15 +62,15 @@ class SimpleTags_Client_Autolinks {
 
 			// Get cache if exist
 			$cache = wp_cache_get( 'generate_keywords', 'simpletags' );
-			if ( $cache === false ) {
+			if ( false === $cache ) {
 				foreach ( self::$posts as $object_id ) {
 					// Get terms
 					$terms = get_object_term_cache( $object_id, 'post_tag' );
-					if ( false === $terms ) {
+					if ( false === $terms || is_wp_error( $terms ) ) {
 						$terms = wp_get_object_terms( $object_id, 'post_tag' );
 					}
 
-					if ( $terms != false ) {
+					if ( false !== $terms && ! is_wp_error( $terms ) ) {
 						$results = array_merge( $results, $terms );
 					}
 				}
@@ -95,7 +95,7 @@ class SimpleTags_Client_Autolinks {
 	 */
 	public static function prepare_auto_link_tags() {
 		$auto_link_min = (int) SimpleTags_Plugin::get_option_value( 'auto_link_min' );
-		if ( $auto_link_min == 0 ) {
+		if ( 0 === $auto_link_min ) {
 			$auto_link_min = 1;
 		}
 
@@ -119,7 +119,12 @@ class SimpleTags_Client_Autolinks {
 		global $post;
 
 		// Show only on singular view ? Check context
-		if ( SimpleTags_Plugin::get_option_value( 'auto_link_views' ) == 'singular' && ! is_singular() ) {
+		if ( 'singular' === SimpleTags_Plugin::get_option_value( 'auto_link_views' ) && ! is_singular() ) {
+			return $content;
+		}
+
+		// Show only on single view ? Check context
+		if ( 'single' === SimpleTags_Plugin::get_option_value( 'auto_link_views' ) && ! is_single() ) {
 			return $content;
 		}
 
@@ -144,12 +149,12 @@ class SimpleTags_Client_Autolinks {
 		}
 
 		// Case option ?
-		$case       = ( (int) SimpleTags_Plugin::get_option_value( 'auto_link_case' ) == 1 ) ? 'i' : '';
-		$strpos_fnc = ( $case == 'i' ) ? 'stripos' : 'strpos';
+		$case       = ( 1 === (int) SimpleTags_Plugin::get_option_value( 'auto_link_case' ) ) ? 'i' : '';
+		$strpos_fnc = ( 'i' === $case ) ? 'stripos' : 'strpos';
 
 		// Prepare exclude terms array
 		$excludes_terms = explode( ',', SimpleTags_Plugin::get_option_value( 'auto_link_exclude' ) );
-		if ( $excludes_terms == false ) {
+		if ( empty( $excludes_terms ) ) {
 			$excludes_terms = array();
 		} else {
 			$excludes_terms = array_filter( $excludes_terms, '_delete_empty_element' );
@@ -160,21 +165,21 @@ class SimpleTags_Client_Autolinks {
 		foreach ( (array) self::$link_tags as $term_name => $term_link ) {
 			// Force string for tags "number"
 			$term_name = (string) $term_name;
-			
+
 			// Exclude terms ? next...
-			if ( in_array( $term_name, (array) $excludes_terms ) ) {
+			if ( in_array( $term_name, (array) $excludes_terms, true ) ) {
 				continue;
 			}
 
 			// Make a first test with PHP function, economize CPU with regexp
-			if ( $strpos_fnc( $content, $term_name ) === false ) {
+			if ( false === $strpos_fnc( $content, $term_name ) ) {
 				continue;
 			}
 
-			if ( (int) SimpleTags_Plugin::get_option_value( 'auto_link_dom' ) == 1 && class_exists( 'DOMDocument' ) && class_exists( 'DOMXPath' ) ) {
-				self::_replace_by_links_dom( $content, $term_name, $term_link, $case, $rel );
+			if ( 1 === (int) SimpleTags_Plugin::get_option_value( 'auto_link_dom' ) && class_exists( 'DOMDocument' ) && class_exists( 'DOMXPath' ) ) {
+				self::replace_by_links_dom( $content, $term_name, $term_link, $case, $rel );
 			} else {
-				self::_replace_by_links_regexp( $content, $term_name, $term_link, $case, $rel );
+				self::replace_by_links_regexp( $content, $term_name, $term_link, $case, $rel );
 			}
 
 			$z ++;
@@ -196,21 +201,23 @@ class SimpleTags_Client_Autolinks {
 	 * @param string $replace
 	 * @param string $case
 	 * @param string $rel
+	 *
+	 * @return void
 	 */
-	private static function _replace_by_links_dom( &$content, $search = '', $replace = '', $case = '', $rel = '' ) {
+	private static function replace_by_links_dom( &$content, $search = '', $replace = '', $case = '', $rel = '' ) {
 		$dom = new DOMDocument();
 
 		// loadXml needs properly formatted documents, so it's better to use loadHtml, but it needs a hack to properly handle UTF-8 encoding
 		$result = $dom->loadHtml( mb_convert_encoding( $content, 'HTML-ENTITIES', "UTF-8" ) );
-		if ( $result === false ) {
-			return false;
+		if ( false === $result ) {
+			return;
 		}
 
 		$xpath = new DOMXPath( $dom );
 		foreach ( $xpath->query( '//text()[not(ancestor::a)]' ) as $node ) {
 			$substitute = '<a href="' . $replace . '" class="st_tag internal_tag" ' . $rel . ' title="' . esc_attr( sprintf( SimpleTags_Plugin::get_option_value( 'auto_link_title' ), $search ) ) . "\">$search</a>";
 
-			if ( $case == 'i' ) {
+			if ( 'i' === $case ) {
 				$replaced = str_ireplace( $search, $substitute, $node->wholeText );
 			} else {
 				$replaced = str_replace( $search, $substitute, $node->wholeText );
@@ -234,14 +241,14 @@ class SimpleTags_Client_Autolinks {
 	 * @param string $case
 	 * @param string $rel
 	 */
-	private static function _replace_by_links_regexp( &$content, $search = '', $replace = '', $case = '', $rel = '' ) {
+	private static function replace_by_links_regexp( &$content, $search = '', $replace = '', $case = '', $rel = '' ) {
 		$must_tokenize = true; // will perform basic tokenization
 		$tokens        = null; // two kinds of tokens: markup and text
 
 		$j        = 0;
 		$filtered = ''; // will filter text token by token
 
-		$match      = '/(\PL|\A)(' . preg_quote( $search, "/" ) . ')(\PL|\Z)/u' . $case;
+		$match      = '/(\PL|\A)(' . preg_quote( $search, '/' ) . ')(\PL|\Z)/u' . $case;
 		$substitute = '$1<a href="' . $replace . '" class="st_tag internal_tag" ' . $rel . ' title="' . esc_attr( sprintf( SimpleTags_Plugin::get_option_value( 'auto_link_title' ), $search ) ) . "\">$2</a>$3";
 
 		//$match = "/\b" . preg_quote($search, "/") . "\b/".$case;
@@ -264,11 +271,11 @@ class SimpleTags_Client_Autolinks {
 		if ( isset( $tokens ) && is_array( $tokens ) && count( $tokens ) > 0 ) {
 			$i = 0;
 			foreach ( $tokens as $token ) {
-				if ( ++ $i % 2 && $token != '' ) { // this token is (non-markup) text
-					if ( $anchor_level == 0 ) { // linkify if not inside anchor tags
+				if ( ++ $i % 2 && $token !== '' ) { // this token is (non-markup) text
+					if ( $anchor_level === 0 ) { // linkify if not inside anchor tags
 						if ( preg_match( $match, $token ) ) { // use preg_match for compatibility with PHP 4
 							$j ++;
-							if ( $j <= SimpleTags_Plugin::get_option_value( 'auto_link_max_by_tag' ) || SimpleTags_Plugin::get_option_value( 'auto_link_max_by_tag' ) == 0 ) {// Limit replacement at 1 by default, or options value !
+							if ( $j <= SimpleTags_Plugin::get_option_value( 'auto_link_max_by_tag' ) || 0 === (int) SimpleTags_Plugin::get_option_value( 'auto_link_max_by_tag' ) ) {// Limit replacement at 1 by default, or options value !
 								$token = preg_replace( $match, $substitute, $token ); // only PHP 5 supports calling preg_replace with 5 arguments
 							}
 							$must_tokenize = true; // re-tokenize next time around

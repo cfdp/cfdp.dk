@@ -75,15 +75,25 @@ class Googleplus_Badge_Widget {
 	 * Load configuration
 	 */
 	public function load_configuration() {
+		/**
+		 * The widget is active
+		 */
 		if ( is_active_widget( false, false, 'googleplus-badge', true ) ) {
-
+			/**
+			 * The widget is enabled in Prior consent
+			 */
 			if ( $this->is_widget_enabled() ) {
-				$this->cookie_types = $this->get_widget_cookie_types();
+				/**
+				 * The visitor didn't check the required cookie types
+				 */
+				if ( ! $this->cookie_consent->are_cookie_states_accepted( $this->get_widget_cookie_types() ) ) {
+					$this->cookie_types = $this->get_widget_cookie_types();
 
-				$this->disable_javascript_file();
+					$this->disable_javascript_file();
 
-				if ( $this->is_widget_placeholder_enabled() ) {
-					add_action( 'jetpack_stats_extra', array( $this, 'display_div_message_to_go_to_consent_settings' ), 10, 2 );
+					if ( $this->is_widget_placeholder_enabled() ) {
+						add_action( 'jetpack_stats_extra', array( $this, 'display_div_message_to_go_to_consent_settings' ), 10, 2 );
+					}
 				}
 			}
 		}
@@ -226,14 +236,4 @@ class Googleplus_Badge_Widget {
 		return '<p>Merge tags you can use in the placeholder text:</p><ul><li>%cookie_types - Lists required cookie types</li><li>[renew_consent]text[/renew_consent] - link to display cookie settings in frontend</li></ul>';
 	}
 
-	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return false;
-	}
 }

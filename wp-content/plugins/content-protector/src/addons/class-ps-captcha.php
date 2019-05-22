@@ -9,11 +9,19 @@ class PS_Captcha
     public  $captcha_settings ;
     public  $captcha ;
     public  $captcha_img ;
+    /**
+     * Constructor for PS_Captcha
+     */
     public function __construct()
     {
         $this->setup_captcha();
     }
     
+    /**
+     * Setup the captcha
+     *
+     * @return void
+     */
     public function setup_captcha()
     {
         $captcha_options = get_option( 'passster_captcha' );

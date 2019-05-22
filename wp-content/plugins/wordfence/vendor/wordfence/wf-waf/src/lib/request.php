@@ -1,4 +1,5 @@
 <?php
+if (defined('WFWAF_VERSION') && !defined('WFWAF_RUN_COMPLETE')) {
 
 interface wfWAFRequestInterface {
 
@@ -864,8 +865,13 @@ FORM;
 			}
 		}
 		
-		if (!is_string($body)) {
-			$body = '';
+		if (!is_string($body) || empty($body)) {
+			if (is_string($rawBody)) {
+				$body = $rawBody;
+			}
+			else {
+				$body = '';
+			}
 		}
 
 		$request .= "\n" . $body;
@@ -1082,4 +1088,4 @@ FORM;
 		$this->metadata = $metadata;
 	}
 }
-
+}

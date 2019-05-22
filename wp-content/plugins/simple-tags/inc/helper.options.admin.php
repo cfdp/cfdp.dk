@@ -65,6 +65,13 @@ return array(
 			__( 'This feature allow page post type to be tagged. This option add pages in tags search. Also add tag management in write page.', 'simpletags' )
 		),
 		array(
+			'use_tracking',
+			__( 'Tracking', 'simpletags' ),
+			'checkbox',
+			'1',
+			__( 'By allowing us to track your usage, we can help you better because we will know with what configuration WordPress, what themes and what extensions we should perform tests', 'simpletags' )
+		),
+		array(
 			'allow_embed_tcloud',
 			__( 'Tag cloud Shortcode', 'simpletags' ),
 			'checkbox',
@@ -100,6 +107,15 @@ return array(
 				'name-desc'  => __( '<code>name-desc</code> &ndash; Inverse Alphabetical.', 'simpletags' ),
 				'random'     => __( '<code>random</code> &ndash; Random.', 'simpletags' ),
 			)
+		),
+		array(
+			'visibility_click_tags',
+			__( 'Click tags - Post edition default visibility', 'simpletags' ),
+			'radio',
+			array(
+				'hide' => __( 'Hidden, you must click on display tags. (default)', 'simpletags' ),
+				'show' => __( 'Displayed, you can not hide them.', 'simpletags' ),
+			),
 		),
 		array(
 			'opencalais_key',
@@ -215,8 +231,9 @@ return array(
 			array(
 				'no'       => __( '<code>no</code> &ndash; Nowhere', 'simpletags' ),
 				'all'      => __( '<code>all</code> &ndash; On your blog and feeds.', 'simpletags' ),
+				'single'   => __( '<code>single</code> &ndash; Only on your single post view.', 'simpletags' ),
 				'singular' => __( '<code>singular</code> &ndash; Only on your singular view (single post & page) (default).', 'simpletags' ),
-			)
+			),
 		),
 		array(
 			'auto_link_dom',

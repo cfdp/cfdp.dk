@@ -14,8 +14,13 @@ function ps_fs()
             'type'           => 'plugin',
             'public_key'     => 'pk_9d9d6d17bd34372b199f36e37dd4b',
             'is_premium'     => false,
+            'premium_suffix' => '',
             'has_addons'     => false,
             'has_paid_plans' => true,
+            'trial'          => array(
+            'days'               => 7,
+            'is_require_payment' => false,
+        ),
             'menu'           => array(
             'slug'           => 'passster_settings',
             'override_exact' => true,
@@ -69,7 +74,11 @@ function passster_cleanup()
                     delete_option( $option );
                 }
             }
-        
+            
+            global  $wpdb ;
+            $table_name = $wpdb->prefix . 'ps_sessions';
+            $sql = "DROP TABLE IF EXISTS {$table_name}";
+            $wpdb->query( $sql );
         }
     
     }

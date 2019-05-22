@@ -6,7 +6,9 @@
  * Plugin URI: https://wordpress.sucuri.net/
  * Author URI: https://sucuri.net/
  * Author: Sucuri Inc.
- * Version: 1.8.18
+ * Text Domain: sucuri-scanner
+ * Domain Path: /lang
+ * Version: 1.8.21
  *
  * PHP version 5
  *
@@ -59,7 +61,7 @@ foreach ($sucuriscan_dependencies as $dependency) {
 }
 
 /* check if installation path is available */
-if (!defined('ABSPATH')) {
+if (!defined('ABSPATH') || !defined('WP_CONTENT_DIR')) {
     /* Report invalid access if possible. */
     header('HTTP/1.1 403 Forbidden');
     exit(0);
@@ -83,7 +85,7 @@ define('SUCURISCAN', 'sucuriscan');
 /**
  * Current version of the plugin's code.
  */
-define('SUCURISCAN_VERSION', '1.8.18');
+define('SUCURISCAN_VERSION', '1.8.21');
 
 /**
  * Defines the human readable name of the plugin.
@@ -193,6 +195,12 @@ if (!array_key_exists('SERVER_NAME', $_SERVER)) {
     $_SERVER['SERVER_NAME'] = 'localhost';
 }
 
+/* Load plugin translations */
+function sucuriscan_load_plugin_textdomain() {
+    load_plugin_textdomain( 'sucuri-scanner', false, basename( dirname( __FILE__ ) ) . '/lang/' );
+}
+add_action('plugins_loaded', 'sucuriscan_load_plugin_textdomain');
+
 /* Load all classes before anything else. */
 require_once 'src/base.lib.php';
 require_once 'src/request.lib.php';
@@ -210,6 +218,7 @@ require_once 'src/hardening.lib.php';
 require_once 'src/interface.lib.php';
 require_once 'src/auditlogs.lib.php';
 require_once 'src/sitecheck.lib.php';
+require_once 'src/wordpress-recommendations.lib.php';
 require_once 'src/integrity.lib.php';
 require_once 'src/firewall.lib.php';
 require_once 'src/installer-skin.lib.php';
@@ -252,6 +261,7 @@ function sucuriscanResetAndDeactivate()
 {
     /* Delete scheduled task from the system */
     wp_clear_scheduled_hook('sucuriscan_scheduled_scan');
+    SucuriScanEvent::reportDebugEvent('Sucuri plugin has been deactivated');
 }
 
 /**
@@ -303,6 +313,8 @@ function sucuriscanUninstall()
     $fifo->run_recursively = false;
     $directory = SucuriScan::dataStorePath();
     $fifo->removeDirectoryTree($directory);
+
+    SucuriScanEvent::reportDebugEvent(__('Sucuri plugin has been uninstalled', 'sucuri-scanner'));
 }
 
 register_deactivation_hook(__FILE__, 'sucuriscanResetAndDeactivate');

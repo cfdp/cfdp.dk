@@ -6,9 +6,9 @@ use  Phpass\Hash ;
 class PS_Conditional
 {
     /**
-     * conditional function to check passwords
+     * Conditional function to check passwords
      *
-     * @param string $password
+     * @param  string $password current password.
      * @return boolean
      */
     public static function is_password_valid( $password )
@@ -43,8 +43,8 @@ class PS_Conditional
     /**
      * Conditional to check multiple passwords
      *
-     * @param string $passwords
-     * @return void
+     * @param string $passwords string of multiple passwords.
+     * @return boolean
      */
     public static function are_passwords_valid( $passwords )
     {

@@ -29,7 +29,7 @@ class Instagram_Feed implements Cookiebot_Addons_Interface {
 	 *
 	 * @since 1.3.0
 	 */
-	protected $cookie_consent;
+	public $cookie_consent;
 
 	/**
 	 * @var Buffer_Output_Interface
@@ -70,21 +70,6 @@ class Instagram_Feed implements Cookiebot_Addons_Interface {
 	 * @since 1.3.0
 	 */
 	public function cookiebot_addon_sb_instagram() {
-		// Check if instagram feed is loaded.
-		if ( ! defined( 'SBIVER' ) ) {
-			return;
-		}
-
-		// Check if Cookiebot is activated and active.
-		if ( ! function_exists( 'cookiebot_active' ) || ! cookiebot_active() ) {
-			return;
-		}
-
-		// consent is given
-		if( $this->cookie_consent->are_cookie_states_accepted( $this->get_cookie_types() ) ) {
-			return;
-		}
-
 		// External js, so manipulate attributes
 		if ( has_action( 'wp_enqueue_scripts', 'sb_instagram_scripts_enqueue' ) ) {
 			$this->script_loader_tag->add_tag( 'sb_instagram_scripts', $this->get_cookie_types() );
@@ -169,6 +154,17 @@ class Instagram_Feed implements Cookiebot_Addons_Interface {
 	 */
 	public function is_addon_activated() {
 		return $this->settings->is_addon_activated( $this->get_plugin_file() );
+	}
+
+	/**
+	 * Retrieves current installed version of the addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version() {
+		return $this->settings->get_addon_version( $this->get_plugin_file() );
 	}
 
 	/**
@@ -265,17 +261,6 @@ class Instagram_Feed implements Cookiebot_Addons_Interface {
 	}
 
 	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return false;
-	}
-
-	/**
 	 * Returns parent class or false
 	 *
 	 * @return string|bool
@@ -284,5 +269,23 @@ class Instagram_Feed implements Cookiebot_Addons_Interface {
 	 */
 	public function get_parent_class() {
 		return get_parent_class( $this );
+	}
+
+	/**
+	 * Action after enabling the addon on the settings page
+	 *
+	 * @since 2.2.0
+	 */
+	public function post_hook_after_enabling() {
+		//do nothing
+	}
+
+	/**
+	 * Cookiebot plugin is deactivated
+	 *
+	 * @since 2.2.0
+	 */
+	public function plugin_deactivated() {
+		//do nothing
 	}
 }

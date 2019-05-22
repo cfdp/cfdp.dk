@@ -51,7 +51,7 @@ if (!isset($collapseable)) {
 						<?php
 						echo wfView::create('options/option-text', array(
 							'textOptionName' => 'alertEmails',
-							'textValue' => wfConfig::get('alertEmails'),
+							'textValue' => implode(',', wfConfig::getAlertEmails()),
 							'title' => __('Where to email alerts', 'wordfence'),
 							'placeholder' => __('Separate multiple addresses with commas', 'wordfence'),
 							'helpLink' => wfSupportController::supportURL(wfSupportController::ITEM_DASHBOARD_OPTION_ALERT_EMAILS),
@@ -84,19 +84,6 @@ if (!isset($collapseable)) {
 							'value' => wfConfig::get('disableCodeExecutionUploads') ? 1 : 0,
 							'title' => __('Disable Code Execution for Uploads directory', 'wordfence'),
 							'helpLink' => wfSupportController::supportURL(wfSupportController::ITEM_DASHBOARD_OPTION_DISABLE_UPLOADS_EXECUTION),
-						))->render();
-						?>
-					</li>
-					<li>
-						<?php
-						echo wfView::create('options/option-toggled', array(
-							'optionName' => 'disableCookies',
-							'enabledValue' => 1,
-							'disabledValue' => 0,
-							'value' => wfConfig::get('disableCookies') ? 1 : 0,
-							'title' => __('Disable Wordfence Cookies', 'wordfence'),
-							'subtitle' => __('When enabled, all visits in live traffic will appear to be new visits.', 'wordfence'),
-							'helpLink' => wfSupportController::supportURL(wfSupportController::ITEM_DASHBOARD_OPTION_DISABLE_COOKIES),
 						))->render();
 						?>
 					</li>

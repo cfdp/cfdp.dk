@@ -18,7 +18,7 @@ class DatabaseHandler extends SessionHandler {
 
 	/**
 	 * Create the new table for housing session data if we're not still using
-	 * the legacy options mechanism. This code should be invoked before
+	 * the legacy options mechanips. This code should be invoked before
 	 * instantiating the singleton session manager to ensure the table exists
 	 * before trying to use it.
 	 *
@@ -32,7 +32,7 @@ class DatabaseHandler extends SessionHandler {
 		}
 
 		$current_db_version = '0.2';
-		$created_db_version = get_option( 'sm_session_db_version', '0.0' );
+		$created_db_version = get_option( 'ps_session_db_version', '0.0' );
 
 		// If we're up-to-date, don't run the update
 		if ( $created_db_version === $current_db_version ) {
@@ -52,22 +52,22 @@ class DatabaseHandler extends SessionHandler {
 		switch ( $created_db_version ) {
 			case '0.1':
 				$dropped = maybe_drop_column(
-					"{$wpdb->prefix}sm_sessions",
+					"{$wpdb->prefix}ps_sessions",
 					'session_id',
-					"ALTER TABLE {$wpdb->prefix}sm_sessions DROP COLUMN session_id;"
+					"ALTER TABLE {$wpdb->prefix}ps_sessions DROP COLUMN session_id;"
 				);
 
 				if ( ! $dropped ) {
 					return new \WP_Error( 'Unable to update session tables!' );
 				}
 
-				update_option( 'sm_session_db_version', '0.2' );
+				update_option( 'ps_session_db_version', '0.2' );
 				break;
 			case '0.0':
 			default:
 				$created = maybe_create_table(
-					"{$wpdb->prefix}sm_sessions",
-					"CREATE TABLE {$wpdb->prefix}sm_sessions (
+					"{$wpdb->prefix}ps_sessions",
+					"CREATE TABLE {$wpdb->prefix}ps_sessions (
                         session_key char(32) NOT NULL,
                         session_value LONGTEXT NOT NULL,
                         session_expiry BIGINT(20) UNSIGNED NOT NULL,
@@ -79,10 +79,7 @@ class DatabaseHandler extends SessionHandler {
 					return new \WP_Error( 'Unable to create session tables!' );
 				}
 
-				add_option( 'sm_session_db_version', '0.2', '', 'no' );
-
-				// Nuke any legacy sessions from the options table.
-				OptionsHandler::deleteAll();
+				add_option( 'ps_session_db_version', '0.2', '', 'no' );
 		}
 
 		return true;
@@ -149,7 +146,7 @@ class DatabaseHandler extends SessionHandler {
 			return $this->directDelete( $key );
 		}
 
-		return $wpdb->replace( "{$wpdb->prefix}sm_sessions", $session );
+		return $wpdb->replace( "{$wpdb->prefix}ps_sessions", $session );
 	}
 
 	/**
@@ -192,7 +189,7 @@ class DatabaseHandler extends SessionHandler {
 
 		$session = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT * FROM {$wpdb->prefix}sm_sessions WHERE session_key = %s",
+				"SELECT * FROM {$wpdb->prefix}ps_sessions WHERE session_key = %s",
 				$session_key
 			),
 			ARRAY_A
@@ -231,7 +228,7 @@ class DatabaseHandler extends SessionHandler {
 		$session_key = $this->sanitize( $key );
 
 		if ( null !== $wpdb ) {
-			$wpdb->delete( "{$wpdb->prefix}sm_sessions", [ 'session_key' => $session_key ] );
+			$wpdb->delete( "{$wpdb->prefix}ps_sessions", [ 'session_key' => $session_key ] );
 		}
 	}
 
@@ -259,7 +256,7 @@ class DatabaseHandler extends SessionHandler {
 		if ( null !== $wpdb ) {
 			$wpdb->query(
 				$wpdb->prepare(
-					"DELETE FROM {$wpdb->prefix}sm_sessions WHERE session_expiry < %s LIMIT %d",
+					"DELETE FROM {$wpdb->prefix}ps_sessions WHERE session_expiry < %s LIMIT %d",
 					time(),
 					1000
 				)

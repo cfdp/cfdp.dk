@@ -18,19 +18,19 @@
   "autoload": {
     "classmap": [],
     "files": [
-      "src/class-ps-settings.php",
-      "src/class-ps-admin.php",
+      "src/admin/class-ps-settings.php",
+      "src/admin/class-ps-admin.php",
+      "src/admin/class-ps-customizer.php",
       "src/class-ps-activation.php",
       "src/class-ps-helper.php",
       "src/class-ps-shortcode.php",
       "src/class-ps-form.php",
-      "src/class-ps-customizer.php",
+      "src/addons/passwords/class-ps-list-table.php",
+      "src/addons/passwords/class-ps-password-lists.php",
       "src/addons/class-ps-captcha.php",
       "src/addons/class-ps-link.php",
       "src/sessions/SessionHandler.php",
       "src/sessions/DatabaseHandler.php",
-      "src/sessions/Option.php",
-      "src/sessions/OptionsHandler.php",
       "src/class-ps-session.php",
       "src/class-ps-conditional.php"
     ]

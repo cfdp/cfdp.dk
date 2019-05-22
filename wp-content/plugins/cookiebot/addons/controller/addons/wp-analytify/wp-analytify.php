@@ -29,7 +29,7 @@ class Wp_Analytify implements Cookiebot_Addons_Interface {
 	 *
 	 * @since 1.5.0
 	 */
-	protected $cookie_consent;
+	public $cookie_consent;
 
 	/**
 	 * @var Buffer_Output_Interface
@@ -70,23 +70,9 @@ class Wp_Analytify implements Cookiebot_Addons_Interface {
 	 * @since 1.5.0
 	 */
 	public function cookiebot_addon_analytify() {
-		// Check if Analytify is loaded.
-		if ( ! class_exists( 'WP_Analytify' ) ) {
-			return;
-		}
-
-		// Check if Cookiebot is activated and active.
-		if ( ! function_exists( 'cookiebot_active' ) || ! cookiebot_active() ) {
-			return;
-		}
-
-		// consent is given
-		if( $this->cookie_consent->are_cookie_states_accepted( $this->get_cookie_types() ) ) {
-			return;
-		}
-
-		// Disable Analytify if cookie consent not allowed
-		cookiebot_addons_remove_class_action( 'wp_head', 'WP_Analytify', 'analytify_add_analytics_code' );
+        $this->buffer_output->add_tag( 'wp_head', 10, array(
+            'GoogleAnalyticsObject'     => $this->get_cookie_types()
+        ), false );
 	}
 
 	/**
@@ -167,6 +153,17 @@ class Wp_Analytify implements Cookiebot_Addons_Interface {
 	 */
 	public function is_addon_activated() {
 		return $this->settings->is_addon_activated( $this->get_plugin_file() );
+	}
+
+	/**
+	 * Retrieves current installed version of the addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version() {
+		return $this->settings->get_addon_version( $this->get_plugin_file() );
 	}
 
 	/**
@@ -262,16 +259,6 @@ class Wp_Analytify implements Cookiebot_Addons_Interface {
 		return '<p>Merge tags you can use in the placeholder text:</p><ul><li>%cookie_types - Lists required cookie types</li><li>[renew_consent]text[/renew_consent] - link to display cookie settings in frontend</li></ul>';
 	}
 
-	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return false;
-	}
 
 	/**
 	 * Returns parent class or false
@@ -282,5 +269,23 @@ class Wp_Analytify implements Cookiebot_Addons_Interface {
 	 */
 	public function get_parent_class() {
 		return get_parent_class( $this );
+	}
+
+	/**
+	 * Action after enabling the addon on the settings page
+	 *
+	 * @since 2.2.0
+	 */
+	public function post_hook_after_enabling() {
+		//do nothing
+	}
+
+	/**
+	 * Cookiebot plugin is deactivated
+	 *
+	 * @since 2.2.0
+	 */
+	public function plugin_deactivated() {
+		//do nothing
 	}
 }

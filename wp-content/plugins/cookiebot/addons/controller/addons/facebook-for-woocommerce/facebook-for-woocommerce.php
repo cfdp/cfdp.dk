@@ -28,7 +28,7 @@ class Facebook_For_Woocommerce implements Cookiebot_Addons_Interface {
 	 *
 	 * @since 1.3.0
 	 */
-	protected $cookie_consent;
+	public $cookie_consent;
 
 	/**
 	 * @var Buffer_Output_Interface
@@ -73,16 +73,6 @@ class Facebook_For_Woocommerce implements Cookiebot_Addons_Interface {
 	 * @since 1.3.0
 	 */
 	public function cookiebot_addon_facebook_for_woocommerce_tracking_code() {
-		//Check Facebook for Wooocommerce is active
-		if ( ! class_exists( 'WC_Facebookcommerce' ) ) {
-			return;
-		}
-
-		/** Check if consent is given  */
-		if( $this->cookie_consent->are_cookie_states_accepted( $this->get_cookie_types() ) ) {
-			return;
-		}
-
 
 		$this->buffer_output->add_tag( 'woocommerce_after_single_product', 2, array(
 			'fbq(\'ViewContent\'' => $this->get_cookie_types()
@@ -126,14 +116,10 @@ class Facebook_For_Woocommerce implements Cookiebot_Addons_Interface {
 		//We always need to remove this untill consent is given - because we can force no execution before consent it given
 		cookiebot_addons_remove_class_action( 'wp_footer', 'WC_Facebookcommerce_EventsTracker', 'inject_base_pixel_noscript' );
 
-		if( $this->is_remove_tag_enabled() ) {
-			cookiebot_addons_remove_class_action( 'wp_head', 'WC_Facebookcommerce_EventsTracker', 'inject_base_pixel' );
-		}
-		else {
-			$this->buffer_output->add_tag( 'wp_head', 10, array(
-				'fbq(\'track\',' => $this->get_cookie_types()
-			), false );
-		}
+		$this->buffer_output->add_tag( 'wp_head', 10, array(
+			'fbq(\'track\',' => $this->get_cookie_types()
+		), false );
+
 	}
 
 	/**
@@ -244,6 +230,17 @@ class Facebook_For_Woocommerce implements Cookiebot_Addons_Interface {
 	}
 
 	/**
+	 * Retrieves current installed version of the addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version() {
+		return $this->settings->get_addon_version( $this->get_plugin_file() );
+	}
+
+	/**
 	 * Checks if it does have custom placeholder content
 	 *
 	 * @return mixed
@@ -309,27 +306,6 @@ class Facebook_For_Woocommerce implements Cookiebot_Addons_Interface {
 		return '<p>Merge tags you can use in the placeholder text:</p><ul><li>%cookie_types - Lists required cookie types</li><li>[renew_consent]text[/renew_consent] - link to display cookie settings in frontend</li></ul>';
 	}
 
-	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return true;
-	}
-
-	/**
-	 * Return true if the remove tag option is enabled
-	 *
-	 * @return mixed
-	 *
-	 * @since 2.1.0
-	 */
-	public function is_remove_tag_enabled() {
-		return $this->settings->is_remove_tag_enabled( $this->get_option_name() );
-	}
 
 	/**
 	 * Returns parent class or false
@@ -340,5 +316,23 @@ class Facebook_For_Woocommerce implements Cookiebot_Addons_Interface {
 	 */
 	public function get_parent_class() {
 		return get_parent_class( $this );
+	}
+
+	/**
+	 * Action after enabling the addon on the settings page
+	 *
+	 * @since 2.2.0
+	 */
+	public function post_hook_after_enabling() {
+		//do nothing
+	}
+
+	/**
+	 * Cookiebot plugin is deactivated
+	 *
+	 * @since 2.2.0
+	 */
+	public function plugin_deactivated() {
+		//do nothing
 	}
 }

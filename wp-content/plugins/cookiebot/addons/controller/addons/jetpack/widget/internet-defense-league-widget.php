@@ -71,31 +71,33 @@ class Internet_Defense_league_Widget implements Jetpack_Widget_Interface {
 	}
 
 	public function load_configuration() {
+		/**
+		 * The widget is active
+		 */
 		if ( is_active_widget( false, false, 'internet_defense_league_widget', true ) ) {
-
+			/**
+			 * The widget is enabled in Prior consent
+			 */
 			if ( $this->is_widget_enabled() ) {
-
 				/**
-				 * Remove wp_footer script when the cookieconsent for marketing is not given
-				 *
-				 * @since 1.2.0
+				 * The visitor didn't check the required cookie types
 				 */
 				if ( ! $this->cookie_consent->are_cookie_states_accepted( $this->get_widget_cookie_types() ) ) {
-					if( $this->is_widget_remove_tag_enabled() ) {
-						cookiebot_addons_remove_class_action( 'wp_footer', 'Jetpack_Internet_Defense_League_Widget', 'footer_script' );
-					}
-					else {
-						$this->buffer_output->add_tag( 'wp_footer', 10, array(
-							'window._idl' => $this->get_widget_cookie_types(),
-						), false );
-					}
-				}
+					/**
+					 * Remove wp_footer script when the cookieconsent for marketing is not given
+					 *
+					 * @since 1.2.0
+					 */
+					$this->buffer_output->add_tag( 'wp_footer', 10, array(
+						'window._idl' => $this->get_widget_cookie_types(),
+					), false );
 
-				/**
-				 * Display placeholder if allowed in the backend settings
-				 */
-				if ( $this->is_widget_placeholder_enabled() ) {
-					add_action( 'jetpack_stats_extra', array( $this, 'cookie_consent_div' ), 10, 2 );
+					/**
+					 * Display placeholder if allowed in the backend settings
+					 */
+					if ( $this->is_widget_placeholder_enabled() ) {
+						add_action( 'jetpack_stats_extra', array( $this, 'cookie_consent_div' ), 10, 2 );
+					}
 				}
 			}
 		}
@@ -230,25 +232,4 @@ class Internet_Defense_league_Widget implements Jetpack_Widget_Interface {
 		return '<p>Merge tags you can use in the placeholder text:</p><ul><li>%cookie_types - Lists required cookie types</li><li>[renew_consent]text[/renew_consent] - link to display cookie settings in frontend</li></ul>';
 	}
 
-		/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return true;
-	}
-
-	/**
-	 * Return true if the remove tag option is enabled
-	 *
-	 * @return mixed
-	 *
-	 * @since 2.1.0
-	 */
-	public function is_widget_remove_tag_enabled() {
-		return $this->settings->is_widget_remove_tag_enabled( $this->widget_option, $this->get_widget_option_name() );
-	}
 }

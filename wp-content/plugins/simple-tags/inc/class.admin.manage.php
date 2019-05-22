@@ -12,7 +12,7 @@ class SimpleTags_Admin_Manage {
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
 
 		// Register taxo, parent method...
-		SimpleTags_Admin::registerDetermineTaxonomy();
+		SimpleTags_Admin::register_taxonomy();
 
 		// Javascript
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ), 11 );
@@ -505,7 +505,7 @@ class SimpleTags_Admin_Manage {
 	 * @return boolean
 	 * @author Amaury Balmer
 	 */
-	public static function deleteTermsByTermList( $taxonomy = 'post_tag', $delete ) {
+	public static function deleteTermsByTermList( $taxonomy = 'post_tag', $delete = '' ) {
 		if ( trim( str_replace( ',', '', stripslashes( $delete ) ) ) == '' ) {
 			add_settings_error( __CLASS__, __CLASS__, __( 'No term specified!', 'simpletags' ), 'error' );
 

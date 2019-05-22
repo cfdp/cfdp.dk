@@ -27,15 +27,6 @@ Interface Cookiebot_Addons_Interface {
 	public function load_configuration();
 
 	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	//public function has_remove_tag_option();
-
-	/**
 	 * Return addon/plugin name
 	 *
 	 * @return string
@@ -123,6 +114,15 @@ Interface Cookiebot_Addons_Interface {
 	public function is_addon_activated();
 
 	/**
+	 * Retrieves current installed version of the addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version();
+
+	/**
 	 * Checks if it does have custom placeholder content
 	 *
 	 * @return mixed
@@ -175,4 +175,18 @@ Interface Cookiebot_Addons_Interface {
 	 * @since 1.8.0
 	 */
 	public function get_placeholder_helper();
+
+	/**
+	 * Action after enabling the addon on the settings page
+	 *
+	 * @since 2.2.0
+	 */
+	public function post_hook_after_enabling();
+
+	/**
+	 * Cookiebot plugin is deactivated
+	 *
+	 * @since 2.2.0
+	 */
+	public function plugin_deactivated();
 }

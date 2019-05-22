@@ -113,3 +113,16 @@
     background: #e95353;
     color: white;
 }
+.passster-hide {
+    display: none;
+}
+.show-password-link {
+  display: block;
+  position: absolute;
+  z-index: 11;
+  font-size: 0.8rem;
+}
+.password-showing {
+    width: 100% !important;
+    display: inline;
+}

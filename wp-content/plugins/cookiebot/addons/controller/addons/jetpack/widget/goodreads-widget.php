@@ -78,17 +78,29 @@ class Goodreads_Widget implements Jetpack_Widget_Interface {
 	}
 
 	public function load_configuration() {
+		/**
+		 * The widget is active
+		 */
 		if ( is_active_widget( false, false, 'wpcom-goodreads', true ) ) {
+			/**
+			 * The widget is enabled in Prior consent
+			 */
 			if ( $this->is_widget_enabled() ) {
-				if ( $this->is_widget_placeholder_enabled() ) {
-					add_action( 'jetpack_stats_extra', array( $this, 'cookie_consent_div' ), 10, 2 );
+				/**
+				 * The visitor didn't check the required cookie types
+				 */
+				if ( ! $this->cookie_consent->are_cookie_states_accepted( $this->get_widget_cookie_types() ) ) {
+
+					if ( $this->is_widget_placeholder_enabled() ) {
+						add_action( 'jetpack_stats_extra', array( $this, 'cookie_consent_div' ), 10, 2 );
+					}
+
+					$this->transient_name = 'wpcom-goodreads';
+
+					$this->keywords = array( 'www.goodreads.com' => $this->get_widget_cookie_types() );
+					$this->block_javascript_file();
+					$this->output_manipulated();
 				}
-
-				$this->transient_name = 'wpcom-goodreads';
-
-				$this->keywords = array( 'www.goodreads.com' => $this->get_widget_cookie_types() );
-				$this->block_javascript_file();
-				$this->output_manipulated();
 			}
 		}
 	}
@@ -288,14 +300,4 @@ class Goodreads_Widget implements Jetpack_Widget_Interface {
 		return '<p>Merge tags you can use in the placeholder text:</p><ul><li>%cookie_types - Lists required cookie types</li><li>[renew_consent]text[/renew_consent] - link to display cookie settings in frontend</li></ul>';
 	}
 
-	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return false;
-	}
 }

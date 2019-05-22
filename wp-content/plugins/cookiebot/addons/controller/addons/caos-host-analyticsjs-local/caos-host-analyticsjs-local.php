@@ -29,7 +29,7 @@ class CAOS_Host_Analyticsjs_Local implements Cookiebot_Addons_Interface {
 	 *
 	 * @since 1.3.0
 	 */
-	protected $cookie_consent;
+	public $cookie_consent;
 
 	/**
 	 * @var Buffer_Output_Interface
@@ -70,16 +70,7 @@ class CAOS_Host_Analyticsjs_Local implements Cookiebot_Addons_Interface {
 	 * @since 1.3.0
 	 */
 	public function cookiebot_addon_host_analyticsjs_local() {
-		// Check if Cookiebot is activated and active.
-		if ( ! function_exists( 'cookiebot_active' ) || ! cookiebot_active() ) {
-			return;
-		}
-
-		// consent is given
-		if ( $this->cookie_consent->are_cookie_states_accepted( $this->get_cookie_types() ) ) {
-			return;
-		}
-
+	
 		/* Priority need to be more than 0 so we are able to hook in before output begins */
 		$scriptPriority = $this->cookiebot_addon_host_analyticsjs_local_priority();
 		if ( $scriptPriority <= 0 ) {
@@ -207,6 +198,17 @@ class CAOS_Host_Analyticsjs_Local implements Cookiebot_Addons_Interface {
 	}
 
 	/**
+	 * Retrieves current installed version of the addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version() {
+		return $this->settings->get_addon_version( $this->get_plugin_file() );
+	}
+
+	/**
 	 * Default placeholder content
 	 *
 	 * @return string
@@ -301,17 +303,6 @@ class CAOS_Host_Analyticsjs_Local implements Cookiebot_Addons_Interface {
 	}
 
 	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return false;
-	}
-
-	/**
 	 * Returns parent class or false
 	 *
 	 * @return string|bool
@@ -320,5 +311,23 @@ class CAOS_Host_Analyticsjs_Local implements Cookiebot_Addons_Interface {
 	 */
 	public function get_parent_class() {
 		return get_parent_class( $this );
+	}
+
+	/**
+	 * Action after enabling the addon on the settings page
+	 *
+	 * @since 2.2.0
+	 */
+	public function post_hook_after_enabling() {
+		//do nothing
+	}
+
+	/**
+	 * Cookiebot plugin is deactivated
+	 *
+	 * @since 2.2.0
+	 */
+	public function plugin_deactivated() {
+		//do nothing
 	}
 }

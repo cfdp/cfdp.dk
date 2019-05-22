@@ -88,6 +88,46 @@ jQuery(document).ready(function( $ ) {
 
 	});
 
+	 /* function to check if get parameters set */
+	 var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
+	 /* modify screen if edit list */
+	 $('.password_list span.edit a').click(function (event) {
+        event.preventDefault();
+        var id = $(this).data("password-list");
+        window.location.replace(autocomplete_data.admin_url + "&password_list_id=" + id);
+	});
+
+    /* modify screen if new list */
+    $('.new-password-list').click(function (event) {
+		event.preventDefault();
+        window.location.replace(autocomplete_data.admin_url + "&password_list_id=new");
+	});
+
+    $(window).on("load", function (e) {
+		var password_list_id = getUrlParameter('password_list_id');
+
+        if (password_list_id != undefined) {
+            $('.password-list-table').toggle();
+            $('.password_list-box').toggle();
+		}
+	
+    });
+
+
 	
 
 });

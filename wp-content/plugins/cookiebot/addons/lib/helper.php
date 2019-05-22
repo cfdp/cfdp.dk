@@ -1,4 +1,30 @@
 <?php
+/**
+ * Check if a cache plugin is activated and in function.
+ * 
+ * @return boolean	True	If attributes always should be added
+ * 					False	If attributes only should be added if consent no given
+ */
+
+function cookiebot_addons_enabled_cache_plugin() {
+	if(defined("WP_ROCKET_PATH")) {
+		return true; //WP Rocket - We need to ensure we not cache tags without attributes
+	}
+	if(defined("W3TC")) {
+		return true; //W3 Total Cache
+	}
+	if(defined("WPCACHEHOME")) {
+		return true; //WP Super Cache
+	}
+	if(defined("WPFC_WP_PLUGIN_DIR")) {
+		return true; //WP Fastest Cache
+	}
+	if(defined("LSCWP_CONTENT_DIR")) {
+		return true; //Litespeed Cache
+	}
+	return false;
+}
+
 
 /**
  * Removes action with class in callback
@@ -16,7 +42,7 @@
 function cookiebot_addons_remove_class_action( $action, $class, $method, $priority = 10 ) {
 	global $wp_filter;
 	$deleted = false;
-	
+
 	if ( isset( $wp_filter[ $action ] ) && isset( $wp_filter[ $action ][ $priority ] ) ) {
 		$len = strlen( $method );
 		foreach ( $wp_filter[ $action ][ $priority ] as $name => $def ) {
@@ -27,7 +53,7 @@ function cookiebot_addons_remove_class_action( $action, $class, $method, $priori
 					} else {
 						$def_class = get_class( $def['function'][0] );
 					}
-					
+
 					if ( $def_class == $class ) {
 						if ( is_object( $wp_filter[ $action ] ) && isset( $wp_filter[ $action ]->callbacks ) ) {
 							$wp_filter[ $action ]->remove_filter( $action, $name, $priority );
@@ -41,7 +67,7 @@ function cookiebot_addons_remove_class_action( $action, $class, $method, $priori
 			}
 		}
 	}
-	
+
 	return $deleted;
 }
 
@@ -65,7 +91,7 @@ function cookiebot_addons_manipulate_script( $buffer, $keywords ) {
 	 * @since   1.2.0
 	 */
 	$pattern = "/<script[\s\S]*?>[\s\S]*?<\/script>/i";
-	
+
 	/**
 	 * Get all scripts and add cookieconsent if it does match with the criterion
 	 */
@@ -74,7 +100,7 @@ function cookiebot_addons_manipulate_script( $buffer, $keywords ) {
 		 * Matched script data
 		 */
 		$data = ( isset( $matches[0] ) ) ? $matches[0] : '';
-		
+
 		/**
 		 * Check if the script contains the keywords, checks keywords one by one
 		 *
@@ -87,20 +113,20 @@ function cookiebot_addons_manipulate_script( $buffer, $keywords ) {
 			if ( strpos( $data, $needle ) !== false ) {
 				$data = preg_replace( '/\<script/', '<script type="text/plain" data-cookieconsent="' . cookiebot_addons_output_cookie_types( $cookie_type ) . '"', $data );
 				$data = preg_replace( '/type\=\"text\/javascript\"/', '', $data );
-				
+
 				/**
 				 * matched already so we can skip other keywords
 				 **/
 				continue;
 			}
 		}
-		
+
 		/**
 		 * Return updated script data
 		 */
 		return $data;
 	}, $buffer );
-	
+
 	/**
 	 * Fallback when the regex fails to work due to PCRE_ERROR_JIT_STACKLIMIT
 	 *
@@ -109,12 +135,12 @@ function cookiebot_addons_manipulate_script( $buffer, $keywords ) {
 	 */
 	if ( $updated_scripts === null ) {
 		$updated_scripts = $buffer;
-		
+
 		if ( get_option( 'cookiebot_regex_stacklimit' ) === false ) {
 			update_option( 'cookiebot_regex_stacklimit', 1 );
 		}
 	}
-	
+
 	return $updated_scripts;
 }
 
@@ -123,7 +149,7 @@ function cookiebot_addons_manipulate_script( $buffer, $keywords ) {
  *
  * @param        $helper
  * @param        $current
- * @param bool   $echo
+ * @param bool $echo
  * @param string $type
  *
  * @return string
@@ -138,12 +164,12 @@ function cookiebot_addons_checked_selected_helper( $helper, $current, $echo = tr
 	} else {
 		$result = '';
 	}
-	
-	
+
+
 	if ( $echo ) {
 		echo $result;
 	}
-	
+
 	return $result;
 }
 
@@ -163,7 +189,7 @@ function cookiebot_addons_output_cookie_types( $cookie_types ) {
 	} elseif ( is_string( $cookie_types ) && $cookie_types != '' ) {
 		return $cookie_types;
 	}
-	
+
 	return 'statistics';
 }
 
@@ -186,7 +212,7 @@ function cookiebot_addons_get_one_cookie_type( $cookie_types ) {
 			return 'preferences';
 		}
 	}
-	
+
 	return '';
 }
 
@@ -199,12 +225,12 @@ function cookiebot_addons_get_one_cookie_type( $cookie_types ) {
  */
 function cookiebot_addons_get_language() {
 	$lang = get_locale(); //Gets language in en-US format
-	
+
 	/**
 	 *  Add support for 3rd party plugins
 	 */
 	$lang = apply_filters( 'cookiebot_addons_language', $lang );
-	
+
 	return $lang;
 }
 
@@ -217,7 +243,7 @@ function cookiebot_addons_get_language() {
  */
 function cookiebot_addons_get_supported_languages() {
 	$cookiebot = cookiebot();
-	
+
 	return $cookiebot->get_supported_languages();
 }
 
@@ -241,10 +267,20 @@ function cookiebot_addons_get_dropdown_languages( $class, $name, $selected ) {
 		'languages'                => get_available_languages()
 	);
 	$dropdown = wp_dropdown_languages( $args );
-	
+
 	$output = str_replace( 'select ', 'select class="' . $class . '" ', $dropdown );
-	
+
 	$output = str_replace( 'value="" ', 'value="en_US" ', $output );
-	
+
 	return $output;
+}
+
+/**
+ * Run actions when the cookiebot plugin is deactivated
+ *
+ * @since 2.2.0
+ */
+function cookiebot_addons_plugin_deactivated( ) {
+	$cookiebot_addons = \cookiebot_addons\Cookiebot_Addons::instance();
+	$cookiebot_addons->cookiebot_deactivated();
 }

@@ -41,7 +41,7 @@ class wfGeoIP2 {
 		if (isset(self::$_shared[self::DB_BUNDLED])) {
 			return self::$_shared[self::DB_BUNDLED];
 		}
-		$reader = new Reader(__DIR__ . '/../../lib/GeoLite2-Country.mmdb'); //Can throw, but we don't catch it because it means the installation is likely corrupt and needs fixed anyway
+		$reader = new Reader(__DIR__ . '/../../lib/GeoLite2-Country.mmdb'); //Can throw, but we don't catch it here
 		self::$_shared[self::DB_BUNDLED] = new wfGeoIP2($reader);
 		return self::$_shared[self::DB_BUNDLED];
 	}

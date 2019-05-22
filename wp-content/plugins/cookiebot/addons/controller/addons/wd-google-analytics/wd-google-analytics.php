@@ -29,7 +29,7 @@ class Wd_Google_Analytics implements Cookiebot_Addons_Interface {
 	 *
 	 * @since 1.3.0
 	 */
-	protected $cookie_consent;
+	public $cookie_consent;
 
 	/**
 	 * @var Buffer_Output_Interface
@@ -70,29 +70,9 @@ class Wd_Google_Analytics implements Cookiebot_Addons_Interface {
 	 * @since 1.3.0
 	 */
 	public function disable_cookies() {
-		// Check if WD google analytics is loaded.
-		if ( ! defined( 'GWD_NAME' ) ) {
-			return;
-		}
-
-		// Check if Cookiebot is activated and active.
-		if ( ! function_exists( 'cookiebot_active' ) || ! cookiebot_active() ) {
-			return;
-		}
-
-		// consent is given
-		if ( $this->cookie_consent->are_cookie_states_accepted( $this->get_cookie_types() ) ) {
-			return;
-		}
-
-		if ( $this->is_remove_tag_enabled() ) {
-			// Disable WD google analytics wp_head hook if consent not given
-			cookiebot_addons_remove_class_action( 'wp_head', 'GAWD', 'gawd_tracking_code', 99 );
-		} else {
-			$this->buffer_output->add_tag( 'wp_head', 99, array(
-				'GoogleAnalyticsObject' => $this->get_cookie_types(),
-			), false );
-		}
+		$this->buffer_output->add_tag( 'wp_head', 99, array(
+			'GoogleAnalyticsObject' => $this->get_cookie_types(),
+		), false );
 
 	}
 
@@ -174,6 +154,17 @@ class Wd_Google_Analytics implements Cookiebot_Addons_Interface {
 	 */
 	public function is_addon_activated() {
 		return $this->settings->is_addon_activated( $this->get_plugin_file() );
+	}
+
+	/**
+	 * Retrieves current installed version of the addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version() {
+		return $this->settings->get_addon_version( $this->get_plugin_file() );
 	}
 
 	/**
@@ -270,28 +261,6 @@ class Wd_Google_Analytics implements Cookiebot_Addons_Interface {
 	}
 
 	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return true;
-	}
-
-	/**
-	 * Return true if the remove tag option is enabled
-	 *
-	 * @return mixed
-	 *
-	 * @since 2.1.0
-	 */
-	public function is_remove_tag_enabled() {
-		return $this->settings->is_remove_tag_enabled( $this->get_option_name() );
-	}
-
-	/**
 	 * Returns parent class or false
 	 *
 	 * @return string|bool
@@ -300,5 +269,23 @@ class Wd_Google_Analytics implements Cookiebot_Addons_Interface {
 	 */
 	public function get_parent_class() {
 		return get_parent_class( $this );
+	}
+
+	/**
+	 * Action after enabling the addon on the settings page
+	 *
+	 * @since 2.2.0
+	 */
+	public function post_hook_after_enabling() {
+		//do nothing
+	}
+
+	/**
+	 * Cookiebot plugin is deactivated
+	 *
+	 * @since 2.2.0
+	 */
+	public function plugin_deactivated() {
+		//do nothing
 	}
 }

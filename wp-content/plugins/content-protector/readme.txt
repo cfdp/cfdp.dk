@@ -2,9 +2,9 @@
 Contributors: patrickposner
 Tags: password protection, content protection, content restriction, captcha, membership, cookie restriction, members area, password protect
 Requires at least: 4.6
-Tested up to: 5.0
-Requires PHP: 7
-Stable tag: 3.1.9
+Tested up to: 5.2
+Requires PHP: 7.0
+Stable tag: 3.2.2
 
 
 Passster is the complete solution to protect parts of your content.
@@ -22,6 +22,15 @@ Passster is the most complete solution to protect parts of your content. Use a s
 * easily generate a shortcode
 * use cookies for longer access
 * customize the headline, instruction text, placeholder and the button label per shortcode.
+
+***Page Builder***
+Passster now supports several page builders. We currently support the following page builders:
+
+* Elementor
+* Beaver Builder
+* Visual Composer (WPBakery Page Builder)
+
+Warning: Passster currently not support to restrict complete rows or columns in your page builder. It's build as an element/module/widget which you can add content to via WYSIWIG-Editor.
 
 **Pro**
 
@@ -42,17 +51,6 @@ Let users unlock your content with Google Recaptcha. Enter your API-Key and add 
 
 ***Link Access***
 Use an encrypted link to give your users direct access to your protected content.
-
-***Page Builder***
-Passster Pro now supports several page builders. We currently support the following page builders:
-
-* Elementor
-* Beaver Builder
-* Visual Composer (WPBakery Page Builder)
-
-Use custom Widgets, Elements or Modules to protect your content.
-
-Warning: Passster Pro currently not support to restrict complete rows or columns in your page builder. It's build as an element/module/widget which you can add content to via WYSIWIG-Editor.
 
 Get it now on [passster.io](https://passster.io)
 
@@ -96,12 +94,69 @@ Passster is simple to install:
 
 1. Download the .zip'
 1. Unzip
-1. Upload  the directory to your '/wp-content/plugins' directory
+1. Upload the directory to your '/wp-content/plugins' directory
 1. Go to the plugin management page and enable the Passster Plugin
 1. Browse to Settings > Passster
 1. Customise your settings and your good to go!
 
 == Changelog ==
+
+= 3.2.2 =
+* fixed captcha notice
+* fixed rows shortcode for visual composer
+* more efficient notice handling in admin area
+
+= 3.2.1 =
+* adding the "hide" parameter to hide forms if set and multiple forms used
+* compatibility AAM plugin fix for multiple user roles
+* captcha is now a free addon - lower php version needed for basic password usage
+* check_atts method now working correctly
+* visual composer addon fix (free)
+* visual composer addon protect rows (only pro)
+* add message for captcha usage
+* new (and working) solution for show passwords before submitting
+
+= 3.2.0.6 =
+* new AMP support with cookies
+* Fixed delete error notice for passster_lists function not exists
+* introduced new helper function for AMP set_amp_headers()
+* drop db table for sessions if full uninstall option set
+* customizer option to show password while typing
+
+= 3.2.0.5 =
+* fixed amp notice
+* fixed backend_admin_notice error
+* fixed customizer for themify ultra theme
+
+= 3.2.0.4 =
+* PS_List collision fix
+
+= 3.2.0.3 =
+* autoload backupwp collision fix
+
+= 3.2.0.2 =
+* SVN fix for missing files
+* cookies for conditional functions
+
+= 3.2.0.1 =
+* pagebuilder path fix
+* admin amp option fix
+
+= 3.2 =
+* security patch freemius
+* add cookie option for multiple passwords
+* add pagebuilder addons in free version
+* fix php notices for php 7 support
+* remove OptionsHandler class for support older php versions
+* add password lists (admin + shortcode)
+* update translation files
+* added AMP support for all protection types
+* improve default values after Installation
+
+= 3.1.9.1 =
+* Fix PHP 5.6 upgrader problems
+* Moved autoloader up so database upgrade is handeled correctly
+
 
 = 3.1.9 =
 * PHP 5.6 compatibility

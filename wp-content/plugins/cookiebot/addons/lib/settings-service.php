@@ -55,6 +55,21 @@ class Settings_Service implements Settings_Service_Interface {
 	}
 
 	/**
+	 * Returns the addon version
+	 *
+	 * @param $addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version( $addon ) {
+		$plugin_data = get_file_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $addon, array( 'Version' => 'version' ), false );
+
+		return ( isset( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : false;
+	}
+
+	/**
 	 * Returns true if the addon plugin is activated
 	 *
 	 * @param $addon
@@ -404,55 +419,6 @@ class Settings_Service implements Settings_Service_Interface {
 	}
 
 	/**
-	 * returns true if the "remove tag" option is enabled
-	 *
-	 * @param $option_key
-	 *
-	 * @return bool
-	 *
-	 * @since 2.1.0
-	 */
-	public function is_remove_tag_enabled( $option_key ) {
-		//Always return false if COOKIEBOT_OPTION_REMOVE_TAG
-		if ( ! defined( 'COOKIEBOT_OPTION_REMOVE_TAG' ) || ! COOKIEBOT_OPTION_REMOVE_TAG ) {
-			return false;
-		}
-
-		$option = get_option( static::OPTION_NAME );
-
-		if ( isset( $option[ $option_key ]['remove_tag'] ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * returns true if the "remove tag" option is enabled
-	 *
-	 * @param $option_key
-	 * @param $widget_key
-	 *
-	 * @return bool
-	 *
-	 * @since 2.1.0
-	 */
-	public function is_widget_remove_tag_enabled( $option_key, $widget_key ) {
-		//Always return false if COOKIEBOT_OPTION_REMOVE_TAG
-		if ( ! defined( 'COOKIEBOT_OPTION_REMOVE_TAG' ) || ! COOKIEBOT_OPTION_REMOVE_TAG ) {
-			return false;
-		}
-
-		$option = get_option( $option_key );
-
-		if ( isset( $option[ $widget_key ]['remove_tag'] ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Check if the previous version is active
 	 *
 	 * @param $addons array         List of addons
@@ -490,5 +456,38 @@ class Settings_Service implements Settings_Service_Interface {
 	 */
 	public function is_latest_plugin_version( $addon ) {
 		return ( get_parent_class( $addon ) === false ) ? true : false;
+	}
+
+	/**
+	 * Check if the addon option name matchs with the parameter
+	 * then run the post_hook_after_enabling function in the addon class.
+	 *
+	 * @param $addon_option_name    string  Addon option name
+	 *
+	 * @throws \DI\DependencyException
+	 * @throws \DI\NotFoundException
+	 *
+	 * @since 2.2.0
+	 */
+	public function post_hook_after_enabling_addon_on_settings_page( $addon_option_name ) {
+		$addons = $this->get_addons();
+
+		foreach( $addons as $addon ) {
+			if( $addon->get_option_name() == $addon_option_name ) {
+				$addon->post_hook_after_enabling();
+			}
+		}
+	}
+
+	/**
+	 * The cookiebot plugin is deactivated
+	 * so run this function to cleanup the addons.
+	 *
+	 * @since 2.2.0
+	 */
+	public function cookiebot_deactivated() {
+		foreach( $this->get_active_addons() as $addon ) {
+			$addon->plugin_deactivated();
+		}
 	}
 }

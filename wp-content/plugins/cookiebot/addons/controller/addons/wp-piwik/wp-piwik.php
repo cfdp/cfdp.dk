@@ -32,7 +32,7 @@ class Wp_Piwik implements Cookiebot_Addons_Interface {
 	 *
 	 * @since 1.3.0
 	 */
-	protected $cookie_consent;
+	public $cookie_consent;
 
 	/**
 	 * @var Buffer_Output_Interface
@@ -51,11 +51,16 @@ class Wp_Piwik implements Cookiebot_Addons_Interface {
 	 *
 	 * @since 1.3.0
 	 */
-	public function __construct( Settings_Service_Interface $settings, Script_Loader_Tag_Interface $script_loader_tag, Cookie_Consent_Interface $cookie_consent, Buffer_Output_Interface $buffer_output ) {
-		$this->settings          = $settings;
+	public function __construct(
+		Settings_Service_Interface $settings,
+		Script_Loader_Tag_Interface $script_loader_tag,
+		Cookie_Consent_Interface $cookie_consent,
+		Buffer_Output_Interface $buffer_output
+	) {
+		$this->settings = $settings;
 		$this->script_loader_tag = $script_loader_tag;
-		$this->cookie_consent    = $cookie_consent;
-		$this->buffer_output     = $buffer_output;
+		$this->cookie_consent = $cookie_consent;
+		$this->buffer_output = $buffer_output;
 	}
 
 	/**
@@ -76,18 +81,22 @@ class Wp_Piwik implements Cookiebot_Addons_Interface {
 	 * @since 1.3.0
 	 */
 	public function cookiebot_addon_wp_piwik() {
-		// Check if Cookiebot is activated and active.
-		if ( ! function_exists( 'cookiebot_active' ) || ! cookiebot_active() ) {
-			return;
-		}
+		if ( ! $this->cookie_consent->are_cookie_states_accepted( $this->get_cookie_types() ) ) {
+			// wp_footer
+			$this->buffer_output->add_tag( 'wp_footer',
+				10,
+				array(
+					'matomo' => $this->get_cookie_types(),
+				),
+				false );
 
-		//If plugin activated and no consent block wp-piwik global option.
-		if ( is_plugin_active( 'wp-piwik/wp-piwik.php' ) ) {
-			if ( ! $this->cookie_consent->are_cookie_states_accepted( $this->get_cookie_types() ) ) {
-				update_option( 'wp-piwik_global-disable_cookies', 1 );
-			}else{
-				update_option( 'wp-piwik_global-disable_cookies', 0 );
-			}
+			// wp_head
+			$this->buffer_output->add_tag( 'wp_head',
+				10,
+				array(
+					'matomo' => $this->get_cookie_types(),
+				),
+				false );
 		}
 	}
 
@@ -172,6 +181,17 @@ class Wp_Piwik implements Cookiebot_Addons_Interface {
 	}
 
 	/**
+	 * Retrieves current installed version of the addon
+	 *
+	 * @return bool
+	 *
+	 * @since 2.2.1
+	 */
+	public function get_addon_version() {
+		return $this->settings->get_addon_version( $this->get_plugin_file() );
+	}
+
+	/**
 	 * Default placeholder content
 	 *
 	 * @return string
@@ -195,7 +215,10 @@ class Wp_Piwik implements Cookiebot_Addons_Interface {
 	 * @since 1.8.0
 	 */
 	public function get_placeholder( $src = '' ) {
-		return $this->settings->get_placeholder( $this->get_option_name(), $this->get_default_placeholder(), cookiebot_addons_output_cookie_types( $this->get_cookie_types() ), $src );
+		return $this->settings->get_placeholder( $this->get_option_name(),
+			$this->get_default_placeholder(),
+			cookiebot_addons_output_cookie_types( $this->get_cookie_types() ),
+			$src );
 	}
 
 	/**
@@ -264,16 +287,6 @@ class Wp_Piwik implements Cookiebot_Addons_Interface {
 		return '<p>Merge tags you can use in the placeholder text:</p><ul><li>%cookie_types - Lists required cookie types</li><li>[renew_consent]text[/renew_consent] - link to display cookie settings in frontend</li></ul>';
 	}
 
-	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return false;
-	}
 
 	/**
 	 * Returns parent class or false
@@ -284,5 +297,23 @@ class Wp_Piwik implements Cookiebot_Addons_Interface {
 	 */
 	public function get_parent_class() {
 		return get_parent_class( $this );
+	}
+
+	/**
+	 * Action after enabling the addon on the settings page
+	 *
+	 * @since 2.2.0
+	 */
+	public function post_hook_after_enabling() {
+		//do nothing
+	}
+
+	/**
+	 * Cookiebot plugin is deactivated
+	 *
+	 * @since 2.2.0
+	 */
+	public function plugin_deactivated() {
+		//do nothing
 	}
 }

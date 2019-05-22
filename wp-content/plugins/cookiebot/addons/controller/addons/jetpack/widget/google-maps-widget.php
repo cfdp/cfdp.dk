@@ -74,21 +74,29 @@ class Google_Maps_Widget implements Jetpack_Widget_Interface {
 	}
 
 	public function load_configuration() {
+		/**
+		 * The widget is active
+		 */
 		if ( is_active_widget( false, false, 'widget_contact_info', true ) ) {
 			/**
-			 * Widget is disabled in the backend
+			 * The widget is enabled in Prior consent
 			 */
 			if ( $this->is_widget_enabled() ) {
-				$this->cookie_types = $this->get_widget_cookie_types();
-
 				/**
-				 * Replace attributes of the google maps widget iframe
+				 * Cookie types are not selected
 				 */
-				add_action( 'jetpack_contact_info_widget_start', array( $this, 'start_buffer' ) );
-				add_action( 'jetpack_contact_info_widget_end', array( $this, 'stop_buffer' ) );
+				if ( ! $this->cookie_consent->are_cookie_states_accepted( $this->get_widget_cookie_types() ) ) {
+					$this->cookie_types = $this->get_widget_cookie_types();
 
-				if ( $this->is_widget_placeholder_enabled() ) {
-					add_action( 'jetpack_stats_extra', array( $this, 'cookie_consent_div' ), 10, 2 );
+					/**
+					 * Replace attributes of the google maps widget iframe
+					 */
+					add_action( 'jetpack_contact_info_widget_start', array( $this, 'start_buffer' ) );
+					add_action( 'jetpack_contact_info_widget_end', array( $this, 'stop_buffer' ) );
+
+					if ( $this->is_widget_placeholder_enabled() ) {
+						add_action( 'jetpack_stats_extra', array( $this, 'cookie_consent_div' ), 10, 2 );
+					}
 				}
 			}
 		}
@@ -289,14 +297,4 @@ class Google_Maps_Widget implements Jetpack_Widget_Interface {
 		return '<p>Merge tags you can use in the placeholder text:</p><ul><li>%cookie_types - Lists required cookie types</li><li>[renew_consent]text[/renew_consent] - link to display cookie settings in frontend</li></ul>';
 	}
 
-	/**
-	 * Returns true if addon has an option to remove tag instead of adding attributes
-	 *
-	 * @return boolean
-	 *
-	 * @since 2.1.0
-	 */
-	public function has_remove_tag_option() {
-		return false;
-	}
 }
